@@ -1,1 +1,36 @@
-<?xml version="1.0" encoding="utf-8" ?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"><url><loc>http://harpjs.com/</loc><changefreq>weekly</changefreq><priority>100</priority></url><url><loc>http://harpjs.com/blog/healthy-post</loc><changefreq>weekly</changefreq><priority>86</priority></url><url><loc>http://harpjs.com/blog/how-to</loc><changefreq>weekly</changefreq><priority>86</priority></url><url><loc>http://harpjs.com/blog/</loc><changefreq>weekly</changefreq><priority>86</priority></url><url><loc>http://harpjs.com/blog/intermittent-fasting</loc><changefreq>weekly</changefreq><priority>86</priority></url><url><loc>http://harpjs.com/calorie-calculator/</loc><changefreq>weekly</changefreq><priority>86</priority></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+
+<url>
+  <loc>http://musclehacking.com/</loc>
+  <lastmod>2018-06-02T07:03:11+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://musclehacking.com/calorie-calculator/</loc>
+  <lastmod>2018-06-02T07:03:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://musclehacking.com/blog/how-to</loc>
+  <lastmod>2018-06-02T07:03:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://musclehacking.com/blog/healthy-post</loc>
+  <lastmod>2018-06-02T07:03:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://musclehacking.com/blog/intermittent-fasting</loc>
+  <lastmod>2018-06-02T07:03:11+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>
