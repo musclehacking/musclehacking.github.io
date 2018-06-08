@@ -618,10 +618,15 @@ p>em>a,p>a{
   -webkit-text-decoration: underline #1F618D;
   text-decoration: underline #1F618D;
 }
+.anchor{
+  color: rgba(0,0,0,.84);
+  -webkit-text-decoration: underline #1F618D;
+  text-decoration: underline
+}
 li>a{
   color: rgba(0,0,0,.84);
 }
-p>em>a:hover,p>a:hover, li>a:hover{
+p>em>a:hover,p>a:hover, li>a:hover, .anchor:hover{
   color: #1F618D;
 }
 li>a:hover{
