@@ -131,7 +131,7 @@
 <p><strong>What this means</strong> is that you shouldn&#39;t fret over your weight loss/gains plateauing after the first few weeks. Rather, you should expect it. Don&#39;t let it mess with your motivation.</p>
 <p>That&#39;s it for this how-to guide. Hit me up if you have any further questions. </p>
 ]]></description>
-        <pubDate>Fri Jun 08 2018 14:07:13 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 08 2018 15:41:35 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -188,109 +188,107 @@ The table below outlines:</p>
 <p><picture class="intrinsic intrinsic--new4">
   <img class="intrinsic-item" src="/img/ChiChiShopping-min.jpg" alt="Eating Healthy">
 </picture><p class ="figurecap fig-centre"> Post-reading this article, you can see Stacey has made some solid food choices </p>
+<br></p>
+<p><div class="table-responsive">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th id="th-1" scope="col" style="width: 20%; min-width: 125px;">Label</th>
+        <th id="th-2" scope="col" style="width: 25%; min-width: 150px;">What Stacey Thinks It Means</th>
+        <th id="th-3" scope="col" style="width: 25%; min-width: 180px; ">What It Really Means</th>
+        <th id="th-4" scope="col" style="width: 30%; min-width: 200px;">What To Look Out For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table1.jpg" alt="Gluten Free">
+        </picture></th>
+        <td>Somehow it has become common belief that anything gluten free is healthy</td>
+        <td>It lacks gluten, a protein found in wheat. ~1% of the population are unable to digest gluten </td>
+        <td>Everything. This is a red flag. Despite what some may tell you, a product being gluten free does not provide any information about its nutritional value</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table2.jpg" alt="99% Fat Free">
+        </picture></th>
+        <td>Anything free of fat is good for me and/or will help me lose fat</td>
+        <td>The product has less than 1% of its calories derived from fat</td>
+        <td>High sugar content. It’s a very common label among lolly companies, which is ridiculous since nearly all candy is inherently 99% Fat Free</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table3.jpg" alt="Low in Salt">
+        </picture></th>
+        <td>Salt is the demon child of its sugar daddy. Thus, anything low in salt is good right?</td>
+        <td>There isn’t much salt. That’s it. That’s all it means</td>
+        <td>Everything. A product bragging about this is a red flag</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table4.jpg" alt="All Natural Ingredients">
+        </picture></th>
+        <td>Anything natural is good for me</td>
+        <td>Natural is defined as &quot;something that exists in nature&quot;. For reference, Arsenic is also 100% natural (please don’t eat arsenic)</td>
+        <td>Its fat and sugar content, especially the latter. Products that use a lot of sugar love this label</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table5.jpg" alt="No Added Sugar">
+        </picture></th>
+        <td>1) No added sugar is the same as having no sugar at all
+  2) It’s good for me, because sugar is always bad and I should avoid it</td>
+        <td>They haven’t added any sugar to their product. Note that a product can have a very high sugar content and still have no added sugar</td>
+        <td>Its fat, sugar, and calorie content. A stick of butter has no added sugar, but you wouldn’t assume it’s healthy just because I slapped that label on it would you?</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table6.jpg" alt="">
+        </picture></th>
+        <td>Vegans are typically healthy and skinny. So if vegans eat it, it must be good</td>
+        <td>No animal or animal products were used or harmed in the creation of said product</td>
+        <td>The calorie content. These products usually sit at the extremes, being either very low calorie (coconut water ice-cream) or very high calorie (nut-related products)</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table7.jpg" alt="Vegan Friendly">
+        </picture></th>
+        <td>In the words of a friend “It means it’s clean”</td>
+        <td>&quot;Organic agriculture produces products using methods that preserve the environment and avoid most synthetic materials, such as pesticides and antibiotics”</td>
+        <td>Being good for the environment is great, but it is not a good indicator of its nutritional value</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table8.jpg" alt="">
+        </picture></th>
+        <td>My ancestors were nutrition experts. Thus anything Paleo MUST be healthy</td>
+        <td>Unnecessary restrictions on what you can and can’t eat (why can’t I have my peanuts and coffee again?)</td>
+        <td>Everything. Although more specifically many paleo foods can be deceptively high in calories</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table9.jpg" alt="Organic Ingredients">
+        </picture></th>
+        <td>The Heart Foundation said it’s good for my heart. Hence it must be good for me</td>
+        <td><em>“…varieties that are lower in saturated fat, trans fat, salt, and kilojoules, and contain ingredients and nutrients that are better for you, like fibre, calcium, whole grains and vegetables”</em> - The Heart Foundation  </td>
+        <td>The Heart Foundation is glued to the idea that fat is bad for the heart and sugar is a non-issue. As such, many foods with extremely high sugar levels have this tick</td>
+      </tr>
+      <tr>
+        <th scope="row"><picture class="intrinsic intrinsic--square">
+          <img class="intrinsic-item" src="/img/table10.jpg" alt="Paleo Friendly">
+        </picture></th>
+        <td>I’m not sure what a whole grain is but it sure sounds nutritious</td>
+        <td>The grain has the bran, the endosperm, and the germ in tact </td>
+        <td>Having all three parts of the grain does not make a product healthy and/or low calorie</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <br>
-<em>Note: Table below is not yet mobile-friendly. Working on it</em></p>
-<table class="table table-sm">
-  <thead class="thead-dark table-centre">
-    <tr>
-      <th scope="col"style="width: 20%">Label</th>
-      <th scope="col"style="width: 25%">What Stacey Thinks It Means</th>
-      <th scope="col"style="width: 25%">What It Really Means</th>
-      <th scope="col"style="width: 30%">What To Look Out For</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table1.jpg" alt="Gluten Free">
-      </picture></th>
-      <td>Somehow it has become common belief that anything gluten free is healthy</td>
-      <td>It lacks gluten, a protein found in wheat. ~1% of the population are unable to digest gluten </td>
-      <td>Everything. This is a red flag. Despite what some may tell you, a product being gluten free does not provide any information about its nutritional value</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table2.jpg" alt="99% Fat Free">
-      </picture></th>
-      <td>Anything free of fat is good for me and/or will help me lose fat</td>
-      <td>The product has less than 1% of its calories derived from fat</td>
-      <td>High sugar content. It’s a very common label among lolly companies, which is ridiculous since nearly all candy is inherently 99% Fat Free</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table3.jpg" alt="Low in Salt">
-      </picture></th>
-      <td>Salt is the demon child of its sugar daddy. Thus, anything low in salt is good right?</td>
-      <td>There isn’t much salt. That’s it. That’s all it means</td>
-      <td>Everything. A product bragging about this is a red flag</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table4.jpg" alt="All Natural Ingredients">
-      </picture></th>
-      <td>Anything natural is good for me</td>
-      <td>Natural is defined as &quot;something that exists in nature&quot;. For reference, Arsenic is also 100% natural (please don’t eat arsenic)</td>
-      <td>Its fat and sugar content, especially the latter. Products that use a lot of sugar love this label</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table5.jpg" alt="No Added Sugar">
-      </picture></th>
-      <td>1) No added sugar is the same as having no sugar at all
-2) It’s good for me, because sugar is always bad and I should avoid it</td>
-      <td>They haven’t added any sugar to their product. Note that a product can have a very high sugar content and still have no added sugar</td>
-      <td>Its fat, sugar, and calorie content. A stick of butter has no added sugar, but you wouldn’t assume it’s healthy just because I slapped that label on it would you?</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table6.jpg" alt="">
-      </picture></th>
-      <td>Vegans are typically healthy and skinny. So if vegans eat it, it must be good</td>
-      <td>No animal or animal products were used or harmed in the creation of said product</td>
-      <td>The calorie content. These products usually sit at the extremes, being either very low calorie (coconut water ice-cream) or very high calorie (nut-related products)</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table7.jpg" alt="Vegan Friendly">
-      </picture></th>
-      <td>In the words of a friend “It means it’s clean”</td>
-      <td>&quot;Organic agriculture produces products using methods that preserve the environment and avoid most synthetic materials, such as pesticides and antibiotics”</td>
-      <td>Being good for the environment is great, but it is not a good indicator of its nutritional value</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table8.jpg" alt="">
-      </picture></th>
-      <td>My ancestors were nutrition experts. Thus anything Paleo MUST be healthy</td>
-      <td>Unnecessary restrictions on what you can and can’t eat (why can’t I have my peanuts and coffee again?)</td>
-      <td>Everything. Although more specifically many paleo foods can be deceptively high in calories</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table9.jpg" alt="Organic Ingredients">
-      </picture></th>
-      <td>The Heart Foundation said it’s good for my heart. Hence it must be good for me</td>
-      <td>From the Heart Foundation Website -
-
-“…varieties that are lower in saturated fat, trans fat, salt, and kilojoules, and contain ingredients and nutrients that are better for you, like fibre, calcium, whole grains and vegetables” </td>
-      <td>The Heart Foundation is glued to the idea that fat is bad for the heart and sugar is a non-issue. As such, many foods with extremely high sugar levels have this tick</td>
-    </tr>
-    <tr>
-      <th scope="row"><picture class="intrinsic intrinsic--square">
-        <img class="intrinsic-item" src="/img/table10.jpg" alt="Paleo Friendly">
-      </picture></th>
-      <td>I’m not sure what a whole grain is but it sure sounds nutritious</td>
-      <td>The grain has the bran, the endosperm, and the germ in tact </td>
-      <td>Having all three parts of the grain does not make a product healthy and/or low calorie</td>
-    </tr>
-  </tbody>
-</table>
-
-<p><br>
 Hopefully this will help you out on your next trip to the supermarket – or at the very least give you a good laugh. The first time I started flipping around boxes and reading the ingredients and nutritional breakdown of so-called <em>“healthy foods”</em>, I was in the store for well over an hour in awe.</p>
 <p>If a lot of what you’ve just read is news to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Fri Jun 08 2018 14:07:13 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 08 2018 15:41:35 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -383,7 +381,7 @@ Hopefully this will help you out on your next trip to the supermarket – or at 
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 <p>Got an intermittent fasting related question? Check out the FAQ. Otherwise, drop me a comment below. </p>
 ]]></description>
-        <pubDate>Fri Jun 08 2018 14:07:13 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 08 2018 15:41:35 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>

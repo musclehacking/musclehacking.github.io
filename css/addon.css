@@ -597,11 +597,21 @@ article div.post-body blockquote p:last-child {
     box-sizing: border-box;
 }
 /* Table Spacing */
-.table-centre{
+.table .thead-dark th {
+  border: none;
+}
+#th-1, #th-2, #th-3, #th-4{
+  border-right: 1px solid #ffffff;
+  padding: 5px;
+  background-color: #1F618D;
+  vertical-align: middle;
   text-align: center;
 }
-.table thead th, .table tbody tr th{
-  vertical-align: middle;
+.table th {
+  vertical-align: middle
+}
+.table td, .table th {
+  padding: .5rem;
 }
 p>em>a,p>a{
   color: rgba(0,0,0,.84);
