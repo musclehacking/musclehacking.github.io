@@ -770,6 +770,12 @@ p.figurecap>a:hover{
   #post-prev,#post-next  {
     padding: 0 0 36px 0
   }
+  .app-h3 {
+    margin: 10px 0 5px;
+  }
+  #lw-heading{
+    margin-top: 1em;
+  }
 }
 @media screen and (max-width: 576px) {
   .post-title{
