@@ -4,31 +4,27 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
 
 <url>
-  <loc>http://www.musclehacking.com/</loc>
-  <lastmod>2018-06-02T09:45:28+00:00</lastmod>
+  <loc>https://www.musclehacking.com/</loc>
+  <lastmod>2018-06-08T12:54:49+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>http://www.musclehacking.com/calorie-calculator/</loc>
-  <lastmod>2018-06-02T09:45:28+00:00</lastmod>
+  <loc>https://www.musclehacking.com/blog/calorie-calculator-how-to</loc>
+  <lastmod>2018-06-08T12:54:49+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.musclehacking.com/blog/calorie-calculator-how-to</loc>
-  <lastmod>2018-06-02T09:45:28+00:00</lastmod>
+  <loc>https://www.musclehacking.com/blog/healthy-organic-post</loc>
+  <lastmod>2018-06-08T12:54:49+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://www.musclehacking.com/blog/healthy-organic-post</loc>
-  <lastmod>2018-06-02T09:45:28+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>http://www.musclehacking.com/blog/what-is-intermittent-fasting</loc>
-  <lastmod>2018-06-02T09:45:28+00:00</lastmod>
+  <loc>https://www.musclehacking.com/blog/what-is-intermittent-fasting</loc>
+  <lastmod>2018-06-08T12:54:49+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
