@@ -82,143 +82,10 @@
 <p>It was targeted at those who – whether due to time restrictions, different priorities, or confusion caused by the hundreds of conflicting opinions – are in the dark when it comes to nutrition.</p>
 <p>The target market is certainly not the type to read the fine print on the back of a box. Or go onto the Health Star Rating website to understand the details of how the stars are allocated. </p>
 <p>They’re the type to quickly count the number of stars on the label and use that as an indication for how healthy the product is. This seems to have been the <em>intent</em> of the Heath Star Rating system, it just got lost in the nonsense of “<em>as prepared</em>” and “<em>similar packaged food</em>”. Now the system is fanning the already hot flames of confusion that surround nutrition.</p>
-<p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by <em>thin</em> strings of nutritional science. </p>
+<p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by thin strings of nutritional science. </p>
 <p>Don’t rely on it for anything other than a good laugh.</p>
 ]]></description>
-        <pubDate>Fri Jun 22 2018 18:11:36 GMT+0800 (AWST)</pubDate>
-        <link>https://musclehacking.com/blog/[object Object]</link>
-        <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
-      </item>
-    
-    
-      <item>
-        <title>How to use the Calorie Calculator</title>
-        <description><![CDATA[<div id="toc_container">
-<h4 id="toc-h">Table of Contents</h4>
-<ul>
-<li><a href="#stats" title="What are my Stats?">Stats</a></li>
-<li><a href="#modifiers" title="What are my Modifiers?">Modifiers</a><ul>
-<li><a href="#activity-level" title="How do I determine my Activity Level?">Activity Level</a></li>
-<li><a href="#goal" title="What should be my Goal calories?">Goal</a></li>
-<li><a href="#how-much-protein-" title="How much protein should I eat?">How Much Protein?</a></li>
-<li><a href="#fat-carb-calorie-split" title="How much fat and carbs should I eat?" >Fat/Carb Calorie Split</a></li>
-</ul>
-</li>
-<li><a href="#results" title="What does Results mean?">Results</a><ul>
-<li><a href="#bmr" title="What does BMR mean?">BMR</a></li>
-<li><a href="#tdee" title="What does TDEE mean?">TDEE</a></li>
-<li><a href="#daily-calories-and-macros" title="How many calories should I eat?">Daily Calories and Macros</a></li>
-<li><a href="#estimated-weight-loss-per-week" title="How much weight should I lose or gain each week?">Estimated Weight Loss per Week</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-<p>This page breaks down how to use the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator web application</a> to work out your daily calories and macronutrients.</p>
-<p>The calculator allows you to forecast your estimated weight change per week based on your calorie deficit/surplus. You can also adjust your protein, fat, and carbohydrate macros as desired. </p>
-<p>Your <a href="#bmr" title="What does BMR mean?">BMR</a> and <a href="#tdee" title="What does TDEE mean?">TDEE</a> are displayed for convenience.</p>
-<h3 id="stats">Stats</h3>
-<p id="start-p">Here you input the following basic personal information:</p>
-<ul>
-<li>Age (in years)</li>
-<li>Weight (in kilograms or pounds)</li>
-<li>Height (in centimetres or inches)</li>
-<li>Gender (male or female)</li>
-</ul>
-
-<h3 id="modifiers">Modifiers</h3>
-<h4 id="activity-level">Activity Level</h4>
-<p>Your <strong>Activity Level</strong> serves as a multiplier on top of your <strong>BMR</strong> (Basal Metabolic Rate). The result of this calculation is called your <strong>TDEE</strong> (Total Daily Energy Expenditure).</p>
-<p>Think of your BMR as the energy you would need to keep alive if you were in a coma. Energy required for processes like breathing, blood circulation, controlling body temperature, cell growth, etc.</p>
-<p>What you care about though, is your TDEE. This is the <strong><em>total amount of energy you need each day to maintain your body weight</em></strong> after you factor in all of your activity.</p>
-<p>This is not the same as your BMR, as even the least active among us aren&#39;t lying motionless in bed all day.</p>
-<p>These are the Activity Level modifiers:</p>
-<ul>
-<li><strong>Sedentary:</strong> Little or no exercise, office job (1.2x)</li>
-<li><strong>Lightly Active:</strong> Light daily activity &amp; exercise 1-3 days per week (1.375x)</li>
-<li><strong>Moderately Active:</strong> Moderate daily activity &amp; exercise 3-5 days per week (1.55x)</li>
-<li><strong>Very Active:</strong> Physically demanding lifestyle &amp; exercise 6-7 days per week (1.725x)</li>
-<li><strong>Extremely Active:</strong> Hard daily exercise/sports &amp; physical job (1.9x)</li>
-</ul>
-<p>Be warned: <strong>Most people tend to overestimate their activity level</strong>. </p>
-<p>This is usually due to them basing their activity level on their number of gym sessions per week. This is not the right way to go about it.</p>
-<p>Your activity level is primarily based off of what you do <strong>outside</strong> the gym. Four 1 hour strength training sessions at the gym each week is less than 2 hours of actual activity. It does not result in a large number of calories burnt.</p>
-<p>Conversely, a teacher on her feet for the lions share of the week is most likely <em>“Lightly Active”</em>. The intermittent cardio throughout the day adds up.</p>
-<p>If your only activity outside the office is the gym, put yourself down as <em>“Sedentary”</em>. You <em>might</em> be slightly over depending on your intensity and frequency – but more likely you won&#39;t be. You can adjust your estimate based on the first couple week&#39;s progress. </p>
-<p>If you think you&#39;re on the line between levels and it could go either way – go with the lower estimate. </p>
-<h4 id="goal">Goal</h4>
-<p>This dropdown provides an easy way to match your qualitative weight loss/gain goal with a quantitative value. The options are:  </p>
-<ul>
-<li>Lose Weight (-20%)</li>
-<li>Slowly Lose Weight (-10%)</li>
-<li>Maintain Weight (0%)</li>
-<li>Slowly Gain Weight (+10%)</li>
-<li>Gain Weight (+20%)</li>
-</ul>
-<p>The number in the proceeding brackets specifies the caloric deficit/surplus. For example, (+10%) means that your daily calorie goal will be 10% higher than your TDEE.</p>
-<p>Alternatively, you can input a specific calorie goal in the <strong>Calorie Deficit/Surplus</strong> section.</p>
-<h4 id="how-much-protein-">How Much Protein?</h4>
-<p>Here I have provided 3 standardised options:</p>
-<ul>
-<li>1g per pound</li>
-<li>0.82g per pound</li>
-<li>1.5g per pound</li>
-</ul>
-<p><strong>1g per pound</strong> is the standard and recommended option. This provides you with enough protein to facilitate muscle growth <strong><em>with a large margin of error</em></strong>.</p>
-<p><strong>0.82g per pound</strong> still provides enough protein to facilitate muscle growth. Think of this as a lower bar for the amount of protein you should be consuming. Although the subject of hot debate, current science points to 0.82g protein/pound being <strong><em>enough</em></strong> protein. </p>
-<p>Although it&#39;s <em>unlikely</em> additional protein will result in increased gains, you still may want to consider a higher protein intake as:</p>
-<ul>
-<li>Protein is a more satiating macronutrient <a title="The effects of high protein diets on thermogenesis, satiety and weight loss: a critical review" target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmedhealth/PMH0021577/">[1]</a></li>
-<li>A higher protein intake restricts your food choices, forcing you to eat less junk</li>
-<li>The TEF (Thermic Effect of Food) means protein is closer to 3.2 kcal per gram, not 4 kcal per gram <a title="A perspective on food energy standards for nutrition labelling." target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/11299073">[2]</a></li>
-</ul>
-<p>The above reasoning is why you might even want to consider <strong>1.5g per pound</strong>. </p>
-<p>If you&#39;re an expert in going way too far with your cheat meals to the point of ruining your diet – 1.5g per pound is for you.</p>
-<h4 id="fat-carb-calorie-split">Fat/Carb Calorie Split</h4>
-<p>This is the <strong>percentage split between fat and carbs <em>after</em> you account for your protein intake</strong>. </p>
-<p>You have a good amount of leeway in your distribution between carbs and fat. It&#39;s largely a matter of personal preference. Some of us feel better with more carbs and less fat, and some of us feel better with more fat and less carbs. Generally the more active you are, the better you&#39;ll feel on a higher level of carbs.</p>
-<p>As a rule of thumb, <strong>you&#39;ll want to consume no less than 0.25g fat per pound, or approximately 0.5g fat per kilogram</strong>. </p>
-<p>Although this may seem like a low bar, it can still be broken when you&#39;re on a hard cut and you don&#39;t have that many calories to work with. Getting less than this amount of fat for an elongated period of time can easily lead to dry skin and/or hair. Would not recommend.</p>
-<h3 id="results">Results</h3>
-<h4 id="bmr">BMR</h4>
-<p>Stands for your <strong>Basal Metabolic Rate</strong>. </p>
-<p>Essentially the amount of energy you would need to keep alive if you were in a coma. Energy required for processes like breathing, blood circulation, controlling body temperature, cell growth, etc.</p>
-<p>This is calculated via your Age, Weight, Height, and Gender. It is then multiplied by your <strong>Activity Level</strong> to give your TDEE.</p>
-<h4 id="tdee">TDEE</h4>
-<p>Stands for your <strong>Total Daily Energy Expenditure</strong>. Also known as your “<em>maintenance calories</em>”. </p>
-<p>This is the <strong><em>total amount of energy you need each day to maintain your body weight</em></strong> after you factor in all of your activity.</p>
-<p>So in an ideal world where you eat your exact TDEE each day, you would maintain the same body weight.</p>
-<p>In reality this never happens due to the variance in our daily activity, the exact amount of food we eat, and water weight fluctuations.</p>
-<p>Nevertheless, getting a ballpark figure of your TDEE is all you really need to get going. You can track your progress against your estimate and readjust as required.</p>
-<h4 id="daily-calories-and-macros">Daily Calories and Macros</h4>
-<p>This is final result of all of your input data. It breaks down the Calories, Protein, Fat, and Carbohydrates you should eat each day to reach your physique goals.</p>
-<p><strong>Do not stress about small deviations from these numbers</strong>. A &#177;5% difference will not affect your physique. </p>
-<p>Why? Each of these numbers have error built in. Even the lower protein intake of 0.82g per pound was based on a 95% confidence interval. </p>
-<p><strong>All calorie counters are approximations.</strong> Regardless of how many decimal places worth of carbs MyFitnessPal tells you are in your 160.8 g apple – it&#39;s only an estimate. </p>
-<p>Use the calculated values as a solid approximation. Adjust your estimate as required based off of your weight loss/gain during the first few weeks of your diet. If you need help with this, ask. I plan on making a tool to help with this in the near future. </p>
-<h4 id="estimated-weight-loss-per-week">Estimated Weight Loss per Week</h4>
-<p>This estimate is based on the ~3500 calories in one pound of fat.</p>
-<p>E.g. A 500 calorie deficit per day is around 1 pound of fat loss per week.</p>
-<p>So what kind of weight gain/loss should you aim for? The below serves as a <strong><em>practical and realistic</em></strong> expectation for a 6 to 12 month program. </p>
-<p><strong>Fat Loss with Minimal Muscle Loss</strong></p>
-<ul id="ul-nm1">
-<li>2 pounds per week in the obese (BMI of 30 or above) </li>
-<li>1 pound per week in the overweight (BMI of 25 to 30)</li>
-<li>&frac12; pound per week, or less, in guys who are lean and trying to get even leaner </li>
-</ul>
-<p><strong>Muscle Gain with Minimal Fat Gain</strong></p>
-<ul id="ul-nm2">
-<li>2 to 3 pounds per month in novices and advanced beginners (those with less than 2 years of consistent strength training)</li>
-<li>1 to 2 pounds per month in intermediates (those with 2 to 4 years of consistent training) </li>
-<li>&frac12; pound per month in advanced lifters who are close to their genetic ceiling</li>
-</ul>
-<p>It&#39;s important to note that <strong><em>the first few weeks and months will bring the biggest losses/gains</em></strong>. </p>
-<p>For example, it&#39;s common to drop a full 2kg in your first week of cutting – especially if you lowered your carb intake. This is great for motivation, but it&#39;s not a realistic representation of what you should expect long term. </p>
-<p>This exaggerated change is primarily due to changes in water weight, as well as the initial shock your body experiences from the adrupt change in calorie intake. </p>
-<p><strong>What this means</strong> is that you shouldn&#39;t fret over your weight loss/gains plateauing after the first few weeks. Rather, you should expect it. Don&#39;t let it mess with your motivation.</p>
-<p>That&#39;s it for this how-to guide. Hit me up if you have any further questions. </p>
-]]></description>
-        <pubDate>Fri Jun 22 2018 18:11:36 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 22 2018 19:10:58 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -380,7 +247,7 @@ The table below outlines:</p>
 Hopefully this will help you out on your next trip to the supermarket – or at the very least give you a good laugh. The first time I started flipping around boxes and reading the ingredients and nutrition panel of so-called <em>“healthy foods”</em>, I was in the store for well over an hour in awe.</p>
 <p>If a lot of what you’ve just read is news to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Fri Jun 22 2018 18:11:36 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 22 2018 19:10:58 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -471,7 +338,140 @@ Hopefully this will help you out on your next trip to the supermarket – or at 
 <p>There is also emerging evidence that fasting can help you live longer. That will be explored more in another post. </p>
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 ]]></description>
-        <pubDate>Fri Jun 22 2018 18:11:36 GMT+0800 (AWST)</pubDate>
+        <pubDate>Fri Jun 22 2018 19:10:58 GMT+0800 (AWST)</pubDate>
+        <link>https://musclehacking.com/blog/[object Object]</link>
+        <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
+      </item>
+    
+    
+      <item>
+        <title>How to use the Calorie Calculator</title>
+        <description><![CDATA[<div id="toc_container">
+<h4 id="toc-h">Table of Contents</h4>
+<ul>
+<li><a href="#stats" title="What are my Stats?">Stats</a></li>
+<li><a href="#modifiers" title="What are my Modifiers?">Modifiers</a><ul>
+<li><a href="#activity-level" title="How do I determine my Activity Level?">Activity Level</a></li>
+<li><a href="#goal" title="What should be my Goal calories?">Goal</a></li>
+<li><a href="#how-much-protein-" title="How much protein should I eat?">How Much Protein?</a></li>
+<li><a href="#fat-carb-calorie-split" title="How much fat and carbs should I eat?" >Fat/Carb Calorie Split</a></li>
+</ul>
+</li>
+<li><a href="#results" title="What does Results mean?">Results</a><ul>
+<li><a href="#bmr" title="What does BMR mean?">BMR</a></li>
+<li><a href="#tdee" title="What does TDEE mean?">TDEE</a></li>
+<li><a href="#daily-calories-and-macros" title="How many calories should I eat?">Daily Calories and Macros</a></li>
+<li><a href="#estimated-weight-loss-per-week" title="How much weight should I lose or gain each week?">Estimated Weight Loss per Week</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+<p>This page breaks down how to use the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator web application</a> to work out your daily calories and macronutrients.</p>
+<p>The calculator allows you to forecast your estimated weight change per week based on your calorie deficit/surplus. You can also adjust your protein, fat, and carbohydrate macros as desired. </p>
+<p>Your <a href="#bmr" title="What does BMR mean?">BMR</a> and <a href="#tdee" title="What does TDEE mean?">TDEE</a> are displayed for convenience.</p>
+<h3 id="stats">Stats</h3>
+<p id="start-p">Here you input the following basic personal information:</p>
+<ul>
+<li>Age (in years)</li>
+<li>Weight (in kilograms or pounds)</li>
+<li>Height (in centimetres or inches)</li>
+<li>Gender (male or female)</li>
+</ul>
+
+<h3 id="modifiers">Modifiers</h3>
+<h4 id="activity-level">Activity Level</h4>
+<p>Your <strong>Activity Level</strong> serves as a multiplier on top of your <strong>BMR</strong> (Basal Metabolic Rate). The result of this calculation is called your <strong>TDEE</strong> (Total Daily Energy Expenditure).</p>
+<p>Think of your BMR as the energy you would need to keep alive if you were in a coma. Energy required for processes like breathing, blood circulation, controlling body temperature, cell growth, etc.</p>
+<p>What you care about though, is your TDEE. This is the <strong><em>total amount of energy you need each day to maintain your body weight</em></strong> after you factor in all of your activity.</p>
+<p>This is not the same as your BMR, as even the least active among us aren&#39;t lying motionless in bed all day.</p>
+<p>These are the Activity Level modifiers:</p>
+<ul>
+<li><strong>Sedentary:</strong> Little or no exercise, office job (1.2x)</li>
+<li><strong>Lightly Active:</strong> Light daily activity &amp; exercise 1-3 days per week (1.375x)</li>
+<li><strong>Moderately Active:</strong> Moderate daily activity &amp; exercise 3-5 days per week (1.55x)</li>
+<li><strong>Very Active:</strong> Physically demanding lifestyle &amp; exercise 6-7 days per week (1.725x)</li>
+<li><strong>Extremely Active:</strong> Hard daily exercise/sports &amp; physical job (1.9x)</li>
+</ul>
+<p>Be warned: <strong>Most people tend to overestimate their activity level</strong>. </p>
+<p>This is usually due to them basing their activity level on their number of gym sessions per week. This is not the right way to go about it.</p>
+<p>Your activity level is primarily based off of what you do <strong>outside</strong> the gym. Four 1 hour strength training sessions at the gym each week is less than 2 hours of actual activity. It does not result in a large number of calories burnt.</p>
+<p>Conversely, a teacher on her feet for the lions share of the week is most likely <em>“Lightly Active”</em>. The intermittent cardio throughout the day adds up.</p>
+<p>If your only activity outside the office is the gym, put yourself down as <em>“Sedentary”</em>. You <em>might</em> be slightly over depending on your intensity and frequency – but more likely you won&#39;t be. You can adjust your estimate based on the first couple week&#39;s progress. </p>
+<p>If you think you&#39;re on the line between levels and it could go either way – go with the lower estimate. </p>
+<h4 id="goal">Goal</h4>
+<p>This dropdown provides an easy way to match your qualitative weight loss/gain goal with a quantitative value. The options are:  </p>
+<ul>
+<li>Lose Weight (-20%)</li>
+<li>Slowly Lose Weight (-10%)</li>
+<li>Maintain Weight (0%)</li>
+<li>Slowly Gain Weight (+10%)</li>
+<li>Gain Weight (+20%)</li>
+</ul>
+<p>The number in the proceeding brackets specifies the caloric deficit/surplus. For example, (+10%) means that your daily calorie goal will be 10% higher than your TDEE.</p>
+<p>Alternatively, you can input a specific calorie goal in the <strong>Calorie Deficit/Surplus</strong> section.</p>
+<h4 id="how-much-protein-">How Much Protein?</h4>
+<p>Here I have provided 3 standardised options:</p>
+<ul>
+<li>1g per pound</li>
+<li>0.82g per pound</li>
+<li>1.5g per pound</li>
+</ul>
+<p><strong>1g per pound</strong> is the standard and recommended option. This provides you with enough protein to facilitate muscle growth <strong><em>with a large margin of error</em></strong>.</p>
+<p><strong>0.82g per pound</strong> still provides enough protein to facilitate muscle growth. Think of this as a lower bar for the amount of protein you should be consuming. Although the subject of hot debate, current science points to 0.82g protein/pound being <strong><em>enough</em></strong> protein. </p>
+<p>Although it&#39;s <em>unlikely</em> additional protein will result in increased gains, you still may want to consider a higher protein intake as:</p>
+<ul>
+<li>Protein is a more satiating macronutrient <a title="The effects of high protein diets on thermogenesis, satiety and weight loss: a critical review" target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmedhealth/PMH0021577/">[1]</a></li>
+<li>A higher protein intake restricts your food choices, forcing you to eat less junk</li>
+<li>The TEF (Thermic Effect of Food) means protein is closer to 3.2 kcal per gram, not 4 kcal per gram <a title="A perspective on food energy standards for nutrition labelling." target="_blank" href="https://www.ncbi.nlm.nih.gov/pubmed/11299073">[2]</a></li>
+</ul>
+<p>The above reasoning is why you might even want to consider <strong>1.5g per pound</strong>. </p>
+<p>If you&#39;re an expert in going way too far with your cheat meals to the point of ruining your diet – 1.5g per pound is for you.</p>
+<h4 id="fat-carb-calorie-split">Fat/Carb Calorie Split</h4>
+<p>This is the <strong>percentage split between fat and carbs <em>after</em> you account for your protein intake</strong>. </p>
+<p>You have a good amount of leeway in your distribution between carbs and fat. It&#39;s largely a matter of personal preference. Some of us feel better with more carbs and less fat, and some of us feel better with more fat and less carbs. Generally the more active you are, the better you&#39;ll feel on a higher level of carbs.</p>
+<p>As a rule of thumb, <strong>you&#39;ll want to consume no less than 0.25g fat per pound, or approximately 0.5g fat per kilogram</strong>. </p>
+<p>Although this may seem like a low bar, it can still be broken when you&#39;re on a hard cut and you don&#39;t have that many calories to work with. Getting less than this amount of fat for an elongated period of time can easily lead to dry skin and/or hair. Would not recommend.</p>
+<h3 id="results">Results</h3>
+<h4 id="bmr">BMR</h4>
+<p>Stands for your <strong>Basal Metabolic Rate</strong>. </p>
+<p>Essentially the amount of energy you would need to keep alive if you were in a coma. Energy required for processes like breathing, blood circulation, controlling body temperature, cell growth, etc.</p>
+<p>This is calculated via your Age, Weight, Height, and Gender. It is then multiplied by your <strong>Activity Level</strong> to give your TDEE.</p>
+<h4 id="tdee">TDEE</h4>
+<p>Stands for your <strong>Total Daily Energy Expenditure</strong>. Also known as your “<em>maintenance calories</em>”. </p>
+<p>This is the <strong><em>total amount of energy you need each day to maintain your body weight</em></strong> after you factor in all of your activity.</p>
+<p>So in an ideal world where you eat your exact TDEE each day, you would maintain the same body weight.</p>
+<p>In reality this never happens due to the variance in our daily activity, the exact amount of food we eat, and water weight fluctuations.</p>
+<p>Nevertheless, getting a ballpark figure of your TDEE is all you really need to get going. You can track your progress against your estimate and readjust as required.</p>
+<h4 id="daily-calories-and-macros">Daily Calories and Macros</h4>
+<p>This is final result of all of your input data. It breaks down the Calories, Protein, Fat, and Carbohydrates you should eat each day to reach your physique goals.</p>
+<p><strong>Do not stress about small deviations from these numbers</strong>. A &#177;5% difference will not affect your physique. </p>
+<p>Why? Each of these numbers have error built in. Even the lower protein intake of 0.82g per pound was based on a 95% confidence interval. </p>
+<p><strong>All calorie counters are approximations.</strong> Regardless of how many decimal places worth of carbs MyFitnessPal tells you are in your 160.8 g apple – it&#39;s only an estimate. </p>
+<p>Use the calculated values as a solid approximation. Adjust your estimate as required based off of your weight loss/gain during the first few weeks of your diet. If you need help with this, ask. I plan on making a tool to help with this in the near future. </p>
+<h4 id="estimated-weight-loss-per-week">Estimated Weight Loss per Week</h4>
+<p>This estimate is based on the ~3500 calories in one pound of fat.</p>
+<p>E.g. A 500 calorie deficit per day is around 1 pound of fat loss per week.</p>
+<p>So what kind of weight gain/loss should you aim for? The below serves as a <strong><em>practical and realistic</em></strong> expectation for a 6 to 12 month program. </p>
+<p><strong>Fat Loss with Minimal Muscle Loss</strong></p>
+<ul id="ul-nm1">
+<li>2 pounds per week in the obese (BMI of 30 or above) </li>
+<li>1 pound per week in the overweight (BMI of 25 to 30)</li>
+<li>&frac12; pound per week, or less, in guys who are lean and trying to get even leaner </li>
+</ul>
+<p><strong>Muscle Gain with Minimal Fat Gain</strong></p>
+<ul id="ul-nm2">
+<li>2 to 3 pounds per month in novices and advanced beginners (those with less than 2 years of consistent strength training)</li>
+<li>1 to 2 pounds per month in intermediates (those with 2 to 4 years of consistent training) </li>
+<li>&frac12; pound per month in advanced lifters who are close to their genetic ceiling</li>
+</ul>
+<p>It&#39;s important to note that <strong><em>the first few weeks and months will bring the biggest losses/gains</em></strong>. </p>
+<p>For example, it&#39;s common to drop a full 2kg in your first week of cutting – especially if you lowered your carb intake. This is great for motivation, but it&#39;s not a realistic representation of what you should expect long term. </p>
+<p>This exaggerated change is primarily due to changes in water weight, as well as the initial shock your body experiences from the adrupt change in calorie intake. </p>
+<p><strong>What this means</strong> is that you shouldn&#39;t fret over your weight loss/gains plateauing after the first few weeks. Rather, you should expect it. Don&#39;t let it mess with your motivation.</p>
+<p>That&#39;s it for this how-to guide. Hit me up if you have any further questions. </p>
+]]></description>
+        <pubDate>Fri Jun 22 2018 19:10:58 GMT+0800 (AWST)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
