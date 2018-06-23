@@ -61,14 +61,10 @@
 #cartab-r {
   background-color:rgba(248, 196, 113, 0.9) !important;
 }
-.vue-slider-process, .vue-slider-tooltip, #fattab {
+#fattab {
   background-color:#45B39D !important;
 }
-.vue-slider-tooltip {
-  background-color:#45B39D !important;
-  border: 1px solid#45B39D !important;
-}
-.vue-slider, #cartab {
+#cartab {
   background-color:#F39C12 !important;
 }
 .vue-slider-component{
