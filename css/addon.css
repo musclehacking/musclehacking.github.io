@@ -27,6 +27,16 @@
 .form-group{
   margin-bottom: 0.5rem;
 }
+#copyB{
+  padding-bottom: 0rem;
+  margin-bottom: .6rem;
+  margin-left: 5px;
+  border-radius: 7px;
+}
+#copyB:hover{
+  background-color: #5DADE2;
+  border-color: #206593;
+}
 #lw-heading{
   margin-top: 2.2em;
   font-size: 30px;
@@ -771,6 +781,9 @@ p.figurecap>a:hover{
     border: 1px solid #1F618D;
     border-radius: 50px;
     padding: 5px;
+  }
+  #copyB {
+    margin-bottom: .7rem;
   }
 }
 @media screen and (max-width: 576px) {
