@@ -516,10 +516,10 @@ fieldset[disabled] .btn-gold.active {
 .twit:hover{
   fill: #55acee;
 }
-#facebook:hover{
+#face:hover{
   fill: #3b5998;
 }
-#google:hover{
+#goog:hover{
   fill: #dd4b39;
 }
 /* Next/Previous Post */
@@ -714,7 +714,7 @@ p.figurecap>a:hover{
   .container-block{
     margin: 20px 10px;
   }
-  #social-nav{
+  #soc-nav{
     padding-right: 20px
   }
   .main:hover{
