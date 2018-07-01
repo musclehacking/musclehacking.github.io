@@ -1,4 +1,7 @@
 /* App Styling */
+#male, #female {
+  flex-basis: 500px
+}
 #loading{
   display: block;
   margin: 200px auto
