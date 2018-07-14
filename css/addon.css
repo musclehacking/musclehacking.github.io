@@ -16,6 +16,82 @@
   max-width: 18px;
   margin-top: -3px;
 }
+.popper {
+  text-align: center;
+  display: block !important;
+  position: absolute;
+  font-size: 16px;
+  font-family: muscle2, Georgia, Cambria,"Times New Roman",Times,serif;
+  font-weight: normal;
+  z-index: 200000;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  padding: 5px 10px 4px;
+}
+.popper .popper__arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: black;
+  z-index: 1;
+}
+.popper[x-placement^="top"] {
+  margin-bottom: 5px;
+}
+.popper[x-placement^="top"] .popper__arrow {
+  border-width: 5px 5px 0 5px;
+  border-color: #fafafa transparent transparent transparent;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.popper[x-placement^="bottom"] {
+  margin-top: 5px;
+}
+.popper[x-placement^="bottom"] .popper__arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.popper[x-placement^="right"] {
+  margin-left: 5px;
+}
+.popper[x-placement^="right"] .popper__arrow {
+  border-width: 5px 5px 5px 0;
+  border-left-color: transparent !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+.popper[x-placement^="left"] {
+  margin-right: 5px;
+}
+.popper[x-placement^="left"] .popper__arrow {
+  border-width: 5px 0 5px 5px;
+  border-color: transparent transparent transparent #fafafa;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+  font-family: muscle2, Georgia, Cambria,"Times New Roman",Times,serif;
+  font-size: 16px;
+}
 /* Stops hashing from fucking with input forms */
 .app-h3::before, .app-h4::before{
   content:none
