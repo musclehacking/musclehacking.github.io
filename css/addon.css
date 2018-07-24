@@ -335,7 +335,9 @@ blockquote{
   animation-timing-function: linear,linear;
 }
 #recent-posts{
-  margin-left: 5px;
+  list-style-position: inside;
+  text-indent: -1.38em;
+  margin-left: 1.5em;
 }
 .main, .side-a{
   color: #333;
@@ -793,12 +795,12 @@ p.figurecap>a:hover{
     height:calc(100vh - 3px);
     background-color:#fff;
     width: 26%;
-    padding:calc(55px + 1.5rem) 0 0;
+    padding:40px 0 0;
     z-index:10
   }
   .widget, .textwidget {
     display: block;
-    margin-bottom: 30px
+    margin-bottom: 60px
   }
   .side-heading {
     margin-bottom: 2px
