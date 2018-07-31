@@ -94,26 +94,8 @@
 }
 /* Stops hashing from fucking with input forms */
 .btn-info {
-  background-color: rgb(31, 97, 141, .75) !important;
-  border-color: rgb(31, 97, 141, .75)!important;
-}
-.btn-info.disabled,
-.btn-info[disabled],
-fieldset[disabled] .btn-info,
-.btn-info.disabled:hover,
-.btn-info[disabled]:hover,
-fieldset[disabled] .btn-info:hover,
-.btn-info.disabled:focus,
-.btn-info[disabled]:focus,
-fieldset[disabled] .btn-info:focus,
-.btn-info.disabled:active,
-.btn-info[disabled]:active,
-fieldset[disabled] .btn-info:active,
-.btn-info.disabled.active,
-.btn-info[disabled].active,
-fieldset[disabled] .btn-info.active {
-  background-color: rgb(31, 97, 141, .75) !important;
-  border-color: rgb(31, 97, 141, .75)!important;
+  background-color: rgb(76, 136, 175)!important;
+  border-color: rgb(76, 136, 175)!important;
 }
 .btn-info:not(:disabled):not(.disabled).active, .btn-info:not(:disabled):not(.disabled):active, .show>.btn-info.dropdown-toggle {
   background-color: #1f618d!important;
@@ -121,8 +103,8 @@ fieldset[disabled] .btn-info.active {
 }
 .btn-info:hover {
   color: #fff;
-  background-color: rgb(31, 97, 141, .9);
-  border-color: rgb(31, 97, 141, .9);
+  background-color: rgb(57, 113, 151)!important;
+  border-color: rgb(57, 113, 151)!important;
 }
 .app-h3::before, .app-h4::before{
   content:none
@@ -945,9 +927,5 @@ p.figurecap>a:hover{
   }
   #button{
     margin-left: auto
-  }
-  .btn-info {
-    background-color: rgb(31, 97, 141, .75) !important;
-    border-color: rgb(31, 97, 141, .75)!important;
   }
 }
