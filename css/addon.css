@@ -895,10 +895,6 @@ p.figurecap>a:hover{
   #copyB {
     margin-bottom: .7rem;
   }
-  .btn-info {
-    background-color: rgb(31, 97, 141, .75) !important;
-    border-color: rgb(31, 97, 141, .75)!important;
-  }
 }
 @media screen and (max-width: 576px) {
   .post-title{
@@ -949,5 +945,9 @@ p.figurecap>a:hover{
   }
   #button{
     margin-left: auto
+  }
+  .btn-info {
+    background-color: rgb(31, 97, 141, .75) !important;
+    border-color: rgb(31, 97, 141, .75)!important;
   }
 }
