@@ -193,7 +193,7 @@
 <p>&#9824; Figs and mangoes are on the line between Healthy and Golden Zone.</p>
 <p>&dagger; These foods are on the line between Healthy and Golden Zone. The final decision as Healthy/Golden Zone was made by considering how filling a standard serving size is relative to comparable Healthy/Golden Zone foods. For example, comparing the calories and satiation for a serving of brown rice vs. a serving of oats.</p>
 ]]></description>
-        <pubDate>Tue Aug 14 2018 17:18:57 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Aug 16 2018 23:55:37 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -285,7 +285,7 @@
 <p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by thin strings of nutritional science. </p>
 <p>Don’t rely on it for anything other than a good laugh.</p>
 ]]></description>
-        <pubDate>Tue Aug 14 2018 17:18:57 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Aug 16 2018 23:55:37 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -451,7 +451,7 @@ The table below outlines:</p>
 <p>The first time I started flipping around boxes and reading the ingredients and nutrition panel of so-called “<em>healthy foods</em>”, I was in the store for well over an hour in awe.</p>
 <p>If a lot of what you’ve just read is news to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Tue Aug 14 2018 17:18:57 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Aug 16 2018 23:55:37 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -557,7 +557,7 @@ The table below outlines:</p>
 <p>There is also emerging evidence that <a href="https://www.ncbi.nlm.nih.gov/pubmed/26094889 " target="_blank" title="A Periodic Diet that Mimics Fasting Promotes Multi-System Regeneration, Enhanced Cognitive Performance, and Healthspan">fasting can help you live longer</a>. Intermittent fasting and longevity will be explored more in another post. </p>
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 ]]></description>
-        <pubDate>Tue Aug 14 2018 17:18:57 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Aug 16 2018 23:55:37 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -581,6 +581,14 @@ The table below outlines:</p>
 <li><a href="#tdee" title="What does TDEE mean?">TDEE</a></li>
 <li><a href="#daily-calories-and-macros" title="How many calories should I eat?">Daily Calories and Macros</a></li>
 <li><a href="#estimated-weight-loss-per-week" title="How much weight should I lose or gain each week?">Estimated Weight Loss per Week</a></li>
+</ul>
+<li><a href="#the-leangains-method" title="The Leangains Method">The Leangains Method Calculator</a>
+<ul>
+<li><a href="#body-fat" title="Which body fat range?">Body Fat</a></li>
+<li><a href="#muscle-mass" title="What muscle mass do I choose?">Muscle Mass</a></li>
+<li><a href="#goal-lg" title="How much of a calorie deficit for The Leangains Method?">Goal (LG-specific)</a></li>
+<li><a href="#steps-per-day" title="How many steps per day?">Steps per Day</a></li>
+<li><a href="#how-much-protein-lg" title="How much protein should I eat on The Leangains Method?">How much Protein? (LG-specific)</a></li>
 </ul>
 </li>
 </ul>
@@ -689,8 +697,55 @@ The table below outlines:</p>
 <p>This exaggerated change is primarily due to changes in water weight, as well as the initial shock your body experiences from the adrupt change in calorie intake. </p>
 <p><strong>What this means</strong> is that you shouldn&#39;t fret over your weight loss/gains plateauing after the first few weeks. Rather, you should expect it. Don&#39;t let it mess with your motivation.</p>
 <p>That&#39;s it for this how-to guide. Hit me up if you have any further questions. </p>
-]]></description>
-        <pubDate>Tue Aug 14 2018 17:18:57 GMT+0800 (Australian Western Standard Time)</pubDate>
+<h3 id="the-leangains-method">The Leangains Method Calculator</h3>
+<p>The following information is specific to the Leangains calculator. This is the calorie and macronutrient calculator recommended by <a title="About: Martin Berkhan" target="_blank" href="https://leangains.com/about-me/">Martin Berkhan</a> in his book <a title="Amazon: The Leangains Method" target="_blank" href="https://www.amazon.com/Leangains-Method-Researched-Practiced-Perfected-ebook/dp/B07G3GFLTX">The Leangains Method</a>. </p>
+<p>To calculate your TDEE, you multiply your body weight in kilograms by a base value. This base value starts at 28 for men, 26 for women. Depending on your Stats – Age, Height,  Body Fat, Muscle Mass, and Steps per Day, this base value is altered. </p>
+<p>I am not going to detail the full maths here – only the novel stats that you may need help with to correctly fill out the calculator. </p>
+<h4 id="body-fat">Body Fat</h4>
+<p>Your body fat percentage alters the base value in the following way: </p>
+<p><strong>Men:</strong> </p>
+<ul id="ul-nm3">
+<li>&lt;10% body fat: +0.5 </li>
+<li>11-19% body fat: 0</li>
+<li>20-24% body fat: -0.5 </li>
+<li>25-29% body fat: -1</li>
+</ul>
+<p><strong>Women:</strong> </p>
+<ul id="ul-nm4">
+<li>&lt;18% body fat: +0.5 </li>
+<li>19-27% body fat: 0</li>
+<li>28-32% body fat: -0.5 </li>
+<li>33-37% body fat: -1</li>
+</ul>
+<h4 id="muscle-mass">Muscle Mass</h4>
+<p>Your muscle mass alters the base value in the following way:</p>
+<ul id="ul-nm5">
+<li>Standard: 0</li>
+<li>Muscular: +0.5</li>
+<li>Very Muscular: +1</li>
+</ul>
+<p>Note that Very Muscular is only applicable to males. Martin recommends that those with a fat-free mass index (FFMI) of &gt;22 choose Muscular. For Very Muscular, the FFMI is &gt;24. </p>
+<p>There is no FFMI for women – women can use muscular at their own discretion.</p>
+<h4 id="goal-lg">Goal (LG-specific)</h4>
+<p>Martin recommends a simple cut/bulk calorie surplus. </p>
+<p>For men, a &#177;500 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
+<p>For women, a &#177;350 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
+<p>This will result in an approximate weight loss/gain of 0.5 kilograms (1.1 pounds) for men, or 0.35 kilograms (0.77 pounds) for women.</p>
+<h4 id="steps-per-day">Steps per Day</h4>
+<p>This is an approximation for the number of steps you take each day. If you want an accurate result, use a pedometer or phone application such as Health (iOS) or Google Fit (Android). </p>
+<p>If you’re sedentary for most of your week or are unsure, assume a value of 5000 steps (<em>note that steps less than 6000 have the same activity multiplier</em>). </p>
+<p>The base value is altered as follows: </p>
+<ul id="ul-nm6">
+<li>&lt;6000 steps: 0 </li>
+<li>6000-7500 steps: +0.5 </li>
+<li>Another +0.5 for every 1250 steps over 7500 steps </li>
+</ul>
+<p>For example, 9000 steps &#8594; +1.5 to base value.</p>
+<h4 id="how-much-protein-lg">How much Protein? (LG-specific)</h4>
+<p>The Leangains Method recommends getting as close to 60% of your calorie intake from protein as you can. This <strong><em>extremely</em></strong> high protein recommendation is to reap benefits <em>outside</em> of pure muscle building. Namely protein’s high TEF (Thermic Effect of Food), as well as the added difficulty of making poor food choices when you’re eating a high protein diet. </p>
+<p>Martin himself finds 55% protein to be his sweet spot. He notes that if you find 60% protein too restrictive then you can drop it down to 50% – which he believes is doable. </p>
+<p>If you still think this protein intake is too high, then consider switching the “Diet” dropdown of the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator</a> to “Standard” and selecting a lower protein intake of 0.82g/pound or 1g/pound. This gives you more leeway with your other macros while still provides enough protein for muscle building. More information <a href="#how-much-protein-" target="_blank" title="Calorie and Macro Calculator">here</a>.</p>]]></description>
+        <pubDate>Thu Aug 16 2018 23:55:37 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
