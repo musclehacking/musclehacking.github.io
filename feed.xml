@@ -193,7 +193,7 @@
 <p>&#9824; Figs and mangoes are on the line between Healthy and Golden Zone.</p>
 <p>&dagger; These foods are on the line between Healthy and Golden Zone. The final decision as Healthy/Golden Zone was made by considering how filling a standard serving size is relative to comparable Healthy/Golden Zone foods. For example, comparing the calories and satiation for a serving of brown rice vs. a serving of oats.</p>
 ]]></description>
-        <pubDate>Fri Aug 17 2018 01:53:25 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 17 2018 19:47:47 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -285,7 +285,7 @@
 <p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by thin strings of nutritional science. </p>
 <p>Don’t rely on it for anything other than a good laugh.</p>
 ]]></description>
-        <pubDate>Fri Aug 17 2018 01:53:25 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 17 2018 19:47:47 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -451,7 +451,7 @@ The table below outlines:</p>
 <p>The first time I started flipping around boxes and reading the ingredients and nutrition panel of so-called “<em>healthy foods</em>”, I was in the store for well over an hour in awe.</p>
 <p>If a lot of what you’ve just read is news to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Fri Aug 17 2018 01:53:25 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 17 2018 19:47:47 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -557,7 +557,7 @@ The table below outlines:</p>
 <p>There is also emerging evidence that <a href="https://www.ncbi.nlm.nih.gov/pubmed/26094889 " target="_blank" title="A Periodic Diet that Mimics Fasting Promotes Multi-System Regeneration, Enhanced Cognitive Performance, and Healthspan">fasting can help you live longer</a>. Intermittent fasting and longevity will be explored more in another post. </p>
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 ]]></description>
-        <pubDate>Fri Aug 17 2018 01:53:25 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 17 2018 19:47:48 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -620,26 +620,26 @@ The table below outlines:</p>
 <li><strong>Very Active:</strong> Physically demanding lifestyle &amp; exercise 6-7 days per week (1.725x)</li>
 <li><strong>Extremely Active:</strong> Hard daily exercise/sports &amp; physical job (1.9x)</li>
 </ul>
-<p>Be warned: <strong>Most people tend to overestimate their activity level</strong>. </p>
+<p>Be warned: <strong>most people tend to overestimate their activity level</strong>. </p>
 <p>This is usually due to them basing their activity level on their number of gym sessions per week. This is not the right way to go about it.</p>
-<p>Your activity level is primarily based off of what you do <strong>outside</strong> the gym. Four 1 hour strength training sessions at the gym each week is less than 2 hours of actual activity. It does not result in a large number of calories burnt.</p>
+<p>Your activity level is primarily based off of what you do <strong><em>outside</em></strong> the gym. Four 1 hour strength training sessions at the gym each week is less than 2 hours of actual activity. It does <strong><em>not</em></strong> result in a large number of calories burnt.</p>
 <p>Conversely, a teacher on her feet for the lions share of the week is most likely <em>“Lightly Active”</em>. The intermittent cardio throughout the day adds up.</p>
 <p>If your only activity outside the office is the gym, put yourself down as <em>“Sedentary”</em>. You <em>might</em> be slightly over depending on your intensity and frequency – but more likely you won’t be. You can adjust your estimate based on the first couple week’s progress. </p>
 <p>If you think you’re on the line between levels and it could go either way – go with the lower estimate. </p>
 <h4 id="goal">Goal</h4>
 <p>This dropdown provides an easy way to match your qualitative weight loss/gain goal with a quantitative value. The options are:  </p>
 <ul>
-<li>Lose Weight (-20%)</li>
-<li>Slowly Lose Weight (-10%)</li>
+<li>Lose Weight (–20%)</li>
+<li>Slowly Lose Weight (–10%)</li>
 <li>Maintain Weight (0%)</li>
 <li>Slowly Gain Weight (+10%)</li>
 <li>Gain Weight (+20%)</li>
 </ul>
-<p>The number in the proceeding brackets specifies the caloric deficit/surplus. For example, (+10%) means that your daily calorie goal will be 10% higher than your TDEE.</p>
+<p>The number in the proceeding brackets specifies the caloric deficit/surplus. For example, (+10%) means that your daily calorie goal will be 10% higher than your <a href="#tdee" title="What does TDEE mean?">TDEE</a>.</p>
 <p>Alternatively, you can input a specific calorie goal in the <strong>Calorie Deficit/Surplus</strong> section.</p>
 <h4 id="how-much-protein-">How Much Protein?</h4>
-<p>Here I have provided 3 standardised options:</p>
-<ul>
+<p>Here there are 3 standardised options:</p>
+<ul id="ul-nm7">
 <li>1g per pound</li>
 <li>0.82g per pound</li>
 <li>1.5g per pound</li>
@@ -655,10 +655,12 @@ The table below outlines:</p>
 <p>The above reasoning is why you might even want to consider <strong>1.5g per pound</strong>. </p>
 <p>If you’re an expert in going way too far with your cheat meals to the point of ruining your diet – 1.5g per pound is for you.</p>
 <h4 id="fat-carb-calorie-split">Fat/Carb Calorie Split</h4>
-<p>This is the <strong>percentage split between fat and carbs <em>after</em> you account for your protein intake</strong>. </p>
-<p>You have a good amount of leeway in your distribution between carbs and fat. It’s largely a matter of personal preference. Some of us feel better with more carbs and less fat, and some of us feel better with more fat and less carbs. Generally the more active you are, the better you’ll feel on a higher level of carbs.</p>
+<p>This is the percentage split (<em>calorie-wise</em>) between fat and carbs <em>after</em> you account for your protein intake.</p>
+<p>You have a good amount of leeway in your distribution between carbs and fat. <em><strong>The split between carbs and fat is largely a matter of personal preference</strong></em>. So long as you’re not on the extreme of either side, there is no point stressing about the allocation. 
+
+<p>Some of us feel better with more carbs and less fat, and some of us feel better with more fat and less carbs. In general the more active you are, the more likely you’ll suit a higher carb intake.</p></p>
 <p>As a rule of thumb, <strong>you’ll want to consume no less than 0.25g fat per pound, or approximately 0.5g fat per kilogram</strong>. </p>
-<p>Although this may seem like a low bar, it can still be broken when you’re on a hard cut and you don’t have that many calories to work with. Getting less than this amount of fat for an elongated period of time can easily lead to dry skin and/or hair. Would not recommend.</p>
+<p>Although this may seem like a low bar, it can be broken when you’re on a hard cut and hence don’t have that many calories to work with. Getting less than this amount of fat for an elongated period of time can easily lead to dry skin and/or hair. Would not recommend.</p>
 <h3 id="results">Results</h3>
 <h4 id="bmr">BMR</h4>
 <p>Stands for your <strong>Basal Metabolic Rate</strong>. </p>
@@ -701,52 +703,53 @@ The table below outlines:</p>
 <p>To calculate your <a href="#tdee" title="What does TDEE mean?">TDEE</a>, you multiply your body weight in kilograms by a base value. This base value starts at 28 for men, and 26 for women. Depending on your Stats – Age, Height,  Body Fat, Muscle Mass, and Steps per Day, this base value is altered. </p>
 <p>I am not going to detail the full maths here – only the novel stats that you may need help with to correctly fill out the calculator. </p>
 <h4 id="body-fat">Body Fat</h4>
-<p>Your body fat percentage alters the base value in the following way: </p>
+<p>How your body fat percentage alters your base value depends on your gender:</p>
 <p><strong>For Men</strong> </p>
 <ul id="ul-nm3">
 <li>&lt;10% body fat: +0.5 </li>
 <li>11-19% body fat: 0</li>
-<li>20-24% body fat: -0.5 </li>
-<li>25-29% body fat: -1.5</li>
-<li>30-34% body fat: -2.5</li>
+<li>20-24% body fat: –0.5 </li>
+<li>25-29% body fat: –1.5</li>
+<li>30-34% body fat: –2.5</li>
 </ul>
 <p><strong>For Women</strong> </p>
 <ul id="ul-nm4">
 <li>&lt;18% body fat: +0.5 </li>
 <li>19-27% body fat: 0</li>
-<li>28-32% body fat: -0.5 </li>
-<li>33-37% body fat: -1.5</li>
-<li>38-42% body fat: -2.5</li>
+<li>28-32% body fat: –0.5 </li>
+<li>33-37% body fat: –1.5</li>
+<li>38-42% body fat: –2.5</li>
 </ul>
+<p>So a man with 22% body fat would subtract 1.5 from his base value. Whereas a women with a 25% body fat would keep her base value the same.</p>
 <h4 id="muscle-mass">Muscle Mass</h4>
-<p>Your muscle mass alters the base value in the following way:</p>
+<p>Your muscle mass alters your base value in the following way:</p>
 <ul id="ul-nm5">
 <li>Standard: 0</li>
 <li>Muscular: +0.5</li>
 <li>Very Muscular: +1</li>
 </ul>
-<p>Note that Very Muscular is only applicable to males. Martin recommends that those with a Fat-Free Mass Index (FFMI) &gt;22 choose Muscular. For Very Muscular, your FFMI should be &gt;24. </p>
-<p>There is no FFMI recommendation for women – women can use muscular at their own discretion.</p>
+<p>Note that <em>Very Muscular</em> is only applicable to males. Martin recommends that those with a Fat-Free Mass Index (FFMI) &gt;22 choose <em>Muscular</em>. For <em>Very Muscular</em>, your FFMI should be &gt;24. </p>
+<p>There is no FFMI recommendation for women – women can use <em>Muscular</em> at their own discretion.</p>
 <h4 id="goal-lg">Goal (LG-specific)</h4>
-<p>Martin recommends a simple cut/bulk calorie deficit/surplus. </p>
+<p>Your goal calories deviate from your <a href="#tdee" title="What does TDEE mean?">TDEE</a> depending on your gender, and whether you’re cutting or bulking. Either way it is a constant number (<em>as opposed to a percentage</em>).</p>
 <p>For men, a &#177;500 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
 <p>For women, a &#177;350 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
 <p>This will result in an approximate weight loss/gain of 0.5 kilograms (1.1 pounds) for men, or 0.35 kilograms (0.77 pounds) for women.</p>
 <h4 id="steps-per-day">Steps per Day</h4>
 <p>This is an approximation for the number of steps you take each day. If you want an accurate result, use a pedometer or phone application such as Health (iOS) or Google Fit (Android). </p>
 <p>If you’re sedentary for most of your week or are unsure, assume a value of 5000 steps (<em>note that steps less than 6000 have the same activity multiplier</em>). </p>
-<p>The base value is altered as follows: </p>
+<p>Your base value is altered as follows: </p>
 <ul id="ul-nm6">
 <li>&lt;6000 steps: 0 </li>
 <li>6000-7500 steps: +0.5 </li>
-<li>Another +0.5 for every 1250 steps over 7500 steps </li>
+<li>Add another +0.5 for every 1250 step increment above 7500 steps </li>
 </ul>
-<p>For example, 9000 steps &#8594; +1.5 to base value.</p>
+<p>For example, someone taking 9000 steps each day would add 1.5 to their base value.</p>
 <h4 id="how-much-protein-lg">How much Protein? (LG-specific)</h4>
 <p>The Leangains Method recommends getting as close to 60% of your calorie intake from protein as you can. This <strong><em>extremely</em></strong> high protein recommendation is to reap benefits <em>outside</em> of pure muscle building. Namely protein’s high TEF (Thermic Effect of Food), as well as the added difficulty of making poor food choices when you’re eating a high protein diet. </p>
 <p>Martin himself finds 55% protein to be his sweet spot. He notes that if you find 60% protein too restrictive then you can drop it down to 50% – which he believes is doable. </p>
-<p>If you still think this protein intake is too high, then consider switching the “Diet” dropdown of the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator</a> to “Standard” and selecting a lower protein intake of 0.82g/pound or 1g/pound. This gives you more leeway with your other macros while still provides enough protein for muscle building. More information <a href="#how-much-protein-" target="_blank" title="Calorie and Macro Calculator">here</a>.</p>]]></description>
-        <pubDate>Fri Aug 17 2018 01:53:25 GMT+0800 (Australian Western Standard Time)</pubDate>
+<p>If you still think this protein intake is too high, then consider switching the “<em>Diet</em>” dropdown of the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator</a> to “<em>Standard</em>” and selecting a lower protein intake of 0.82g/pound or 1g/pound. This gives you more leeway with your other macros while still provides enough protein for muscle building. More information on protein intakes <a href="#how-much-protein-" target="_blank" title="How much Protein?">here</a>.</p>]]></description>
+        <pubDate>Fri Aug 17 2018 19:47:48 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
