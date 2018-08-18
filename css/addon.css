@@ -1,4 +1,7 @@
 /* App Styling */
+#calc-break{
+  display: none
+}
 #male, #female {
   flex-basis: 500px
 }
@@ -129,15 +132,18 @@
   background-color: #5DADE2;
   border-color: #206593;
 }
-#lw-heading{
+#lw-heading, #lw-heading-lg{
   margin-top: 2.2em;
   font-size: 30px;
   text-align: center;
 }
+#lw-heading-lg{
+  margin-top: 1.1em
+}
 #top-row, #top-row2{
  margin-top: 0;
 }
-#bmr-h{
+#bmr-h, #tdee-lg{
   margin-top: 10px
 }
 #cal-table{
@@ -179,7 +185,10 @@
   border-style : hidden;
 }
 .input-group-text{
-  min-width: 46.5px;
+  min-width: 47px;
+}
+.input-group-lg{
+  min-width: 93px;
 }
 /* Main Page Styling */
 html {
@@ -750,7 +759,7 @@ p.figurecap>a:hover{
 #toc-h{
   margin-top: 0
 }
-#ul-nm1,#ul-nm2,#ul-nm3,#ul-nm4,#ul-nm5,#ul-nm6, #ul-nm7, #start-p{
+#ul-nm1,#ul-nm2,#ul-nm3,#ul-nm4,#ul-nm5,#ul-nm6, #ul-nm7, #ul-nm8,#ul-nm9, #ul-nm10, #start-p{
   margin-top: 10px
 }
 /* Media Queries */
@@ -867,7 +876,7 @@ p.figurecap>a:hover{
   .app-h3 {
     margin: 10px 0 5px;
   }
-  #lw-heading{
+  #lw-heading, #lw-heading-lg{
     font-size:26px;
     margin: 1.5em auto .5em;
     border: 1px solid #1F618D;
@@ -876,6 +885,9 @@ p.figurecap>a:hover{
   }
   #copyB {
     margin-bottom: .7rem;
+  }
+  .input-group-std{
+    min-width: 62px;
   }
 }
 @media screen and (max-width: 576px) {
