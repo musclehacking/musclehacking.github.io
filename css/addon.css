@@ -939,7 +939,7 @@ p.figurecap>a:hover{
     text-align: center
   }
   h3::before, h4::before {
-    margin-top: -10vh;
-    height: 10vh;
+    margin-top: -15vh;
+    height: 15vh;
   }
 }
