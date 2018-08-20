@@ -938,12 +938,8 @@ p.figurecap>a:hover{
     padding: 27px 0;
     text-align: center
   }
-  /* h3::before, h4::before {
-    display: block;
-    content: " ";
-    margin-top: -75px;
-    height: 75px;
-    visibility: hidden;
-    pointer-events: none;
-  } */
+  h3::before, h4::before {
+    margin-top: -10vh;
+    height: 10vh;
+  }
 }
