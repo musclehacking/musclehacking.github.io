@@ -190,6 +190,9 @@
 .input-group-lg{
   min-width: 93px;
 }
+.input-group-keto{
+  min-width: 109px;
+}
 /* Main Page Styling */
 html {
  -ms-text-size-adjust:100%;
