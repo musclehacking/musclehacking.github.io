@@ -890,27 +890,6 @@ p.figurecap>a:hover{
     min-width: 62px;
   }
 }
-@media screen and (max-width: 576px) {
-  .post-title{
-    font-size: 2rem;
-  }
-  .post-date{
-    font-size: 1.2rem;
-  }
-  #post-prev,#post-next  {
-    padding: 0 0 27px 0
-  }
-  #post-nav {
-    padding: 0
-  }
-  #post-prev,#post-next {
-    float: none;
-    width: 100%;
-    display: block;
-    padding: 27px 0;
-    text-align: center
-  }
-}
 /* This is just before .navbar-expand-sm opens. If you change "sm", change this width accordingly */
 @media (max-width:575.98px) {
   .icon-nav-expand{
@@ -939,5 +918,32 @@ p.figurecap>a:hover{
   }
   #button{
     margin-left: auto
+  }
+  .post-title{
+    font-size: 2rem;
+  }
+  .post-date{
+    font-size: 1.2rem;
+  }
+  #post-prev,#post-next  {
+    padding: 0 0 27px 0
+  }
+  #post-nav {
+    padding: 0
+  }
+  #post-prev,#post-next {
+    float: none;
+    width: 100%;
+    display: block;
+    padding: 27px 0;
+    text-align: center
+  }
+  h3::before, h4::before {
+    display: block;
+    content: " ";
+    margin-top: -75px;
+    height: 75px;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
