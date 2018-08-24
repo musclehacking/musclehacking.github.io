@@ -193,7 +193,7 @@
 <p>&#9824; Figs and mangoes are on the line between Healthy and Golden Zone.</p>
 <p>&dagger; These foods are on the line between Healthy and Golden Zone. The final decision as Healthy/Golden Zone was made by considering how filling a standard serving size is relative to comparable Healthy/Golden Zone foods. For example, comparing the calories and satiation for a serving of brown rice vs. a serving of oats.</p>
 ]]></description>
-        <pubDate>Tue Aug 21 2018 08:44:05 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 24 2018 10:21:49 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -285,7 +285,7 @@
 <p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by thin strings of nutritional science. </p>
 <p>Don’t rely on it for anything other than a good laugh.</p>
 ]]></description>
-        <pubDate>Tue Aug 21 2018 08:44:05 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 24 2018 10:21:49 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -451,7 +451,7 @@ The table below outlines:</p>
 <p>The first time I started flipping around boxes and reading the ingredients and nutrition panel of so-called “<em>healthy foods</em>”, I was in the store for well over an hour in awe.</p>
 <p>If a lot of what you’ve just read is news to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Tue Aug 21 2018 08:44:05 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 24 2018 10:21:49 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -557,7 +557,7 @@ The table below outlines:</p>
 <p>There is also emerging evidence that <a href="https://www.ncbi.nlm.nih.gov/pubmed/26094889 " target="_blank" title="A Periodic Diet that Mimics Fasting Promotes Multi-System Regeneration, Enhanced Cognitive Performance, and Healthspan">fasting can help you live longer</a>. Intermittent fasting and longevity will be explored more in another post. </p>
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 ]]></description>
-        <pubDate>Tue Aug 21 2018 08:44:05 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 24 2018 10:21:49 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -588,9 +588,9 @@ The table below outlines:</p>
 <li><a href="#height" title="How does height affect my TDEE?">Height</a></li>
 <li><a href="#body-fat" title="How does body fat affect my TDEE?">Body Fat</a></li>
 <li><a href="#muscle-mass" title="How does muscle mass affect my TDEE?">Muscle Mass</a></li>
-<li><a href="#goal-lg" title="Calculating Caloric Intake for the Leangains Method.">Goal (LG-specific)</a></li>
+<li><a href="#goal-lg" title="The Leangains Method calorie intake.">Goal (Leangains specific)</a></li>
 <li><a href="#steps" title="How many steps per day?">Steps</a></li>
-<li><a href="#how-much-protein-lg" title="How much protein should I eat on the Leangains Method?">How much Protein? (LG-specific)</a></li>
+<li><a href="#how-much-protein-lg" title="How much protein should I eat on the Leangains Method?">How much Protein? (Leangains specific)</a></li>
 </ul>
 </li>
 </ul>
@@ -701,8 +701,9 @@ The table below outlines:</p>
 <p>This exaggerated change is primarily due to changes in water weight, as well as the initial shock your body experiences from the abrupt change in calorie intake. </p>
 <p><strong>What this means</strong> is that you shouldn’t fret over your weight loss/gains plateauing after the first few weeks. Rather, you should expect it. Don’t let it mess with your motivation.</p>
 <h3 id="the-leangains-method">The Leangains Method Calculator</h3>
-<p>The following information is specific to the Leangains calculator (<em>in the “Diet” dropdown</em>). This is the calorie and macronutrient calculator recommended by <a title="About: Martin Berkhan" target="_blank" href="https://leangains.com/about-me/">Martin Berkhan</a> in his book <a title="Amazon: The Leangains Method" target="_blank" href="https://amzn.to/2nM1zUH">The Leangains Method</a>. </p>
-<p>To calculate your <a href="#tdee" target="_blank" title="What does TDEE mean?">TDEE</a>, you multiply your body weight in kilograms by your calculated <em>base value</em>. This base value starts at 28 for men, and 26 for women. </p>
+<p>The following information is specific to the <em>Leangains</em> <a href="/calorie-calculator/" target="_blank" title="Leangains Calorie and Macro Calculator">calorie and macronutrient calculator</a> (<em>select “Leangains” in the “Diet” dropdown</em>).</p>
+<p>This calculator uses the equation recommended by <a title="About: Martin Berkhan" target="_blank" href="https://leangains.com/about-me/">Martin Berkhan</a> in his book <a title="Amazon: The Leangains Method" target="_blank" href="https://amzn.to/2nM1zUH">The Leangains Method</a> to estimate your daily calorie and macronutrient needs.</p>
+<p>To use this approach to calculate your <a href="#tdee" target="_blank" title="What does TDEE mean?">TDEE</a>, you multiply your body weight in kilograms by your calculated <em>base value</em>. This base value starts at 28 for men, and 26 for women. </p>
 <p>Your base value is modified depending on your <em>Stats</em> – age, height,  body fat, muscle mass, and steps taken each day.</p>
 <p>Let’s use our imaginary friend Paul as an example. Paul’s stats are: </p>
 <ul>
@@ -716,7 +717,7 @@ The table below outlines:</p>
 <blockquote>
 <p>80 kg &times; 30 base value = 2400 calorie <a class="no-ul" href="#tdee" title="What does TDEE mean?">TDEE</a></p>
 </blockquote>
-<p>Below I explain the specifics of how each factor affects your base value.</p>
+<p>Below I explain the specifics of how each factor affects your base value. Note that the <a href="/calorie-calculator/" target="_blank" title="Leangains Calorie and Macro Calculator">calorie calculator</a> automatically does this math for you. This is just an explanation of the logic behind the calculator, for those interested.</p>
 <h4 id="age">Age</h4>
 <p>Your age alters your base value in the following way:</p>
 <ul id="ul-nm8">
@@ -776,7 +777,7 @@ The table below outlines:</p>
 </ul>
 <p>Note that <em>Very Muscular</em> is only applicable to males. Martin recommends that those with a Fat-Free Mass Index (FFMI) &gt;22 choose <em>Muscular</em>. For <em>Very Muscular</em>, your FFMI should be &gt;24. </p>
 <p>There is no FFMI recommendation for women – women can use <em>Muscular</em> at their own discretion.</p>
-<h4 id="goal-lg">Goal (LG-specific)</h4>
+<h4 id="goal-lg">Goal (Leangains specific)</h4>
 <p>Your goal calories deviate from your <a href="#tdee" target="_blank" title="What does TDEE mean?">TDEE</a> depending on your gender, and whether you’re cutting or bulking. Either way it is a constant number (<em>as opposed to a percentage</em>).</p>
 <p>For men, a &#177;500 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
 <p>For women, a &#177;350 calorie deficit/surplus depending on whether you’re cutting or bulking. </p>
@@ -791,11 +792,11 @@ The table below outlines:</p>
 <li>Add another +0.5 for every 1250 step increment above 7500 steps </li>
 </ul>
 <p>For example, someone taking 9000 steps each day would add 1.5 to their base value.</p>
-<h4 id="how-much-protein-lg">How much Protein? (LG-specific)</h4>
-<p>The Leangains Method recommends getting as close to 60% of your calorie intake from protein as you can. This <strong><em>extremely</em></strong> high protein recommendation is to reap benefits <em>outside</em> of pure muscle building. Namely protein’s high TEF (Thermic Effect of Food), as well as the added difficulty of making poor food choices when you’re eating a high protein diet. </p>
+<h4 id="how-much-protein-lg">How much Protein? (Leangains specific)</h4>
+<p><a title="Amazon: The Leangains Method" target="_blank" href="https://amzn.to/2nM1zUH">The Leangains Method</a> recommends getting as close to 60% of your calorie intake from protein as you can. This <strong><em>extremely</em></strong> high protein recommendation is to reap benefits <em>outside</em> of pure muscle building. Namely protein’s high TEF (Thermic Effect of Food), as well as the added difficulty of making poor food choices when you’re eating a high protein diet. </p>
 <p>Martin himself finds 55% protein to be his sweet spot. He notes that if you find 60% protein too restrictive then you can drop it down to 50% – which he believes is doable. </p>
 <p>If you still think this protein intake is too high, then consider switching the “<em>Diet</em>” dropdown of the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator</a> to “<em>Standard</em>” and selecting a lower protein intake of 0.82g/pound or 1g/pound. This gives you more leeway with your other macros while still provides enough protein for muscle building. More information on protein intakes <a href="#how-much-protein" target="_blank" title="How much Protein?">here</a>.</p>]]></description>
-        <pubDate>Tue Aug 21 2018 08:44:05 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Fri Aug 24 2018 10:21:49 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://musclehacking.com/blog/[object Object]</guid>
       </item>
