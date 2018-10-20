@@ -213,10 +213,10 @@ html {
 .post-header{
   margin-top: 20px;
 }
-h1, h2, h3, h4 {
+h1,h2,h3,h4,h5{
   font-weight: 600;
 }
-h1, h2, h3, h4 {
+h1,h2,h3,h4,h5{
   --x-height-multiplier:0.342;
   --baseline-multiplier:0.22;
 }
@@ -226,29 +226,38 @@ h1{
   line-height: 1.04;
   letter-spacing: -.015em;
 }
-h3 {
+h3{
  font-size:40px;
  margin: 42px 0 0 -2.13px;
  line-height:1.15;
  letter-spacing:-.015em
 }
-h4 {
+h4, h5{
  font-size:32px;
  margin: 30px 0 0 -1.63px;
  line-height:1.22;
  letter-spacing:-.012em
 }
-h3 + h4 {
+h5{
+  font-size:28px;
+}
+h3 + h4,h3 + h5{
   margin-top: 20px
 }
 /* To allow proper hashing */
-h3::before, h4::before {
+h3::before,h4::before,h5::before,#whey-hydrolysate::before {
   display: block;
   content: " ";
   margin-top: -90px;
   height: 90px;
   visibility: hidden;
   pointer-events: none;
+}
+.ol-pad{
+  padding-left: 1em
+}
+.li-pad{
+  padding-left: 10px
 }
 .post-body>ul, .post-body>ol {
   margin: 29px 0 0 0;
@@ -400,7 +409,7 @@ figure {
 article div.post-body h3+p {
   margin-top: 8px
 }
-article div.post-body h4+p {
+article div.post-body h4+p, article div.post-body h5+p {
   margin-top: 6px
 }
 .widget, .textwidget {
@@ -478,7 +487,7 @@ article div.post-body h4+p {
   unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
 }
 /* Body */
-body {
+body{
   padding-top: 70px;
   --x-height-multiplier: 0.375;
   --baseline-multiplier: 0.17;
@@ -514,6 +523,15 @@ body {
 }
 picture {
   margin-top: 29px
+}
+.ref{
+  font-size: 17px
+}
+.ref-list>.ref{
+  margin-left: 1.4em
+}
+.post-body>.ref-list{
+  margin-top: 8px
 }
 /* Apply Anti-margin for post thumbnail */
 figure figcaption {
@@ -674,20 +692,70 @@ article div.post-body blockquote p:last-child {
     box-sizing: border-box;
 }
 /* Table Spacing */
-#gz-table, #ho-table{
+#gz-table, #ho-table, #ps-table{
   margin-top:30px
+}
+#ps-table{
+  text-align: center
 }
 .table .thead-dark th {
   border: none;
 }
+.table thead th {
+  border-bottom: none
+}
+.table td {
+  border-top: 1px solid #fff
+}
+#whey{
+  border-top: 1px solid #dee2e6
+}
+#ps-col1{
+  width: 30%; 
+  min-width: 180px
+}
+#ps-col6 {
+  width: 14%;
+  min-width: 110px
+}
+#ps-row>th {
+  background: #eee;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#eee));
+  background: -moz-linear-gradient(top, #f6f6f6, #eee);
+  text-shadow: 0 1px 0 #fff;
+}
+#ps-table td{
+  border: none;
+  border-right: 1px solid #dee2e6;
+}
+#ps-table>tbody>.b-hover>.end{
+  border-right: none;
+}
+.b-hover {
+  border-top: 1px solid #dee2e6;
+}
+#ps-table>tbody>.b-hover>.r-alg{
+  text-align: right;
+  border-top: 1px solid transparent;
+}
+.b-hover:hover{
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important; 
+  /* box-shadow: 0 10px 50px 2px rgba(0,41,96,.32); */
+}
+.b-hover:hover .r-alg{
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+}
 #th-1,#th-2,#th-3,#th-4,#th-5,#th-6,#th-7{
-  border-right: 1px solid #ffffff;
+  border-right: 1px solid #fff;
   padding: 5px;
   background-color: #1F618D;
   vertical-align: middle;
   text-align: center;
   height: 80px;
-  border-color:#ffffff
+  border-color:#fff
 }
 #th-5{
   background-color: #7bd17b;
@@ -695,17 +763,32 @@ article div.post-body blockquote p:last-child {
 #th-6{
   background-color: #f2bb3a;
 }
-#th-7{
+#th-7 {
   background-color: #ffa3a3;
 }
-#tr-5{
+#tr-5 {
   background-color: #7bd17b96;
+}
+.gre1{
+  background-color: #7bd17bbd;
+}
+.gre2{
+  background-color: #6fd16f;
 }
 #tr-6{
   background-color: #f2bb3a8a;
 }
+.ye1{
+  background-color: #f2bb3a9d;
+}
 #tr-7{
   background-color: #ffa3a394;
+}
+.re1{
+  background-color: #ff67679d;
+}
+.re2{
+  background-color: #ff6767d7;
 }
 #t-li1,#t-li2,#t-li3 {
   -webkit-margin-before: 0em;
@@ -721,7 +804,7 @@ article div.post-body blockquote p:last-child {
 .table td, .table th {
   padding: .5rem;
 }
-p>em>a,p>a, li>em>a, .post-body>ul>li>a{
+p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a{
   color: rgba(0,0,0,.84);
   -webkit-text-decoration: underline #1F618D;
   text-decoration: underline #1F618D;
@@ -736,6 +819,9 @@ li>a{
 }
 .no-ul{
   text-decoration: none !important;
+}
+#no-ul1,#no-ul2{
+  text-decoration: none;
 }
 p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor:hover,.no-ul:hover{
   color: #1F618D;
@@ -835,7 +921,7 @@ p.figurecap>a:hover{
   }
 }
 @media screen and (max-width: 767px) {
-  body {
+  body{
     font-size: 18px;
     line-height: 1.58;
     letter-spacing: -.004em;
@@ -850,6 +936,9 @@ p.figurecap>a:hover{
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
+  .ref {
+    font-size: 14px
+  }
   blockquote{
   padding-left: 17px;
   margin: 21px 0 0 -20px;
@@ -858,18 +947,22 @@ p.figurecap>a:hover{
   font-size: 36px;
   margin-left: -2.13px;
   }
-  h3 {
+  h3{
    font-size:32px;
    margin-left:-1.88px;
    line-height:1.15;
    margin-top: 28px
   }
-  h4 {
+  h4,h5{
     font-size:26px;
     margin-left:-1.5px;
     line-height:1.22;
     margin-top:22px
    }
+  h5{
+  font-size:23px;
+  margin-top:20px
+  }
   .main:hover{
   border-left: 6px solid #1F618D;
   }
@@ -903,6 +996,12 @@ p.figurecap>a:hover{
   }
   .input-group-std{
     min-width: 62px;
+  }
+  #ps-col1{
+    min-width: 175px
+  }
+  #ps-col6 {
+    min-width: 100px
   }
 }
 /* This is just before .navbar-expand-sm opens. If you change "sm", change this width accordingly */
