@@ -758,7 +758,7 @@ article div.post-body blockquote p:last-child {
   border-color:#fff
 }
 #th-5{
-  background-color: #7bd17b;
+  background-color: #76c576;
 }
 #th-6{
   background-color: #f2bb3a;
@@ -767,28 +767,31 @@ article div.post-body blockquote p:last-child {
   background-color: #ffa3a3;
 }
 #tr-5 {
+  background-color: #ade0ad;
   background-color: #7bd17b96;
 }
-.gre1{
-  background-color: #7bd17bbd;
-}
-.gre2{
-  background-color: #6fd16f;
-}
 #tr-6{
+  background-color: #f3dba2;
   background-color: #f2bb3a8a;
 }
-.ye1{
-  background-color: #f2bb3a9d;
-}
 #tr-7{
+  background-color: #ffc9c9;
   background-color: #ffa3a394;
 }
+.gre1{
+  background-color: #98db98
+}
+.gre2{
+  background-color: #6fd16f
+}
+.ye1{
+  background-color: #fdd67a
+}
 .re1{
-  background-color: #ff67679d;
+  background-color: #ffaeae
 }
 .re2{
-  background-color: #ff6767d7;
+  background-color: #ff8080
 }
 #t-li1,#t-li2,#t-li3 {
   -webkit-margin-before: 0em;
