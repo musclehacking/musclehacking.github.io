@@ -40,9 +40,10 @@
 
 <p>Shows that the protein powder has approximately 81% protein by calories. That’s calculated via:</p>
 <blockquote>
-<p>78.9 protein &times; 4 kcal per g protein &ap; 316 kcal</p>
-<p>316 kcal / 390 kcal &times; 100 = 81% </p>
+<p>78.9 g of protein &times; 4 kcal per g protein &ap; 316 kcal</p>
+<p>( 316 kcal / 390 kcal ) &times; 100 = 81% </p>
 </blockquote>
+<p>(You can use this <a href="/calorie-calculator/" target="_blank" title='Calorie and Macro Calculator'>calorie and macro calculator</a> to estimate how much protein you should eat each day)</p>
 <p>Different protein powders have very different levels of protein content. From as low as 60% protein to above 95% protein, the range is huge.</p>
 <p>The variation in protein percentage depends on two factors:</p>
 <ul id="ul-nm1"class="ol-pad">
@@ -86,12 +87,12 @@
 <li><strong>Unessential Amino Acids</strong> are amino acids naturally made by your body. 11 of the 20 amino acids are “<em>unessential</em>”.</li>
 <li><strong>Essential Amino Acids (EAAs)</strong> are amino acids that aren’t made by your body, which instead need to be consumed as part of your diet. 9 of the 20 amino acids are “<em>essential</em>”.</li>
 </ul>
-<p>3 of those 9 EAAs are categorised as <em>Branched-Chain Amino Acids</em> – or BCAAs for short. <a href="#leucine" title='Studies on BCAA’s role in muscle building' target='_blank'>These have been found</a> to be particularly important for building muscle.</p>
+<p>3 of those 9 EAAs are categorised as <em>Branched-Chain Amino Acids</em> – or BCAAs for short. <a href="#leucine" title='Studies on BCAA’s role in muscle building' target='_blank' rel="noopener">These have been found</a> to be particularly important for building muscle.</p>
 <p><strong>Leucine</strong> is the most powerful BCAA, and the single most important nutrient for building muscle. There is a <a href="#leucine" title='Studies on leucine’s role in muscle building' target='_blank'>lot of research</a> demonstrating the importance of leucine in muscle building. </p>
 <p>By definition, EAAs need to be consumed as part of your diet. And if there were any part of your diet you would expect to get your EAAs, it would be your protein supplements. </p>
 <p>Here’s the thing: <strong>the <em>type</em> and <em>amount</em> of amino acids will depend on the type of protein.</strong></p>
 <p>Not all protein was made equal. 10g of protein from eggs is going to have a completely different amino acid composition than 10g of protein from spinach.</p>
-<p>As a visual example, the graph below compares the EAA content of whey protein vs rice protein. The data was taken from <a href="https://www.ncbi.nlm.nih.gov/pubmed/23782948" target='_blank' title='The Effects of 8 Weeks of Whey or Rice Protein Supplementation on Body Composition and Exercise Performance'>this study</a> comparing whey protein to rice protein.</p>
+<p>As a visual example, the graph below compares the EAA content of whey protein vs rice protein. The data was taken from <a href="https://www.ncbi.nlm.nih.gov/pubmed/23782948" target='_blank' rel="noopener" title='The Effects of 8 Weeks of Whey or Rice Protein Supplementation on Body Composition and Exercise Performance'>this study</a> comparing whey protein to rice protein.</p>
 <picture class="intrinsic intrinsic--55">
   <img class="intrinsic-item" src="/img/whey-protein-vs-rice-protein.png" alt="Graph comparing the essential amino acid content of whey protein versus rice protein.">
 </picture><p class ="figurecap"> Essential Amino Acid Composition of Whey Protein vs Rice Protein </p>
@@ -127,7 +128,7 @@
 <p>Slight issue though – <strong>it doesn’t work like that</strong>. </p>
 <p>For two main reasons: </p>
 <ol class="ol-pad">
-<li class="li-pad"><strong>The post-workout anabolic window has been <a class="anchor" href="https://www.ncbi.nlm.nih.gov/pubmed/23360586" title="Nutrient timing revisited: is there a post-exercise anabolic window?" target="_blank">revealed to be irrelevant to most lifters.</a></strong>
+<li class="li-pad"><strong>The post-workout anabolic window has been <a class="anchor" href="https://www.ncbi.nlm.nih.gov/pubmed/23360586" title="Nutrient timing revisited: is there a post-exercise anabolic window?" target="_blank" rel="noopener">revealed to be irrelevant to most lifters.</a></strong>
 </li>
 <li class="li-pad"><strong>Whey hydrolysate has been shown to be <em>less effective</em> in building muscle.</strong>
 </li>
@@ -135,7 +136,7 @@
 
 
 <p>That’s right. </p>
-<p><a href="https://www.sciencedirect.com/science/article/pii/S0958694613001787 " title="Hydrolysed whey protein reduces muscle damage markers in Brazilian elite soccer players compared with whey protein and maltodextrin. A twelve-week in-championship intervention" target="_blank">In a 2013 study</a>, athletes consumed either whey protein concentrate (WPC), whey protein hydrolysate (WPH), or pure sugar. </p>
+<p><a href="https://www.sciencedirect.com/science/article/pii/S0958694613001787 " title="Hydrolysed whey protein reduces muscle damage markers in Brazilian elite soccer players compared with whey protein and maltodextrin. A twelve-week in-championship intervention" target="_blank" rel="noopener">In a 2013 study</a>, athletes consumed either whey protein concentrate (WPC), whey protein hydrolysate (WPH), or pure sugar. </p>
 <p>The scientists found that WPH decreased muscle damage more than either WPC or the sugar.</p>
 <p>This sounds like something we would want, <strong>but it’s not</strong>. </p>
 <p>Since muscle damage is actually necessary for muscle growth to occur, WPH had a <strong>negative effect</strong> on body composition. </p>
@@ -352,7 +353,7 @@
 <p>&dagger; There is a large variation in the protein percentage of Whey Concentrate, although it is typically above 75%.</p>
 <p>&#9824; Milk protein is 80% casein protein and 20% whey protein.</p>
 <p>&circ; The incredibly fast digestion of Whey Hydrolysate may negatively impact muscle building. See discussion in <a href="#whey-hydrolysate" title='Whey hydrolysate vs whey isolate'>Speed Of Digestion</a>.</p>
-<p>That’s it for this post. If you found this useful, don’t forget to share it on <a href="https://www.facebook.com/sharer/sharer.php?u=https://musclehacking.com/blog/best-protein-for-building-muscle" target="_blank" title='Share on Facebook'>Facebook</a> or <a href="https://twitter.com/intent/tweet?text=Interesting+read:%20https://musclehacking.com/blog/best-protein-for-building-muscle%20via%20@musclehacking" target="_blank" title='Share on Twitter'>Twitter</a>.</p>
+<p>That’s it for this post. If you found it useful, consider sharing it on <a href="https://www.facebook.com/sharer/sharer.php?u=https://musclehacking.com/blog/best-protein-for-building-muscle" target="_blank" title='Share on Facebook'>Facebook</a> or <a href="https://twitter.com/intent/tweet?text=Interesting+read:%20https://musclehacking.com/blog/best-protein-for-building-muscle%20via%20@musclehacking" target="_blank" title='Share on Twitter'>Twitter</a>.</p>
 <h3 id="notes">Notes for Nerds</h3>
 <h5 id="">On BCAA and Leucine Content</h5>
 
@@ -431,7 +432,7 @@ A. A. Aragon and B. J. Schoenfeld, “<a href="https://www.ncbi.nlm.nih.gov/pubm
 <li class="ref">J. D. House, J. Neufeld, and G. Leson, “<a href="https://www.ncbi.nlm.nih.gov/pubmed/20977230" target="_blank">Evaluating the quality of protein from hemp seed (Cannabis sativa L.) products through the use of the protein digestibility-corrected amino acid score method.</a>,” <em>Journal of Agricultural and Food Chemistry</em>, vol. 58, no. 22, pp. 11801–11807, 2010.</li> 
 <li class="ref">C. J. Detzel, B. W. Petschow, N. Johnson, and E. M. Weaver, “<a href="https://www.ffhdj.com/index.php/ffhd/article/view/308" target="_blank">Comparison of the Amino Acid and Peptide Composition and Postprandial Response of Beef, Chicken, and Whey Protein Nutritional Preparations</a>,” <em>Functional Foods in Health and Disease</em>, vol. 6, no. 10, pp. 612–626, 2016.</li> 
 </ol>]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -623,7 +624,7 @@ A. A. Aragon and B. J. Schoenfeld, “<a href="https://www.ncbi.nlm.nih.gov/pubm
 <p>&#9824; Figs and mangoes are on the line between Healthy and Golden Zone.</p>
 <p>&dagger; These foods are on the line between Healthy and Golden Zone. The final decision as Healthy/Golden Zone was made by considering how filling a standard serving size is relative to comparable Healthy/Golden Zone foods. For example, comparing the calories and satiation for a serving of brown rice vs. a serving of oats.</p>
 ]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -715,7 +716,7 @@ A. A. Aragon and B. J. Schoenfeld, “<a href="https://www.ncbi.nlm.nih.gov/pubm
 <p>In short: the Australian Health Star Rating system is a castle in the air, connected to the ground by thin strings of nutritional science. </p>
 <p>Don’t rely on it for anything other than a good laugh.</p>
 ]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -891,7 +892,7 @@ The table below outlines:</p>
 <p>I was dumbfounded when I first started flipping around boxes and reading the ingredients and nutrition panel of so-called “<em>healthy foods</em>”.</p>
 <p>If a lot of what you’ve just read is new to you – you have been warned.</p>
 ]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -997,7 +998,7 @@ The table below outlines:</p>
 <p>There is also emerging evidence that <a href="https://www.ncbi.nlm.nih.gov/pubmed/26094889 " target="_blank" title="A Periodic Diet that Mimics Fasting Promotes Multi-System Regeneration, Enhanced Cognitive Performance, and Healthspan">fasting can help you live longer</a>. Intermittent fasting and longevity will be explored more in another post. </p>
 <p>If you’re currently fit, healthy, have plenty of spare time, and have no trouble staying focused, then keep on doing what you’re doing. But if you want to improve in any of these areas, then consider intermittent fasting. </p>
 ]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>
@@ -1236,7 +1237,7 @@ The table below outlines:</p>
 <p><a title="Amazon: The Leangains Method" target="_blank" href="https://amzn.to/2nM1zUH">The Leangains Method</a> recommends getting as close to 60% of your calorie intake from protein as you can. This <strong><em>extremely</em></strong> high protein recommendation is to reap benefits <em>outside</em> of pure muscle building. Namely protein’s high TEF (Thermic Effect of Food), as well as the added difficulty of making poor food choices when you’re eating a high protein diet. </p>
 <p>Martin himself finds 55% protein to be his sweet spot. He notes that if you find 60% protein too restrictive then you can drop it down to 50% – which he believes is doable. </p>
 <p>If you still think this protein intake is too high, then consider switching the “<em>Diet</em>” dropdown of the <a href="/calorie-calculator/" target="_blank" title="Calorie and Macro Calculator">calorie calculator</a> to “<em>Standard</em>” and selecting a lower protein intake of 0.82g/pound or 1g/pound. This gives you more leeway with your other macros while still provides enough protein for muscle building. More information on protein intakes <a href="#how-much-protein" target="_blank" title="How much Protein?">here</a>.</p>]]></description>
-        <pubDate>Wed Nov 14 2018 00:26:39 GMT+0800 (Australian Western Standard Time)</pubDate>
+        <pubDate>Thu Nov 15 2018 22:53:54 GMT+0800 (Australian Western Standard Time)</pubDate>
         <link>https://www.musclehacking.com/blog/[object Object]</link>
         <guid isPermaLink="true">https://www.musclehacking.com/blog/[object Object]</guid>
       </item>

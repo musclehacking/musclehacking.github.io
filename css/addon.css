@@ -872,13 +872,17 @@ article div.post-body blockquote p:last-child {
 }
 p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a, #email{
   color: rgba(0,0,0,.84);
-  -webkit-text-decoration: underline #1F618D;
-  text-decoration: underline #1F618D;
+  /* -webkit-text-decoration: underline #1F618D;
+  text-decoration: underline #1F618D; */
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 0 #1F618D;
 }
 .anchor{
   color: rgba(0,0,0,.84);
-  -webkit-text-decoration: underline #1F618D;
-  text-decoration: underline
+  /* -webkit-text-decoration: underline #1F618D;
+  text-decoration: underline */
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 0 #1F618D;
 }
 li>a{
   color: rgba(0,0,0,.84);
@@ -891,6 +895,8 @@ li>a{
 }
 p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor:hover,.no-ul:hover,#email:hover{
   color: #1F618D;
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 0 #1F618D;
 }
 p.figurecap>a {
   color: rgba(255, 255, 255, 0.8);
