@@ -410,15 +410,13 @@ blockquote{
   margin-left: 1.5em;
 }
 .main, .side-a{
-  color: #333;
-  font-weight: 400;
   text-decoration: none;
   -webkit-transition-property: color;
   transition-property: color;
   -webkit-transition-duration: .25s;
   transition-duration: .25s;
   -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
+  animation-timing-function: linear
 }
 .side-a:hover {
   color: #1F618D;
@@ -426,7 +424,7 @@ blockquote{
   transition-timing-function: ease-in-out;
   -webkit-transition: 50ms;
   -webkit-transition-timing-function: ease-in-out;
-  text-decoration: none;
+  text-decoration: none
 }
 .main:hover {
   color: #1F618D;
@@ -872,15 +870,14 @@ article div.post-body blockquote p:last-child {
 }
 p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a, #email{
   color: rgba(0,0,0,.84);
-  /* -webkit-text-decoration: underline #1F618D;
-  text-decoration: underline #1F618D; */
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D;
 }
+#email{
+  box-shadow: inset 0 -1px 0 0 #1F618D;
+}
 .anchor{
   color: rgba(0,0,0,.84);
-  /* -webkit-text-decoration: underline #1F618D;
-  text-decoration: underline */
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D;
 }
@@ -897,6 +894,9 @@ p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor
   color: #1F618D;
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D
+}
+#email:hover{
+  box-shadow: inset 0 -1px 0 0 #1F618D;
 }
 .nav-link:focus, .nav-link:hover{
   box-shadow: none
