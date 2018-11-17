@@ -891,12 +891,15 @@ li>a{
   text-decoration: none !important;
 }
 #no-ul1,#no-ul2{
-  text-decoration: none;
+  text-decoration: none
 }
 p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor:hover,.no-ul:hover,#email:hover{
   color: #1F618D;
   text-decoration: none;
-  box-shadow: inset 0 -2px 0 0 #1F618D;
+  box-shadow: inset 0 -2px 0 0 #1F618D
+}
+.nav-link:focus, .nav-link:hover{
+  box-shadow: none
 }
 p.figurecap>a {
   color: rgba(255, 255, 255, 0.8);
