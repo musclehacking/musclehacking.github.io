@@ -873,6 +873,10 @@ p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a, #email{
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D;
 }
+.main{
+  color: rgba(0,0,0,.84);
+  text-decoration: none
+}
 #email{
   box-shadow: inset 0 -1px 0 0 #1F618D;
 }
