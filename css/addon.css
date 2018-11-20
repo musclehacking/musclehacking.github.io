@@ -466,6 +466,7 @@ figure {
   margin-bottom:0px;
   margin-top: 29px;
   overflow-wrap: break-word;
+  line-height: 35px
 }
 article div.post-body h3+p {
   margin-top: 8px
@@ -802,8 +803,7 @@ article div.post-body blockquote p:last-child {
 .b-hover:hover{
   background-color: rgba(0, 0, 0, 0.2);
   border-top: 1px solid black !important;
-  border-bottom: 1px solid black !important; 
-  /* box-shadow: 0 10px 50px 2px rgba(0,41,96,.32); */
+  border-bottom: 1px solid black !important
 }
 .b-hover:hover .r-alg{
   border-top: 1px solid black !important;
@@ -979,8 +979,15 @@ p.figurecap>a:hover{
     border-left: 6px solid #1F618D;
   }
   #toprow, #toprow2{
-    margin-top: 0;
+    margin-top: 0
    }
+}
+@media screen and (max-width: 1700px) {
+  @media screen and (min-width: 992px) {
+  .offset-xl-2{
+    margin-left: 8.333333%
+  }
+}
 }
 @media screen and (max-width: 767px) {
   body{
@@ -1061,7 +1068,7 @@ p.figurecap>a:hover{
     margin: 1.5em auto .5em;
     border: 1px solid #1F618D;
     border-radius: 50px;
-    padding: 5px;
+    padding: 5px
   }
   #copyB {
     margin-bottom: .7rem;
