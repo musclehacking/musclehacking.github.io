@@ -871,7 +871,7 @@ article div.post-body blockquote p:last-child {
 .table td, .table th {
   padding: .5rem;
 }
-p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a, #email{
+p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a{
   color: rgba(0,0,0,.84);
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D;
@@ -879,9 +879,6 @@ p>em>a,p>a,li>em>a,.post-body>ul>li>a,.ref>a, #email{
 .main{
   color: rgba(0,0,0,.84);
   text-decoration: none
-}
-#email{
-  box-shadow: inset 0 -1px 0 0 #1F618D;
 }
 .anchor{
   color: rgba(0,0,0,.84);
@@ -897,13 +894,10 @@ li>a{
 #no-ul1,#no-ul2{
   text-decoration: none
 }
-p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor:hover,.no-ul:hover,#email:hover{
+p>em>a:hover,p>a:hover,li>em>a:hover,.post-body>ul>li>a:hover,li>a:hover,.anchor:hover,.no-ul:hover{
   color: #1F618D;
   text-decoration: none;
   box-shadow: inset 0 -2px 0 0 #1F618D
-}
-#email:hover{
-  box-shadow: inset 0 -1px 0 0 #1F618D;
 }
 .nav-link:focus, .nav-link:hover{
   box-shadow: none
