@@ -1,3 +1,8 @@
+/* Youtube video styling */
+.video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
 /* App Styling */
 #calc-break{
   display: none
