@@ -1,3 +1,12 @@
+/* Change Selection Colour */
+::selection {
+  background-color: #c2dced;
+  background-color: #2f8fd032
+}
+::-moz-selection {
+  background-color: #c2dced;
+  background-color: #2f8fd032
+}
 /* Youtube video styling */
 .video {
   aspect-ratio: 16 / 9;
