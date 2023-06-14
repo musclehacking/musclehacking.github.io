@@ -1,0 +1,110 @@
+.media {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.media .media-figure {
+  width: 25%;
+  margin-right: 2%;
+  max-width: 200px;
+  min-width: 100px;
+}
+.intrinsic {
+  display: block;
+  position: relative;
+  height: 0;
+  width: 100%;
+  padding-top: 100%;
+  background: #f0f0f0;
+}
+.intrinsic.intrinsic--square {
+  padding-top: 100%;
+}
+.intrinsic.intrinsic--4x3 {
+  padding-top: 75%;
+}
+.intrinsic.intrinsic--16x9 {
+  padding-top: 56.25%;
+}
+.intrinsic.intrinsic--16x10 {
+  padding-top: 62.5%;
+}
+.intrinsic.intrinsic--70 {
+  padding-top: 70%;
+}
+.intrinsic.intrinsic--55 {
+  padding-top: 55%;
+}
+.intrinsic.intrinsic--2 {
+  padding-top: 56.3194444%;
+}
+.intrinsic.intrinsic--3 {
+  padding-top: 126.2599469496021%;
+}
+.intrinsic.intrinsic--new {
+  padding-top: 77.7795%;
+}
+.intrinsic.intrinsic--new2 {
+  padding-top: 56%;
+}
+.intrinsic.intrinsic--new3 {
+  padding-top: 56.85%;
+}
+.intrinsic.intrinsic--new4 {
+  padding-top: 55.7143%;
+}
+.intrinsic.intrinsic--new5 {
+  padding-top: 82.8125%;
+}
+.intrinsic.intrinsic--new6 {
+  padding-top: 53.90625%;
+}
+.intrinsic.intrinsic--new7 {
+  padding-top: 67.79935275%;
+}
+.intrinsic.intrinsic--new8 {
+  padding-top: 73.63945578%;
+}
+.intrinsic.intrinsic--new9 {
+  padding-top: 63.94557823%;
+}
+.intrinsic.intrinsic--new10 {
+  padding-top: 56.640625%;
+}
+.intrinsic.intrinsic--new11 {
+  padding-top: 57.089829%;
+}
+.intrinsic.intrinsic--new12 {
+  padding-top: 66.7142857%;
+}
+.intrinsic.intrinsic--new13 {
+  padding-top: 54.2%;
+}
+.intrinsic.intrinsic--new14 {
+  padding-top: 76.6%;
+}
+.intrinsic.intrinsic--new15 {
+  padding-top: 78.005%;
+}
+.intrinsic.intrinsic--new16 {
+  padding-top: 57.142857%;
+}
+.intrinsic.intrinsic--new16 {
+  padding-top: 57.142857%;
+}
+.intrinsic.intrinsic--new17 {
+  padding-top: 51.57142857%
+}
+
+.intrinsic.intrinsic--head {
+  padding-top: 60%;
+}
+.intrinsic .intrinsic-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
