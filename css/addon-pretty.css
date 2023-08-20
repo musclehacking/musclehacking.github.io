@@ -440,6 +440,7 @@ h1 {
 }
 #h2-how,
 h1,
+.normalize-headings h2,
 h3 {
   letter-spacing: -0.015em;
 }
@@ -456,11 +457,14 @@ h1 {
 #h2-how {
   font-size: 42px;
 }
-h3 {
+h3,
+.normalize-headings h2 {
   font-size: 40px;
   margin: 42px 0 0-2.13px;
   line-height: 1.15;
 }
+
+.normalize-headings h3,
 #toc-h,
 h4,
 h5 {
@@ -469,10 +473,12 @@ h5 {
   line-height: 1.22;
   letter-spacing: -0.012em;
 }
+.normalize-headings h4,
 h5 {
   font-size: 28px;
 }
 #whey-hydrolysate::before,
+.normalize-headings h2::before,
 h3::before,
 h4::before,
 h5::before {
@@ -1145,6 +1151,7 @@ article div.post-body blockquote p:last-child {
 .table th {
   padding: 0.5rem;
 }
+.markdown-alert a,
 #gz-table a,
 .calc-info a,
 .post-body > ol > li > a,
@@ -1179,6 +1186,7 @@ p > em > a {
 #no-ul2 {
   text-decoration: none;
 }
+.markdown-alert a:hover,
 #gz-table a:hover,
 .anchor:hover,
 .calc-info a:hover,
@@ -1275,7 +1283,7 @@ p.figurecap > a:hover {
     border: 0;
   }
 }
-@media (max-width: 995px) {
+@media (max-width: 1360px) {
   #brand-collapse {
     display: none;
   }
@@ -1292,6 +1300,15 @@ p.figurecap > a:hover {
     margin-top: 0;
   }
 }
+@media screen and (max-width: 678px) {
+  @media screen and (min-width: 576px) {
+    #soc-nav {
+     display: none
+    }
+  }
+}
+
+
 @media screen and (max-width: 1700px) {
   @media screen and (min-width: 992px) {
     .offset-xl-2 {
@@ -1324,7 +1341,7 @@ p.figurecap > a:hover {
   }
   blockquote {
     padding-left: 17px;
-    margin: 21px 0 0-20px;
+    margin: 21px 0 0 -20px;
   }
   #h2-how,
   h1 {
