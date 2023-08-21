@@ -118,6 +118,39 @@
             pointer-events: none;
         }
 
+        /*? Control the popovers look*/
+        .popover {
+            border-radius: 10px;
+            font-family: muscle2, Georgia, Cambria, "Times New Roman", Times, serif;
+            font-size: 16px;
+            --tw-shadow: 0 10px 15px -3pxrgba(0, 0, 0, .1), 0 4px 6px -4pxrgba(0, 0, 0, .1);
+            --tw-shadow-colored: 0 10px 15px -3pxvar(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            box-shadow: 0 0 2px rgb(0 0 0 / 6%), 0 14px 32px rgb(0 0 0 / 12%);
+        }
+
+        .popover-header {
+            padding: 10px 14px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-weight: 600;
+            font-size: 18px;
+            margin: 0;
+            /* background-color: #D8BFD8; */
+            background-color: #94BEDE;
+            background-color: #397197;
+            color: #ffffff
+                /* line-height: 1.3; */
+        }
+
+        .popover-body {
+            padding: 10px 12px;
+        }
+
+        .popover-body>ul {
+            margin-bottom: 0
+        }
+
         article div.post-body h2+p {
             margin-top: 8px;
         }
@@ -742,7 +775,9 @@
                 <!-- Creatine -->
                 <div class="category"
                     data-category='[{"name": "brain-function", "efficacy": "medium"}, {"name": "muscle", "efficacy": "high"}]'>
-                    <h2 id="creatine">Creatine<span class="efficacy-tag"></span></h2>
+                    <h2 id="creatine">Creatine<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Creatine are—</p>
                     <ul>
@@ -838,7 +873,10 @@
                 <!-- Beta-Alanine -->
                 <div class="category"
                     data-category='[{"name": "longevity", "efficacy": "low"}, {"name": "muscle", "efficacy": "high"}]'>
-                    <h2 id="beta-alanine">Beta-Alanine<span class="efficacy-tag"></span></h2>
+                    <h2 id="beta-alanine">Beta-Alanine<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Beta-Alanine are—</p>
                     <ul>
@@ -906,7 +944,10 @@
                 </div>
                 <!-- Whey Protein -->
                 <div class="category" data-category='[{"name": "muscle", "efficacy": "high"}]'>
-                    <h2 id="whey-protein">Whey Protein<span class="efficacy-tag"></span></h2>
+                    <h2 id="whey-protein">Whey Protein<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Whey Protein are—</p>
                     <ul>
@@ -966,7 +1007,9 @@
                 <!-- Alpha GPC -->
                 <div class="category"
                     data-category='[{"name": "focus", "efficacy": "medium"}, {"name": "power-output", "efficacy": "medium"}]'>
-                    <h2 id="alpha-gpc">Alpha GPC<span class="efficacy-tag"></span></h2>
+                    <h2 id="alpha-gpc">Alpha GPC<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Alpha GPC are—</p>
                     <ul>
@@ -1052,7 +1095,10 @@
                 <!-- Ashwagandha -->
                 <div class="category"
                     data-category='[{"name": "mood", "efficacy": "medium"}, {"name": "muscle", "efficacy": "low"}, {"name": "relaxation", "efficacy": "medium"}, {"name": "sleep", "efficacy": "medium"}]'>
-                    <h2 id="ashwagandha">Ashwagandha<span class="efficacy-tag"></span></h2>
+                    <h2 id="ashwagandha">Ashwagandha<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Ashwagandha are—</p>
                     <ul>
@@ -1152,7 +1198,9 @@
                 <!-- Melatonin -->
                 <div class="category"
                     data-category='[{"name": "longevity", "efficacy": "low"}, {"name": "muscle", "efficacy": "low"}, {"name": "sleep", "efficacy": "high"}]'>
-                    <h2 id="melatonin">Melatonin<span class="efficacy-tag"></span></h2>
+                    <h2 id="melatonin">Melatonin<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Melatonin are—</p>
                     <ul>
@@ -1235,7 +1283,9 @@
                 <!-- L-Theanine -->
                 <div class="category"
                     data-category='[{"name": "focus", "efficacy": "medium"}, {"name": "relaxation", "efficacy": "medium"}, {"name": "sleep", "efficacy": "medium"}]'>
-                    <h2 id="l-theanine">L-Theanine<span class="efficacy-tag"></span></h2>
+                    <h2 id="l-theanine">L-Theanine<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of L-Theanine are—</p>
                     <ul>
@@ -1297,7 +1347,9 @@
                 <!-- Fish Oil -->
                 <div class="category"
                     data-category='[{"name": "brain-function", "efficacy": "medium"}, {"name": "joints", "efficacy": "medium"}, {"name": "mood", "efficacy": "medium"}, {"name": "muscle", "efficacy": "low"}]'>
-                    <h2 id="fish-oil">Fish Oil<span class="efficacy-tag"></span></h2>
+                    <h2 id="fish-oil">Fish Oil<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Fish Oil are—</p>
                     <ul>
@@ -1455,7 +1507,9 @@
                 <!-- Spirulina -->
                 <div class="category"
                     data-category='[{"name": "blood-pressure", "efficacy": "low"}, {"name": "cholesterol", "efficacy": "medium"}, {"name": "fatty-liver", "efficacy": "low"}, {"name": "glucose-control", "efficacy": "low"}, {"name": "longevity", "efficacy": "low"}, {"name": "muscle", "efficacy": "low"}]'>
-                    <h2 id="spirulina">Spirulina<span class="efficacy-tag"></span></h2>
+                    <h2 id="spirulina">Spirulina<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Spirulina are—</p>
                     <ul>
@@ -1522,7 +1576,10 @@
                 <!-- Ceylon Cinnamon -->
                 <div class="category"
                     data-category='[{"name": "cholesterol", "efficacy": "medium"}, {"name": "insulin-sensitivity", "efficacy": "medium"}]'>
-                    <h2 id="ceylon-cinnamon">Ceylon Cinnamon<span class="efficacy-tag"></span></h2>
+                    <h2 id="ceylon-cinnamon">Ceylon Cinnamon<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Ceylon Cinnamon are—</p>
                     <ul>
@@ -1573,7 +1630,9 @@
                 <!-- Curcumin -->
                 <div class="category"
                     data-category='[{"name": "brain-function", "efficacy": "low"}, {"name": "insulin-sensitivity", "efficacy": "medium"}, {"name": "joints", "efficacy": "medium"}]'>
-                    <h2 id="curcumin">Curcumin<span class="efficacy-tag"></span></h2>
+                    <h2 id="curcumin">Curcumin<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Curcumin are—</p>
                     <ul>
@@ -1682,7 +1741,9 @@
                 <!-- Collagen -->
                 <div class="category"
                     data-category='[{"name": "joints", "efficacy": "medium"}, {"name": "skin", "efficacy": "high"}]'>
-                    <h2 id="collagen">Collagen<span class="efficacy-tag"></span></h2>
+                    <h2 id="collagen">Collagen<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Collagen are—</p>
                     <ul>
@@ -1729,7 +1790,9 @@
                 <!-- Garlic -->
                 <div class="category"
                     data-category='[{"name": "blood-pressure", "efficacy": "low"}, {"name": "cardiovascular-health", "efficacy": "medium"}, {"name": "immune", "efficacy": "medium"}, {"name": "longevity", "efficacy": "low"}]'>
-                    <h2 id="garlic">Garlic<span class="efficacy-tag"></span></h2>
+                    <h2 id="garlic">Garlic<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Garlic are—</p>
                     <ul>
@@ -1811,7 +1874,10 @@
                 </div>
                 <!-- Mulberry Leaf Extract -->
                 <div class="category" data-category='[{"name": "glucose-control", "efficacy": "medium"}]'>
-                    <h2 id="mulberry-leaf-extract">Mulberry Leaf Extract<span class="efficacy-tag"></span></h2>
+                    <h2 id="mulberry-leaf-extract">Mulberry Leaf Extract<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Mulberry Leaf Extract are—</p>
                     <ul>
@@ -1871,7 +1937,9 @@
                 <!-- Vitamin D -->
                 <div class="category"
                     data-category='[{"name": "bone", "efficacy": "high"}, {"name": "immune", "efficacy": "high"}, {"name": "insulin-sensitivity", "efficacy": "medium"}, {"name": "mood", "efficacy": "medium"}]'>
-                    <h2 id="vitamin-d">Vitamin D<span class="efficacy-tag"></span></h2>
+                    <h2 id="vitamin-d">Vitamin D<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Vitamin D are—</p>
                     <ul>
@@ -1948,7 +2016,9 @@
                 <!-- Magnesium -->
                 <div class="category"
                     data-category='[{"name": "blood-pressure", "efficacy": "medium"}, {"name": "insulin-sensitivity", "efficacy": "medium"}, {"name": "test", "efficacy": "low"}]'>
-                    <h2 id="magnesium">Magnesium<span class="efficacy-tag"></span></h2>
+                    <h2 id="magnesium">Magnesium<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Magnesium are—</p>
                     <ul>
@@ -2093,7 +2163,9 @@
                 <!-- Zinc -->
                 <div class="category"
                     data-category='[{"name": "brain-function", "efficacy": "medium"}, {"name": "immune", "efficacy": "high"}, {"name": "test", "efficacy": "medium"}]'>
-                    <h2 id="zinc">Zinc<span class="efficacy-tag"></span></h2>
+                    <h2 id="zinc">Zinc<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Zinc are—</p>
                     <ul>
@@ -2219,7 +2291,9 @@
                 </div>
                 <!-- Probiotic -->
                 <div class="category" data-category='[{"name": "gut-health", "efficacy": "high"}]'>
-                    <h2 id="probiotic">Probiotic<span class="efficacy-tag"></span></h2>
+                    <h2 id="probiotic">Probiotic<span class="efficacy-tag" data-toggle="popover" title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Probiotic are—</p>
                     <ul>
@@ -2261,7 +2335,10 @@
                 </div>
                 <!-- Glucosamine -->
                 <div class="category" data-category='[{"name": "joints", "efficacy": "medium"}]'>
-                    <h2 id="glucosamine">Glucosamine<span class="efficacy-tag"></span></h2>
+                    <h2 id="glucosamine">Glucosamine<span class="efficacy-tag" data-toggle="popover"
+                            title="What is this?"
+                            data-content="This is the efficacy of the supplement based on current research."></span>
+                    </h2>
                     <h3>Primary Benefits</h3>
                     <p>Studies indicate that the key benefits of Glucosamine are—</p>
                     <ul>
@@ -3899,13 +3976,16 @@
         </nav>
     </div>
     <a href="#" id="back-to-top" title="Back to top" onclick="scrollToTop(1000);"></a>
-    <script defer src="/js/scroll.nojquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <script defer type="text/javascript" src="/js/popovers.min.js"></script>
+    <script defer type="text/javascript" src="/js/scroll.nojquery.min.js"></script>
 </body>
 
 </html>
