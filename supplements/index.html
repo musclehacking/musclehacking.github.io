@@ -24,12 +24,12 @@
     <!-- <link rel="stylesheet" href="/css/test.css"> -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120945323-1"></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-120945323-1')</script>
-    <title>Beyond the Hype: Supplement That Work | Muscle Hacking</title>
-    <meta property="og:title" content="Beyond the Hype: Supplement That Work | Muscle Hackinge">
+    <title>The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking</title>
+    <meta property="og:title" content="Beyond the Hype: Supplement That Work | Muscle Hacking">
     <meta name="description"
-        content="Your one-stop guide to supplements, distilled from 10+ years of rigorous scientific research. Gain muscle, lose the confusion.">
+        content="Amplify your muscle growth with a curated supplement stack, distilled from 10+ years of scientific research. Gain muscle, lose the confusion.">
     <meta property="og:description"
-        content="Your one-stop guide to supplements, distilled from 10+ years of rigorous scientific research. Gain muscle, lose the confusion.">
+        content="Amplify your muscle growth with a curated supplement stack, distilled from 10+ years of scientific research. Gain muscle, lose the confusion.">
     <!--! START ~~~~~ New code ~~~~ -->
     <style>
         .category {
@@ -179,6 +179,10 @@
 
         .supplements-parent a {
             cursor: pointer;
+        }
+
+        a.no-link-popover {
+            cursor: default;
         }
 
         /*! Merge this with existing styles */
@@ -654,7 +658,7 @@
     </svg>
     <article class="container normalize-headings">
         <div class="post-body supplements-parent">
-            <h1 id="blog-title">Supplements (That Actually Work)</h1>
+            <h1 id="blog-title">Muscle Building Supplement Stack (Based on Research)</h1>
             <p style="margin: 5px auto 0">By Jay — Posted August 2023</p>
             <div class="top-disclaimer">
                 <div class="markdown-alert markdown-alert-note">
@@ -680,7 +684,9 @@
             </div>
             <!-- Current -->
             <div class="button-container">
-                <button onclick="filterCategory(['muscle', 'power-output'])" class="btn btn-info active">Muscle
+                <button onclick="filterCategory(['muscle', 'power-output'])" class="btn btn-info active"
+                    data-toggle="popover"
+                    data-content="Supplements that increase either muscle growth or power output.">Muscle
                     Growth</button>
                 <button onclick=" filterCategory('sleep')" class="btn btn-info">Sleep</button>
                 <button onclick="filterCategory('joints')" class="btn btn-info">Joint Health</button>
@@ -688,8 +694,9 @@
                 <button onclick="filterCategory('test')" class="btn btn-info">Testosterone</button>
                 <button onclick="filterCategory('focus')" class="btn btn-info">Focus</button>
                 <button onclick="filterCategory('brain-function')" class="btn btn-info">Brain Function</button>
-                <button onclick="filterCategory(['insulin-sensitivity', 'glucose-control'])"
-                    class="btn btn-info">Insulin
+                <button onclick="filterCategory(['insulin-sensitivity', 'glucose-control'])" class="btn btn-info"
+                    data-toggle="popover"
+                    data-content="Supplements that improve either insulin sensitivity or glucose control.">Insulin
                     Sensitivity</button>
                 <button onclick="filterCategory('longevity')" class="btn btn-info">Longevity</button>
                 <button onclick="filterCategory('all')" class="btn btn-info show-all">Show All</button>
@@ -857,10 +864,10 @@
                     <h4>How it Works</h4>
                     <ul>
                         <li>Increases the overall pool of cellular phosphocreatine, accelerating the recycling of <a
-                                data-toggle="popover" data-html="true" title="What is ADP?"
+                                class="no-link-popover" data-toggle="popover" data-html="true" title="What is ADP?"
                                 data-content="ADP stands for Adenosine Diphosphate.<br><br>It’s formed when ATP releases energy, losing one phosphate group.<br><br>It can be converted back to ATP with the addition of a phosphate.">ADP</a>
                             into
-                            <a data-toggle="popover" data-html="true" title="What is ATP?"
+                            <a class="no-link-popover" data-toggle="popover" data-html="true" title="What is ATP?"
                                 data-content="ATP stands for Adenosine Triphosphate.<br><br>It’s the primary energy carrier in cells.<br><br>When ATP releases energy, it becomes ADP by shedding a phosphate group.">ATP</a>,
                             thereby
                             quickly replenishing cellular energy stores<a class="inl-ref"
@@ -895,15 +902,21 @@
                     <p>Some have conjectured that creatine may contributes to hair loss, based on one study where 20
                         male rugby
                         players experienced a slight
-                        increase in DHT after using creatine<a class="inl-ref"
-                            href="#creatine-ref-23"><sup>[23]</sup></a>.
+                        increase in <a class="no-link-popover" data-toggle="popover" data-html="true"
+                            title="What is DHT?"
+                            data-content="DHT stands for Dihydrotestosterone.<br><br>It’s a potent androgen hormone derived from testosterone.<br><br>Testosterone is converted to DHT by the enzyme 5-alpha reductase.">DHT</a>
+                        after using creatine<a class="inl-ref" href="#creatine-ref-23"><sup>[23]</sup></a>.
                     <p>DHT, a potent derivative of testosterone, can cause hair follicles to reduce in
                         size and halt
                         hair growth when it
                         connects to the follicles’ DHT receptors on the scalp<a class="inl-ref"
                             href="#creatine-ref-24"><sup>[24]</sup></a><a class="inl-ref"
                             href="#creatine-ref-25"><sup>[25]</sup></a>.</p>
-                    <p>Currently, this RCT is the only one to have tested creatine’s effects on DHT—but a number of RCTs
+                    <p>Currently, this <a class="no-link-popover" data-toggle="popover" data-html="true"
+                            title="What is RCT?"
+                            data-content="RCT stands for Randomized Controlled Trial.<br><br>It’s a type of scientific experiment that randomly assigns participants to treatment or control groups.<br><br>RCTs are considered the gold standard in study design due to their ability to minimize bias and determine cause-and-effect relationships.">RCT</a>
+
+                        is the only one to have tested creatine’s effects on DHT—but a number of RCTs
                         have analyzed creatine’s effects on testosterone. </p>
                     <p>Among 12 RCTs, two detected a marked rise in testosterone levels<a class="inl-ref"
                             href="#creatine-ref-26"><sup>[26]</sup></a><a class="inl-ref"
@@ -947,7 +960,8 @@
                     </ul>
                     <h3>Dosage</h3>
                     <p>Studies have investigated a range of 3.2–6.4 grams per day of beta-alanine. To avoid
-                        <a data-toggle="popover" data-html="true" title="What is paresthesia?" data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
+                        <a class="no-link-popover" data-toggle="popover" data-html="true" title="What is paresthesia?"
+                            data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
                                                 sensation uncomfortable.<br><br>It’s good to be aware of it, that way you’re not suprised when you
                                                 feel it after taking beta-alanine.">paresthesia</a>, a
                         dose of
@@ -959,7 +973,8 @@
                     <p>There are also sustained-release formulations available that permit the use of greater doses
                         without
                         the risk of
-                        <a data-toggle="popover" data-html="true" title="What is paresthesia?" data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
+                        <a class="no-link-popover" data-toggle="popover" data-html="true" title="What is paresthesia?"
+                            data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
                         sensation uncomfortable.<br><br>It’s good to be aware of it, that way you’re not suprised when you
                         feel it after taking beta-alanine.">paresthesia</a><a class="inl-ref"
                             href="#beta-alanine-ref-5"><sup>[5]</sup></a><a class="inl-ref"
@@ -974,8 +989,8 @@
                         enhances muscular endurance during high-intensity exercise and may exert antiaging effects.
                         Large
                         doses may
-                        cause a harmless tingling feeling called <a data-toggle="popover" data-html="true"
-                            title="What is paresthesia?" data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
+                        cause a harmless tingling feeling called <a class="no-link-popover" data-toggle="popover"
+                            data-html="true" title="What is paresthesia?" data-content="Paresthesia is a “tingling feeling” under the skin.<br><br>This is harmless, but some people find the
                                                 sensation uncomfortable.<br><br>It’s good to be aware of it, that way you’re not suprised when you
                                                 feel it after taking beta-alanine.">paresthesia</a><a class="inl-ref"
                             href="#beta-alanine-ref-3"><sup>[3]</sup></a>.</p>
@@ -3030,7 +3045,7 @@
 
                         <li class="ref" id="creatine-ref-29">Cooke MB, Brabham B, Buford TW, Shelmadine BD, McPheeters
                             M, Hudson GM, Stathis C,
-                            Greenwood M, Kreider R, Willoughby DS, “<a href="https://pubmed.ncbi.nlm.nih.gov/24633488"
+                            Greenwood M, Kreider R, Willoughby DS, “<a href="https://pubmed.ncbi.nlm.nih.gov/24633488/"
                                 target="_blank">Creatine
                                 supplementation post-exercise does not enhance training-induced adaptations in middle to
                                 older aged males</a>”,
@@ -3066,7 +3081,7 @@
                                 training overreaching</a>”, <em>Eur J Appl Physiol.</em>, 2004 May.</li>
 
                         <li class="ref" id="creatine-ref-34">Faraji H, Arazi H, Vatani D, Hakimi M, “<a
-                                href="https://www.ajol.info/index.php/sajrs/article/view/59293/" target="_blank">The
+                                href="https://www.ajol.info/index.php/sajrs/article/view/59293" target="_blank">The
                                 effects of creatine
                                 supplementation on sprint running performance and selected hormonal responses</a>”,
                             <em>S AFR J RES SPORT
