@@ -1151,7 +1151,7 @@ article div.post-body blockquote p:last-child {
 .table th {
   padding: 0.5rem;
 }
-.supplements-parent a,
+.supplements-parent a:not(.anchorjs-link,.inl-ref),
 .markdown-alert a,
 #gz-table a,
 .calc-info a,
@@ -1187,6 +1187,7 @@ p > em > a {
 #no-ul2 {
   text-decoration: none;
 }
+.supplements-parent a:not(.anchorjs-link,.inl-ref):hover,
 .markdown-alert a:hover,
 #gz-table a:hover,
 .anchor:hover,
