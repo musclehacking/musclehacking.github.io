@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="popover"]'));
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
         return new bootstrap.Popover(popoverTriggerEl, {
-            trigger: 'hover',
+            trigger: 'hover focus',
             boundary: 'viewport',
             container: 'body'
         });
