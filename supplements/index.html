@@ -134,8 +134,7 @@
         .normalize-headings h2::before,
         h3::before,
         h4::before,
-        h5::before,
-        .ref::before {
+        h5::before {
             display: block;
             content: " ";
             margin-top: -90px;
@@ -196,11 +195,15 @@
             margin-top: 42px
         }
 
-        .heading-wrapper h2 {
+        .heading-wrapper h2,
+        .ref {
             padding-top: 90px;
             margin-top: -90px;
         }
 
+        .category-info h3+ol {
+            margin-top: 12px
+        }
 
         .category h2 {
             display: block;
@@ -3145,7 +3148,7 @@
                             <h4 id="glucosamine-alternative-names">Alternative Names</h4>
                             <p>Also known as: Glucosamine sulfate, Glucosamine hydrochloride, N-Acetylglucosamine.</p>
                         </div>
-                        <div class="category" data-category="info">
+                        <div class="category category-info" data-category="info">
                             <!-- Your content here -->
                             <h2>What is this?</h2>
                             <p>After reading, watching, and listening to people talk about supplements for 10+ years, I
