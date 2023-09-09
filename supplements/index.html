@@ -806,6 +806,33 @@
 
                 filterCategory(actionData, button);
             }, options);
+
+
+            // Mimics clicking the 'Muscle Growth' category on link click
+            const link = document.getElementById('muscle-link');
+            if (link) {
+                link.addEventListener(eventType, function (event) {
+                    event.preventDefault();  // Stop the link from navigating anywhere
+
+                    const button = document.getElementById('muscle-power-output-btn');
+                    if (!button) {
+                        console.error('Button with ID "muscle-power-output-btn" not found!');
+                        return;
+                    }
+
+                    let actionData = button.getAttribute('data-action');
+
+                    try {
+                        actionData = JSON.parse(actionData);
+                    } catch (e) {
+                        actionData = [actionData];
+                    }
+
+                    filterCategory(actionData, button);
+                    // Scroll to the top
+                    window.scrollTo({ top: 0 });
+                }, options);
+            }
         });
 
     </script>
@@ -3241,6 +3268,7 @@
                             <p>If you have any feedback, you can email me <a
                                     href="mailto:jay@musclehacking.com?Subject=Supplement Guide" target="_top">here</a>.
                             </p>
+                            <p>Otherwise, <a id="muscle-link">click here</a> to go to the Muscle Growth category.</p>
                             <h2 id="all-references">References</h2>
                             <h3 id="alpha-gpc-references">Alpha GPC</h3>
                             <ol>
