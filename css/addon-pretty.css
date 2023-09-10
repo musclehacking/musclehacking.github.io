@@ -540,6 +540,8 @@ blockquote {
   color: #fff;
   position: relative;
   z-index: 20;
+  letter-spacing: -.015em;
+  line-height: 1.04
 }
 .post-title {
   font-size: 2.5rem;
