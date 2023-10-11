@@ -38,8 +38,12 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/addon.css">
     <link rel="stylesheet" href="/css/test.css">
+    <link rel="stylesheet" href="/css/pretty-tippy.min.css" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120945323-1"></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-120945323-1')</script>
+    <style>
+        /*  */
+    </style>
 </head>
 
 <body>
@@ -702,6 +706,75 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+    <!-- ! Tippy -->
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+    <script defer src="https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script defer src="https://unpkg.com/tippy.js@6.3.7/dist/tippy-bundle.umd.min.js"></script>
+    <link href="https://unpkg.com/tippy.js@6.3.7/dist/svg-arrow.css" rel="stylesheet" />
+    <link href="https://unpkg.com/tippy.js@6.3.7/animations/shift-toward-extreme.css" rel="stylesheet" />
+    <script>
+        anchors.options = {
+            placement: 'left',
+            visible: 'always'
+        };
+        anchors.add('.post-body h2,.post-body h3:not(#share-t,#comm-t),.post-body h4,.post-body h5')
+        document.addEventListener('DOMContentLoaded', (event) => {
+            click_to_copy_to_clipboard();
+            function click_to_copy_to_clipboard() {
+                var anchors = document.getElementsByClassName("anchorjs-link");
+                for (i = 0; i < anchors.length; i++) {
+                    anchors[i].addEventListener("click", function (e) {
+                        e.preventDefault();
+
+                        var baseURL = location.origin + location.pathname;
+                        var fragment = this.getAttribute("href");
+                        var link = baseURL + fragment;
+
+                        copyToClipboard(link);
+                    });
+                }
+            }
+            function copyToClipboard(text) {
+                var dummy = document.createElement("textarea");
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummy);
+            }
+            tippy('.anchorjs-link', {
+                content: 'Click to Copy',
+                hideOnClick: true,
+                touch: false,
+                animation: 'shift-toward-extreme',
+                theme: 'muscle',
+                arrow: '<svg id="svg"width="16" height="6"><path class="svg-arrow" d="M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z"/><path class="svg-content" d="m0 7s2 0 5-4c1-1 2-2 3-2 1 0 2 1 3 2 3 4 5 4 5 4h-16z"/></svg>',
+                offset: [0, 0],
+                delay: 50
+            });
+            tippy('.anchorjs-link', {
+                content: 'Link Copied',
+                animation: 'shift-toward-extreme',
+                trigger: 'click',
+                hideOnClick: false,
+                touch: false,
+                theme: 'muscle',
+                arrow: '<svg id="svg"width="16" height="6"><path class="svg-arrow" d="M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z"/><path class="svg-content" d="m0 7s2 0 5-4c1-1 2-2 3-2 1 0 2 1 3 2 3 4 5 4 5 4h-16z"/></svg>',
+                offset: [0, 0],
+                onShow(instance) {
+                    setTimeout(() => {
+                        instance.hide();
+                    }, 750);
+                }
+            });
+        });
+    </script>
+    <svg aria-hidden="true" focusable="false" style="width:0;height:0;position:absolute;">
+        <lineargradient id="b-gradient" x2="1" y2="1">
+            <stop offset="0%" stop-color="#004e92"></stop>
+            <stop offset="100%" stop-color="#000428"></stop>
+        </lineargradient>
+    </svg>
     <script src="/js/one.js"></script>
     <script defer src="/js/eml-flt-right.js"></script>
 </body>
