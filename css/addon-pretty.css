@@ -599,6 +599,23 @@ html {
   margin: 0 10px;
 }
 
+/* For item(s) that appear outside of burger menu on mobile */
+.nav-out-menu {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  color: rgba(0, 0, 0, .5);
+  font-family: muscle2, Arial, sans-serif;
+  letter-spacing: -.015em;
+  font-size: 24px;
+  font-weight: 600;
+  margin-left: 15px
+}
+
+.nav-out-menu:focus,
+.nav-out-menu:hover {
+  color: rgba(0, 0, 0, .7);
+}
+
 .post-body,
 .post-header {
   max-width: 740px;
@@ -1667,7 +1684,7 @@ p.figurecap>a:hover {
   }
 }
 
-@media screen and (max-width: 678px) {
+@media screen and (max-width: 679px) {
   @media screen and (min-width: 576px) {
     #soc-nav {
       display: none
