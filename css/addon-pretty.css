@@ -568,8 +568,8 @@ mark {
   color: #eee;
   width: 60px;
   height: 60px;
-  right: 3%;
-  bottom: 5%;
+  right: 2%;
+  bottom: 3%;
   padding-top: 2px;
   border-radius: 50%;
   -webkit-transition: all 0.5s ease-in-out;
