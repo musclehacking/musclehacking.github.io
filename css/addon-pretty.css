@@ -698,7 +698,7 @@ h5 {
 
 #whey-hydrolysate::before,
 .normalize-headings h2::before,
-#how-to-use::before,
+/* #how-to-use::before, */
 h3::before,
 h4::before,
 h5::before {

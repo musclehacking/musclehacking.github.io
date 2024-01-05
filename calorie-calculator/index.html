@@ -700,6 +700,8 @@
                     supplement stack</a> and <a href="/books/" title="Fitness Books Worth Reading" target="_blank">fitness books</a> useful.</p>
         </div>
     </section>
+    <!-- Handles the jump links to the first H2 -->
+    <script>window.onload = function () { var a = window.location.hash; if ("#how-to-use" === a) { var b = document.querySelector(a); b && setTimeout(function () { var c = b.getBoundingClientRect().top + window.pageYOffset - 90; window.scrollTo({ top: c, behavior: "smooth" }) }, 100) } };</script>
     <a href="#" id="back-to-top" title="Back to top" onclick="scrollToTop(1000);"></a>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
