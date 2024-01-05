@@ -471,6 +471,8 @@ mark {
 
 #lw-heading {
   margin-top: 1em;
+  background-color: #2f8fd032;
+  padding: 0.1em 0;
 }
 
 #lw-heading-lg {
@@ -1844,6 +1846,14 @@ p.figurecap>a:hover {
     right: 20px;
     width: 40px;
     height: 40px;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group>label {
+    margin-bottom: 0.75rem;
   }
 }
 
