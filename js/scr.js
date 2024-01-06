@@ -1,0 +1,1 @@
+window.addEventListener("scroll", function () { 660 < pageYOffset ? document.getElementById("sh-box").setAttribute("style", "opacity: 1; visibility: visible;display: block") : document.getElementById("sh-box").setAttribute("style", "opacity: 0; visibility: none; display: none;") });
