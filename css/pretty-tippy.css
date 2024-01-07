@@ -4,7 +4,7 @@
     color: rgb(167, 167, 167);
     display: none;
     box-shadow: none;
-    text-decoration: initial;
+    text-decoration: initial
 }
 
 /* This is necessary due to the nuances of anchor links specificity. Just leave it */
@@ -177,7 +177,7 @@ h5>.anchorjs-link {
 @media (min-width: 800px) {
     .anchorjs-link {
         display: block;
-        z-index: 200
+        z-index: 6
     }
 }
 
