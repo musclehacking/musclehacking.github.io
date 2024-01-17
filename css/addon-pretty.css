@@ -178,7 +178,7 @@
 }
 
 #under-form-notice {
-  margin-bottom: 20px;
+  margin-top: 15px;
 }
 
 @media (max-width: 1399px) {
@@ -1104,7 +1104,7 @@ figure figcaption {
     cursor: pointer;
     position: absolute;
     top: 5px;
-    right: 0;
+    right: 15px;
     z-index: 11;
   }
 }
@@ -1115,6 +1115,7 @@ figure figcaption {
     max-width: calc((100vw - 1440px) / 2 + 350px);
     left: 0;
     left: calc((100vw - 720px) / 4 - ((100vw - 1440px) / 2 + 350px) / 2);
+    padding-right: 25px
   }
 }
 
@@ -1122,6 +1123,7 @@ figure figcaption {
   #floating-em-opt {
     max-width: 500px;
     left: calc((100vw - 720px) / 4 - 250px);
+    padding-right: 25px
   }
 }
 
