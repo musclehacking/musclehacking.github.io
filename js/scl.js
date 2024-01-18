@@ -1,17 +1,14 @@
 function getTitle() {
-    // Try to get twitter:title
     var twitterTitle = document.querySelector('meta[name="twitter:title"]');
     if (twitterTitle && twitterTitle.content) {
         return twitterTitle.content;
     }
 
-    // Try to get og:title
     var ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle && ogTitle.content) {
         return ogTitle.content;
     }
 
-    // Fallback to the first h1 tag's content
     var h1Tag = document.querySelector('h1');
     if (h1Tag) {
         return h1Tag.innerText;
@@ -22,8 +19,15 @@ function getTitle() {
 
 function getMetaContentByName(name, content) {
     var content = (content === undefined) ? 'content' : content;
-    var meta = document.querySelector(`meta[property='${name}']`);
-    return meta ? meta.getAttribute(content) : null;
+    var meta = document.querySelector(`meta[name='${name}'], meta[property='${name}']`);
+
+    if (meta) {
+        return meta.getAttribute(content);
+    } else if (name === 'og:url') {
+        return window.location.href; // Fallback to current URL
+    } else {
+        return null;
+    }
 }
 
 function updateSocialShareLinks() {
