@@ -601,6 +601,33 @@ html {
   margin: 0 10px;
 }
 
+/*? Nav Bar icons */
+/* Set the default icon color */
+.nav-link img {
+  opacity: 0.5;
+}
+
+/* Change icon color on hover */
+.active img,
+.nav-link:hover img {
+  opacity: 0.9;
+}
+
+/* Align the icon and text to the left */
+.icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Align to the left */
+}
+
+/* Style for the icons next to text */
+.icon-image {
+  height: 28px;
+  width: 28px;
+  margin-right: 5px;
+}
+
 /* For item(s) that appear outside of burger menu on mobile */
 .nav-out-menu {
   padding-right: 0.5rem;
@@ -1668,7 +1695,7 @@ p.figurecap>a:hover {
   }
 }
 
-@media (max-width: 1360px) {
+@media (max-width: 1502px) {
   #brand-collapse {
     display: none;
   }
@@ -1689,7 +1716,7 @@ p.figurecap>a:hover {
   }
 }
 
-@media screen and (max-width: 679px) {
+@media screen and (max-width: 799px) {
   @media screen and (min-width: 576px) {
     #soc-nav {
       display: none
@@ -1868,32 +1895,39 @@ p.figurecap>a:hover {
     display: none;
   }
 
-  .navbar-nav>.form-inline:first-of-type {
-    margin-top: 3px
-  }
-
-  #home,
-  .home {
-    padding: 0;
-    margin-bottom: 0
+  #nav-content>.navbar-nav>.nav-item {
+    margin-bottom: 1px
   }
 
   .icon-nav {
     margin: 0.35rem 0.75rem;
+    margin-left: 2px;
     padding: 0;
     display: inline-block;
+  }
+
+  .icon-calc {
+    padding-left: 3px
   }
 
   .navbar {
     justify-content: flex-start;
   }
 
+  .s-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0 2px
+  }
+
   #instagram {
-    margin-left: 0.8rem;
     margin-bottom: 0.5rem;
   }
 
   #twit-nav {
+    margin-left: 0;
     margin-top: 0.1rem;
   }
 
