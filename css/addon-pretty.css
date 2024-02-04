@@ -1919,7 +1919,7 @@ p.figurecap>a:hover {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin: 10px 0 2px
+    margin: 10px 0 5px
   }
 
   #instagram {
@@ -1958,5 +1958,99 @@ p.figurecap>a:hover {
 
   .sh-app {
     margin-top: 20px;
+  }
+}
+
+/*? Controls the size of the nav menu items and icons on screens smaller than 400px. Includes fallback CSS for browsers that can't use calc()  */
+/* Fallback for 400px breakpoint */
+@media (max-width: 400px) {
+
+  #nav-content>.navbar-nav>.nav-item,
+  .nav-out-menu {
+    font-size: 22px;
+    /* Fallback font size at 400px */
+    margin-left: 10px;
+    /* Fallback margin left at 400px */
+  }
+
+  .icon-image,
+  .icon-calc-nav-out {
+    height: 25px !important;
+    /* Fallback icon height at 400px */
+    width: 25px !important;
+    /* Fallback icon width at 400px */
+  }
+}
+
+/* Fallback for 360px breakpoint */
+@media (max-width: 360px) {
+
+  #nav-content>.navbar-nav>.nav-item,
+  .nav-out-menu {
+    font-size: 20px;
+    /* Interpolated font size between 400px and 320px */
+    margin-left: 5px;
+    /* Interpolated margin left between 400px and 320px */
+  }
+
+  .icon-image,
+  .icon-calc-nav-out {
+    height: 22px !important;
+    /* Interpolated icon height between 400px and 320px */
+    width: 22px !important;
+    /* Interpolated icon width between 400px and 320px */
+  }
+}
+
+/* Fallback for 340px breakpoint */
+@media (max-width: 340px) {
+
+  #nav-content>.navbar-nav>.nav-item,
+  .nav-out-menu {
+    font-size: 19px;
+    /* Interpolated font size closer to 320px */
+    margin-left: 2.5px;
+    /* Interpolated margin left closer to 320px */
+  }
+
+  .icon-image,
+  .icon-calc-nav-out {
+    height: 20px !important;
+    /* Interpolated icon height closer to 320px */
+    width: 20px !important;
+    /* Interpolated icon width closer to 320px */
+  }
+}
+
+@media (max-width: 400px) {
+
+  #nav-content>.navbar-nav>.nav-item,
+  .nav-out-menu {
+    font-size: calc(18px + 4 * (100vw - 320px) / 80);
+    margin-left: calc(0px + 10 * (100vw - 320px) / 80);
+  }
+
+
+  .icon-image,
+  .icon-calc-nav-out {
+    height: calc(18px + 7 * (100vw - 320px) / 80) !important;
+    width: calc(18px + 7 * (100vw - 320px) / 80) !important;
+  }
+}
+
+@media (max-width: 320px) {
+
+  #nav-content>.navbar-nav>.nav-item,
+  .nav-out-menu {
+    font-size: 18px;
+    /* Fixed font size at 320px and below */
+    margin-left: 0px;
+    /* Fixed margin left at 320px and below */
+  }
+
+  .icon-image,
+  .icon-calc-nav-out {
+    height: 18px !important;
+    width: 18px !important;
   }
 }
