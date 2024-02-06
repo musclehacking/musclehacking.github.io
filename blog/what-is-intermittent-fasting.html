@@ -44,34 +44,54 @@
 </head>
 
 <body>
-  <nav style="background: linear-gradient(0deg,#206593,#5499C7 90%)"
+  <nav style="background: linear-gradient(0deg,#206593,#5499C7 90%);"
     class="navbar fixed-top navbar-expand-sm navbar-light"><a href="/" class="navbar-brand"><img
         src="/img/muscle-hacking.png" height="50" alt="Muscle Hacking Logo" class="d-inline-block align-top" /></a>
     <div class="nav-spacer"></div>
     <div id="brand-collapse"><a href="/" class="navbar-brand"><img src="/img/musclehacking.png" height="30"
-          alt="Muscle Hacking" class="d-inline-block align-top" /></a></div><button id="button" type="button"
-      data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false"
-      aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+          alt="Muscle Hacking" class="d-inline-block align-top" /></a></div>
+    <div class="d-sm-none">
+      <ul class="navbar-nav" style="display: inline-block;">
+        <li class="nav-item" style="display: inline-block;">
+          <a id="home" href="/supplements/" class="nav-link home nav-out-menu d-flex align-items-center">
+            <img src="/img/supplements.svg" alt="Muscle Building Supplements" class="icon-image"
+              style="height: 28px; width: 28px; margin-right: 5px;margin-bottom: 1px;">Supplements</a>
+        </li>
+      </ul>
+    </div>
+    <button id="button" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content"
+      aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span
+        class="navbar-toggler-icon"></span></button>
     <div id="nav-content" class="collapse navbar-collapse">
       <ul class="navbar-nav">
-        <li class="nav-item"><a id="home" href="/calorie-calculator/" class="nav-link">Calorie Calculator</a></li>
-        <li class="nav-item"><a href="/supplements/" class="nav-link home">Supplements</a></li>
-        <li class="nav-item"><a href="/books/" class="nav-link home">Books</a></li>
-        </li><a aria-label="Muscle Hacking on Twitter" href="https://twitter.com/musclehacking" target="_blank"
-          title="Muscle Hacking on Twitter" class="form-inline"><svg id="twit-nav" class="icon icon-nav twit">
-            <use xlink:href="#icon-twit"></use>
-          </svg></a><a aria-label="Muscle Hacking on Instagram" href="https://www.instagram.com/musclehacking/"
-          target="_blank" title="Muscle Hacking on Instagram" class="form-inline"><svg id="instagram"
-            class="icon icon-nav">
-            <use xlink:href="#icon-in"></use>
-          </svg></a><a aria-label="Muscle Hacking on Reddit" href="https://www.reddit.com/user/musclehacking/"
-          target="_blank" title="Muscle Hacking on Reddit" class="form-inline"><svg id="reddit" class="icon icon-nav">
-            <use xlink:href="#icon-reddit"> </use>
-          </svg></a>
-        <a aria-label="Muscle Hacking on Substack" href="https://musclehacking.substack.com/" target="_blank"
-          title="Muscle Hacking on Substack" class="form-inline"><svg id="sub-expand" class="icon icon-nav">
-            <use xlink:href="#icon-sub"></use>
-          </svg></a>
+        <li class="nav-item icon-container"><a id="home" href="/calorie-calculator/" class="nav-link icon-link"><img
+              src="/img/calorie-calculator.svg" alt="Calorie Calculator" class="icon-image icon-calc">Calorie
+            Calculator</a>
+        </li>
+        <li class="nav-item d-none d-sm-block icon-container"><a href="/supplements/"
+            class="nav-link icon-link home d-flex align-items-center"><img src="/img/supplements.svg" alt="Supplements"
+              class="icon-image">Supplements</a>
+        </li>
+        <li class="nav-item icon-container"><a href="/books/" class="nav-link icon-link home"><img
+              src="/img/fitness-books.svg" alt="Books" class="icon-image">Books</a></li>
+        <div class="icon-container s-icons">
+          <a aria-label="Muscle Hacking on Twitter" href="https://twitter.com/musclehacking" target="_blank"
+            title="Muscle Hacking on Twitter" class="form-inline"><svg id="twit-nav" class="icon icon-nav twit">
+              <use xlink:href="#icon-twit"></use>
+            </svg></a>
+          <a aria-label="Muscle Hacking on Instagram" href="https://www.instagram.com/musclehacking/" target="_blank"
+            title="Muscle Hacking on Instagram" class="form-inline"><svg id="instagram" class="icon icon-nav">
+              <use xlink:href="#icon-in"></use>
+            </svg></a>
+          <a aria-label="Muscle Hacking on Reddit" href="https://www.reddit.com/user/musclehacking/" target="_blank"
+            title="Muscle Hacking on Reddit" class="form-inline"><svg id="reddit" class="icon icon-nav">
+              <use xlink:href="#icon-reddit"> </use>
+            </svg></a>
+          <a aria-label="Muscle Hacking on Substack" href="https://musclehacking.substack.com/" target="_blank"
+            title="Muscle Hacking on Substack" class="form-inline"><svg id="sub-expand" class="icon icon-nav">
+              <use xlink:href="#icon-sub"></use>
+            </svg></a>
+        </div>
       </ul>
     </div>
     <div id="soc-nav" class="form-inline"><a aria-label="Muscle Hacking on Twitter"
@@ -85,12 +105,13 @@
         </svg></a><a aria-label="Muscle Hacking on Reddit" href="https://www.reddit.com/user/musclehacking/"
         target="_blank" title="Muscle Hacking on Reddit" class="form-inline"><svg id="reddit-expand"
           class="icon icon-nav-expand">
-          <use xlink:href="#icon-reddit"></use>
+          <use xlink:href="#icon-reddit"> </use>
         </svg></a><a aria-label="Muscle Hacking on Substack" href="https://musclehacking.substack.com/" target="_blank"
         title="Muscle Hacking on Substack" class="form-inline"> <svg id="sub-expand" class="icon icon-nav-expand">
-          <use xlink:href="#icon-sub"></use>
-        </svg></a></div>
-  </nav><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" display="none" version="1.1">
+          <use xlink:href="#icon-sub"> </use>
+        </svg> </a> </div>
+  </nav>
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" display="none" version="1.1">
     <defs>
       <symbol id="icon-in" viewbox="0 0 24 24">
         <path

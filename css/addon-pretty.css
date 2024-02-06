@@ -1201,8 +1201,8 @@ figure figcaption {
 
 .icon-nav,
 .icon-nav-expand {
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   display: none;
 }
 
@@ -1218,8 +1218,8 @@ figure figcaption {
 
 #reddit,
 #reddit-expand {
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
 }
 
 #sub-expand {
@@ -1695,7 +1695,7 @@ p.figurecap>a:hover {
   }
 }
 
-@media (max-width: 1502px) {
+@media (max-width: 1507px) {
   #brand-collapse {
     display: none;
   }
@@ -1716,10 +1716,19 @@ p.figurecap>a:hover {
   }
 }
 
-@media screen and (max-width: 799px) {
+
+@media screen and (max-width: 803px) {
   @media screen and (min-width: 576px) {
     #soc-nav {
       display: none
+    }
+  }
+}
+
+@media screen and (max-width: 613px) {
+  @media screen and (min-width: 576px) {
+    #nav-content {
+      font-size: 21px
     }
   }
 }
@@ -1900,14 +1909,17 @@ p.figurecap>a:hover {
   }
 
   .icon-nav {
-    margin: 0.35rem 0.75rem;
-    margin-left: 2px;
     padding: 0;
     display: inline-block;
   }
 
   .icon-calc {
     padding-left: 3px
+  }
+
+  #twit-nav {
+    width: 26px;
+    height: 26px;
   }
 
   .navbar {
@@ -1919,16 +1931,7 @@ p.figurecap>a:hover {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    margin: 10px 0 5px
-  }
-
-  #instagram {
-    margin-bottom: 0.5rem;
-  }
-
-  #twit-nav {
-    margin-left: 0;
-    margin-top: 0.1rem;
+    margin: 10px 0 10px
   }
 
   #button {
@@ -1973,6 +1976,7 @@ p.figurecap>a:hover {
     /* Fallback margin left at 400px */
   }
 
+  /* Also added the .icon-nav social icons */
   .icon-image,
   .icon-calc-nav-out {
     height: 25px !important;
