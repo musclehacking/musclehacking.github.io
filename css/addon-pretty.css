@@ -628,6 +628,10 @@ html {
   margin-right: 5px;
 }
 
+.icon-calc {
+  margin-bottom: -2px
+}
+
 /* For item(s) that appear outside of burger menu on mobile */
 .nav-out-menu {
   padding-right: 0.5rem;
@@ -1914,7 +1918,7 @@ p.figurecap>a:hover {
   }
 
   .icon-calc {
-    padding-left: 3px
+    padding-left: 2px
   }
 
   #twit-nav {
