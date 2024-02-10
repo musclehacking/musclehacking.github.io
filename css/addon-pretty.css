@@ -469,7 +469,8 @@ mark {
   text-align: center;
 }
 
-#lw-heading {
+#lw-heading,
+#lw-heading-lg {
   margin-top: 1em;
   background-color: #2f8fd032;
   padding: 0.1em 0;
