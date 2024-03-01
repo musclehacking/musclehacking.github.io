@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Check and set the delay for displaying the popup
-    if (testingFlag || window.matchMedia("only screen and (max-width: 1439px)").matches) {
+    if (testingFlag || window.matchMedia("(max-width: 1439px)").matches) {
         var delayTime = testingFlag ? 2000 : 20000; // 2 seconds for testing, otherwise 20 seconds
         setTimeout(displayPopup, delayTime);
     }
