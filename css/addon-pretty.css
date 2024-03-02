@@ -502,6 +502,13 @@ mark {
   text-align: center;
 }
 
+/* Fix telephone bug on Chrome */
+#cal-table td {
+  pointer-events: none !important;
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
 #caltab {
   background-color: rgba(231, 77, 60, 0.85) !important;
 }

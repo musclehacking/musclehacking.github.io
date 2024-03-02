@@ -99,11 +99,3 @@
     }
 
 }
-
-/* Telephone */
-
-#cal-table td {
-    pointer-events: none !important;
-    color: inherit !important;
-    text-decoration: none !important;
-}
