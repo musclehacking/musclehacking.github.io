@@ -77,11 +77,8 @@
     }
 
     .n-lett {
-        padding-top: 20px;
-        padding-bottom: 30px;
-    }
-
-    .n-lett {
+        padding-top: 25px;
+        padding-bottom: 25px;
         width: min(650px, 90vw);
     }
 }
