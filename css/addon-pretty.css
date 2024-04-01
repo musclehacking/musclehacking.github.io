@@ -1105,7 +1105,11 @@ figure figcaption {
   display: block;
   text-align: center;
   border-top: 1px solid #c6c6c6;
-  padding: 1.2rem 0 0.7rem;
+  padding: 1.2rem 0 1.2rem;
+}
+
+#em-opt #under-form-notice {
+  margin-bottom: 10px
 }
 
 .sidebar-text>#em-opt {
