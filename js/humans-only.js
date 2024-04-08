@@ -6,10 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             grecaptcha.ready(function () {
                 grecaptcha.execute('6LefmJ4pAAAAAH9NbYF2SxW-8E7fTTl51IG1Rny8', { action: 'submit' }).then(function (token) {
-                    console.log("ReCAPTCHA token:", token); // For debugging
                     var formData = new FormData(form);
                     formData.append('g-recaptcha-response', token);
-
                     fetch(form.action, {
                         method: 'POST',
                         body: formData

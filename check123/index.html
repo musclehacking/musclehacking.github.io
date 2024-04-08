@@ -629,7 +629,8 @@
     </article>
     <div class="post-body">
         <section id="em-opt">
-            <form accept-charset=utf-8 action=https://app.getresponse.com/add_subscriber.html id=g-resp method=post>
+            <form accept-charset="utf-8" action="https://dev.musclehacking.com/subscription-handler.php" id="g-resp"
+                method="post" g-recaptcha>
                 <div id=h-gresp>Want to read more articles like this?</div>
                 <div id=t-gresp>Enter your email below and I’ll send you my best content.
                 </div>
@@ -645,6 +646,7 @@
                     value="https://www.musclehacking.com/calorie-calculator/" />
                 <input type="hidden" name="form_identifier" value="bottom" />
                 <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
+                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
             </form>
         </section>
         <section id="share">
@@ -695,7 +697,8 @@
         </nav>
     </div>
     <section id="floating-em-opt">
-        <form accept-charset=utf-8 action=https://app.getresponse.com/add_subscriber.html id=g-resp method=post>
+        <form accept-charset="utf-8" action="https://dev.musclehacking.com/subscription-handler.php" id="g-resp"
+            method="post" g-recaptcha>
             <button id="hide-btn" class="btn btn-outline-light"><img src="/img/hidden.png" alt="Hide" width="20"
                     height="20" data-toggle="tooltip" data-placement="top" title="Click to hide"></button>
             <div id=h-gresp>Want more content like this?</div>
@@ -711,6 +714,7 @@
             <input type="hidden" name="custom_signup_url" value="https://www.musclehacking.com/calorie-calculator/" />
             <input type="hidden" name="form_identifier" value="float" />
             <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
+            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
         </form>
         <div>
             <p id="under-form-notice">Once you’ve locked in your calorie count, you might find my <a
@@ -747,7 +751,6 @@
                 <input type="hidden" name="form_identifier" value="show-up" />
                 <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
                 <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-            </form>
             </form>
         </div>
     </section>
