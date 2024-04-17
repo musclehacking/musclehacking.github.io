@@ -336,13 +336,13 @@
         <div id="c-sidebar" class="col-lg-3 col-md-4">
             <div class="sidebar-text">
                 <section id="em-opt">
-                    <form accept-charset=utf-8 action=https://app.getresponse.com/add_subscriber.html id=g-resp
-                        method=post>
-                        <div class="l-align-desk" style="margin-top:0;">Want to stay up to
-                            date with my writing?</div>
-                        <div class="l-align-desk">Enter your email below and I’ll
-                            send
-                            you my latest articles.
+                    <form accept-charset="utf-8" action="https://dev.musclehacking.com/subscription-handler.php"
+                        id="g-resp" method="post" g-recaptcha>
+                        <script
+                            src="https://www.google.com/recaptcha/api.js?render=6LefmJ4pAAAAAH9NbYF2SxW-8E7fTTl51IG1Rny8"></script>
+                        <script src="/js/humans-only.js"></script>
+                        <div class="l-align-desk" style="margin-top:0;">Want to stay up to date with my writing?</div>
+                        <div class="l-align-desk">Enter your email below and I’ll send you my latest articles.
                         </div>
                         <div class="l-align-desk">(and other subscriber-only content).
                         </div>
@@ -358,6 +358,7 @@
                         <input name=campaign_token type=hidden value=qwsfu><input name=start_day type=hidden value=0>
                         <input type="hidden" name="custom_signup_url" value="https://www.musclehacking.com/" />
                         <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
+                        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                     </form>
                 </section>
                 <h4 class="side-heading" style="margin-top: 20px">About</h4>

@@ -1122,6 +1122,13 @@ figure figcaption {
 }
 
 @media screen and (min-width: 1440px) {
+
+  /* Align home page contact form on the left on desktop */
+  .sidebar-text #parent-e-form,
+  .sidebar-text #g-resp {
+    justify-content: left
+  }
+
   #floating-em-opt {
     position: fixed;
     top: 13%;
