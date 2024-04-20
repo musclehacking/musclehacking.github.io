@@ -5304,25 +5304,24 @@
             </div>
             <div class="post-body">
                 <section id="em-opt">
-                    <form accept-charset="utf-8" action="https://app.getresponse.com/add_subscriber.html" id="g-resp"
-                        method="post">
-                        <div id="h-gresp">Want to read more articles like this?</div>
-                        <div id="t-gresp">Enter your email below and I’ll send you my best content.
+                    <form accept-charset="utf-8" action="https://dev.musclehacking.com/subscription-handler.php"
+                        id="g-resp" method="post" g-recaptcha>
+                        <div id=h-gresp>Want to read more articles like this?</div>
+                        <div id=t-gresp>Enter your email below and I’ll send you my best content.
                         </div>
                         <div id="parent-e-form">
-                            <div id="e-gresp">
-                                <input id="e-i-gresp" name="email" placeholder="Your email address" required=""
-                                    type="email" />
+                            <div id=e-gresp>
+                                <input name=email type=email id=e-i-gresp placeholder="Your email address" required>
                             </div>
-                            <div id="b-gresp"><input class="btn-info" id="b-i-gresp" type="submit" value="Email Me" />
-                            </div>
+                            <div id=b-gresp><input type=submit value="Email Me" id=b-i-gresp class="btn-info"></div>
                         </div>
                         <div id="under-form-notice"><em>No junk. Unsubscribe at any time.</em></div>
-                        <input name="campaign_token" type="hidden" value="qwsfu" /><input name="start_day" type="hidden"
-                            value="0" />
-                        <input name="custom_signup_url" type="hidden"
+                        <input name=campaign_token type=hidden value=qwsfu><input name=start_day type=hidden value=0>
+                        <input type="hidden" name="custom_signup_url"
                             value="https://www.musclehacking.com/supplements/" />
-                        <input name="thankyou_url" type="hidden" value="https://www.musclehacking.com/one-last-step/" />
+                        <input type="hidden" name="form_identifier" value="bottom" />
+                        <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
+                        <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                     </form>
                 </section>
                 <section id="share">

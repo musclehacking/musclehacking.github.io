@@ -367,7 +367,8 @@
     </article>
     <div class="post-body">
         <section id="em-opt">
-            <form accept-charset=utf-8 action=https://app.getresponse.com/add_subscriber.html id=g-resp method=post>
+            <form accept-charset="utf-8" action="https://dev.musclehacking.com/subscription-handler.php" id="g-resp"
+                method="post" g-recaptcha>
                 <div id=h-gresp>Want to read more articles like this?</div>
                 <div id=t-gresp>Enter your email below and I’ll send you my best content.
                 </div>
@@ -380,7 +381,9 @@
                 <div id="under-form-notice"><em>No junk. Unsubscribe at any time.</em></div>
                 <input name=campaign_token type=hidden value=qwsfu><input name=start_day type=hidden value=0>
                 <input type="hidden" name="custom_signup_url" value="https://www.musclehacking.com/books/" />
+                <input type="hidden" name="form_identifier" value="bottom" />
                 <input name=thankyou_url type=hidden value=https://www.musclehacking.com/one-last-step/ />
+                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
             </form>
         </section>
         <section id="share">
