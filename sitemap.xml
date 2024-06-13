@@ -25,6 +25,12 @@
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>https://www.musclehacking.com/blog/idols</loc>
+  <lastmod>2024-06-13T02:47:00+00:00</lastmod>
+  <priority>0.60</priority>
+</url>
+
+<url>
   <loc>https://www.musclehacking.com/blog/weak</loc>
   <lastmod>2024-04-01T03:19:00+00:00</lastmod>
   <priority>0.60</priority>
