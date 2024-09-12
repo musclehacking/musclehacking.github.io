@@ -97,6 +97,14 @@
   box-shadow: inset 0-21px 0 0#3f95d033;
 }
 
+.join-page #parent-e-form {
+  font-size: 1.05em
+}
+
+.join-page #under-form-notice {
+  font-size: 1.1em
+}
+
 #g-resp,
 #parent-e-form {
   display: flex;
@@ -940,13 +948,32 @@ figure {
   line-height: 35px;
 }
 
-article div.post-body h3+p {
+article div.post-body h2+p,
+article div.post-body h3+p,
+article div.post-body h2+ol,
+article div.post-body h3+ol,
+article div.post-body h2+ul,
+article div.post-body h3+ul {
   margin-top: 8px;
 }
 
 article div.post-body h4+p,
 article div.post-body h5+p {
   margin-top: 6px;
+}
+
+/* For nested lists only, apply a top margin to the first item */
+article div.post-body ul ul li:first-child,
+article div.post-body ul ol li:first-child,
+article div.post-body ol ul li:first-child,
+article div.post-body ol ol li:first-child {
+  margin-top: 5px;
+}
+
+/* For nested lists, the margin is slightly smaller */
+article div.post-body ul li,
+article div.post-body ol li {
+  margin-bottom: 5px;
 }
 
 @font-face {
@@ -1552,8 +1579,8 @@ article div.post-body blockquote p:last-child {
 .markdown-alert a,
 #gz-table a,
 .calc-info a,
-.post-body>ol>li>a,
-.post-body>ul>li>a,
+.post-body>ol li>a,
+.post-body>ul li>a,
 .ref>a,
 .side-a,
 li>em>a,
@@ -1596,8 +1623,8 @@ p>em>a,
 .anchor:hover,
 .calc-info a:hover,
 .no-ul:hover,
-.post-body>ol>li>a:hover,
-.post-body>ul>li>a:hover,
+.post-body>ol li>a:hover,
+.post-body>ul li>a:hover,
 .side-a:hover,
 li>a:hover,
 li>em>a:hover,
