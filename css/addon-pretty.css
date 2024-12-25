@@ -648,6 +648,13 @@ html {
   margin-bottom: -2px
 }
 
+.icon-email {
+  height: 24px;
+  width: 24px;
+  margin-bottom: 2px;
+  margin-right: 6px;
+}
+
 /* For item(s) that appear outside of burger menu on mobile */
 .nav-out-menu {
   padding-right: 0.5rem;
@@ -1745,7 +1752,7 @@ p.figurecap>a:hover {
   }
 }
 
-@media (max-width: 1507px) {
+@media (max-width: 1750px) {
   #brand-collapse {
     display: none;
   }
@@ -1767,10 +1774,20 @@ p.figurecap>a:hover {
 }
 
 
-@media screen and (max-width: 803px) {
+/* Hide the social nav on medium screens to prevent wrapping */
+@media screen and (max-width: 1000px) {
   @media screen and (min-width: 576px) {
     #soc-nav {
       display: none
+    }
+  }
+}
+
+/* Hide the second nav item on medium screens to prevent wrapping */
+@media screen and (max-width: 800px) {
+  @media screen and (min-width: 576px) {
+    #nav-content .navbar-nav>li:nth-child(2) {
+      display: none !important
     }
   }
 }
