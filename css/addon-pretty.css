@@ -1984,6 +1984,10 @@ p.figurecap>a:hover {
     padding-left: 2px
   }
 
+  .icon-email {
+    margin-right: 9px;
+  }
+
   #twit-nav {
     width: 26px;
     height: 26px;
