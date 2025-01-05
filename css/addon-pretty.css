@@ -653,6 +653,7 @@ html {
   width: 23px;
   margin-bottom: 2px;
   margin-right: 8px;
+  margin-left: 3px
 }
 
 /* For item(s) that appear outside of burger menu on mobile */
@@ -1986,6 +1987,7 @@ p.figurecap>a:hover {
 
   .icon-email {
     margin-right: 9px;
+    margin-left: 0
   }
 
   #twit-nav {
