@@ -7,19 +7,4 @@ Disallow: /
 User-agent: ia_archiver
 Disallow: /
 
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: GPTBot
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
 Sitemap: https://www.musclehacking.com/sitemap.xml
