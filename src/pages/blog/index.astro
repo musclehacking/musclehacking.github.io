@@ -1,0 +1,19 @@
+---
+import HomeListing from '../../components/HomeListing.astro';
+import { routeByPath } from '../../config/routes';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+
+const route = routeByPath.get('/blog/');
+const homeRoute = routeByPath.get('/');
+
+if (!route) throw new Error('Missing /blog/ route registry entry.');
+if (!homeRoute) throw new Error('Missing / route registry entry.');
+---
+
+<ContentLayout
+  title={route.title}
+  description={route.description}
+  canonicalPath={route.path}
+>
+  <HomeListing heading={homeRoute.title} />
+</ContentLayout>

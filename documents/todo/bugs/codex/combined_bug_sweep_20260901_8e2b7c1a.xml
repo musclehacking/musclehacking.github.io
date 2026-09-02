@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bug_report>
+  <bug_1>
+    <summary>
+      <title>[Heading links] Activation copies the section URL without updating the page fragment</title>
+      <one_line_description>Heading self-links prevent native navigation but never replace it with a fragment-only history update.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/scripts/heading-links.ts - heading self-link click handler, Lines 147-166
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - UI-05 activation assertion, Lines 274-280
+</file_locations>
+    <issue_description>
+      <description>The heading self-link click handler calls preventDefault(), copies the canonical section URL, and shows feedback, but it never updates location.hash or the browser history. A rendered check on /supplements/ confirmed that clicking the Creatine heading link leaves both the URL and location.hash unchanged. This breaks the reopened UI-05 contract that requires the fragment update to remain functional without moving the viewport, and it prevents users from bookmarking or sharing the currently activated section from the address bar. The current E2E assertion locks in the defect by expecting the hash to remain unchanged. Recommendation: update the fragment through the History API after activation while preserving scrollY, then assert the new hash and unchanged viewport separately.</description>
+      <code_example>```typescript
+// File: /Users/sacino/musclehacking/src/scripts/heading-links.ts, Lines 147-166
+
+link.addEventListener('click', async (event) =&gt; {
+  event.preventDefault();
+  const canonical = document.querySelector&lt;HTMLLinkElement&gt;('link[rel="canonical"]')?.href
+    ?? `${location.origin}${location.pathname}`;
+  const targetUrl = `${canonical}#${id}`;
+  await copyText(targetUrl);
+  openPopover();
+  // No history.pushState(), history.replaceState(), or location.hash update.
+});
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Address bar** | Activating a heading changes the fragment to the heading ID | The URL and location.hash remain unchanged |
+| **Viewport** | The fragment changes without scrolling or jumping | The viewport stays still only because all navigation is suppressed |
+| **Regression test** | Assert the new fragment and stable scroll position | Asserts that both fragment and scroll position remain unchanged |
+</expected_vs_actual>
+    </issue_description>
+  </bug_1>
+  <bug_2>
+    <summary>
+      <title>[Supplements] Reference links bypass the restored legacy prose-link styling</title>
+      <one_line_description>Supplement reference links render with browser-default blue underlines instead of the legacy inset underline and hover fill.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/styles/global.css - shared prose-link selectors, Lines 300-316
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - generated reference links, Lines 41-44
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - reopened shared prose-link coverage, Lines 112-145
+</file_locations>
+    <issue_description>
+      <description>The shared link rules cover legacy article content, home notes, calculator guide content, sidebar copy, and newsletter prompt copy, but omit supplement prose. SupplementExplorer renders links such as "View L-Theanine references" directly under .supplement-card, outside every selected container. A rendered check confirmed these links use rgb(23, 107, 159), text-decoration: underline, no box shadow, and no transition. The reopened third-review contract explicitly requires supplement copy to use inherited text colour, the #206593 inset underline, the hover fill, and the 0.2-second transition. The existing prose-link E2E test checks only the home sidebar and calculator prompt, so it cannot catch this route-level regression. Recommendation: include the intended supplement prose containers while continuing to exclude heading anchors and in-text reference links that have their own legacy contract, and add default and hover assertions for a generated supplement reference link.</description>
+      <code_example>```css
+/* File: /Users/sacino/musclehacking/src/styles/global.css, Lines 300-316 */
+
+.legacy-content a,
+.home-note a,
+.home-feature &gt; p a,
+.calculator-guide a,
+.sidebar-about a,
+.newsletter-prompt-note a {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 #206593;
+  transition: box-shadow 0.2s linear;
+}
+
+/* .supplements-page or its prose owners are not selected. */
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Default style** | Inherited text colour, no native underline, inset blue rule | Blue browser-default text with a native underline |
+| **Hover style** | Legacy inset fill transition | No project transition or inset fill |
+| **Coverage** | Shared prose-link checks include supplement copy | Tests cover only sidebar and floating-prompt links |
+</expected_vs_actual>
+    </issue_description>
+  </bug_2>
+  <bug_3>
+    <summary>
+      <title>[Social sharing] Copy-page-link control has no fallback when Clipboard API access fails</title>
+      <one_line_description>The floating share rail prevents its canonical link from navigating even when clipboard copying is unavailable.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/scripts/social-share.ts - copy-page-link click handler, Lines 11-20
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - canonical fallback anchor, Line 20
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - floating share rail checks, Lines 654-685
+</file_locations>
+    <issue_description>
+      <description>The copy-page-link control is a real anchor to the production canonical URL, but its handler always calls preventDefault() before attempting navigator.clipboard.writeText(). When the Clipboard API is absent or rejects access, the catch block only sets data-copied="false". It neither uses the fallback copy path already implemented for heading links nor allows the anchor navigation to proceed. A rendered check with navigator.clipboard unavailable confirmed that clicking the control leaves the page unchanged and only sets data-copied to false. Users therefore receive no copied URL, no navigation fallback, and no visible failure message. The article-ending E2E matrix only counts the five rail buttons and checks hover styling. Recommendation: share the proven copy fallback with heading links or permit the canonical anchor action on failure, and expose an observable success or failure state.</description>
+      <code_example>```typescript
+// File: /Users/sacino/musclehacking/src/scripts/social-share.ts, Lines 11-20
+
+rail.querySelector&lt;HTMLAnchorElement&gt;('[data-copy-page-link]')?.addEventListener('click', async (event) =&gt; {
+  event.preventDefault();
+  const link = event.currentTarget as HTMLAnchorElement;
+  try {
+    await navigator.clipboard.writeText(link.href);
+    link.dataset.copied = 'true';
+  } catch {
+    link.dataset.copied = 'false';
+  }
+});
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Clipboard unavailable** | Copy through a fallback or allow the canonical link action | Default navigation is suppressed and nothing is copied |
+| **Failure feedback** | User receives visible, accessible failure feedback | Only a data attribute changes |
+| **Regression coverage** | Exercise success and failure behaviour | Tests only count rail controls and inspect hover CSS |
+</expected_vs_actual>
+    </issue_description>
+  </bug_3>
+  <bug_4>
+    <summary>
+      <title>[Article endings] Hidden share rail remains in the keyboard tab order</title>
+      <one_line_description>The floating share rail is transparent before the scroll threshold, but all five invisible links can still receive keyboard focus.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - share-rail anchors, Lines 15-20
+- /Users/sacino/musclehacking/src/scripts/social-share.ts - function: `updateVisibility`, Lines 1-9
+- /Users/sacino/musclehacking/src/styles/global.css - selectors: `#sh-box` and `#sh-box[data-visible='true']`, Lines 1235-1251
+- /Users/sacino/musclehacking/js/scr.js - legacy scroll visibility contract, Line 1
+</file_locations>
+    <issue_description>
+      <description>The migrated rail hides itself with `opacity: 0` and `pointer-events: none`, but it does not use `display: none`, `visibility: hidden`, `inert`, or managed tab indices. A direct Chromium keyboard check on `/blog/breakup-energy` at `scrollY = 0` found `data-visible="false"`, computed opacity `0`, and tab index `0` on all five anchors. Repeated Tab presses focused Share on Twitter, Facebook, LinkedIn, email, and Copy page link while the rail remained invisible. The legacy scroll script removed the rail from layout while hidden. This affects every article and long-form route that enables `floatingShare` and gives keyboard users invisible focus stops before the control is available visually.</description>
+      <code_example>```css
+/* File: src/styles/global.css, Lines 1235-1251 */
+#sh-box {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#sh-box[data-visible='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+```
+
+```ts
+// File: src/scripts/social-share.ts, Lines 4-6
+const updateVisibility = () =&gt; {
+  rail.dataset.visible = String(window.scrollY &gt; 660);
+};
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Keyboard behaviour** | Rail links enter the tab order only when the rail is visible | Five transparent rail links receive focus before the user scrolls |
+| **Visual focus** | Every focused control is visible | Focus moves through controls with computed opacity `0` |
+| **Legacy parity** | Hidden rail is unavailable until the scroll threshold | Migrated rail is visually hidden but still interactive by keyboard |
+| **Recommendation** | Synchronise visual visibility, accessibility exposure, and tab order, then add a keyboard regression test before and after the threshold | Current CSS changes only opacity and pointer input |
+</expected_vs_actual>
+    </issue_description>
+  </bug_4>
+  <bug_5>
+    <summary>
+      <title>[Article endings] Share links no longer preserve route-specific legacy payloads</title>
+      <one_line_description>The fixed rail and supplement ending generate different share messages and query parameters from the audited route contracts.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - share URL construction, Lines 7-12
+- /Users/sacino/musclehacking/src/components/ShareLinks.astro - bottom Twitter URL construction, Lines 8-13
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - `ArticleEnding` invocation, Lines 20-31
+- /Users/sacino/musclehacking/js/scl.js - function: `updateSocialShareLinks`, Lines 33-52
+- /Users/sacino/musclehacking/supplements/index.html - legacy supplement Twitter share anchor, Lines 5332-5339
+</file_locations>
+    <issue_description>
+      <description>`SocialShareRail.astro` replaces the recorded rail payloads with one hard-coded Twitter phrase, omits the Facebook title, changes the LinkedIn endpoint and title payload, and changes the email subject and body. The legacy script derived Twitter text from page metadata, included the document title for Facebook and LinkedIn, and used `Worth a read` plus `You might find this interesting: &lt;URL&gt;` for email. The supplement bottom share link also falls through to the generic `Interesting read` text because the route does not provide `twitterText`, although the legacy route used the supplement-specific `Check out this supplement guide` message. The legacy supplement URL contains a `.co` typo, which should be corrected as a verified technical fix without discarding the approved route-specific message. These differences are observable when a visitor activates the restored article-ending controls.</description>
+      <code_example>```astro
+&lt;!-- File: src/components/SocialShareRail.astro, Lines 9-12 --&gt;
+const twitterHref = `https://twitter.com/intent/tweet?text=Interesting+read:%20${url}%20via%20@musclehacking`;
+const facebookHref = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+const linkedInHref = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+const emailHref = `mailto:?subject=${encodeURIComponent(title)}&amp;body=${encodeURIComponent(url)}`;
+```
+
+```js
+// File: js/scl.js, Lines 39-51
+var twitterLink = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterTitle)} ${encodeURIComponent(url)}&amp;via=musclehacking`;
+var facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&amp;title=${encodeURIComponent(title)}`;
+var linkedInLink = `https://www.linkedin.com/shareArticle?mini=true&amp;url=${encodeURIComponent(url)}&amp;title=${encodeURIComponent(title)}`;
+var emailLink = `mailto:?subject=${encodeURIComponent('Worth a read')}&amp;body=${encodeURIComponent('You might find this interesting: ' + url)}`;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Twitter rail** | Page metadata title, canonical URL, and `via=musclehacking` | Generic `Interesting read` payload on every route |
+| **Facebook and LinkedIn** | Canonical URL plus the recorded page-title payload | Facebook drops title; LinkedIn changes endpoint and drops title |
+| **Email rail** | Subject `Worth a read` and explanatory body with the URL | Subject becomes the page title and body is only the URL |
+| **Supplement bottom share** | Supplement-specific share copy with the corrected canonical host | Generic article share copy |
+| **Recommendation** | Model the audited share payload per control and route, preserving approved copy while correcting only the known host typo | Current shared defaults erase route-specific behaviour |
+</expected_vs_actual>
+    </issue_description>
+  </bug_5>
+  <bug_6>
+    <summary>
+      <title>[Content extraction] Article migration recreates duplicated endings</title>
+      <one_line_description>Rerunning the checked-in blog migration writes legacy post navigation and disclosure markup into content that already receives a shared `ArticleEnding`.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/scripts/migrate-legacy-content.mjs - legacy body cleanup and output, Lines 53-85
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - shared `ArticleEnding` render, Lines 51-64
+- /Users/sacino/musclehacking/src/content/blog/healthy-low-calorie-foods.md - current manually separated article content
+- /Users/sacino/musclehacking/blog/healthy-low-calorie-foods.html - legacy disclaimer and navigation source, Lines 542-561
+</file_locations>
+    <issue_description>
+      <description>The extraction selector removes forms, Share, Comment, prompts, and scripts, but it does not remove `#post-nav` or the disclosure nodes between `#comm` and `#post-nav`. An in-memory execution of the selector against the audited sources left one `#post-nav` on every blog article and left the Amazon disclosure on `healthy-low-calorie-foods`. The current Markdown files have been cleaned separately, so the built output is correct today. However, rerunning the repository migration utility overwrites all twelve Markdown files with retained legacy navigation, after which `ArticleLayout.astro` appends another shared navigation. The affected disclosure route also receives both retained disclosure markup and `AffiliateDisclaimer`. The checked-in migration is therefore not repeatable and can recreate the exact duplicate or misplaced ending defect the shared layout was introduced to prevent.</description>
+      <code_example>```js
+// File: scripts/migrate-legacy-content.mjs, Lines 57-59 and 84-85
+const body = $('.post-body').first();
+
+body.find('script, #share, #comm, .e-on-delay, .email-float, form').remove();
+
+const importedHtml = normalizeImportedHtml(body.html() ?? '');
+writeFileSync(join(outputDirectory, `${slug}.md`), `${frontmatter}${importedHtml}\n`);
+```
+
+```astro
+&lt;!-- File: src/layouts/ArticleLayout.astro, Lines 51-64 --&gt;
+&lt;ArticleEnding
+  {canonicalPath}
+  {title}
+  previous={previousPost}
+  next={nextPost}
+  disclaimer={disclaimer}
+/&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Repeatability** | Migration can be rerun without changing the page contract | Rerun reimports legacy ending nodes into all article bodies |
+| **Navigation** | One server-rendered `#post-nav` owned by `ArticleEnding` | Imported navigation plus shared navigation after rerun |
+| **Disclosure** | One route-mapped disclosure | `healthy-low-calorie-foods` retains the legacy disclosure and receives the shared one |
+| **Recommendation** | Remove all shared-ending nodes during extraction and add an idempotence or extracted-content fixture that rejects ending selectors | Current cleanup list is incomplete |
+</expected_vs_actual>
+    </issue_description>
+  </bug_6>
+  <bug_7>
+    <summary>
+      <title>[Verification] Passing parity gates do not enforce the complete ending contract</title>
+      <one_line_description>The E2E and distribution checks pass while route order, mobile coverage, share payloads, and hidden keyboard focus remain unverified.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - test: `UI-12 restores previous and next article navigation at desktop and mobile`, Lines 553-610
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - test: `reopened article endings restore share, comment, disclaimers, wrapping, and floating rail`, Lines 612-686
+- /Users/sacino/musclehacking/tests/a11y/site.spec.ts - representative axe-only route loop, Lines 1-20
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - article-ending checks, Lines 80-107
+</file_locations>
+    <issue_description>
+      <description>The ending matrix test skips the mobile Playwright project entirely, then validates all twelve articles only at a forced desktop viewport. Its child-order assertion uses `expect.arrayContaining`, which accepts any order and extra elements even though the reopened requirement calls for an exact route-specific sequence. The mobile portion of UI-12 covers only `breakup-energy` and the one-sided calculator-guide article; the four section routes are checked only for two link counts on desktop. No check asserts the floating-rail destinations or removes hidden rail links from the keyboard sequence. The accessibility suite scans only six representative routes with axe and does not perform keyboard traversal. The distribution verifier checks only `newsletter &lt; share &lt; navigation` for blog routes, so it does not verify Comment, disclosure placement, floating rail presence, route-specific share payloads, section endings, or the complete route-state-viewport matrix. Both `pnpm verify:dist` and the two focused article-ending E2E tests passed during this audit while bugs 1 and 2 remained reproducible.</description>
+      <code_example>```ts
+// File: tests/e2e/ui-parity.spec.ts, Lines 612-645
+test('reopened article endings restore share, comment, disclaimers, wrapping, and floating rail', async ({ page }) =&gt; {
+  test.skip(test.info().project.name === 'mobile-chromium', 'Desktop route matrix covers the fixed legacy rail.');
+  await page.setViewportSize({ width: 1_440, height: 1_000 });
+  // ...
+  expect(await ending.evaluate((node) =&gt; Array.from(node.children).map((child) =&gt; child.id || child.className))).toEqual(
+    expect.arrayContaining(['share', 'comm', 'post-nav']),
+  );
+});
+```
+
+```js
+// File: scripts/verify-dist.mjs, Lines 104-107
+const newsletterOffset = generatedHtml.indexOf('data-newsletter-placement="article-bottom"');
+const shareOffset = generatedHtml.indexOf('class="share-links"');
+const navigationOffset = generatedHtml.indexOf('id="post-nav"');
+if (!(newsletterOffset &gt;= 0 &amp;&amp; shareOffset &gt; newsletterOffset &amp;&amp; navigationOffset &gt; shareOffset)) fail(...);
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Route matrix** | Exact ending sequence and controls on every applicable article and section route | Complete article loop is desktop-only; section assertions are presence-only |
+| **Responsive coverage** | Every previous-only, next-only, and two-sided ending checked at required mobile widths | Mobile checks cover two article examples, not the route matrix |
+| **Ordering** | Exact ordered child sequence with route-specific disclosure rules | `arrayContaining` accepts reordered and additional nodes |
+| **Keyboard and destinations** | Visible focus and exact external payloads are asserted | Hidden focusable rail links and changed share URLs pass |
+| **Recommendation** | Drive one authoritative ending fixture across every route, viewport, order, payload, focus state, and no-JavaScript response | Current independent checks leave the reopened integration contract incomplete |
+</expected_vs_actual>
+    </issue_description>
+  </bug_7>
+</bug_report>

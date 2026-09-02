@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "9bf25d0",
+  "sourceFile": "supplements/index.html",
+  "route": "/supplements/",
+  "sortRule": "Filter by category, then sort high before medium before low, preserving source order for ties.",
+  "defaultFilter": "muscle-growth",
+  "filters": {
+    "muscle-growth": ["Creatine", "Whey Protein", "Beta-Alanine", "Alpha GPC", "Ashwagandha", "Melatonin", "Fish Oil", "Spirulina"],
+    "sleep": ["Melatonin", "Ashwagandha", "L-Theanine"],
+    "joint-health": ["Fish Oil", "Curcumin", "Collagen", "Glucosamine"],
+    "bone-health": ["Vitamin D"],
+    "testosterone": ["Zinc", "Magnesium"],
+    "focus": ["Alpha GPC", "L-Theanine"],
+    "brain-function": ["Creatine", "Fish Oil", "Zinc", "Curcumin"],
+    "insulin-sensitivity": ["Ceylon Cinnamon", "Curcumin", "Mulberry Leaf Extract", "Vitamin D", "Magnesium", "Spirulina"],
+    "longevity": ["Beta-Alanine", "Melatonin", "Spirulina", "Garlic"],
+    "show-all": ["Creatine", "Beta-Alanine", "Whey Protein", "Alpha GPC", "Ashwagandha", "Melatonin", "L-Theanine", "Fish Oil", "Spirulina", "Ceylon Cinnamon", "Curcumin", "Collagen", "Garlic", "Mulberry Leaf Extract", "Vitamin D", "Magnesium", "Zinc", "Probiotic", "Glucosamine"]
+  },
+  "auxiliarySection": "What is this?",
+  "interactionStates": ["active filter button", "visible ordered categories", "efficacy tag", "category-top marker", "rebuilt table of contents", "popover content", "fragment-triggered Show All"]
+}

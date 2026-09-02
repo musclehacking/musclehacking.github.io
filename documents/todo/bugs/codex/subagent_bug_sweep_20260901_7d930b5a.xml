@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Supplements] Touch activation immediately closes evidence popovers</title>
+<one_line_description>A real touchscreen tap opens an evidence popover on focus and then closes it again in the click handler.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 89-98 and 142-155
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `all visible supplement badges have exact metrics and every evidence popover opens in view`, Lines 262-324
+]]></file_locations>
+
+<issue_description>
+<description>Touch input does not pass through the pointer-hover path that records the trigger in `openedByFocus`. A touchscreen tap first focuses the button, so `handleFocusIn` opens the panel. The following click then reaches the default `togglePopover` branch and closes it. A rendered Chromium reproduction with `hasTouch: true` and `badge.tap()` left `aria-expanded="false"` and the controlled panel hidden. The existing badge matrix uses mouse-style `click()` in a desktop Chromium context, so it does not exercise this event sequence. Keep one explicit touch activation state transition so the tap leaves the panel open.</description>
+
+<code_example><![CDATA[```typescript
+# File: src/features/supplements/enhance.ts, Lines 89-98 and 142-145
+
+const popoverTrigger = event.target.closest<HTMLButtonElement>(POPOVER_TRIGGER_SELECTOR);
+if (popoverTrigger && eventRoot.contains(popoverTrigger)) {
+  if (event instanceof MouseEvent && event.detail === 0) {
+    setPopoverOpen(documentNode, popoverTrigger, true);
+  } else if (openedByFocus.has(popoverTrigger)) {
+    openedByFocus.delete(popoverTrigger);
+    setPopoverOpen(documentNode, popoverTrigger, true);
+  } else {
+    togglePopover(documentNode, popoverTrigger);
+  }
+}
+
+const trigger = event.target.closest<HTMLButtonElement>(POPOVER_TRIGGER_SELECTOR);
+if (trigger && eventRoot.contains(trigger)) setPopoverOpen(documentNode, trigger, true);
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Touch activation** | One tap opens the controlled evidence panel | Focus opens the panel, then click immediately closes it |
+| **ARIA state** | `aria-expanded="true"` after the tap | `aria-expanded="false"` after the tap |
+| **User impact** | Touch users can read and dismiss evidence help | Evidence help never remains visible after a normal tap |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Sharing] A throwing legacy copy API bypasses failure feedback and safe navigation</title>
+<one_line_description>If `document.execCommand('copy')` throws, the copy-link handler rejects before it can show failure feedback or use the total-failure navigation fallback.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/scripts/social-share.ts - functions: `copyText` and copy-link click handler, Lines 4-24 and 36-48
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - test: `reopened article endings restore share, comment, disclaimers, wrapping, and floating rail`, Lines 727-768
+]]></file_locations>
+
+<issue_description>
+<description>The Clipboard API rejection is caught, but the retained `document.execCommand('copy')` call is not. Browsers and constrained document contexts may throw from this deprecated API instead of returning `false`. In that case, the async click listener rejects before setting `data-copied`, before changing the tooltip to `Copy Failed`, and before reaching `location.assign(link.href)`. A focused browser reproduction with a rejected Clipboard API and a throwing `execCommand` produced the page error `exec blocked`, retained the unchanged `Copy Link` label, and performed no fallback navigation. Catch the legacy API exception and convert it into the same explicit total-failure result as a `false` return.</description>
+
+<code_example><![CDATA[```typescript
+# File: src/scripts/social-share.ts, Lines 14-23 and 36-48
+
+const field = document.createElement('textarea');
+field.value = value;
+document.body.appendChild(field);
+field.select();
+const copied = document.execCommand('copy');
+field.remove();
+return copied;
+
+const copied = await copyText(link.href);
+link.dataset.copied = String(copied);
+if (!copied) location.assign(link.href);
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Total copy failure** | Show `Copy Failed`, clean up the temporary field, then use the safe URL fallback | An uncaught exception aborts the handler |
+| **Feedback** | The visitor receives a visible failure state | The tooltip remains `Copy Link` |
+| **Navigation fallback** | The canonical page URL is used only after both copy paths fail | No fallback occurs when the legacy API throws |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Supplements] Server-rendered unfiltered content assigns unsupported evidence badges</title>
+<one_line_description>Without JavaScript, all 19 supplements render with evidence labels even though no goal filter is selected.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - supplement filter and badge markup, Lines 10-13 and 28-39
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 165-167
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `every supplement filter matches the audited membership, order, TOC, and selected state`, Lines 218-260
+]]></file_locations>
+
+<issue_description>
+<description>The server output marks every filter `aria-pressed="false"`, renders every supplement, and fills each badge from the record's first evidence entry. Evidence level is category-specific, so the first entry is not a valid label without a selected goal context. JavaScript later applies Muscle Growth and corrects or hides badges, but JavaScript-disabled users and the pre-enhancement document see 19 visible badges with no selected filter. A JavaScript-disabled browser reproduction returned zero pressed filters, 19 visible sections, and 19 visible evidence badges. Render badges without a visible level until enhancement establishes a goal context, while retaining all semantic supplement content.</description>
+
+<code_example><![CDATA[```astro
+# File: src/components/SupplementExplorer.astro, Lines 11-13 and 33-35
+
+{supplementFilters.map((filter) => (
+  <button type="button" data-supplement-filter={filter.id} aria-pressed="false">{filter.label}</button>
+))}
+
+<button
+  type="button"
+  class="evidence-badge popover-trigger"
+  data-supplement-evidence
+  aria-expanded="false"
+>{supplement.evidence[0]?.level}</button>
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Unfiltered state** | No evidence badge appears without a selected goal | Every supplement shows its first category-specific evidence level |
+| **JavaScript disabled** | Complete supplement content remains usable without misleading filter context | All 19 records show potentially unrelated evidence labels |
+| **Initial render** | The server contract agrees with the active filter state | Buttons report no selection while badges imply a selection |
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+
+<bug_4>
+<summary>
+<title>[Metadata] Supplement route registry disagrees with the rendered description</title>
+<one_line_description>The configured source-of-truth description for `/supplements/` differs from the description emitted by the page and social metadata.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/config/routes.ts - `/supplements/` route entry, Lines 99-107
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - `BaseLayout` metadata props, Lines 8-14
+- /Users/sacino/musclehacking/src/layouts/BaseLayout.astro - metadata rendering, Lines 18-28 and 33-50
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - generated route contract, Lines 10-21
+]]></file_locations>
+
+<issue_description>
+<description>The route registry defines the supplement description as `A supplement stack distilled from scientific research.`, while the route passes a different, longer description directly to `BaseLayout`. The browser therefore emits the longer value in `meta[name="description"]`, `og:description`, and `twitter:description`, but any registry consumer receives the shorter value. The general route contract test checks only that titles are non-empty and does not compare descriptions, so this divergence remains green. Use one approved description from the route metadata owner and have the supplement page consume it rather than duplicating a second value.</description>
+
+<code_example><![CDATA[```typescript
+# File: src/config/routes.ts, Lines 99-105
+
+{
+  path: '/supplements/',
+  title: 'The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking',
+  description: 'A supplement stack distilled from scientific research.',
+  indexable: true,
+}
+```
+
+```astro
+# File: src/pages/supplements/index.astro, Lines 8-13
+
+<BaseLayout
+  title="The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking"
+  description="Amplify your muscle growth with a curated supplement stack, distilled from 10+ years of scientific research. Gain muscle, lose the confusion."
+  canonicalPath="/supplements/"
+/>
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Metadata source** | Route registry and rendered route use one approved description | Registry and rendered page hold different descriptions |
+| **Rendered metadata** | Registry consumers predict `description`, Open Graph, and Twitter values | Browser values cannot be derived from the route registry |
+| **Regression coverage** | Route contract fails when metadata diverges | The generated test checks only a non-empty title and canonical URL |
+]]></expected_vs_actual>
+</issue_description>
+</bug_4>
+</bug_report>

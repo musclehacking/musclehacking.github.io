@@ -1,0 +1,21 @@
+---
+import pageContent from '../../content/pages/books.html?raw';
+import LongformLayout from '../../layouts/LongformLayout.astro';
+---
+
+<LongformLayout
+  title="Fitness & Health Books Worth Reading"
+  pageTitle="Fitness & Health Books Worth Reading | Muscle Hacking"
+  description="Books about working out, nutrition & fitness that are worth more than the paper they’re written on."
+  canonicalPath="/books/"
+  image="/img/fitness-books-worth-reading.png"
+  imageAlt="Fitness Books Worth Reading"
+  imageWidth={700}
+  imageHeight={420}
+  byline="By Jay — Updated September 2025, Posted December 2023"
+  disclaimer="generic"
+  previousPost={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Nutrition Related', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
+  nextPost={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Society Related', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
+>
+  <Fragment set:html={pageContent} />
+</LongformLayout>

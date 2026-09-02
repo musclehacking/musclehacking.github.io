@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostNavigation from '../../components/PostNavigation.astro';
+---
+
+<BaseLayout
+  title="One Last Step | Muscle Hacking"
+  description="Confirm your email address and I’ll send you my latest articles."
+  canonicalPath="/one-last-step/"
+  indexable={false}
+>
+  <main class="article-page confirmation-page">
+    <h1>One Last Step</h1>
+    <picture class="intrinsic intrinsic--new18 confirmation-image">
+      <img class="intrinsic-item" src="/img/hit-me-up-bb-girl.gif" alt="Don’t make me beg" width="327" height="225" />
+    </picture>
+    <p>I’ve just sent you a confirmation email.</p>
+    <p>Please click the link inside the email to confirm your humanity.</p>
+    <p>(sorry, I have to do this. Otherwise I get <em>way</em> too much spam).</p>
+    <p>Here are links to some popular email providers to save you a couple of seconds—</p>
+    <ul>
+      <li><a href="https://gmail.com" rel="nofollow">gmail.com</a></li>
+      <li><a href="https://outlook.com" rel="nofollow">outlook.com</a></li>
+      <li><a href="https://mail.proton.me" rel="nofollow">mail.proton.me</a></li>
+      <li><a href="https://mail.aol.com" rel="nofollow">mail.aol.com</a></li>
+      <li><a href="https://mail.yahoo.com" rel="nofollow">mail.yahoo.com</a> <em>(lol as if you still use Yahoo)</em></li>
+    </ul>
+    <p>(it might be in your spam folder).</p>
+    <p>Reply to the first email to ensure it lands in your inbox.</p>
+    <p>All done? Sweet.</p>
+    <p>Here is some of my writing you might find useful—</p>
+    <ul>
+      <li><a href="/calorie-calculator/">Calorie & macro calculator</a></li>
+      <li><a href="/supplements/">Muscle building supplements</a></li>
+      <li><a href="/books/">Fitness books worth reading</a></li>
+      <li><a href="/">Blog posts</a></li>
+    </ul>
+    {/* Legacy one-last-step/index.html ends with the same two-link navigation block. */}
+    <PostNavigation
+      previous={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Nutrition Related', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
+      next={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Society Related', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
+      wrapTitles
+    />
+  </main>
+</BaseLayout>

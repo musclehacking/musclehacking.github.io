@@ -1,0 +1,196 @@
+{
+  "sourceCommit": "9bf25d0",
+  "observedAt": "2026-08-31T00:02:30+08:00",
+  "origin": "https://www.musclehacking.com",
+  "routes": [
+    {
+      "path": "/",
+      "sourceFile": "index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": null
+    },
+    {
+      "path": "/blog/",
+      "sourceFile": "blog/index.html",
+      "status": 200,
+      "canonical": "undefined",
+      "robots": "noindex, nofollow",
+      "indexability": "noindex, nofollow",
+      "nonCanonicalVariant": { "path": "/blog", "status": 301, "location": "https://www.musclehacking.com/blog/" },
+      "verifiedDefect": "The canonical and description are the literal string undefined, and the route is excluded from indexing."
+    },
+    {
+      "path": "/books/",
+      "sourceFile": "books/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/books/",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/books", "status": 301, "location": "https://www.musclehacking.com/books/" }
+    },
+    {
+      "path": "/calorie-calculator/",
+      "sourceFile": "calorie-calculator/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/calorie-calculator/",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/calorie-calculator", "status": 301, "location": "https://www.musclehacking.com/calorie-calculator/" }
+    },
+    {
+      "path": "/join/",
+      "sourceFile": "join/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/one-last-step/",
+      "robots": "noindex",
+      "indexability": "noindex, follow",
+      "nonCanonicalVariant": { "path": "/join", "status": 301, "location": "https://www.musclehacking.com/join/" },
+      "verifiedDefect": "The title and canonical identify the one-last-step route instead of the join route."
+    },
+    {
+      "path": "/lose-fat-gain-muscle/",
+      "sourceFile": "lose-fat-gain-muscle/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/lose-fat-gain-muscle/",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/lose-fat-gain-muscle", "status": 301, "location": "https://www.musclehacking.com/lose-fat-gain-muscle/" }
+    },
+    {
+      "path": "/one-last-step/",
+      "sourceFile": "one-last-step/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/one-last-step/",
+      "robots": "noindex",
+      "indexability": "noindex, follow",
+      "nonCanonicalVariant": { "path": "/one-last-step", "status": 301, "location": "https://www.musclehacking.com/one-last-step/" }
+    },
+    {
+      "path": "/supplements/",
+      "sourceFile": "supplements/index.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/supplements/",
+      "robots": "index",
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/supplements", "status": 301, "location": "https://www.musclehacking.com/supplements/" }
+    },
+    {
+      "path": "/blog/australian-health-star-rating",
+      "sourceFile": "blog/australian-health-star-rating.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/australian-health-star-rating",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/australian-health-star-rating/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/best-protein-powder-for-building-muscle",
+      "sourceFile": "blog/best-protein-powder-for-building-muscle.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/best-protein-powder-for-building-muscle",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/best-protein-powder-for-building-muscle/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/breakup-energy",
+      "sourceFile": "blog/breakup-energy.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/breakup-energy",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/breakup-energy/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/calorie-calculator-how-to",
+      "sourceFile": "blog/calorie-calculator-how-to.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/calorie-calculator/",
+      "robots": null,
+      "indexability": "index, follow through a non-self canonical",
+      "nonCanonicalVariant": { "path": "/blog/calorie-calculator-how-to/", "status": 404, "location": null },
+      "verifiedDefect": "The article canonical points to the calculator route. The migration plan requires approval before retaining this exception."
+    },
+    {
+      "path": "/blog/change",
+      "sourceFile": "blog/change.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/change",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/change/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/healthy-low-calorie-foods",
+      "sourceFile": "blog/healthy-low-calorie-foods.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/healthy-low-calorie-foods",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/healthy-low-calorie-foods/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/healthy-organic-post",
+      "sourceFile": "blog/healthy-organic-post.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/healthy-organic-post",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/healthy-organic-post/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/idols",
+      "sourceFile": "blog/idols.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/idols",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/idols/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/normal",
+      "sourceFile": "blog/normal.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/normal",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/normal/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/reject-modernity-embrace-masculinity",
+      "sourceFile": "blog/reject-modernity-embrace-masculinity.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/reject-modernity-embrace-masculinity",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/reject-modernity-embrace-masculinity/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/weak",
+      "sourceFile": "blog/weak.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/weak",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/weak/", "status": 404, "location": null }
+    },
+    {
+      "path": "/blog/what-is-intermittent-fasting",
+      "sourceFile": "blog/what-is-intermittent-fasting.html",
+      "status": 200,
+      "canonical": "https://www.musclehacking.com/blog/what-is-intermittent-fasting",
+      "robots": null,
+      "indexability": "index, follow",
+      "nonCanonicalVariant": { "path": "/blog/what-is-intermittent-fasting/", "status": 404, "location": null }
+    }
+  ],
+  "additionalStatusChecks": [
+    { "path": "/__legacy-baseline-missing__", "status": 404, "bodyOwner": "generic GitHub Pages 404" },
+    { "path": "/feed.xml", "status": 200, "contentType": "application/xml" },
+    { "path": "/robots.txt", "status": 200, "contentType": "text/plain; charset=utf-8" },
+    { "path": "/sitemap.xml", "status": 200, "contentType": "application/xml" }
+  ]
+}

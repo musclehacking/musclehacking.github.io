@@ -1,0 +1,49 @@
+---
+import Calculator from '../../features/calculator/Calculator';
+import CalculatorNewsletterPrompts from '../../components/CalculatorNewsletterPrompts.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CalculatorGuideIntro from '../../components/CalculatorGuideIntro.astro';
+import ArticleEnding from '../../components/ArticleEnding.astro';
+import { calculatorGuideRemainderHtml } from '../../content/pages/calculator-guide';
+
+---
+
+<BaseLayout
+  title="Calorie And Macro Calculator (Bulking, Maintenance or Cutting) | Muscle Hacking"
+  description="Calculate how many calories and macros you need while bulking, cutting, or maintaining."
+  canonicalPath="/calorie-calculator/"
+>
+  <main class="calculator-page">
+    <Calculator client:load />
+  </main>
+  <article class="calculator-guide" data-heading-links>
+    <header>
+      <h2 id="how-to-use">Calorie &amp; Macro Calculator: How To Use It</h2>
+      <p>By Jay — Updated April 2026</p>
+    </header>
+    <div class="legacy-content">
+      <CalculatorGuideIntro />
+      <Fragment set:html={calculatorGuideRemainderHtml} />
+    </div>
+    <ArticleEnding
+      canonicalPath="/calorie-calculator/"
+      title="Calorie & Macro Calculator: How To Use It"
+      documentTitle="Calorie And Macro Calculator (Bulking, Maintenance or Cutting) | Muscle Hacking"
+      formId="calculator-bottom"
+      campaign="calculator-bottom"
+      placement="calculator-bottom"
+      previous={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Read Something Similar', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
+      next={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Read Something Different', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
+      wrapTitles
+      disclaimer="calculator"
+      floatingShare
+      shareTitle="Calorie And Macro Calculator (Bulking, Maintenance or Cutting)"
+      twitterText="Check+out+this+calorie+and+macro+calculator:+https://www.musclehacking.com/calorie-calculator/%20from%20@musclehacking"
+    />
+  </article>
+  <CalculatorNewsletterPrompts />
+</BaseLayout>
+
+<script>
+  import '../../scripts/heading-links';
+</script>

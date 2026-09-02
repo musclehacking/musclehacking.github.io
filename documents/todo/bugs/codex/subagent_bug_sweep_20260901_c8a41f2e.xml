@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Calculator validation] Empty zero-bounded fields are accepted as numeric zero</title>
+<one_line_description>Clearing several required calculator inputs leaves the result and copy action valid because the form converts an empty string to zero.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `toCalculatorInput`, Lines 237-269
+- /Users/sacino/musclehacking/src/features/calculator/domain/validation.ts - function: `addRangeError` and `validateCalculatorInput`, Lines 27-42 and 89-164
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `every bounded calculator field accepts its limits and rejects values outside them`, Lines 103-148
+]]></file_locations>
+
+<issue_description>
+<description>The React form stores numeric controls as strings, but `toCalculatorInput` converts them with `Number(value)`. JavaScript converts an empty string to `0`, and range validation cannot distinguish that synthetic zero from a user-entered zero. In a real Chromium run, clearing Standard Fat/Carb Calorie Split rendered valid macros `176 / 0 / 257`, clearing LeanGains Steps rendered the normal result, and clearing Keto Carb Limit rendered valid macros `176 / 114 / 0`. None of the controls received `aria-invalid`, the error summary stayed absent, and Copy remained available. The same conversion also makes a cleared Standard Calorie Deficit/Surplus field behave as a valid 0% goal. This violates Section 5.8.1, which requires missing input to fail safely. The boundary E2E matrix checks values below and above each range but never clears a field, so it passes while this defect remains. Preserve missing state through form-to-domain conversion, reject it before calculation, and add direct cleared-field regressions for every affected mode.</description>
+
+<code_example><![CDATA[```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 248-268
+
+return {
+  ...displayForm,
+  standardGoalPercent: Number(form.standardGoalPercent),
+  fatCaloriePercent: Number(form.fatCaloriePercent),
+  dailySteps: Number(form.dailySteps),
+  ketoCarbGrams: Number(form.ketoCarbGrams),
+};
+
+// Number("") === 0, and each affected range accepts zero.
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Missing input** | A cleared required field is invalid | Empty text is converted to numeric zero |
+| **Rendered result** | Results are replaced by the input error state | Plausible macros continue rendering |
+| **Copy control** | Copy is disabled while input is missing | Copy remains enabled for the synthetic zero result |
+| **Regression coverage** | Each bounded field has a missing-value case | The matrix only checks limits and out-of-range numbers |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Calculator fragments] The rendered guide contains two start-p IDs</title>
+<one_line_description>The calculator guide composition emits `id="start-p"` twice, making DOM ID and fragment resolution ambiguous.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/CalculatorGuideIntro.astro - calculator-specific Diet introduction, Line 64
+- /Users/sacino/musclehacking/src/content/blog/calorie-calculator-how-to.md - shared remainder source under Stats, Line 59
+- /Users/sacino/musclehacking/src/content/pages/calculator-guide.ts - function: shared remainder extraction, Lines 3-20
+- /Users/sacino/musclehacking/src/pages/calorie-calculator/index.astro - calculator guide composition, Lines 19-27
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - heading and fragment contract test, Lines 393-450
+]]></file_locations>
+
+<issue_description>
+<description>`CalculatorGuideIntro.astro` assigns `start-p` to the paragraph beneath Diet. The shared remainder is sliced from the standalone article at the Stats heading, where another paragraph already has `id="start-p"`. Rendering both sources on `/calorie-calculator/` produces two elements with that ID at every checked width from 320 through 1440 pixels. `document.getElementById("start-p")`, `#start-p`, and assistive-technology ID references can resolve only one of the two intended targets. Section 5.8.6 explicitly requires zero duplicate IDs, but the focused heading test checks icon geometry and two named fragment destinations without enumerating IDs. Give each paragraph a unique stable ID during calculator-page composition and add a page-wide duplicate-ID assertion.</description>
+
+<code_example><![CDATA[```astro
+<!-- File: src/components/CalculatorGuideIntro.astro, Line 64 -->
+<p id="start-p">The option you select here will determine which formula and inputs are used to calculate your calories.</p>
+
+<!-- Shared source: src/content/blog/calorie-calculator-how-to.md, Line 59 -->
+<p id="start-p">Here you input the following basic personal information:</p>
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **ID uniqueness** | Every rendered ID occurs once | `start-p` occurs twice on `/calorie-calculator/` |
+| **Fragment resolution** | `#start-p` identifies one stable element | Browser and DOM APIs select the first matching element |
+| **Acceptance coverage** | Focused E2E rejects every duplicate ID | Current heading test does not inspect page-wide ID uniqueness |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+</bug_report>

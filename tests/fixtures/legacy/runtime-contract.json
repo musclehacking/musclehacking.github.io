@@ -1,0 +1,55 @@
+{
+  "sourceCommit": "9bf25d0",
+  "sharedUi": {
+    "header": ["fixed gradient navigation", "shield logo", "wordmark", "desktop links", "mobile newsletter link", "collapsible mobile menu"],
+    "content": ["main article or listing", "page title", "desktop sidebar on content routes", "table of contents where present", "local images and fonts"],
+    "sidebar": ["newsletter form", "About block", "social links"],
+    "footer": ["copyright", "navigation and social links where present"],
+    "progressiveEnhancements": ["navigation collapse", "anchor links", "share links", "back-to-top control", "email prompts", "Bootstrap tooltips and popovers"]
+  },
+  "runtimeNetworkDependencies": [
+    { "origin": "https://maxcdn.bootstrapcdn.com", "purpose": "Bootstrap CSS and JavaScript" },
+    { "origin": "https://code.jquery.com", "purpose": "jQuery" },
+    { "origin": "https://cdn.jsdelivr.net", "purpose": "Popper and Tippy packages" },
+    { "origin": "https://cdnjs.cloudflare.com", "purpose": "page-specific legacy JavaScript packages" },
+    { "origin": "https://unpkg.com", "purpose": "page-specific legacy CSS and JavaScript packages" },
+    { "origin": "https://www.google.com", "purpose": "reCAPTCHA browser script" },
+    { "origin": "https://www.googletagmanager.com", "purpose": "retired Universal Analytics loader for UA-120945323-1" },
+    { "origin": "https://dev.musclehacking.com", "purpose": "newsletter form POST destination" },
+    { "origin": "https://www.youtube-nocookie.com", "purpose": "one embedded video" }
+  ],
+  "representativeHomeResponse": {
+    "status": 200,
+    "server": "GitHub.com",
+    "contentType": "text/html; charset=utf-8",
+    "accessControlAllowOrigin": "*",
+    "cacheControl": "max-age=600",
+    "vary": "Accept-Encoding",
+    "absentProjectOwnedHeaders": ["Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy", "X-Frame-Options", "Strict-Transport-Security"]
+  },
+  "apexRedirect": {
+    "request": "https://musclehacking.com/blog/change?baseline=1",
+    "status": 301,
+    "location": "https://www.musclehacking.com/blog/change?baseline=1",
+    "pathAndQueryPreserved": true
+  },
+  "publicDns": {
+    "observedAt": "2026-08-31T00:02:30+08:00",
+    "apexA": ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"],
+    "wwwCname": "musclehacking.github.io.",
+    "devA": ["104.21.46.71", "172.67.136.17"],
+    "mail": "Google Workspace MX records and SPF plus two Google site-verification TXT records were observed and are unrelated to migration routing.",
+    "authorityWarning": "Public DNS output is an observation only. It is not the complete authoritative Cloudflare record snapshot required before a DNS write."
+  },
+  "visualArtifacts": {
+    "location": "/Users/sacino/Documents/codex/web-development/musclehacking/legacy-baseline-9bf25d0/screenshots/",
+    "trackedInGit": false,
+    "desktopViewport": { "width": 1440, "height": 1000 },
+    "mobileViewport": { "width": 390, "height": 844 },
+    "routeImages": 40,
+    "stateImages": 6,
+    "stateNames": ["calculator-leangains", "calculator-keto", "supplements-show-all"],
+    "captureTool": "Google Chrome 151 headless",
+    "captureLimit": "These are settled viewport screenshots, not full-page screenshots. The exact copy and semantic contract remains tied to commit 9bf25d0 and the reduced route fixtures."
+  }
+}

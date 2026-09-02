@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bug_report>
+  <bug_1>
+    <summary>
+      <title>[Calculator validation] Empty zero-bounded fields are accepted as numeric zero</title>
+      <one_line_description>Clearing several required calculator inputs leaves the result and copy action valid because the form converts an empty string to zero.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `toCalculatorInput`, Lines 237-269
+- /Users/sacino/musclehacking/src/features/calculator/domain/validation.ts - function: `addRangeError` and `validateCalculatorInput`, Lines 27-42 and 89-164
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `every bounded calculator field accepts its limits and rejects values outside them`, Lines 103-148
+</file_locations>
+    <issue_description>
+      <description>The React form stores numeric controls as strings, but `toCalculatorInput` converts them with `Number(value)`. JavaScript converts an empty string to `0`, and range validation cannot distinguish that synthetic zero from a user-entered zero. In a real Chromium run, clearing Standard Fat/Carb Calorie Split rendered valid macros `176 / 0 / 257`, clearing LeanGains Steps rendered the normal result, and clearing Keto Carb Limit rendered valid macros `176 / 114 / 0`. None of the controls received `aria-invalid`, the error summary stayed absent, and Copy remained available. The same conversion also makes a cleared Standard Calorie Deficit/Surplus field behave as a valid 0% goal. This violates Section 5.8.1, which requires missing input to fail safely. The boundary E2E matrix checks values below and above each range but never clears a field, so it passes while this defect remains. Preserve missing state through form-to-domain conversion, reject it before calculation, and add direct cleared-field regressions for every affected mode.</description>
+      <code_example>```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 248-268
+
+return {
+  ...displayForm,
+  standardGoalPercent: Number(form.standardGoalPercent),
+  fatCaloriePercent: Number(form.fatCaloriePercent),
+  dailySteps: Number(form.dailySteps),
+  ketoCarbGrams: Number(form.ketoCarbGrams),
+};
+
+// Number("") === 0, and each affected range accepts zero.
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Missing input** | A cleared required field is invalid | Empty text is converted to numeric zero |
+| **Rendered result** | Results are replaced by the input error state | Plausible macros continue rendering |
+| **Copy control** | Copy is disabled while input is missing | Copy remains enabled for the synthetic zero result |
+| **Regression coverage** | Each bounded field has a missing-value case | The matrix only checks limits and out-of-range numbers |
+</expected_vs_actual>
+    </issue_description>
+  </bug_1>
+  <bug_2>
+    <summary>
+      <title>[Calculator fragments] The rendered guide contains two start-p IDs</title>
+      <one_line_description>The calculator guide composition emits `id="start-p"` twice, making DOM ID and fragment resolution ambiguous.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/CalculatorGuideIntro.astro - calculator-specific Diet introduction, Line 64
+- /Users/sacino/musclehacking/src/content/blog/calorie-calculator-how-to.md - shared remainder source under Stats, Line 59
+- /Users/sacino/musclehacking/src/content/pages/calculator-guide.ts - function: shared remainder extraction, Lines 3-20
+- /Users/sacino/musclehacking/src/pages/calorie-calculator/index.astro - calculator guide composition, Lines 19-27
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - heading and fragment contract test, Lines 393-450
+</file_locations>
+    <issue_description>
+      <description>`CalculatorGuideIntro.astro` assigns `start-p` to the paragraph beneath Diet. The shared remainder is sliced from the standalone article at the Stats heading, where another paragraph already has `id="start-p"`. Rendering both sources on `/calorie-calculator/` produces two elements with that ID at every checked width from 320 through 1440 pixels. `document.getElementById("start-p")`, `#start-p`, and assistive-technology ID references can resolve only one of the two intended targets. Section 5.8.6 explicitly requires zero duplicate IDs, but the focused heading test checks icon geometry and two named fragment destinations without enumerating IDs. Give each paragraph a unique stable ID during calculator-page composition and add a page-wide duplicate-ID assertion.</description>
+      <code_example>```astro
+&lt;!-- File: src/components/CalculatorGuideIntro.astro, Line 64 --&gt;
+&lt;p id="start-p"&gt;The option you select here will determine which formula and inputs are used to calculate your calories.&lt;/p&gt;
+
+&lt;!-- Shared source: src/content/blog/calorie-calculator-how-to.md, Line 59 --&gt;
+&lt;p id="start-p"&gt;Here you input the following basic personal information:&lt;/p&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **ID uniqueness** | Every rendered ID occurs once | `start-p` occurs twice on `/calorie-calculator/` |
+| **Fragment resolution** | `#start-p` identifies one stable element | Browser and DOM APIs select the first matching element |
+| **Acceptance coverage** | Focused E2E rejects every duplicate ID | Current heading test does not inspect page-wide ID uniqueness |
+</expected_vs_actual>
+    </issue_description>
+  </bug_2>
+  <bug_3>
+    <summary>
+      <title>[Supplements] Touch activation immediately closes evidence popovers</title>
+      <one_line_description>A real touchscreen tap opens an evidence popover on focus and then closes it again in the click handler.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 89-98 and 142-155
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `all visible supplement badges have exact metrics and every evidence popover opens in view`, Lines 262-324
+</file_locations>
+    <issue_description>
+      <description>Touch input does not pass through the pointer-hover path that records the trigger in `openedByFocus`. A touchscreen tap first focuses the button, so `handleFocusIn` opens the panel. The following click then reaches the default `togglePopover` branch and closes it. A rendered Chromium reproduction with `hasTouch: true` and `badge.tap()` left `aria-expanded="false"` and the controlled panel hidden. The existing badge matrix uses mouse-style `click()` in a desktop Chromium context, so it does not exercise this event sequence. Keep one explicit touch activation state transition so the tap leaves the panel open.</description>
+      <code_example>```typescript
+# File: src/features/supplements/enhance.ts, Lines 89-98 and 142-145
+
+const popoverTrigger = event.target.closest&lt;HTMLButtonElement&gt;(POPOVER_TRIGGER_SELECTOR);
+if (popoverTrigger &amp;&amp; eventRoot.contains(popoverTrigger)) {
+  if (event instanceof MouseEvent &amp;&amp; event.detail === 0) {
+    setPopoverOpen(documentNode, popoverTrigger, true);
+  } else if (openedByFocus.has(popoverTrigger)) {
+    openedByFocus.delete(popoverTrigger);
+    setPopoverOpen(documentNode, popoverTrigger, true);
+  } else {
+    togglePopover(documentNode, popoverTrigger);
+  }
+}
+
+const trigger = event.target.closest&lt;HTMLButtonElement&gt;(POPOVER_TRIGGER_SELECTOR);
+if (trigger &amp;&amp; eventRoot.contains(trigger)) setPopoverOpen(documentNode, trigger, true);
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Touch activation** | One tap opens the controlled evidence panel | Focus opens the panel, then click immediately closes it |
+| **ARIA state** | `aria-expanded="true"` after the tap | `aria-expanded="false"` after the tap |
+| **User impact** | Touch users can read and dismiss evidence help | Evidence help never remains visible after a normal tap |
+</expected_vs_actual>
+    </issue_description>
+  </bug_3>
+  <bug_4>
+    <summary>
+      <title>[Sharing] A throwing legacy copy API bypasses failure feedback and safe navigation</title>
+      <one_line_description>If `document.execCommand('copy')` throws, the copy-link handler rejects before it can show failure feedback or use the total-failure navigation fallback.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/scripts/social-share.ts - functions: `copyText` and copy-link click handler, Lines 4-24 and 36-48
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - test: `reopened article endings restore share, comment, disclaimers, wrapping, and floating rail`, Lines 727-768
+</file_locations>
+    <issue_description>
+      <description>The Clipboard API rejection is caught, but the retained `document.execCommand('copy')` call is not. Browsers and constrained document contexts may throw from this deprecated API instead of returning `false`. In that case, the async click listener rejects before setting `data-copied`, before changing the tooltip to `Copy Failed`, and before reaching `location.assign(link.href)`. A focused browser reproduction with a rejected Clipboard API and a throwing `execCommand` produced the page error `exec blocked`, retained the unchanged `Copy Link` label, and performed no fallback navigation. Catch the legacy API exception and convert it into the same explicit total-failure result as a `false` return.</description>
+      <code_example>```typescript
+# File: src/scripts/social-share.ts, Lines 14-23 and 36-48
+
+const field = document.createElement('textarea');
+field.value = value;
+document.body.appendChild(field);
+field.select();
+const copied = document.execCommand('copy');
+field.remove();
+return copied;
+
+const copied = await copyText(link.href);
+link.dataset.copied = String(copied);
+if (!copied) location.assign(link.href);
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Total copy failure** | Show `Copy Failed`, clean up the temporary field, then use the safe URL fallback | An uncaught exception aborts the handler |
+| **Feedback** | The visitor receives a visible failure state | The tooltip remains `Copy Link` |
+| **Navigation fallback** | The canonical page URL is used only after both copy paths fail | No fallback occurs when the legacy API throws |
+</expected_vs_actual>
+    </issue_description>
+  </bug_4>
+  <bug_5>
+    <summary>
+      <title>[Supplements] Server-rendered unfiltered content assigns unsupported evidence badges</title>
+      <one_line_description>Without JavaScript, all 19 supplements render with evidence labels even though no goal filter is selected.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - supplement filter and badge markup, Lines 10-13 and 28-39
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 165-167
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - test: `every supplement filter matches the audited membership, order, TOC, and selected state`, Lines 218-260
+</file_locations>
+    <issue_description>
+      <description>The server output marks every filter `aria-pressed="false"`, renders every supplement, and fills each badge from the record's first evidence entry. Evidence level is category-specific, so the first entry is not a valid label without a selected goal context. JavaScript later applies Muscle Growth and corrects or hides badges, but JavaScript-disabled users and the pre-enhancement document see 19 visible badges with no selected filter. A JavaScript-disabled browser reproduction returned zero pressed filters, 19 visible sections, and 19 visible evidence badges. Render badges without a visible level until enhancement establishes a goal context, while retaining all semantic supplement content.</description>
+      <code_example>```astro
+# File: src/components/SupplementExplorer.astro, Lines 11-13 and 33-35
+
+{supplementFilters.map((filter) =&gt; (
+  &lt;button type="button" data-supplement-filter={filter.id} aria-pressed="false"&gt;{filter.label}&lt;/button&gt;
+))}
+
+&lt;button
+  type="button"
+  class="evidence-badge popover-trigger"
+  data-supplement-evidence
+  aria-expanded="false"
+&gt;{supplement.evidence[0]?.level}&lt;/button&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Unfiltered state** | No evidence badge appears without a selected goal | Every supplement shows its first category-specific evidence level |
+| **JavaScript disabled** | Complete supplement content remains usable without misleading filter context | All 19 records show potentially unrelated evidence labels |
+| **Initial render** | The server contract agrees with the active filter state | Buttons report no selection while badges imply a selection |
+</expected_vs_actual>
+    </issue_description>
+  </bug_5>
+  <bug_6>
+    <summary>
+      <title>[Metadata] Supplement route registry disagrees with the rendered description</title>
+      <one_line_description>The configured source-of-truth description for `/supplements/` differs from the description emitted by the page and social metadata.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/config/routes.ts - `/supplements/` route entry, Lines 99-107
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - `BaseLayout` metadata props, Lines 8-14
+- /Users/sacino/musclehacking/src/layouts/BaseLayout.astro - metadata rendering, Lines 18-28 and 33-50
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - generated route contract, Lines 10-21
+</file_locations>
+    <issue_description>
+      <description>The route registry defines the supplement description as `A supplement stack distilled from scientific research.`, while the route passes a different, longer description directly to `BaseLayout`. The browser therefore emits the longer value in `meta[name="description"]`, `og:description`, and `twitter:description`, but any registry consumer receives the shorter value. The general route contract test checks only that titles are non-empty and does not compare descriptions, so this divergence remains green. Use one approved description from the route metadata owner and have the supplement page consume it rather than duplicating a second value.</description>
+      <code_example>```typescript
+# File: src/config/routes.ts, Lines 99-105
+
+{
+  path: '/supplements/',
+  title: 'The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking',
+  description: 'A supplement stack distilled from scientific research.',
+  indexable: true,
+}
+```
+
+```astro
+# File: src/pages/supplements/index.astro, Lines 8-13
+
+&lt;BaseLayout
+  title="The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking"
+  description="Amplify your muscle growth with a curated supplement stack, distilled from 10+ years of scientific research. Gain muscle, lose the confusion."
+  canonicalPath="/supplements/"
+/&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Metadata source** | Route registry and rendered route use one approved description | Registry and rendered page hold different descriptions |
+| **Rendered metadata** | Registry consumers predict `description`, Open Graph, and Twitter values | Browser values cannot be derived from the route registry |
+| **Regression coverage** | Route contract fails when metadata diverges | The generated test checks only a non-empty title and canonical URL |
+</expected_vs_actual>
+    </issue_description>
+  </bug_6>
+</bug_report>

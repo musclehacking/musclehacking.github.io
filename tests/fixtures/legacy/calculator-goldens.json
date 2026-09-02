@@ -1,0 +1,53 @@
+{
+  "sourceCommit": "9bf25d0",
+  "sourceFile": "js/one.js",
+  "route": "/calorie-calculator/",
+  "defaultInputs": {
+    "units": "metric",
+    "sex": "male",
+    "ageYears": 25,
+    "weightKg": 80,
+    "heightCm": 180,
+    "activityMultiplier": 1.2,
+    "goalPercent": -20,
+    "standardProteinGramsPerPound": 1,
+    "fatCaloriePercent": 50,
+    "leangainsBodyFatBand": "11-19%",
+    "leangainsMuscleMass": "standard",
+    "leangainsStepsPerDay": 5000,
+    "leangainsGoalCalories": -500,
+    "leangainsProteinCaloriePercent": 50,
+    "ketoProteinGramsPerPound": 1,
+    "ketoCarbGrams": 20
+  },
+  "goldens": [
+    {
+      "mode": "standard",
+      "query": "",
+      "expected": { "bmr": 1805, "tdee": 2166, "calories": 1733, "proteinGrams": 176, "fatGrams": 57, "carbGrams": 129, "weeklyChange": "-0.39 kg" }
+    },
+    {
+      "mode": "leangains",
+      "query": "?leangains",
+      "expected": { "bmr": null, "tdee": 2240, "calories": 1740, "proteinGrams": 218, "fatGrams": 48, "carbGrams": 109, "weeklyChange": "-0.45 kg" }
+    },
+    {
+      "mode": "keto",
+      "query": "?keto",
+      "expected": { "bmr": 1805, "tdee": 2166, "calories": 1733, "proteinGrams": 176, "fatGrams": 105, "carbGrams": 20, "weeklyChange": "-0.39 kg" }
+    }
+  ],
+  "unitContract": {
+    "imperialDisplayAfterToggle": { "weightLb": 176.4, "heightIn": 70.9 },
+    "expectedOutputs": "The exact metric default outputs remain unchanged because the bundle preserves unrounded internal conversions."
+  },
+  "legacyBoundaryContract": {
+    "numberFields": ["age", "weight", "height", "steps"],
+    "observedValidation": "The legacy number inputs have no complete shared min, max, finite-number, or cross-field validation contract.",
+    "sliderRanges": {
+      "ketoProteinGramsPerPound": { "min": 0.6, "max": 1.6, "step": 0.1 },
+      "leangainsProteinCaloriePercent": { "min": 30, "max": 80, "step": 1 },
+      "leangainsStepsPerDay": { "min": 0, "max": 25000, "step": 500 }
+    }
+  }
+}

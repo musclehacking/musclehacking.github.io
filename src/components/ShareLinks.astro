@@ -1,0 +1,30 @@
+---
+interface Props {
+  canonicalPath: string;
+  title: string;
+  twitterText?: string;
+}
+
+const { canonicalPath, title, twitterText } = Astro.props;
+const url = `https://www.musclehacking.com${canonicalPath}`;
+const twitterHref = twitterText
+  ? `https://twitter.com/intent/tweet?text=${twitterText}`
+  : `https://twitter.com/intent/tweet?text=Interesting+read:%20${url}%20via%20@musclehacking`;
+const facebookHref = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+---
+
+<section id="share" class="share-links" data-share-title={title}>
+  <h3 id="share-t">Share</h3>
+  <a aria-label="Share on Twitter" href={twitterHref} rel="noopener nofollow" target="_blank" title="Share on Twitter">
+    <svg class="icon share-icon share-icon--twitter" viewBox="0 0 951 1024" aria-hidden="true"><path d="M925.714 233.143q-38.286 56-92.571 95.429.571 8 .571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"></path></svg>
+  </a>
+  <a aria-label="Share on Facebook" href={facebookHref} rel="noopener nofollow" target="_blank" title="Share on Facebook">
+    <svg class="icon share-icon share-icon--facebook" viewBox="0 0 585 1024" aria-hidden="true"><path d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571T374.857 240v108h167.429L520 517.143H374.857v433.714H200V517.143H54.286V348H200V223.429q0-106.286 59.429-164.857T417.714 0Q501.714 0 548 6.857z"></path></svg>
+  </a>
+</section>
+<section id="comm">
+  <h3 id="comm-t">Comment</h3>
+  <a aria-label="Comment on Reddit" href="https://www.reddit.com/r/musclehacking/" target="_blank" rel="noopener" title="Comment on Reddit">
+    <svg id="reddit-p" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163S21.397 2 20.199 2c-.92 0-1.704.574-2.021 1.379l-4.329-1.015a.37.37 0 0 0-.44.249L11.755 7.82c-2.838.034-5.409.798-7.3 2.025a2.65 2.65 0 0 0-1.799-.712C1.191 9.133 0 10.32 0 11.779c0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857C1.231 18.818 6.039 22 11.95 22s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zM6.776 13.595c0-.868.71-1.575 1.582-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179L12 19.44l-.013.003c-1.777 0-3.028-.386-3.824-1.179a.37.37 0 0 1 .526-.523c.65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962a.372.372 0 0 1 .526.524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574s.709-1.575 1.581-1.575 1.581.707 1.581 1.575-.709 1.574-1.581 1.574z"></path></svg>
+  </a>
+</section>

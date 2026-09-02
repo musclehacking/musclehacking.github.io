@@ -1,0 +1,58 @@
+---
+import Header from '../components/Header.astro';
+import BackToTop from '../components/BackToTop.astro';
+import { absoluteUrl, site } from '../config/site';
+import '../styles/global.css';
+import '../styles/legacy-content.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  image?: string;
+  indexable?: boolean;
+  article?: boolean;
+  socialTitle?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  image = site.defaultImage,
+  indexable = true,
+  article = false,
+  socialTitle = title,
+} = Astro.props;
+const canonical = absoluteUrl(canonicalPath);
+const socialImage = absoluteUrl(image);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    {!indexable && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/img/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body id="top">
+    <Header canonicalPath={canonicalPath} />
+    <slot />
+    {/* The audited legacy tree only ships the back-to-top control on these two routes. */}
+    {['/calorie-calculator/', '/supplements/'].includes(canonicalPath) && <BackToTop />}
+  </body>
+</html>

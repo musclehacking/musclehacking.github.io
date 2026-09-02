@@ -1,0 +1,319 @@
+---
+import NewsletterForm from './NewsletterForm.astro';
+
+/*
+ * Two distinct legacy prompts from calorie-calculator/index.html:
+ *
+ * 1. `#floating-em-opt` — a fixed left-hand panel shown at >=1440px once
+ *    `pageYOffset > 660` (js/eml-flt-right.js), dismissed by its hide button.
+ * 2. `.exit-int-p-up` — a full-viewport overlay (`rgba(33,33,33,.8)`) holding
+ *    the centred 700px `.n-lett` panel. js/e-on-delay.min.js reveals it 30
+ *    seconds after DOMContentLoaded at every width, and closes it on the hide
+ *    button, a click on the overlay outside the panel, or Escape.
+ */
+---
+
+<aside class="calculator-newsletter-floating" data-calculator-newsletter-floating hidden aria-labelledby="calculator-floating-heading">
+  <button type="button" class="newsletter-prompt-close" data-newsletter-prompt-close aria-label="Hide newsletter prompt">
+    <img src="/img/hidden.png" alt="" width="20" height="20" />
+  </button>
+  <h2 id="calculator-floating-heading">Want more content like this?</h2>
+  <p>Enter your email below and I’ll send you some.</p>
+  <NewsletterForm formId="calculator-floating" campaign="calculator-floating" buttonText="Email Me" placement="floating" hideLabel />
+  <p class="newsletter-prompt-note">
+    Once you’ve locked in your calorie count, you might find my <a href="/supplements/">muscle building supplement stack</a> and <a href="/books/">fitness books</a> useful.
+  </p>
+</aside>
+
+<dialog class="calculator-newsletter-exit" data-calculator-newsletter-exit aria-labelledby="calculator-exit-heading">
+  <div class="calculator-newsletter-exit-panel" data-calculator-newsletter-exit-panel>
+    <button type="button" class="newsletter-prompt-close" data-newsletter-prompt-close aria-label="Close newsletter prompt">
+      <img src="/img/hidden.png" alt="" width="20" height="20" />
+    </button>
+    <h2 id="calculator-exit-heading">Ready to get serious about your diet?</h2>
+    <p>Cut through the BS—get evidence-based advice based on facts, not fads.</p>
+    <NewsletterForm formId="calculator-exit" campaign="calculator-exit" buttonText="Email Me" placement="modal" hideLabel />
+    <p class="newsletter-prompt-note"><em>No courses. No all-banana diets. <span class="under-form-notice-mob">Unsubscribe at any time.</span></em></p>
+  </div>
+</dialog>
+
+<script>
+  const floatingPrompt = document.querySelector<HTMLElement>('[data-calculator-newsletter-floating]');
+  const exitPrompt = document.querySelector<HTMLDialogElement>('[data-calculator-newsletter-exit]');
+  const exitPanel = document.querySelector<HTMLElement>('[data-calculator-newsletter-exit-panel]');
+
+  /* Legacy js/e-on-delay.min.js: `setTimeout(show, 3E4)` after DOMContentLoaded. */
+  const EXIT_PROMPT_DELAY_MS = 30_000;
+  /* Legacy js/eml-flt-right.js: `660 < pageYOffset` reveals the floating panel. */
+  const FLOATING_PROMPT_SCROLL_THRESHOLD = 660;
+
+  if (floatingPrompt && exitPrompt && exitPanel) {
+    const controller = new AbortController();
+    const { signal } = controller;
+    let floatingDismissed = false;
+    let exitInvoker: Element | null = null;
+
+    const updateFloatingPrompt = () => {
+      floatingPrompt.hidden =
+        floatingDismissed || window.innerWidth < 1440 || window.scrollY <= FLOATING_PROMPT_SCROLL_THRESHOLD;
+    };
+
+    floatingPrompt.querySelector('[data-newsletter-prompt-close]')?.addEventListener('click', () => {
+      floatingDismissed = true;
+      floatingPrompt.hidden = true;
+    }, { signal });
+
+    const closeExitPrompt = () => {
+      if (!exitPrompt.open) return;
+      /* Legacy: the overlay leaves with `translateY(100%) scale(0)` over 0.3s. */
+      delete exitPrompt.dataset.open;
+      window.setTimeout(() => exitPrompt.close(), 300);
+    };
+
+    const openExitPrompt = () => {
+      if (exitPrompt.open) return;
+      exitInvoker = document.activeElement;
+      exitPrompt.showModal();
+      exitPrompt.focus({ preventScroll: true });
+      /* Reflow before the visible state so the entrance transition plays. */
+      void exitPrompt.offsetWidth;
+      exitPrompt.dataset.open = 'true';
+    };
+
+    exitPanel.querySelector('[data-newsletter-prompt-close]')?.addEventListener('click', closeExitPrompt, { signal });
+    exitPrompt.addEventListener('click', (event) => {
+      /* Legacy: only a click on the overlay itself (outside `.n-lett`) closes it. */
+      if (event.target === exitPrompt) {
+        event.preventDefault();
+        closeExitPrompt();
+      }
+    }, { signal });
+    exitPrompt.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeExitPrompt();
+    }, { signal });
+
+    exitPrompt.addEventListener('close', () => {
+      delete exitPrompt.dataset.open;
+      if (exitInvoker instanceof HTMLElement) exitInvoker.focus({ preventScroll: true });
+    }, { signal });
+
+    window.setTimeout(openExitPrompt, EXIT_PROMPT_DELAY_MS);
+
+    window.addEventListener('scroll', updateFloatingPrompt, { passive: true, signal });
+    window.addEventListener('resize', updateFloatingPrompt, { passive: true, signal });
+    window.addEventListener('pagehide', () => controller.abort(), { once: true });
+    updateFloatingPrompt();
+  }
+</script>
+
+<style>
+  .calculator-newsletter-floating {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 10;
+    top: min(13%, 100px);
+    width: 500px;
+    border: 0;
+    border-radius: 0;
+    background: white;
+    color: inherit;
+    padding: 0 25px 0 0;
+    font-size: 0.8em;
+    text-align: left;
+  }
+
+  /* Legacy `.exit-int-p-up`: the dialog is the full-viewport overlay itself. */
+  .calculator-newsletter-exit {
+    box-sizing: border-box;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: rgb(33 33 33 / 80%);
+    color: inherit;
+    padding: 20px 30px 40px;
+    overflow-y: auto;
+    transform: translateY(100%) scale(0);
+    transition: transform 0.3s ease-out;
+  }
+
+  .calculator-newsletter-exit[data-open] {
+    transform: translateY(0) scale(1);
+  }
+
+  .calculator-newsletter-exit::backdrop {
+    background: transparent;
+  }
+
+  .calculator-newsletter-exit:focus {
+    outline: 0;
+  }
+
+  /* Legacy `.n-lett`: centred 700px white panel. */
+  .calculator-newsletter-exit-panel {
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(700px, 95vw);
+    border: 0 solid #fff;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+    padding: 25px 25px 30px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .calculator-newsletter-floating h2,
+  .calculator-newsletter-exit-panel h2 {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.58;
+    letter-spacing: inherit;
+  }
+
+  .calculator-newsletter-floating h2 {
+    margin-top: 10px;
+  }
+
+  .calculator-newsletter-floating p {
+    margin: 10px 0 0;
+  }
+
+  /* Legacy `#g-resp > div { margin-top: 10px }` and `#h-gresp, #t-gresp { margin-bottom: 15px }`. */
+  .calculator-newsletter-exit-panel h2,
+  .calculator-newsletter-exit-panel > p:not(.newsletter-prompt-note) {
+    width: 100%;
+    margin: 10px 0 15px;
+  }
+
+  .calculator-newsletter-floating :global(.newsletter-form),
+  .calculator-newsletter-exit-panel :global(.newsletter-form) {
+    margin: 20px auto 0;
+  }
+
+  .calculator-newsletter-floating :global(.newsletter-form--floating) {
+    font-size: 15.12px;
+  }
+
+  .calculator-newsletter-floating :global(.newsletter-form--floating input),
+  .calculator-newsletter-floating :global(.newsletter-form--floating button) {
+    height: 45.890625px;
+    min-height: 45.890625px;
+    border-radius: 5px 0 0 5px;
+    padding: 10px 15px;
+    font-weight: 400;
+  }
+
+  .calculator-newsletter-floating :global(.newsletter-form--floating button) {
+    border-radius: 0 5px 5px 0;
+    background: var(--brand);
+  }
+
+  /* Legacy `#hide-btn`: `.btn.btn-outline-light` image button at top 5px / right 15px. */
+  .newsletter-prompt-close {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    z-index: 11;
+    width: 40px;
+    height: 31.640625px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    padding: 5px 10px;
+    font: inherit;
+    font-size: 14px;
+    line-height: 21px;
+    cursor: pointer;
+  }
+
+  .newsletter-prompt-close:hover {
+    background: #f8f9fa;
+  }
+
+  .newsletter-prompt-close img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .newsletter-prompt-note {
+    font-size: 0.85em;
+  }
+
+  .calculator-newsletter-floating .newsletter-prompt-note {
+    margin: 15px 0 16px;
+    font-size: 1em;
+    line-height: 1.58;
+  }
+
+  /* Legacy `.exit-int-p-up #under-form-notice { font-size: .95em }` with the 15px form gap. */
+  .calculator-newsletter-exit-panel .newsletter-prompt-note {
+    margin: 10px 0 0;
+    font-size: 0.95em;
+    line-height: 1.58;
+  }
+
+  @media (max-width: 1439px) {
+    .calculator-newsletter-floating {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1440px) and (max-width: 1740px) {
+    .calculator-newsletter-floating {
+      left: calc((100vw - 720px) / 4 - (((100vw - 1440px) / 2 + 350px) / 2));
+      width: calc((100vw - 1440px) / 2 + 350px);
+      padding-right: 25px;
+    }
+  }
+
+  @media (min-width: 1741px) {
+    .calculator-newsletter-floating {
+      left: calc((100vw - 720px) / 4 - 250px);
+      padding-right: 25px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .calculator-newsletter-exit-panel {
+      width: min(650px, 90vw);
+      padding-top: 25px;
+      padding-bottom: 25px;
+    }
+
+    .calculator-newsletter-exit-panel h2,
+    .calculator-newsletter-exit-panel > p:not(.newsletter-prompt-note) {
+      margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .calculator-newsletter-exit-panel {
+      max-width: min(518.382px, 90vw);
+    }
+
+    .calculator-newsletter-exit-panel .newsletter-prompt-note {
+      margin-top: 0;
+    }
+
+    .under-form-notice-mob {
+      display: block;
+    }
+  }
+</style>

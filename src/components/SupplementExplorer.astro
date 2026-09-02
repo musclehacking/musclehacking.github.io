@@ -1,0 +1,70 @@
+---
+import { supplementFilters, supplements } from '../features/supplements';
+import { supplementContentById, supplementSupportContent } from '../features/supplements/content';
+
+const initialNotice = supplementFilters.find((filter) => filter.id === 'muscle-growth')?.notice;
+---
+
+<section aria-labelledby="supplement-filter-title">
+  <h2 id="supplement-filter-title" class="supplement-filter-heading">Choose a goal</h2>
+  <div class="supplement-filters" role="group" aria-label="Supplement goal">
+    {supplementFilters.map((filter) => (
+      <button type="button" data-supplement-filter={filter.id} aria-pressed="false">{filter.label}</button>
+    ))}
+  </div>
+  <aside class="project-callout project-callout--note supplement-note supplement-category-note" data-supplement-category-note aria-label="Selected goal note">
+    <strong class="alert-title" data-supplement-category-note-title><svg aria-hidden="true" class="octicon octicon-note" width="16" height="16" viewBox="0 0 16 16"><path data-supplement-category-note-icon d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" fill="currentColor"></path></svg><span data-supplement-category-note-label>{initialNotice?.title}</span></strong>
+    <p data-supplement-category-note-text>{initialNotice?.text}</p>
+  </aside>
+  <nav class="supplement-toc" aria-label="Visible supplement sections">
+    <ol data-supplement-toc>
+      {supplements.map((supplement) => <li><a href={`#${supplement.id}`}>{supplement.name}</a></li>)}
+      <li><a href="#supplement-information">What is this?</a></li>
+      <li><a href="#all-references">References</a></li>
+    </ol>
+  </nav>
+</section>
+
+<div data-supplement-sections>
+  {supplements.map((supplement) => (
+    <section id={supplement.id} data-supplement-id={supplement.id} class="supplement-card">
+      <div class="supplement-heading">
+        <h2 data-heading-link-target={supplement.id}>{supplement.name}</h2>
+        <div class="evidence-popover">
+          <!-- Evidence is category-specific, so it has no valid label until enhancement selects a goal. -->
+          <button
+            type="button"
+            class="evidence-badge popover-trigger"
+            data-supplement-popover
+            data-supplement-evidence
+            aria-expanded="false"
+            aria-controls={`evidence-help-${supplement.id}`}
+            hidden
+          ></button>
+          <aside id={`evidence-help-${supplement.id}`} class="project-popover evidence-help" role="tooltip" hidden>
+            <strong class="evidence-help-title">What is this?</strong>
+            <span class="evidence-help-body">This is the efficacy of the supplement based on current research.</span>
+          </aside>
+        </div>
+      </div>
+      <div class="supplement-detail" set:html={supplementContentById.get(supplement.id)?.detailHtml} />
+      {/* The legacy page reaches each reference through the inline `.inl-ref` links only;
+          a visible "View references" paragraph would add a block the audited layout lacks. */}
+    </section>
+  ))}
+</div>
+
+<section id="supplement-information" data-supplement-support>
+  <h2 data-heading-link-target="supplement-information">What is this?</h2>
+  <div set:html={supplementSupportContent.informationHtml} />
+</section>
+
+<section id="all-references" data-supplement-support>
+  <h2 data-heading-link-target="all-references">References</h2>
+  <div set:html={supplementSupportContent.referencesHtml} />
+</section>
+
+<script>
+  import { enhanceSupplementExplorer } from '../features/supplements/enhance';
+  enhanceSupplementExplorer();
+</script>

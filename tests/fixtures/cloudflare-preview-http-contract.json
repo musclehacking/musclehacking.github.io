@@ -1,0 +1,187 @@
+{
+  "baseUrl": "https://musclehacking-astro-preview.webpop.workers.dev",
+  "timeoutMs": 10000,
+  "sensitiveHeaders": ["set-cookie"],
+  "cases": [
+    {
+      "name": "home matches the built artifact",
+      "path": "/",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/html" },
+          "content-security-policy": { "includes": ["default-src 'self'", "frame-ancestors 'none'"] },
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY"
+        },
+        "utf8": true,
+        "bodyIncludes": [
+          "<title>Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)</title>",
+          "https://www.musclehacking.com/"
+        ],
+        "bodyExcludes": ["workers.dev"],
+        "bodyEqualsFile": "../../dist/client/index.html"
+      }
+    },
+    {
+      "name": "directory route redirects to its slash form",
+      "path": "/books",
+      "redirect": "manual",
+      "expect": {
+        "status": 301,
+        "headers": {
+          "location": "/books/"
+        }
+      }
+    },
+    {
+      "name": "directory route renders",
+      "path": "/books/",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/html" }
+        },
+        "utf8": true,
+        "bodyIncludes": "<title>Fitness &amp; Health Books Worth Reading | Muscle Hacking</title>",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "article route renders without a trailing slash",
+      "path": "/blog/breakup-energy",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/html" }
+        },
+        "utf8": true,
+        "bodyIncludes": "<title>Breakup Energy | Muscle Hacking</title>",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "article slash form stays not found",
+      "path": "/blog/breakup-energy/",
+      "expect": {
+        "status": 404,
+        "headers": {
+          "content-type": { "includes": "text/html" }
+        },
+        "utf8": true,
+        "bodyIncludes": "<title>Page not found | Muscle Hacking</title>"
+      }
+    },
+    {
+      "name": "unknown routes use the custom not found page",
+      "path": "/not-a-real-route",
+      "expect": {
+        "status": 404,
+        "headers": {
+          "content-type": { "includes": "text/html" }
+        },
+        "utf8": true,
+        "bodyIncludes": ["<title>Page not found | Muscle Hacking</title>", "The page may have moved."]
+      }
+    },
+    {
+      "name": "fingerprinted assets are immutable",
+      "path": "/_astro/BaseLayout.Df0DBGh3.css",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/css" },
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      }
+    },
+    {
+      "name": "feed is production canonical XML",
+      "path": "/feed.xml",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "application/xml" }
+        },
+        "utf8": true,
+        "bodyIncludes": "https://www.musclehacking.com/",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "sitemap is production canonical XML",
+      "path": "/sitemap.xml",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "application/xml" }
+        },
+        "utf8": true,
+        "bodyIncludes": "https://www.musclehacking.com/",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "robots policy stays production canonical",
+      "path": "/robots.txt",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/plain" }
+        },
+        "utf8": true,
+        "bodyIncludes": "https://www.musclehacking.com/sitemap.xml",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "LLM guide stays production canonical",
+      "path": "/llms.txt",
+      "expect": {
+        "status": 200,
+        "headers": {
+          "content-type": { "includes": "text/plain" }
+        },
+        "utf8": true,
+        "bodyIncludes": "# Muscle Hacking",
+        "bodyExcludes": "workers.dev"
+      }
+    },
+    {
+      "name": "newsletter rejects unsupported methods",
+      "path": "/api/subscribe",
+      "expect": {
+        "status": 405,
+        "headers": {
+          "allow": "POST",
+          "cache-control": "no-store",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY"
+        },
+        "utf8": true,
+        "bodyIncludes": "Method not allowed"
+      }
+    },
+    {
+      "name": "newsletter fails closed without provider credentials",
+      "path": "/api/subscribe",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/x-www-form-urlencoded",
+        "origin": "https://musclehacking-astro-preview.webpop.workers.dev"
+      },
+      "body": "email=preview-test%40example.invalid&campaign=sidebar&formId=sidebar&sourceUrl=%2F&company=",
+      "expect": {
+        "status": 503,
+        "headers": {
+          "content-type": { "includes": "application/json" },
+          "cache-control": "no-store",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY"
+        },
+        "utf8": true,
+        "bodyIncludes": "{\"error\":\"newsletter_unavailable\"}"
+      }
+    }
+  ]
+}

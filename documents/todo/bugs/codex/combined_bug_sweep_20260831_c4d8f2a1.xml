@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bug_report>
+  <bug_1>
+    <summary>
+      <title>[Calculator Accessibility] Information icons no longer open field guidance</title>
+      <one_line_description>The rebuilt calculator renders every information icon as an aria-hidden span, removing the legacy links to the matching guide sections.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `InfoMark`, Lines 137-139; calculator field labels and result headings, Lines 354-356 and 453-688
+- /Users/sacino/musclehacking/src/features/calculator/calculator.css - information icon presentation, Lines 235-253 and 307-322
+</file_locations>
+    <issue_description>
+      <description>The legacy calculator attached each information image to a link such as `/calorie-calculator/#activity-level`, `/calorie-calculator/#steps`, or `/calorie-calculator/#tdee`, with a hover prompt that told the visitor to open more information. The migrated guide still renders these target sections below the calculator, but `InfoMark` now returns only an `aria-hidden="true"` span and the BMR, TDEE, and macro icons are generated only through CSS pseudo-elements. Mouse, touch, and keyboard users therefore cannot activate the icons or identify their purpose. This breaks the migration requirement to preserve calculator interactions and prevents keyboard-only users from reaching the explanations associated with each control and result. Replace the decorative marks with named links to the matching guide fragments and cover their keyboard activation in the browser suite.</description>
+      <code_example>```tsx
+// File: /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx, Lines 137-139 and 527-540
+
+function InfoMark() {
+  return &lt;span aria-hidden="true" className="calculator-info-mark"&gt;i&lt;/span&gt;;
+}
+
+&lt;label htmlFor="calculator-activity"&gt;Activity Level &lt;InfoMark /&gt;&lt;/label&gt;
+&lt;select id="calculator-activity"&gt;...&lt;/select&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Interaction** | Each information icon opens its matching calculator guide section | Icons are inert spans or CSS pseudo-elements |
+| **Keyboard** | A keyboard user can focus and activate the help control | `aria-hidden` icons are absent from the focus and accessibility trees |
+| **User Impact** | Visitors can obtain field and result guidance from the calculator | Guidance is available only if the visitor independently finds the long guide below |
+</expected_vs_actual>
+    </issue_description>
+  </bug_1>
+  <bug_2>
+    <summary>
+      <title>[Calculator Responsive Layout] Fixed mobile columns force horizontal scrolling</title>
+      <one_line_description>The mobile calculator keeps 500-pixel content columns and a 217-pixel two-column mode row, so controls extend beyond a 390-pixel viewport.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/calculator/calculator.css - mobile calculator grid rules, Lines 400-453
+- /Users/sacino/musclehacking/src/styles/global.css - mobile calculator page width, Lines 725-776
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - calculator mobile interaction coverage, Lines 3-41
+</file_locations>
+    <issue_description>
+      <description>At the recorded 390-pixel mobile width, the page sets `.calculator-page` to 390 pixels while the calculator grid remains 500 pixels wide and the Diet and Units row remains 464 pixels wide before padding. A direct Chromium check measured `document.documentElement.scrollWidth` as 518 pixels for a 390-pixel viewport. The Units select ended at x=482, and the age, activity, goal, protein, and range controls ended at x=514-518. Users must pan horizontally to see or operate complete controls, and mobile emulation can widen or scale the layout viewport instead of exercising the intended 390-pixel reflow. The existing mobile E2E run passes because it checks values and visibility but never asserts document width or control containment. Change the mobile grids and page width to fit the available inline size, then add an assertion that the document and calculator controls do not overflow the viewport.</description>
+      <code_example>```css
+/* File: /Users/sacino/musclehacking/src/features/calculator/calculator.css, Lines 419-435 */
+
+.calculator-mode-row {
+  grid-template-columns: 217px 217px;
+  gap: 30px;
+}
+
+.calculator-columns {
+  grid-template-columns: 500px;
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Mobile Reflow** | Calculator controls fit within the 390-pixel viewport | The document is 518 pixels wide |
+| **Interaction** | Each complete input is visible without horizontal panning | Multiple inputs and the Units select extend off-screen |
+| **Test Coverage** | Mobile browser tests fail on horizontal overflow | Tests pass while checking only values and visibility |
+</expected_vs_actual>
+    </issue_description>
+  </bug_2>
+  <bug_3>
+    <summary>
+      <title>[Calculator Clipboard] Copy permission failures escape without user feedback</title>
+      <one_line_description>The copy handler awaits the Clipboard API without error handling, so a rejected write causes an unhandled page error and leaves the status message empty.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `copyResults`, Lines 301-310; copy status output, Lines 638-693
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - calculator interaction coverage, Lines 3-41
+</file_locations>
+    <issue_description>
+      <description>`copyResults` handles only the absence of `navigator.clipboard`. When the API exists but `writeText` rejects because browser policy, user permission, or document state blocks access, the async click handler rejects without a catch. A browser reproduction that made `writeText` reject with `NotAllowedError` produced the page error `Write permission denied` while `.calculator-copy-status` remained empty. The visitor receives no indication that the results were not copied, and the migration's zero-console-error browser contract is violated. Catch clipboard failures, set an announced failure status, and add success and rejection paths to the calculator browser tests.</description>
+      <code_example>```tsx
+// File: /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx, Lines 301-310
+
+async function copyResults(): Promise&lt;void&gt; {
+  if (!calculation.ok || !navigator.clipboard) return;
+
+  const result = calculation.value;
+  const text = buildResultText(result);
+
+  await navigator.clipboard.writeText(text);
+  setCopyStatus("Results copied.");
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Failure Handling** | Clipboard rejection is caught and mapped to a stable status | Rejection becomes an unhandled page error |
+| **Feedback** | The live status tells the visitor that copying failed | The status remains empty |
+| **Test Coverage** | Browser tests exercise clipboard success and rejection | No clipboard path is tested |
+</expected_vs_actual>
+    </issue_description>
+  </bug_3>
+  <bug_4>
+    <summary>
+      <title>[Newsletter] Legacy subscription forms disappear from most content routes</title>
+      <one_line_description>The Astro layouts omit the newsletter form from 16 routes that exposed one or more subscription placements in the audited legacy build.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - article layout output, Lines 22-46
+- /Users/sacino/musclehacking/src/layouts/LongformLayout.astro - long-form page output, Lines 19-32
+- /Users/sacino/musclehacking/src/pages/calorie-calculator/index.astro - calculator route output, Lines 11-32
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - supplement route output, Lines 6-20
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - newsletter form component, Lines 12-24
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - legacy content comparison, Lines 63-74
+- /Users/sacino/musclehacking/tests/fixtures/legacy/pages.json - recorded legacy form counts
+</file_locations>
+    <issue_description>
+      <description>The audited legacy fixture records one newsletter form on every article, Books, the fat-loss guide, and Supplements, plus three forms on the calculator route. The rebuilt output contains none on those routes because ArticleLayout and LongformLayout never render NewsletterForm, and the calculator and supplement pages do not render it directly. A built-output comparison reproduced candidate counts of zero on all 12 articles, Books, the fat-loss guide, Supplements, and the calculator. At the same time, the Blog index now gains a form through ContentLayout even though its legacy count was zero. The current verifier removes legacy forms before comparing article content, so the loss is not detected. Visitors on most legacy subscription surfaces can no longer subscribe without navigating to another route. The fix should restore the recorded route-specific placements and add output assertions for the form counts or approved placement matrix.</description>
+      <code_example>```astro
+# File: src/layouts/ArticleLayout.astro, Lines 22-46
+
+&lt;BaseLayout title={pageTitle} description={description} canonicalPath={canonicalPath} image={image} article&gt;
+  &lt;main class="article-page"&gt;
+    &lt;article&gt;
+      &lt;!-- Article content and share links render, but no NewsletterForm is present. --&gt;
+      &lt;slot /&gt;
+      &lt;ShareLinks canonicalPath={canonicalPath} title={title} /&gt;
+    &lt;/article&gt;
+  &lt;/main&gt;
+&lt;/BaseLayout&gt;
+```
+
+```javascript
+// File: scripts/verify-dist.mjs, Lines 63-74
+
+legacyBody.find('script, #share, #comm, .e-on-delay, .email-float, form').remove();
+// The comparison therefore cannot detect removed newsletter forms.
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article routes** | Each of 12 articles retains its recorded newsletter form | All 12 generated articles contain zero newsletter forms |
+| **Section routes** | Books, fat-loss guide, and Supplements retain one form; calculator retains three | Each generated route contains zero newsletter forms |
+| **Blog index** | No form unless an approved placement change is recorded | ContentLayout adds one sidebar form |
+| **Regression gate** | Placement drift fails verification | The verifier deletes forms before comparison |
+</expected_vs_actual>
+    </issue_description>
+  </bug_4>
+  <bug_5>
+    <summary>
+      <title>[Supplements] Filter context remains stuck on Muscle Growth</title>
+      <one_line_description>Changing the supplement goal updates cards and the table of contents but leaves the Muscle Growth note visible and never marks the first result as the category top.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - filter context note, Lines 13-16
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `applyFilter`, Lines 18-55
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `showInformationOnly`, Lines 131-153
+- /Users/sacino/musclehacking/tests/fixtures/legacy/supplement-filters.json - required interaction states, Lines 1-21
+- /Users/sacino/musclehacking/supplements/index.html - legacy function: `filterCategory`, Lines 422-501
+</file_locations>
+    <issue_description>
+      <description>SupplementExplorer renders the Muscle Growth explanatory note as fixed markup. applyFilter changes visibility, evidence, DOM order, active state, and table-of-contents entries, but it never changes or hides that note. Browser reproduction showed the same muscle-growth text after selecting Sleep, Insulin Sensitivity, Testosterone, and Show All. This is misleading for Sleep and Show All, replaces the recorded insulin-sensitivity explanation, and hides the recorded testosterone deficiency warning. The legacy interaction also applied category-top to the first active result after every filter, and the baseline fixture explicitly records this state, but the rebuilt page has zero category-top elements for every tested filter. The fix should model contextual filter notices and category-top as filter state, update both inside applyFilter, and test each exposed filter rather than only visible card order.</description>
+      <code_example>```astro
+# File: src/components/SupplementExplorer.astro, Lines 13-16
+
+&lt;aside class="supplement-note supplement-category-note" data-supplement-category-note aria-label="Selected goal note"&gt;
+  &lt;strong&gt;ⓘ&amp;nbsp; Note&lt;/strong&gt;
+  &lt;p&gt;This category includes includes supplements that increase either muscle growth or power output.&lt;/p&gt;
+&lt;/aside&gt;
+```
+
+```typescript
+// File: src/features/supplements/enhance.ts, Lines 49-55
+
+root.querySelectorAll&lt;HTMLElement&gt;("[data-supplement-support]").forEach((section) =&gt; {
+  section.hidden = false;
+});
+
+updateActiveFilter(root, filterId);
+renderTableOfContents(root, filterId);
+// No contextual note or category-top state is updated.
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Sleep and Show All** | Muscle-only context is hidden | Muscle Growth note remains visible |
+| **Insulin Sensitivity** | Show the recorded insulin-sensitivity and glucose-control explanation | Muscle Growth explanation remains visible |
+| **Testosterone** | Show the recorded zinc and magnesium deficiency warning | Muscle Growth explanation remains visible |
+| **First result state** | First active supplement receives category-top after each filter | No generated supplement receives category-top |
+</expected_vs_actual>
+    </issue_description>
+  </bug_5>
+  <bug_6>
+    <summary>
+      <title>[Routes] Blog index ignores its route-registry metadata</title>
+      <one_line_description>The Blog route renders the Home title and home-page heading even though the route registry defines Blog-specific metadata.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/config/routes.ts - Blog route record, Lines 40-49
+- /Users/sacino/musclehacking/src/pages/blog/index.astro - Blog page metadata, Lines 6-11
+- /Users/sacino/musclehacking/src/components/HomeListing.astro - shared listing heading, Lines 5-9
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - route metadata assertions, Lines 5-14
+</file_locations>
+    <issue_description>
+      <description>The route registry defines /blog/ with the title Muscle Hacking Blog and a Blog-specific description, but blog/index.astro hardcodes Home | Muscle Hacking and the home-page description. It also reuses HomeListing, whose H1 says Muscle Hacking: Gain Muscle And Lose Fat (Without The BS). A local Worker browser check reproduced that exact title and H1. This defeats the intended route metadata source of truth and leaves the Blog index identified as Home to visitors, assistive technology, and search engines. The current route E2E test only checks that title and H1 values are non-empty, so it accepts the mismatch. The fix should resolve the Blog route record for page metadata, give the listing a route-appropriate heading, and assert exact registry values in route tests.</description>
+      <code_example>```typescript
+// File: src/config/routes.ts, Lines 40-49
+
+{
+  path: '/blog/',
+  slashMode: 'slash',
+  owner: 'page',
+  title: 'Muscle Hacking Blog',
+  description: 'Evidence-based articles about gaining muscle, losing fat, nutrition, and fitness.',
+  indexable: true,
+  sitemap: true,
+  navigationLabel: 'Blog',
+}
+```
+
+```astro
+# File: src/pages/blog/index.astro, Lines 6-11
+
+&lt;ContentLayout
+  title="Home | Muscle Hacking"
+  description="An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started."
+  canonicalPath="/blog/"
+&gt;
+  &lt;HomeListing /&gt;
+&lt;/ContentLayout&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Document title** | Muscle Hacking Blog from the route registry | Home &amp;#124; Muscle Hacking |
+| **Description** | Blog-specific route-registry description | Home-page description |
+| **H1** | A Blog-specific page heading | Muscle Hacking: Gain Muscle And Lose Fat (Without The BS) |
+| **Regression gate** | Exact page metadata matches the route registry | Test only requires non-empty values |
+</expected_vs_actual>
+    </issue_description>
+  </bug_6>
+</bug_report>

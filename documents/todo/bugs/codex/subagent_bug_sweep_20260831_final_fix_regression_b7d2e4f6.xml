@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Audit] No defects found</title>
+<one_line_description>No residual or introduced defects were found in the canonical article newsletter sources, calculator breakpoint coverage, or clipboard feedback invalidation fixes.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - canonical source derivation, Lines 12-21
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - article source allowlist and form validation, Lines 1-55
+- /Users/sacino/musclehacking/src/config/routes.ts - canonical article route registry, Lines 12-112
+- /Users/sacino/musclehacking/tests/e2e/newsletter-article-source.spec.ts - article source API contract, Lines 1-28
+- /Users/sacino/musclehacking/src/features/calculator/calculator.css - responsive calculator layout breakpoint, Lines 405-461
+- /Users/sacino/musclehacking/tests/e2e/calculator-responsive.spec.ts - 390, 810, and 900 pixel viewport checks, Lines 1-41
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - functions: `updateForm` and `copyResults`, Lines 248-374
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - current and stale clipboard feedback tests, Lines 43-142
+]]></file_locations>
+
+<issue_description>
+<description>This focused read-only audit traced each fixed call path and found no reproducible defect. Every registered article rendered all newsletter source fields with its canonical no-slash path, and the API accepted the representative article source through validation before failing closed because local provider credentials were absent. The calculator fit within 390, 810, and 900 pixel viewports in Standard, LeanGains, and keto modes with no visible element or document overflow. Clipboard checks confirmed that the current attempt controls success or failure feedback, older successes and failures cannot overwrite it, and a displayed-result change invalidates a pending copy. The targeted Chromium suite passed all eight selected regression tests. The audit was limited to these three fixes and did not assess unrelated site behaviour or non-Chromium rendering.</description>
+
+<code_example><![CDATA[```text
+Focused verification evidence
+
+- 12 of 12 registered article routes rendered canonical newsletter source values.
+- 9 of 9 calculator viewport and diet-mode combinations had no visible overflow.
+- Current copy success remained after a stale failure.
+- Stale copy success stayed hidden while the current failure was reported.
+- Changing a displayed input kept a later stale copy completion hidden.
+- 8 targeted Chromium regression tests passed.
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article sources** | Each article form uses an API-accepted canonical no-slash source | All registered articles matched their canonical source and the API contract test passed |
+| **Responsive layout** | Calculator content fits at 390, 810, and 900 pixels | Standard, LeanGains, and keto modes had no visible or document overflow at each width |
+| **Clipboard feedback** | Only the current copy attempt can set feedback, and result changes invalidate pending attempts | Current outcomes remained authoritative and all stale outcomes stayed hidden |
+| **Audit result** | No residual regression in the three fixed areas | No defect reproduced within the focused scope |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+</bug_report>

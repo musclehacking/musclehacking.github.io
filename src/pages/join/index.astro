@@ -1,0 +1,21 @@
+---
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Join the Muscle Hacking Newsletter"
+  description="Subscribe to receive the latest Muscle Hacking articles."
+  canonicalPath="/join/"
+  indexable={false}
+>
+  <main class="article-page join-page">
+    <h1>Ready to get serious?</h1>
+    <p>This is a newsletter for people who are ready to get serious about their health and fitness.</p>
+    <p>No more fads. No more yo-yo dieting.</p>
+    <p>No more excuses.</p>
+    <p>Join thousands of subscribers who actually want to transform their physique—and not just talk about it.</p>
+    <NewsletterForm formId="join" campaign="join" buttonText="Email Me" placement="join" hideLabel />
+    <p class="join-assurance"><em>No courses. No all-banana diets. Unsubscribe at any time. And yes, it’s free.</em></p>
+  </main>
+</BaseLayout>

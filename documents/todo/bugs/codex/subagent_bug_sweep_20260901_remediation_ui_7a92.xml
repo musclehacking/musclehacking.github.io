@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Audit] No defects found</title>
+<one_line_description>The focused remediation audit found no reproducible defects in supplement link styling, filter popover closure, narrow home containment, 390-pixel home geometry, or social-share rail containment.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/styles/global.css - supplement prose-link styles, home responsive geometry, and social-share rail breakpoints
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 21-161; function: `closeAllPopovers`, Lines 265-268
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - supplement reference-link exception, Lines 223-235
+- /Users/sacino/musclehacking/src/components/HomeListing.astro - home card, image, overlay, and excerpt structure, Lines 12-31
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - floating share-rail structure, Lines 19-28
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - focused supplement styling and popover-transition regression, Lines 198-228
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - 320/390 home and 768-821 share-rail geometry regressions, Lines 366-383 and 486-545
+]]></file_locations>
+
+<issue_description>
+<description>The current implementation was reviewed across the four assigned UI surfaces. Generated supplement prose links inherit the legacy colour, inset underline, and hover transition while inline references retain their explicit exception. Every supplement filter transition starts by closing controlled popovers and resetting the trigger state. The home grid uses constrained widths at 320 pixels and retains the established 390-pixel title, image, overlay, excerpt, and zero-overflow geometry. The social rail switches at the legacy 768-pixel breakpoint and remains inside the viewport through 821 pixels. The focused Chromium E2E run completed with all three selected regressions passing. No code was changed during this audit.</description>
+
+<code_example><![CDATA[```text
+Focused verification:
+- supplement filters preserve exact visible order
+- home and floating share controls stay inside audited narrow viewports
+- UI-10 restores the complete legacy home grid, overlay alignment, and recent posts
+
+Result: 3 passed
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| Supplement prose links | Legacy inherited colour, inset underline, and hover transition | Focused computed-style regression passed |
+| Filter transitions | Any open evidence popover closes and its trigger returns to `aria-expanded="false"` | Focused interaction regression passed |
+| Home at 320 pixels | Feature grid and document remain inside the viewport | Focused geometry regression passed |
+| Home at 390 pixels | Recorded title, image, overlay, excerpt, and zero-overflow geometry remains stable | Focused geometry regression passed |
+| Social rail at 768-821 pixels | Bottom-bar transition occurs at 768 pixels and all rail boxes stay inside the viewport | Focused breakpoint and containment regression passed |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+</bug_report>

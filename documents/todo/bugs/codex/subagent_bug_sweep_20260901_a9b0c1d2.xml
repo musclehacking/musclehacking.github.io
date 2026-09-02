@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Audit] No defects found</title>
+<one_line_description>The final focused re-audit found no concrete remaining defects in calculator behaviour, calculator heading links, or article-ending boundaries after the imperial-boundary fix.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - functions: `toCalculatorInput`, `updateNumeric`, and `updateUnits`, Lines 241-415
+- /Users/sacino/musclehacking/src/features/calculator/domain/calculate.ts - function: `calculateCalories`
+- /Users/sacino/musclehacking/src/features/calculator/domain/validation.ts - `CALCULATOR_BOUNDS` and function: `validateCalculatorInput`
+- /Users/sacino/musclehacking/src/scripts/heading-links.ts - shared heading-link enhancement, Lines 1-183
+- /Users/sacino/musclehacking/src/components/ArticleEnding.astro - shared article-ending composition, Lines 1-68
+- /Users/sacino/musclehacking/src/components/PostNavigation.astro - previous/next boundary rendering
+- /Users/sacino/musclehacking/src/pages/calorie-calculator/index.astro - calculator guide and article-ending integration
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - article heading-link and ending integration
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - imperial boundary regression, Lines 43-63
+- /Users/sacino/musclehacking/tests/e2e/calculator-supplement-comprehensive.spec.ts - calculator, heading-link, duplicate-ID, fragment, and sharing contracts
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - heading-link and article-ending route-matrix contracts
+]]></file_locations>
+
+<issue_description>
+<description>The audit was limited to Section 5.8 calculator behaviour, calculator heading links, and article-ending boundaries, as requested. The prior defect is resolved: entering 66.1 lb and switching to metric produces a valid 30 kg field, while entering 661.4 lb and switching to metric produces a valid 300 kg field. In both cases the result remains available and the Copy control remains enabled. Review of the canonical conversion state, active-unit validation bounds, shared heading-link enhancement, calculator page composition, shared ArticleEnding composition, PostNavigation boundary states, and article route integration found no concrete remaining defect in scope. The browser checks covered calculator controls and bounds, duplicate heading IDs, heading copy and direct-fragment behaviour, two-sided and one-sided post navigation, all article endings, long-form endings, and the calculator ending. No production mutation or external system was used.</description>
+
+<code_example><![CDATA[Verification evidence:
+
+1. `pnpm exec playwright test tests/e2e/interactions.spec.ts tests/e2e/ui-parity.spec.ts --project=chromium --grep 'imperial boundary|UI-05 heading links|UI-12 restores|reopened article endings'`
+   - Result: 4 passed.
+   - Directly verified 66.1 lb -> 30 kg and 661.4 lb -> 300 kg, heading-link copy/fragment behaviour, article navigation boundaries, and the complete article-ending route matrix.
+
+2. `pnpm exec playwright test tests/e2e/calculator-supplement-comprehensive.spec.ts tests/e2e/calculator-responsive.spec.ts --project=chromium --grep 'calculator|bounded'`
+   - Result: 17 passed.
+   - Verified the calculator control matrix, accepted and rejected bounds, responsive containment, calculator guide self-link, duplicate IDs, direct fragments, and sharing behaviour.
+]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Imperial lower boundary** | 66.1 lb switches to a valid 30 kg value with results available | Verified in Chromium; field remains valid and Copy remains enabled |
+| **Imperial upper boundary** | 661.4 lb switches to a valid 300 kg value with results available | Verified in Chromium; field remains valid and Copy remains enabled |
+| **Calculator heading links** | Shared SVG controls copy canonical fragments without navigation and ordinary fragments retain normal offset behaviour | Verified by focused heading-link, direct-fragment, duplicate-ID, and responsive tests |
+| **Article-ending boundaries** | Shared templates preserve ordered newsletter/share/disclaimer/navigation output across two-sided and one-sided route states | Verified by the article and long-form route matrices at desktop and mobile widths |
+| **Audit result** | Report concrete remaining defects only | No concrete remaining defect was found in the requested scope |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+</bug_report>

@@ -1,0 +1,13 @@
+<a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top"></a>
+
+<script>
+  const backToTop = document.querySelector<HTMLAnchorElement>('.back-to-top');
+
+  const updateBackToTop = () => {
+    /* Legacy scroll.nojquery.js reveals the control after a 1000px scroll. */
+    backToTop?.classList.toggle('show', window.scrollY > 1000);
+  };
+
+  window.addEventListener('scroll', updateBackToTop, { passive: true });
+  updateBackToTop();
+</script>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Content Migration] All article bodies render as escaped source code</title>
+<one_line_description>Each of the twelve migrated blog articles turns most of its legacy HTML body into a visible plaintext code block.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/content/blog/australian-health-star-rating.md - article body, Lines 14-157
+- /Users/sacino/musclehacking/src/content/blog/best-protein-powder-for-building-muscle.md - article body, Lines 14-635
+- /Users/sacino/musclehacking/src/content/blog/breakup-energy.md - article body, Lines 14-124
+- /Users/sacino/musclehacking/src/content/blog/calorie-calculator-how-to.md - article body, Lines 14-345
+- /Users/sacino/musclehacking/src/content/blog/change.md - article body, Lines 14-141
+- /Users/sacino/musclehacking/src/content/blog/healthy-low-calorie-foods.md - article body, Lines 14-294
+- /Users/sacino/musclehacking/src/content/blog/healthy-organic-post.md - article body, Lines 14-261
+- /Users/sacino/musclehacking/src/content/blog/idols.md - article body, Lines 14-153
+- /Users/sacino/musclehacking/src/content/blog/normal.md - article body, Lines 14-77
+- /Users/sacino/musclehacking/src/content/blog/reject-modernity-embrace-masculinity.md - article body, Lines 14-489
+- /Users/sacino/musclehacking/src/content/blog/weak.md - article body, Lines 14-44
+- /Users/sacino/musclehacking/src/content/blog/what-is-intermittent-fasting.md - article body, Lines 14-211
+- /Users/sacino/musclehacking/src/pages/blog/[slug].astro - function: rendered content path, Lines 10-25
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - generated HTML verification loop, Lines 27-58
+]]></file_locations>
+
+<issue_description>
+<description>The migrated Markdown files retain four-or-more-space indentation after the first raw HTML block. Markdown treats those later lines as indented code, so Astro emits one `pre.astro-code` element on every article page. A fresh build contained one code block and between 16 and 607 escaped source lines per article. For example, `/blog/breakup-energy` renders only the opening paragraph and first list as HTML, then shows the remaining article markup, images, links, newsletter section, and navigation as escaped text. The verifier and E2E suite miss the loss because they assert only the shared shell, title, heading, and links that Cheerio can parse as actual elements. Normalize the imported bodies or use an HTML-safe content owner, then add full-body parity assertions against the baseline artefacts.</description>
+
+<code_example><![CDATA[```html
+<!-- Source: src/content/blog/breakup-energy.md, Lines 21-30 -->
+            </ol>
+
+            <p>Later on, we realized that these four forces alone couldn’t explain everything.</p>
+            <p>We discovered two missing components:</p>
+
+<!-- Generated dist/client/blog/breakup-energy.html -->
+<pre class="astro-code ..."><code>
+  <span class="line">&lt;p&gt;Later on, we realized ...&lt;/p&gt;</span>
+</code></pre>
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article copy** | Complete legacy body renders as semantic HTML | Most body content renders as escaped markup |
+| **Links and media** | Baseline links, images, and embeds remain usable | Elements inside the code block are inert text |
+| **Coverage** | Body parity regression fails the build | Current check, unit, build, and verifier commands all pass |
+| **User Impact** | Readers see the full twelve-article library | Every article is visibly broken after its opening content |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Supplements] Research and detailed supplement content are absent</title>
+<one_line_description>The rebuilt supplement explorer keeps short summaries and filter order but drops the legacy evidence sections, citations, and reference links.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/supplements/data.ts - `SupplementRecord` data, Lines 66-309
+- /Users/sacino/musclehacking/src/features/supplements/types.ts - interface: `SupplementRecord`, Lines 35-46
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - supplement rendering and reference placeholder, Lines 21-43
+- /Users/sacino/musclehacking/tests/unit/supplements.test.ts - order-only regression coverage, Lines 5-58
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - filter-only browser coverage, Lines 20-39
+]]></file_locations>
+
+<issue_description>
+<description>The source model stores only one summary string, category-level evidence, an optional product URL, and an unused `referencesAnchor`. `SupplementExplorer.astro` renders those summaries and a generic evidence explanation, then renders a References heading whose paragraph claims links were preserved even though it contains no links. The audited baseline supplement page contains detailed per-supplement sections, term popovers, research discussion, and hundreds of link occurrences; the rebuilt output has 49 total anchors, zero anchors under `#all-references`, and none of the stored per-supplement reference anchors. Inline citation markers such as `[1]` therefore point nowhere. Existing tests assert membership, order, and a generic popover only, so the severe copy and evidence loss passes. Migrate the authoritative detail and reference data into typed records and assert representative citation targets and baseline content coverage.</description>
+
+<code_example><![CDATA[```astro
+<!-- File: src/components/SupplementExplorer.astro, Lines 35-43 -->
+<section id="all-references" data-supplement-support>
+  <h2>References</h2>
+  <p>Reference anchors and recommended links were preserved from the legacy supplement page. Read the linked research before making a decision.</p>
+</section>
+```
+
+```ts
+// File: src/features/supplements/types.ts, Lines 41-45
+readonly description: string;
+readonly evidence: readonly SupplementEvidence[];
+readonly recommendedSupplementUrl?: string;
+readonly referencesAnchor?: `#${string}`;
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Content parity** | Legacy supplement copy and evidence remain available | Only normalized summary paragraphs remain |
+| **References** | Citation markers resolve to supporting sources | Reference section contains no links |
+| **Popovers** | Recorded supporting text remains reachable | Every item receives the same generic explanation |
+| **User Impact** | Users can inspect the evidence behind each ranking | Rankings appear without their supporting research |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Calculator] Unit toggle changes calorie results</title>
+<one_line_description>Switching the default calculator from metric to imperial changes BMR, TDEE, and calorie targets even though the physical inputs are unchanged.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `updateUnits`, Lines 199-215
+- /Users/sacino/musclehacking/src/features/calculator/domain/conversion.ts - functions: `convertWeightForDisplay` and `convertHeightForDisplay`, Lines 40-62
+- /Users/sacino/musclehacking/src/features/calculator/domain/calculate.ts - function: `calculateBmr`, Lines 15-29
+- /Users/sacino/musclehacking/tests/fixtures/legacy/calculator-goldens.json - `unitContract`
+- /Users/sacino/musclehacking/tests/unit/calculator.test.ts - conversion tests, Lines 73-102
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - default-only calculator coverage, Lines 3-18
+]]></file_locations>
+
+<issue_description>
+<description>`updateUnits` replaces the calculator's working weight and height with one-decimal display conversions. The calculation then converts those rounded imperial values back to metric, introducing enough drift to change rounded outputs. In a browser against a fresh Wrangler build, the default metric result was BMR 1805, TDEE 2166, and 1733 calories. Selecting imperial displayed the expected 176.4 lb and 70.9 in but changed the result to BMR 1806, TDEE 2167, and 1734 calories. The authoritative fixture explicitly says the legacy bundle preserves unrounded internal conversions. Existing tests independently test exact unrounded equivalents and display rounding, but never pass the displayed rounded values back into the calculator as the component does. Keep canonical unrounded measurements separate from display values and add an interactive toggle regression.</description>
+
+<code_example><![CDATA[```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 205-213
+const direction =
+  units === "imperial" ? "metric-to-imperial" : "imperial-to-metric";
+
+return {
+  ...current,
+  units,
+  weight: String(convertWeightForDisplay(Number(current.weight), direction)),
+  height: String(convertHeightForDisplay(Number(current.height), direction)),
+};
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Physical input** | Unit toggle changes display units only | Rounded display values replace calculation inputs |
+| **BMR** | 1805 before and after toggle | Changes from 1805 to 1806 |
+| **TDEE** | 2166 before and after toggle | Changes from 2166 to 2167 |
+| **Target calories** | 1733 before and after toggle | Changes from 1733 to 1734 |
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+
+<bug_4>
+<summary>
+<title>[Media] Content Security Policy blocks every YouTube embed</title>
+<one_line_description>The article retains YouTube privacy-mode iframes but the response policy has no `frame-src` allowance for their origin.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/public/_headers - site-wide Content-Security-Policy, Line 2
+- /Users/sacino/musclehacking/src/content/blog/reject-modernity-embrace-masculinity.md - YouTube embeds, Lines 17, 233, 450, 452, 458, 460, and 472
+- /Users/sacino/musclehacking/tests/fixtures/legacy/runtime-contract.json - approved runtime origin inventory, Lines 14-20
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - partial CSP assertion, Lines 52-64
+]]></file_locations>
+
+<issue_description>
+<description>The response CSP sets `default-src 'self'` and omits `frame-src`, so browsers apply the self-only default to iframes. The retained embeds use `https://www.youtube-nocookie.com`. A Chromium run against the fresh Wrangler build produced a CSP error and left the first iframe unloaded. The remaining six embeds are currently hidden inside the escaped article code block described in bug 1, but they will all be blocked once that rendering defect is corrected. The runtime baseline already identifies this origin. Add the exact approved privacy-mode frame origin or replace the embeds with a CSP-compatible fallback, then assert zero CSP console errors on the affected article.</description>
+
+<code_example><![CDATA[```text
+# File: public/_headers, Line 2
+Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'
+
+# Browser console
+Framing 'https://www.youtube-nocookie.com/' violates the following Content Security Policy directive: "default-src 'self'".
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Embedded media** | Approved privacy-mode YouTube videos load | Browser blocks the iframe request |
+| **CSP** | Strict policy permits only documented required origins | Required frame origin is absent |
+| **Testing** | Browser suite fails on CSP console errors | Tests check policy text but do not open the embedded route for violations |
+| **User Impact** | Readers can view referenced videos in context | Embedded video areas remain blank |
+]]></expected_vs_actual>
+</issue_description>
+</bug_4>
+
+<bug_5>
+<summary>
+<title>[Routing] Apex host serves duplicate pages instead of redirecting to www</title>
+<one_line_description>The Worker enforces slash shapes but never redirects `musclehacking.com` requests to the canonical `www` host.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/worker.ts - function: `fetch`, Lines 4-25
+- /Users/sacino/musclehacking/src/config/site.ts - canonical origin, Lines 1-3
+- /Users/sacino/musclehacking/tests/fixtures/legacy/runtime-contract.json - apex redirect contract, Lines 29-34
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - route-shape test, Lines 17-35
+]]></file_locations>
+
+<issue_description>
+<description>The Worker only checks path slash modes and then delegates to Astro. It never checks `url.hostname`. When the local Worker received `Host: musclehacking.com` for `/blog/change?baseline=1`, it returned `200` with the page body rather than the required one-hop permanent redirect to `https://www.musclehacking.com/blog/change?baseline=1`. The migration contract requires the www host to remain canonical and the apex to redirect once while preserving path and query. No repository redirect rule or host-aware test supplies this behavior. Implement the host redirect at the single routing owner or document and test an exact Cloudflare rule before binding the apex.</description>
+
+<code_example><![CDATA[```ts
+// File: src/worker.ts, Lines 5-12
+async fetch(request: Request, environment: Env, context: ExecutionContext): Promise<Response> {
+  const url = new URL(request.url);
+
+  if (request.method === 'GET' || request.method === 'HEAD') {
+    const slashRoute = routeByPath.get(`${url.pathname}/`);
+    if (!url.pathname.endsWith('/') && slashRoute?.slashMode === 'slash') {
+      url.pathname = `${url.pathname}/`;
+      return Response.redirect(url, 301);
+    }
+  }
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Apex request** | Permanent redirect to `https://www.musclehacking.com` | Worker serves the document with status 200 |
+| **Path and query** | Preserved in one redirect hop | No redirect occurs |
+| **Canonical host** | Only www serves content | Both bound hosts would serve duplicate content |
+| **Coverage** | Host behavior is asserted before cutover | E2E tests use only the local default host |
+]]></expected_vs_actual>
+</issue_description>
+</bug_5>
+
+<bug_6>
+<summary>
+<title>[Metadata] Blog articles emit website Open Graph type</title>
+<one_line_description>All twelve article pages identify themselves as generic websites because the article metadata flag never reaches the base layout.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/layouts/BaseLayout.astro - `article` property and Open Graph type, Lines 9-16 and 18-24 and 40-45
+- /Users/sacino/musclehacking/src/layouts/ContentLayout.astro - forwarded metadata properties, Lines 5-17
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - call to `ContentLayout`, Lines 5-20
+- /Users/sacino/musclehacking/src/pages/blog/[slug].astro - article layout call, Lines 14-25
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - metadata coverage, Lines 5-14
+]]></file_locations>
+
+<issue_description>
+<description>`BaseLayout.astro` supports an `article` Boolean and emits `og:type=article` when it is true, but `ArticleLayout.astro` never passes that flag through `ContentLayout.astro`. A fresh build confirmed `og:type=website` on all twelve generated article documents. This breaks the intended social metadata classification and can reduce the accuracy of link previews. Add the article flag at the article layout boundary and assert the generated type for every blog route.</description>
+
+<code_example><![CDATA[```astro
+<!-- File: src/layouts/BaseLayout.astro, Lines 23 and 41 -->
+article = false,
+<meta property="og:type" content={article ? 'article' : 'website'} />
+
+<!-- File: src/layouts/ArticleLayout.astro, Line 20 -->
+<ContentLayout title={pageTitle} description={description} canonicalPath={canonicalPath} image={image}>
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article Open Graph type** | `article` | `website` |
+| **Scope** | Twelve blog routes classified as articles | All twelve use the page default |
+| **Testing** | Metadata contract verifies route-specific type | E2E only checks title and canonical |
+| **User Impact** | Social crawlers receive accurate page semantics | Article shares are described as generic websites |
+]]></expected_vs_actual>
+</issue_description>
+</bug_6>
+</bug_report>

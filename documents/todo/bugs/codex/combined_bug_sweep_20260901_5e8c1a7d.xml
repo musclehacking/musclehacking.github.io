@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bug_report>
+  <bug_1>
+    <summary>
+      <title>[Audit] No defects found</title>
+      <one_line_description>The final remediation state preserved share-rail payload parity across all 15 rail routes and produced repeatable legacy-content migration output with matching hero captions.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - share URL construction, Lines 1-29
+- /Users/sacino/musclehacking/src/components/ArticleEnding.astro - share-rail prop forwarding, Lines 1-48
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - article title, document title, canonical path, and caption rendering, Lines 1-70
+- /Users/sacino/musclehacking/src/layouts/LongformLayout.astro - longform share-rail integration, Lines 1-52
+- /Users/sacino/musclehacking/src/pages/calorie-calculator/index.astro - calculator share-title override, Lines 28-44
+- /Users/sacino/musclehacking/src/pages/supplements/index.astro - supplement share-title override, Lines 20-36
+- /Users/sacino/musclehacking/scripts/migrate-legacy-content.mjs - migration generation and check-only verification, Lines 1-104
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - 15-route payload assertions, Lines 636-727
+</file_locations>
+    <issue_description>
+      <description>No defect was reproduced in the assigned scope. The desktop and mobile focused Playwright test passed and asserted canonical URL, social title, document title, email payload, and provider parameters across the 11 blog routes and 4 longform routes that render the floating rail. The repository migration check passed for all 12 articles. A separate isolated two-pass migration produced byte-identical output and matched each generated imageCaption value to the corresponding legacy hero caption. Astro checks, 51 unit tests, the production build, and distribution verification also passed. The full E2E command was not completed because an existing unrelated process occupied port 8787 before its preview server started; this did not affect the focused two-project E2E test, which completed successfully.</description>
+      <code_example>```text
+Focused share-rail E2E: 2 passed (desktop Chromium and mobile Chromium)
+Migration --check: Verified repeatable migration output for 12 articles.
+Isolated migration: Verified deterministic two-pass output and caption parity for 12 articles.
+Astro check: 0 errors
+Unit tests: 51 passed
+Build and verify: 21 HTML files and 20 public routes verified
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| Share payloads | Canonical URL and intended titles on all 15 rail routes | Matched on all 15 routes in desktop and mobile Chromium |
+| Migration repeatability | Repeated runs produce identical article files | Two isolated runs were byte-identical and repository --check passed |
+| Hero captions | Legacy hero captions survive migration | All 12 article outputs matched their legacy caption contract |
+| Defects | Any reproducible defect is documented | No defect was reproduced in the assigned scope |
+</expected_vs_actual>
+    </issue_description>
+  </bug_1>
+</bug_report>

@@ -1,0 +1,68 @@
+---
+import AffiliateDisclaimer from './AffiliateDisclaimer.astro';
+import NewsletterSignup from './NewsletterSignup.astro';
+import PostNavigation from './PostNavigation.astro';
+import ShareLinks from './ShareLinks.astro';
+import SocialShareRail from './SocialShareRail.astro';
+import type { ArticleNavigationLink } from '../config/article-navigation';
+
+interface Props {
+  canonicalPath: string;
+  title: string;
+  documentTitle: string;
+  formId: string;
+  campaign: string;
+  placement: 'article-bottom' | 'longform-bottom' | 'calculator-bottom';
+  previous?: ArticleNavigationLink;
+  next?: ArticleNavigationLink;
+  wrapTitles?: boolean;
+  disclaimer?: 'generic' | 'calculator';
+  floatingShare?: boolean;
+  twitterText?: string;
+  shareTitle?: string;
+  newsletterHeading?: string;
+  newsletterDescription?: string;
+  newsletterButtonText?: string;
+  newsletterAssurance?: string;
+  emailSubject?: string;
+  emailBody?: string;
+}
+
+const {
+  canonicalPath,
+  title,
+  documentTitle,
+  formId,
+  campaign,
+  placement,
+  previous,
+  next,
+  wrapTitles = false,
+  disclaimer,
+  floatingShare = false,
+  twitterText,
+  shareTitle = title,
+  newsletterHeading,
+  newsletterDescription,
+  newsletterButtonText,
+  newsletterAssurance,
+  emailSubject,
+  emailBody,
+} = Astro.props;
+---
+
+<div data-content-ending>
+  <NewsletterSignup
+    {formId}
+    {campaign}
+    {placement}
+    heading={newsletterHeading}
+    description={newsletterDescription}
+    buttonText={newsletterButtonText}
+    assurance={newsletterAssurance}
+  />
+  <ShareLinks {canonicalPath} {title} {twitterText} />
+  {disclaimer && <AffiliateDisclaimer variant={disclaimer} />}
+  <PostNavigation previous={previous} next={next} wrapTitles={wrapTitles} />
+</div>
+{floatingShare && <SocialShareRail {canonicalPath} title={shareTitle} {documentTitle} {emailSubject} {emailBody} />}

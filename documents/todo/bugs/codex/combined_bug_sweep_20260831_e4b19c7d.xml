@@ -1,0 +1,440 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bug_report>
+  <bug_1>
+    <summary>
+      <title>[Content Migration] All article bodies render as escaped source code</title>
+      <one_line_description>Each of the twelve migrated blog articles turns most of its legacy HTML body into a visible plaintext code block.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/content/blog/australian-health-star-rating.md - article body, Lines 14-157
+- /Users/sacino/musclehacking/src/content/blog/best-protein-powder-for-building-muscle.md - article body, Lines 14-635
+- /Users/sacino/musclehacking/src/content/blog/breakup-energy.md - article body, Lines 14-124
+- /Users/sacino/musclehacking/src/content/blog/calorie-calculator-how-to.md - article body, Lines 14-345
+- /Users/sacino/musclehacking/src/content/blog/change.md - article body, Lines 14-141
+- /Users/sacino/musclehacking/src/content/blog/healthy-low-calorie-foods.md - article body, Lines 14-294
+- /Users/sacino/musclehacking/src/content/blog/healthy-organic-post.md - article body, Lines 14-261
+- /Users/sacino/musclehacking/src/content/blog/idols.md - article body, Lines 14-153
+- /Users/sacino/musclehacking/src/content/blog/normal.md - article body, Lines 14-77
+- /Users/sacino/musclehacking/src/content/blog/reject-modernity-embrace-masculinity.md - article body, Lines 14-489
+- /Users/sacino/musclehacking/src/content/blog/weak.md - article body, Lines 14-44
+- /Users/sacino/musclehacking/src/content/blog/what-is-intermittent-fasting.md - article body, Lines 14-211
+- /Users/sacino/musclehacking/src/pages/blog/[slug].astro - function: rendered content path, Lines 10-25
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - generated HTML verification loop, Lines 27-58
+</file_locations>
+    <issue_description>
+      <description>The migrated Markdown files retain four-or-more-space indentation after the first raw HTML block. Markdown treats those later lines as indented code, so Astro emits one `pre.astro-code` element on every article page. A fresh build contained one code block and between 16 and 607 escaped source lines per article. For example, `/blog/breakup-energy` renders only the opening paragraph and first list as HTML, then shows the remaining article markup, images, links, newsletter section, and navigation as escaped text. The verifier and E2E suite miss the loss because they assert only the shared shell, title, heading, and links that Cheerio can parse as actual elements. Normalize the imported bodies or use an HTML-safe content owner, then add full-body parity assertions against the baseline artefacts.</description>
+      <code_example>```html
+&lt;!-- Source: src/content/blog/breakup-energy.md, Lines 21-30 --&gt;
+            &lt;/ol&gt;
+
+            &lt;p&gt;Later on, we realized that these four forces alone couldn’t explain everything.&lt;/p&gt;
+            &lt;p&gt;We discovered two missing components:&lt;/p&gt;
+
+&lt;!-- Generated dist/client/blog/breakup-energy.html --&gt;
+&lt;pre class="astro-code ..."&gt;&lt;code&gt;
+  &lt;span class="line"&gt;&amp;lt;p&amp;gt;Later on, we realized ...&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article copy** | Complete legacy body renders as semantic HTML | Most body content renders as escaped markup |
+| **Links and media** | Baseline links, images, and embeds remain usable | Elements inside the code block are inert text |
+| **Coverage** | Body parity regression fails the build | Current check, unit, build, and verifier commands all pass |
+| **User Impact** | Readers see the full twelve-article library | Every article is visibly broken after its opening content |
+</expected_vs_actual>
+    </issue_description>
+  </bug_1>
+  <bug_2>
+    <summary>
+      <title>[Supplements] Research and detailed supplement content are absent</title>
+      <one_line_description>The rebuilt supplement explorer keeps short summaries and filter order but drops the legacy evidence sections, citations, and reference links.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/supplements/data.ts - `SupplementRecord` data, Lines 66-309
+- /Users/sacino/musclehacking/src/features/supplements/types.ts - interface: `SupplementRecord`, Lines 35-46
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - supplement rendering and reference placeholder, Lines 21-43
+- /Users/sacino/musclehacking/tests/unit/supplements.test.ts - order-only regression coverage, Lines 5-58
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - filter-only browser coverage, Lines 20-39
+</file_locations>
+    <issue_description>
+      <description>The source model stores only one summary string, category-level evidence, an optional product URL, and an unused `referencesAnchor`. `SupplementExplorer.astro` renders those summaries and a generic evidence explanation, then renders a References heading whose paragraph claims links were preserved even though it contains no links. The audited baseline supplement page contains detailed per-supplement sections, term popovers, research discussion, and hundreds of link occurrences; the rebuilt output has 49 total anchors, zero anchors under `#all-references`, and none of the stored per-supplement reference anchors. Inline citation markers such as `[1]` therefore point nowhere. Existing tests assert membership, order, and a generic popover only, so the severe copy and evidence loss passes. Migrate the authoritative detail and reference data into typed records and assert representative citation targets and baseline content coverage.</description>
+      <code_example>```astro
+&lt;!-- File: src/components/SupplementExplorer.astro, Lines 35-43 --&gt;
+&lt;section id="all-references" data-supplement-support&gt;
+  &lt;h2&gt;References&lt;/h2&gt;
+  &lt;p&gt;Reference anchors and recommended links were preserved from the legacy supplement page. Read the linked research before making a decision.&lt;/p&gt;
+&lt;/section&gt;
+```
+
+```ts
+// File: src/features/supplements/types.ts, Lines 41-45
+readonly description: string;
+readonly evidence: readonly SupplementEvidence[];
+readonly recommendedSupplementUrl?: string;
+readonly referencesAnchor?: `#${string}`;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Content parity** | Legacy supplement copy and evidence remain available | Only normalized summary paragraphs remain |
+| **References** | Citation markers resolve to supporting sources | Reference section contains no links |
+| **Popovers** | Recorded supporting text remains reachable | Every item receives the same generic explanation |
+| **User Impact** | Users can inspect the evidence behind each ranking | Rankings appear without their supporting research |
+</expected_vs_actual>
+    </issue_description>
+  </bug_2>
+  <bug_3>
+    <summary>
+      <title>[Calculator] Unit toggle changes calorie results</title>
+      <one_line_description>Switching the default calculator from metric to imperial changes BMR, TDEE, and calorie targets even though the physical inputs are unchanged.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - function: `updateUnits`, Lines 199-215
+- /Users/sacino/musclehacking/src/features/calculator/domain/conversion.ts - functions: `convertWeightForDisplay` and `convertHeightForDisplay`, Lines 40-62
+- /Users/sacino/musclehacking/src/features/calculator/domain/calculate.ts - function: `calculateBmr`, Lines 15-29
+- /Users/sacino/musclehacking/tests/fixtures/legacy/calculator-goldens.json - `unitContract`
+- /Users/sacino/musclehacking/tests/unit/calculator.test.ts - conversion tests, Lines 73-102
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - default-only calculator coverage, Lines 3-18
+</file_locations>
+    <issue_description>
+      <description>`updateUnits` replaces the calculator's working weight and height with one-decimal display conversions. The calculation then converts those rounded imperial values back to metric, introducing enough drift to change rounded outputs. In a browser against a fresh Wrangler build, the default metric result was BMR 1805, TDEE 2166, and 1733 calories. Selecting imperial displayed the expected 176.4 lb and 70.9 in but changed the result to BMR 1806, TDEE 2167, and 1734 calories. The authoritative fixture explicitly says the legacy bundle preserves unrounded internal conversions. Existing tests independently test exact unrounded equivalents and display rounding, but never pass the displayed rounded values back into the calculator as the component does. Keep canonical unrounded measurements separate from display values and add an interactive toggle regression.</description>
+      <code_example>```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 205-213
+const direction =
+  units === "imperial" ? "metric-to-imperial" : "imperial-to-metric";
+
+return {
+  ...current,
+  units,
+  weight: String(convertWeightForDisplay(Number(current.weight), direction)),
+  height: String(convertHeightForDisplay(Number(current.height), direction)),
+};
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Physical input** | Unit toggle changes display units only | Rounded display values replace calculation inputs |
+| **BMR** | 1805 before and after toggle | Changes from 1805 to 1806 |
+| **TDEE** | 2166 before and after toggle | Changes from 2166 to 2167 |
+| **Target calories** | 1733 before and after toggle | Changes from 1733 to 1734 |
+</expected_vs_actual>
+    </issue_description>
+  </bug_3>
+  <bug_4>
+    <summary>
+      <title>[Media] Content Security Policy blocks every YouTube embed</title>
+      <one_line_description>The article retains YouTube privacy-mode iframes but the response policy has no `frame-src` allowance for their origin.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/public/_headers - site-wide Content-Security-Policy, Line 2
+- /Users/sacino/musclehacking/src/content/blog/reject-modernity-embrace-masculinity.md - YouTube embeds, Lines 17, 233, 450, 452, 458, 460, and 472
+- /Users/sacino/musclehacking/tests/fixtures/legacy/runtime-contract.json - approved runtime origin inventory, Lines 14-20
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - partial CSP assertion, Lines 52-64
+</file_locations>
+    <issue_description>
+      <description>The response CSP sets `default-src 'self'` and omits `frame-src`, so browsers apply the self-only default to iframes. The retained embeds use `https://www.youtube-nocookie.com`. A Chromium run against the fresh Wrangler build produced a CSP error and left the first iframe unloaded. The remaining six embeds are currently hidden inside the escaped article code block described in bug 1, but they will all be blocked once that rendering defect is corrected. The runtime baseline already identifies this origin. Add the exact approved privacy-mode frame origin or replace the embeds with a CSP-compatible fallback, then assert zero CSP console errors on the affected article.</description>
+      <code_example>```text
+# File: public/_headers, Line 2
+Content-Security-Policy: default-src 'self'; base-uri 'self'; connect-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'
+
+# Browser console
+Framing 'https://www.youtube-nocookie.com/' violates the following Content Security Policy directive: "default-src 'self'".
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Embedded media** | Approved privacy-mode YouTube videos load | Browser blocks the iframe request |
+| **CSP** | Strict policy permits only documented required origins | Required frame origin is absent |
+| **Testing** | Browser suite fails on CSP console errors | Tests check policy text but do not open the embedded route for violations |
+| **User Impact** | Readers can view referenced videos in context | Embedded video areas remain blank |
+</expected_vs_actual>
+    </issue_description>
+  </bug_4>
+  <bug_5>
+    <summary>
+      <title>[Routing] Apex host serves duplicate pages instead of redirecting to www</title>
+      <one_line_description>The Worker enforces slash shapes but never redirects `musclehacking.com` requests to the canonical `www` host.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/worker.ts - function: `fetch`, Lines 4-25
+- /Users/sacino/musclehacking/src/config/site.ts - canonical origin, Lines 1-3
+- /Users/sacino/musclehacking/tests/fixtures/legacy/runtime-contract.json - apex redirect contract, Lines 29-34
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - route-shape test, Lines 17-35
+</file_locations>
+    <issue_description>
+      <description>The Worker only checks path slash modes and then delegates to Astro. It never checks `url.hostname`. When the local Worker received `Host: musclehacking.com` for `/blog/change?baseline=1`, it returned `200` with the page body rather than the required one-hop permanent redirect to `https://www.musclehacking.com/blog/change?baseline=1`. The migration contract requires the www host to remain canonical and the apex to redirect once while preserving path and query. No repository redirect rule or host-aware test supplies this behavior. Implement the host redirect at the single routing owner or document and test an exact Cloudflare rule before binding the apex.</description>
+      <code_example>```ts
+// File: src/worker.ts, Lines 5-12
+async fetch(request: Request, environment: Env, context: ExecutionContext): Promise&lt;Response&gt; {
+  const url = new URL(request.url);
+
+  if (request.method === 'GET' || request.method === 'HEAD') {
+    const slashRoute = routeByPath.get(`${url.pathname}/`);
+    if (!url.pathname.endsWith('/') &amp;&amp; slashRoute?.slashMode === 'slash') {
+      url.pathname = `${url.pathname}/`;
+      return Response.redirect(url, 301);
+    }
+  }
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Apex request** | Permanent redirect to `https://www.musclehacking.com` | Worker serves the document with status 200 |
+| **Path and query** | Preserved in one redirect hop | No redirect occurs |
+| **Canonical host** | Only www serves content | Both bound hosts would serve duplicate content |
+| **Coverage** | Host behavior is asserted before cutover | E2E tests use only the local default host |
+</expected_vs_actual>
+    </issue_description>
+  </bug_5>
+  <bug_6>
+    <summary>
+      <title>[Metadata] Blog articles emit website Open Graph type</title>
+      <one_line_description>All twelve article pages identify themselves as generic websites because the article metadata flag never reaches the base layout.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/layouts/BaseLayout.astro - `article` property and Open Graph type, Lines 9-16 and 18-24 and 40-45
+- /Users/sacino/musclehacking/src/layouts/ContentLayout.astro - forwarded metadata properties, Lines 5-17
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - call to `ContentLayout`, Lines 5-20
+- /Users/sacino/musclehacking/src/pages/blog/[slug].astro - article layout call, Lines 14-25
+- /Users/sacino/musclehacking/tests/e2e/routes.spec.ts - metadata coverage, Lines 5-14
+</file_locations>
+    <issue_description>
+      <description>`BaseLayout.astro` supports an `article` Boolean and emits `og:type=article` when it is true, but `ArticleLayout.astro` never passes that flag through `ContentLayout.astro`. A fresh build confirmed `og:type=website` on all twelve generated article documents. This breaks the intended social metadata classification and can reduce the accuracy of link previews. Add the article flag at the article layout boundary and assert the generated type for every blog route.</description>
+      <code_example>```astro
+&lt;!-- File: src/layouts/BaseLayout.astro, Lines 23 and 41 --&gt;
+article = false,
+&lt;meta property="og:type" content={article ? 'article' : 'website'} /&gt;
+
+&lt;!-- File: src/layouts/ArticleLayout.astro, Line 20 --&gt;
+&lt;ContentLayout title={pageTitle} description={description} canonicalPath={canonicalPath} image={image}&gt;
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article Open Graph type** | `article` | `website` |
+| **Scope** | Twelve blog routes classified as articles | All twelve use the page default |
+| **Testing** | Metadata contract verifies route-specific type | E2E only checks title and canonical |
+| **User Impact** | Social crawlers receive accurate page semantics | Article shares are described as generic websites |
+</expected_vs_actual>
+    </issue_description>
+  </bug_6>
+  <bug_7>
+    <summary>
+      <title>[Newsletter] Article forms are rejected as invalid sources</title>
+      <one_line_description>Every article renders the shared newsletter form with an article path that the server schema rejects before challenge or provider processing.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - newsletter form hidden source field, Lines 12-17
+- /Users/sacino/musclehacking/src/components/Sidebar.astro - shared sidebar form, Lines 5-10
+- /Users/sacino/musclehacking/src/layouts/ContentLayout.astro - sidebar placement on content routes, Lines 17-24
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - `ALLOWED_SOURCE_PATHS` and `validateSubscriptionForm`, Lines 1-3 and 20-40
+- /Users/sacino/musclehacking/tests/unit/newsletter.test.ts - newsletter validation fixtures, Lines 5-35
+</file_locations>
+    <issue_description>
+      <description>The sidebar is rendered on all twelve article routes and submits `Astro.url.pathname`, such as `/blog/breakup-energy`, as `sourceUrl`. The schema allowlist contains only section paths and omits every article path. A valid article subscription therefore receives `400 invalid_source` before anti-abuse or provider processing. The unit suite uses only `/join/`, so this route-to-schema mismatch passes. Recommendation: derive the allowed newsletter sources from the reviewed route registry or add the exact article paths, then test every route that renders the form.</description>
+      <code_example>```astro
+&lt;!-- NewsletterForm.astro, Lines 12-15 --&gt;
+&lt;form class="newsletter-form" method="post" action="/api/subscribe"&gt;
+  &lt;input type="hidden" name="sourceUrl" value={Astro.url.pathname} /&gt;
+```
+
+```ts
+// schema.ts, Lines 2-3 and 38
+const ALLOWED_SOURCE_PATHS = new Set([
+  '/', '/blog/', '/books/', '/calorie-calculator/', '/join/',
+  '/lose-fat-gain-muscle/', '/supplements/'
+]);
+if (!sourceUrl || !ALLOWED_SOURCE_PATHS.has(sourceUrl)) {
+  return { ok: false, status: 400, code: 'invalid_source' };
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article form** | A valid article subscription reaches anti-abuse verification | The schema returns `400 invalid_source` |
+| **Source policy** | Every rendered form path is an approved source | All twelve article paths are absent |
+| **Test coverage** | Tests exercise sources from every form placement | Tests exercise only `/join/` |
+</expected_vs_actual>
+    </issue_description>
+  </bug_7>
+  <bug_8>
+    <summary>
+      <title>[Newsletter] No form can produce the required reCAPTCHA token</title>
+      <one_line_description>The provider requires server-verified reCAPTCHA, but the rendered forms and browser bundle never load or submit a challenge token.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - complete newsletter form markup, Lines 12-24
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - challenge token extraction, Lines 29-40
+- /Users/sacino/musclehacking/src/features/newsletter/provider.ts - mandatory reCAPTCHA verification, Lines 16-26 and 34-42
+- /Users/sacino/musclehacking/public/_headers - browser CSP, Lines 1-6
+- /Users/sacino/musclehacking/tests/unit/newsletter.test.ts - synthetic challenge fixture, Lines 5-13 and 62-78
+</file_locations>
+    <issue_description>
+      <description>The form has no `g-recaptcha-response` field and no script or component obtains a token. A repository scan finds reCAPTCHA only in server code. When provider credentials are configured, `subscribe` rejects the empty token as `challenge_failed`, so even a valid production or preview submission cannot succeed. The current CSP also limits scripts and connections to `self`, so adding the existing Google browser challenge without finalising the required origins would be blocked. Unit tests hide the integration failure by inserting a synthetic token directly into `FormData`. Recommendation: keep cutover blocked until the approved anti-abuse flow is implemented end to end, including client token creation, CSP origins, server validation, and a hosted sandbox success test; otherwise remove the unusable configured-provider path until the approved replacement exists.</description>
+      <code_example>```astro
+&lt;!-- NewsletterForm.astro, Lines 12-23: no challenge field or challenge script --&gt;
+&lt;form class="newsletter-form" method="post" action="/api/subscribe"&gt;
+  &lt;input type="hidden" name="campaign" value={campaign} /&gt;
+  &lt;input type="hidden" name="formId" value={formId} /&gt;
+  &lt;input type="hidden" name="sourceUrl" value={Astro.url.pathname} /&gt;
+  &lt;input id={`email-${formId}`} name="email" type="email" required /&gt;
+&lt;/form&gt;
+```
+
+```ts
+// provider.ts, Lines 16-17 and 39-41
+async function verifyRecaptcha(token: string, secret: string): Promise&lt;boolean&gt; {
+  if (!token) return false;
+}
+if (!(await verifyRecaptcha(input.challengeToken, RECAPTCHA_SECRET, fetcher))) {
+  return { ok: false, code: 'challenge_failed' };
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Browser flow** | The approved challenge supplies a token with the native form submission | No challenge integration or token field exists |
+| **Configured provider** | A valid authorised submission can return `303` | Every rendered form reaches `challenge_failed` after configuration |
+| **CSP** | Approved challenge resources are allowed exactly | Browser policy allows only same-origin scripts and connections |
+</expected_vs_actual>
+    </issue_description>
+  </bug_8>
+  <bug_9>
+    <summary>
+      <title>[Newsletter] Chunked requests bypass the 8 KiB body limit</title>
+      <one_line_description>The endpoint checks only Content-Length, then buffers the full form body when that header is absent.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/pages/api/subscribe.ts - request-size check and form parsing, Lines 35-46
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - post-buffer field bounds, Lines 17-40
+- /Users/sacino/musclehacking/documents/architecture/newsletter.md - stated request-bound contract, Lines 1-3
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - newsletter endpoint checks, Lines 41-73
+</file_locations>
+    <issue_description>
+      <description>The request limit treats a missing `Content-Length` as zero. Transfer-Encoding chunked requests therefore pass the 8 KiB guard and are fully buffered by `request.formData()` before field bounds run. A local Wrangler request with more than 10 KiB and `Transfer-Encoding: chunked` returned `413 field_too_large`, proving that the endpoint parsed beyond the advertised request limit instead of returning `request_too_large`. An attacker can send a much larger body and consume Worker memory and CPU before rejection. Recommendation: consume the body through a hard byte-limited reader or reject requests without a valid bounded length before form parsing, and add chunked and misleading-length regression cases.</description>
+      <code_example>```ts
+// subscribe.ts, Lines 37-45
+const contentLength = Number(request.headers.get('content-length') ?? '0');
+if (Number.isFinite(contentLength) &amp;&amp; contentLength &gt; MAXIMUM_REQUEST_BYTES) {
+  return safeError(413, 'request_too_large');
+}
+const validation = validateSubscriptionForm(await request.formData());
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Maximum body** | No request body above 8,192 bytes is buffered | Headerless or chunked bodies are buffered without a byte limit |
+| **Observed response** | Oversized chunked input returns `request_too_large` before parsing | 10 KiB input reached schema parsing and returned `field_too_large` |
+| **Abuse resistance** | Cost is bounded before form decoding | Memory and decode cost scale with attacker-controlled body size |
+</expected_vs_actual>
+    </issue_description>
+  </bug_9>
+  <bug_10>
+    <summary>
+      <title>[Newsletter] Malformed form bodies escape the safe error contract</title>
+      <one_line_description>A malformed multipart request throws during form parsing and produces an empty 500 response without the endpoint security or cache headers.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/src/pages/api/subscribe.ts - safe response helpers and unguarded form parsing, Lines 10-29 and 35-52
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - API failure coverage, Lines 41-73
+- /Users/sacino/musclehacking/documents/architecture/security.md - API response-header ownership, Lines 1-5
+</file_locations>
+    <issue_description>
+      <description>`request.formData()` is outside a try/catch. Workerd throws when a multipart body has a missing or truncated boundary, and Astro converts the exception into a bare `500` with no JSON error, `Cache-Control: no-store`, CSP, `nosniff`, or frame policy. This violates the stable redacted failure and strict API-header contract. A local Wrangler reproduction with `Content-Type: multipart/form-data; boundary=broken` and an invalid body returned `500` with `Content-Length: 0`. The E2E suite checks configured safe responses but has no malformed-parser case. Recommendation: catch form decoding failures and map them to a bounded safe 400-class response with the standard headers, then cover malformed URL-encoded and multipart input through Wrangler.</description>
+      <code_example>```ts
+// subscribe.ts, Lines 40-46
+if (!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded') &amp;&amp;
+    !request.headers.get('content-type')?.startsWith('multipart/form-data')) {
+  return safeError(415, 'unsupported_media_type');
+}
+
+const validation = validateSubscriptionForm(await request.formData());
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Malformed form** | Stable redacted 400-class JSON response | Uncaught parser error becomes an empty `500` |
+| **Response policy** | Every API failure has `no-store` and security headers | Framework-generated `500` omits those headers |
+| **Information boundary** | Invalid input remains a handled validation failure | Invalid input reaches the generic exception boundary |
+</expected_vs_actual>
+    </issue_description>
+  </bug_10>
+  <bug_11>
+    <summary>
+      <title>[Runtime] Every static request executes the Worker</title>
+      <one_line_description>The Worker-first asset configuration and catch-all entrypoint run request-time code for all pages and assets instead of only the newsletter API.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/wrangler.jsonc - Worker-first static asset setting, Lines 5-12
+- /Users/sacino/musclehacking/src/worker.ts - catch-all request handler, Lines 4-25
+- /Users/sacino/musclehacking/astro.config.mjs - static output configuration, Lines 5-13
+- /Users/sacino/musclehacking/README.md - documented runtime boundary, Lines 1-3
+- /Users/sacino/musclehacking/AGENTS.md - repository runtime policy, Lines 3-5
+</file_locations>
+    <issue_description>
+      <description>`assets.run_worker_first` is `true`, so Cloudflare invokes `src/worker.ts` before the Static Assets binding for every request. The handler parses every URL and forwards all unmatched pages and assets through Astro's server entrypoint. This contradicts the repository rule and README claim that only `/api/subscribe` executes per request, adds request-time cost to all prerendered documents and assets, and widens the failure surface beyond the narrow POST endpoint. Recommendation: move route-shape handling to static asset or redirect configuration and restrict Worker-first routing to the API; if exact route compatibility genuinely requires document execution, obtain explicit approval and update the architecture contract before cutover.</description>
+      <code_example>```jsonc
+// wrangler.jsonc, Lines 6-11
+"assets": {
+  "directory": "./dist/client",
+  "binding": "ASSETS",
+  "not_found_handling": "404-page",
+  "html_handling": "auto-trailing-slash",
+  "run_worker_first": true
+}
+```
+
+```ts
+// worker.ts, Lines 5 and 24
+async fetch(request: Request, environment: Env, context: ExecutionContext) {
+  // route-shape checks run for every request
+  return astroWorker.fetch(request, environment, context);
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Runtime boundary** | Only `/api/subscribe` executes Worker code per request | Every route and asset executes `src/worker.ts` first |
+| **Documents** | Prerendered pages are served directly by Static Assets | Pages pass through the Astro Worker entrypoint |
+| **Operational risk** | Runtime failures are isolated to newsletter submission | Catch-all Worker failures can affect the complete site |
+</expected_vs_actual>
+    </issue_description>
+  </bug_11>
+  <bug_12>
+    <summary>
+      <title>[Build Verification] Forbidden runtime code is excluded from the output scan</title>
+      <one_line_description>The distribution verifier claims to detect legacy dependencies and forbidden strings but never scans generated JavaScript files.</one_line_description>
+    </summary>
+    <file_locations>
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - output collection and forbidden-string checks, Lines 60-69
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - success claim, Lines 83-88
+- /Users/sacino/musclehacking/documents/testing/README.md - stated build verification coverage, Lines 3-8
+- /Users/sacino/musclehacking/documents/migration/human-review-packet.md - claimed legacy-string evidence, Lines 16-24
+</file_locations>
+    <issue_description>
+      <description>The verifier builds `outputText` from only HTML, XML, text, and CSS. It then searches that subset for jQuery, Bootstrap JavaScript, Popper, Tippy, AnchorJS, analytics, preview hosts, and object coercion. Generated `dist/client/_astro/*.js` files are excluded, even though that is where browser dependencies and runtime third-party origins normally appear. A regression that imports a forbidden browser package can therefore pass `pnpm verify:dist`, while the script and review packet report that legacy dependencies and forbidden strings were checked. Recommendation: scan all emitted browser JavaScript and relevant manifests, or inspect the generated module graph, and add a controlled fixture proving the gate fails when a forbidden dependency is present only in JavaScript.</description>
+      <code_example>```js
+// verify-dist.mjs, Lines 60-66
+const outputText = readdirRecursive(clientRoot)
+  .filter((path) =&gt; /\.(?:html|xml|txt|css)$/.test(path))
+  .map((path) =&gt; readFileSync(path, 'utf8'))
+  .join('\n');
+
+for (const forbidden of ['jquery', 'bootstrap.min.js', 'popper', 'tippy']) {
+  if (outputText.toLowerCase().includes(forbidden.toLowerCase())) {
+    fail(`Forbidden output string: ${forbidden}`);
+  }
+}
+```</code_example>
+      <expected_vs_actual>
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Dependency gate** | Forbidden browser dependencies fail verification wherever emitted | Generated JavaScript is never searched |
+| **Third-party scan** | Runtime origins in browser code are detected | JavaScript-only origins evade the scan |
+| **Reported evidence** | Success means the complete browser output was checked | Success covers only markup, discovery text, and CSS |
+</expected_vs_actual>
+    </issue_description>
+  </bug_12>
+</bug_report>

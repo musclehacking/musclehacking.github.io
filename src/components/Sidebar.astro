@@ -1,0 +1,42 @@
+---
+import NewsletterForm from './NewsletterForm.astro';
+import { recentPosts } from '../config/home';
+---
+
+<aside class="sidebar" aria-label="About Muscle Hacking">
+  <p>Want to stay up to date with my writing?</p>
+  <p>Enter your email below and I’ll send you my latest articles.</p>
+  <p>(and other subscriber-only content).</p>
+  <NewsletterForm formId="sidebar" campaign="sidebar" buttonText="Email Me" placement="sidebar" hideLabel />
+  <p><em>No Junk. Unsubscribe at any time.</em></p>
+  <h2>About</h2>
+  <p class="sidebar-about">
+    After finding an apple labelled “<em>Gluten-free</em>” at my local supermarket, I finally snapped.
+    <br /><br />
+    There are <strong><em>a lot</em></strong> of lies and truth twisting in the health and fitness industry.
+    <br /><br />
+    This blog is my attempt to cut through the BS.
+    <br /><br />
+    A genuine evidence-based approach to fitness and nutrition.
+    <br /><br />
+    To start with—you need to know how much food to eat (hint: it’s not “<em>as much as you can possibly stuff your face with</em>”).
+    <br /><br />
+    Use this <a href="/calorie-calculator/">calorie and macro calculator</a> to figure that out for you.
+    <br /><br />
+    Have a question? You can reach out to me at <a href="mailto:jay@musclehacking.com">jay@musclehacking.com</a>.
+    <br /><br />
+    I’m here to help. To guide you as best I can through all the misinformation and “magic pills”.
+    <br /><br />
+    But *you* are the one that needs to actually *do it*.
+    <br /><br />
+    Remember: <strong>no one is coming to save you</strong>.
+    <br /><br />
+    Learn to save yourself.
+  </p>
+  <section class="sidebar-recent" aria-labelledby="recent-posts-heading">
+    <h2 id="recent-posts-heading">Recent Posts</h2>
+    <ul>
+      {recentPosts.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+    </ul>
+  </section>
+</aside>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Heading links] Activation copies the section URL without updating the page fragment</title>
+<one_line_description>Heading self-links prevent native navigation but never replace it with a fragment-only history update.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/scripts/heading-links.ts - heading self-link click handler, Lines 147-166
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - UI-05 activation assertion, Lines 274-280
+]]></file_locations>
+
+<issue_description>
+<description>The heading self-link click handler calls preventDefault(), copies the canonical section URL, and shows feedback, but it never updates location.hash or the browser history. A rendered check on /supplements/ confirmed that clicking the Creatine heading link leaves both the URL and location.hash unchanged. This breaks the reopened UI-05 contract that requires the fragment update to remain functional without moving the viewport, and it prevents users from bookmarking or sharing the currently activated section from the address bar. The current E2E assertion locks in the defect by expecting the hash to remain unchanged. Recommendation: update the fragment through the History API after activation while preserving scrollY, then assert the new hash and unchanged viewport separately.</description>
+
+<code_example><![CDATA[```typescript
+// File: /Users/sacino/musclehacking/src/scripts/heading-links.ts, Lines 147-166
+
+link.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href
+    ?? `${location.origin}${location.pathname}`;
+  const targetUrl = `${canonical}#${id}`;
+  await copyText(targetUrl);
+  openPopover();
+  // No history.pushState(), history.replaceState(), or location.hash update.
+});
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Address bar** | Activating a heading changes the fragment to the heading ID | The URL and location.hash remain unchanged |
+| **Viewport** | The fragment changes without scrolling or jumping | The viewport stays still only because all navigation is suppressed |
+| **Regression test** | Assert the new fragment and stable scroll position | Asserts that both fragment and scroll position remain unchanged |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Supplements] Reference links bypass the restored legacy prose-link styling</title>
+<one_line_description>Supplement reference links render with browser-default blue underlines instead of the legacy inset underline and hover fill.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/styles/global.css - shared prose-link selectors, Lines 300-316
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - generated reference links, Lines 41-44
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - reopened shared prose-link coverage, Lines 112-145
+]]></file_locations>
+
+<issue_description>
+<description>The shared link rules cover legacy article content, home notes, calculator guide content, sidebar copy, and newsletter prompt copy, but omit supplement prose. SupplementExplorer renders links such as "View L-Theanine references" directly under .supplement-card, outside every selected container. A rendered check confirmed these links use rgb(23, 107, 159), text-decoration: underline, no box shadow, and no transition. The reopened third-review contract explicitly requires supplement copy to use inherited text colour, the #206593 inset underline, the hover fill, and the 0.2-second transition. The existing prose-link E2E test checks only the home sidebar and calculator prompt, so it cannot catch this route-level regression. Recommendation: include the intended supplement prose containers while continuing to exclude heading anchors and in-text reference links that have their own legacy contract, and add default and hover assertions for a generated supplement reference link.</description>
+
+<code_example><![CDATA[```css
+/* File: /Users/sacino/musclehacking/src/styles/global.css, Lines 300-316 */
+
+.legacy-content a,
+.home-note a,
+.home-feature > p a,
+.calculator-guide a,
+.sidebar-about a,
+.newsletter-prompt-note a {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: inset 0 -2px 0 #206593;
+  transition: box-shadow 0.2s linear;
+}
+
+/* .supplements-page or its prose owners are not selected. */
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Default style** | Inherited text colour, no native underline, inset blue rule | Blue browser-default text with a native underline |
+| **Hover style** | Legacy inset fill transition | No project transition or inset fill |
+| **Coverage** | Shared prose-link checks include supplement copy | Tests cover only sidebar and floating-prompt links |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Social sharing] Copy-page-link control has no fallback when Clipboard API access fails</title>
+<one_line_description>The floating share rail prevents its canonical link from navigating even when clipboard copying is unavailable.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/scripts/social-share.ts - copy-page-link click handler, Lines 11-20
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - canonical fallback anchor, Line 20
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - floating share rail checks, Lines 654-685
+]]></file_locations>
+
+<issue_description>
+<description>The copy-page-link control is a real anchor to the production canonical URL, but its handler always calls preventDefault() before attempting navigator.clipboard.writeText(). When the Clipboard API is absent or rejects access, the catch block only sets data-copied="false". It neither uses the fallback copy path already implemented for heading links nor allows the anchor navigation to proceed. A rendered check with navigator.clipboard unavailable confirmed that clicking the control leaves the page unchanged and only sets data-copied to false. Users therefore receive no copied URL, no navigation fallback, and no visible failure message. The article-ending E2E matrix only counts the five rail buttons and checks hover styling. Recommendation: share the proven copy fallback with heading links or permit the canonical anchor action on failure, and expose an observable success or failure state.</description>
+
+<code_example><![CDATA[```typescript
+// File: /Users/sacino/musclehacking/src/scripts/social-share.ts, Lines 11-20
+
+rail.querySelector<HTMLAnchorElement>('[data-copy-page-link]')?.addEventListener('click', async (event) => {
+  event.preventDefault();
+  const link = event.currentTarget as HTMLAnchorElement;
+  try {
+    await navigator.clipboard.writeText(link.href);
+    link.dataset.copied = 'true';
+  } catch {
+    link.dataset.copied = 'false';
+  }
+});
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Clipboard unavailable** | Copy through a fallback or allow the canonical link action | Default navigation is suppressed and nothing is copied |
+| **Failure feedback** | User receives visible, accessible failure feedback | Only a data attribute changes |
+| **Regression coverage** | Exercise success and failure behaviour | Tests only count rail controls and inspect hover CSS |
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+</bug_report>

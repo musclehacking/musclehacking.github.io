@@ -1,4 +1,11 @@
+node_modules/
+.astro/
+.wrangler/
+dist/
+playwright-report/
+test-results/
+coverage/
 .DS_Store
 .ruby-version
-.vscode
+.vscode/
 .cursorrules

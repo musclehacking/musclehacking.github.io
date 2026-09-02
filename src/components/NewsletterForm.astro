@@ -1,0 +1,31 @@
+---
+import { routeByPath } from '../config/routes';
+
+interface Props {
+  campaign?: string;
+  formId?: string;
+  buttonText?: string;
+  hideLabel?: boolean;
+  placement?: 'sidebar' | 'article-bottom' | 'longform-bottom' | 'calculator-bottom' | 'floating' | 'modal' | 'join' | 'default';
+}
+
+const { campaign = 'site', formId = 'default', buttonText = 'Join the newsletter', hideLabel = false, placement = 'default' } = Astro.props;
+const renderedPath = Astro.url.pathname;
+const sourceUrl = routeByPath.get(renderedPath)?.path
+  ?? routeByPath.get(renderedPath.replace(/\/$/, ''))?.path
+  ?? renderedPath;
+---
+
+<form class:list={['newsletter-form', `newsletter-form--${placement}`]} data-newsletter-placement={placement} method="post" action="/api/subscribe">
+  <input type="hidden" name="campaign" value={campaign} />
+  <input type="hidden" name="formId" value={formId} />
+  <input type="hidden" name="sourceUrl" value={sourceUrl} />
+  <div class="honeypot" aria-hidden="true">
+    <label>Leave this field empty <input name="company" tabindex="-1" autocomplete="off" /></label>
+  </div>
+  <label class:list={{ 'visually-hidden': hideLabel }} for={`email-${formId}`}>Email address</label>
+  <div class="newsletter-fields">
+    <input id={`email-${formId}`} name="email" type="email" autocomplete="email" maxlength="254" placeholder="Your email address" required />
+    <button type="submit">{buttonText}</button>
+  </div>
+</form>

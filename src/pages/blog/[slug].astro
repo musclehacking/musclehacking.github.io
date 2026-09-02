@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { articleNavigation } from '../../config/article-navigation';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const navigation = articleNavigation[entry.id];
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  pageTitle={entry.data.pageTitle}
+  description={entry.data.description}
+  canonicalPath={`/blog/${entry.id}`}
+  image={entry.data.image}
+  imageAlt={entry.data.imageAlt}
+  imageWidth={entry.data.imageWidth}
+  imageHeight={entry.data.imageHeight}
+  imageCaption={entry.data.imageCaption}
+  byline={entry.data.byline}
+  previousPost={navigation?.previous}
+  nextPost={navigation?.next}
+>
+  <Content />
+</ArticleLayout>

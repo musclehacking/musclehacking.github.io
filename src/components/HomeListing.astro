@@ -1,0 +1,31 @@
+---
+import { typedHomeFeatures } from '../config/home';
+import Callout from './Callout.astro';
+
+interface Props {
+  heading?: string;
+}
+
+const { heading = 'Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)' } = Astro.props;
+---
+
+<h1 class="home-title">{heading}</h1>
+<Callout class="home-note">
+  <p>If you’re new, <a href="/lose-fat-gain-muscle/">start here</a>. Want to get jacked? <a href="/join/">Join my free newsletter</a>.</p>
+</Callout>
+<div class="article-list">
+  {typedHomeFeatures.map((entry, index) => (
+    <article class="home-feature">
+      <a class="article-card" href={entry.href}>
+        <figure class="feature-media" style={`--feature-ratio: ${entry.ratio}`}>
+          <img src={entry.image} alt={entry.imageAlt} width="700" height={entry.ratio === '5 / 3' ? '420' : '361'} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+          <figcaption class="feature-title">
+            <h2>{entry.title}</h2>
+            <strong>{entry.date}</strong>
+          </figcaption>
+        </figure>
+        <p class="feature-excerpt">{entry.description}</p>
+      </a>
+    </article>
+  ))}
+</div>

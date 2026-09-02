@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Share Rail] Facebook and LinkedIn omit the legacy document title</title>
+<one_line_description>All 15 floating-share routes send the display or Open Graph title instead of the full legacy document title to Facebook and LinkedIn.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - share URL construction, Lines 7-14
+- /Users/sacino/musclehacking/src/components/ArticleEnding.astro - shared title propagation, Lines 24-46
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - article ending call, Lines 21-67
+- /Users/sacino/musclehacking/src/layouts/LongformLayout.astro - long-form ending call, Lines 20-45
+- /Users/sacino/musclehacking/tests/e2e/ui-parity.spec.ts - share-payload expectation, Lines 640-657 and 676-696
+- /Users/sacino/musclehacking/js/scl.min.js - authoritative legacy share-payload construction, Lines 1-5
+]]></file_locations>
+
+<issue_description>
+<description>The legacy share script deliberately uses two title sources: the Twitter payload uses the Twitter or Open Graph title, while Facebook and LinkedIn use `document.title`. `SocialShareRail.astro` accepts one `title` value and uses it for all three services. A direct comparison of the audited legacy files with the final distribution found that Twitter matches on every rail-enabled route, but Facebook and LinkedIn fail on all 15 routes. For example, `/blog/australian-health-star-rating` sends `Australian Health Star Ratings: A Failed Experiment` instead of `Australian Health Star Ratings: A Failed Experiment | Muscle Hacking`. `/supplements/` sends `Beyond the Hype: Supplements That Work` instead of `The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking`. The E2E test passes because it derives the expected Facebook and LinkedIn title from the same H1 or `shareTitle` value used by the new component, rather than from the legacy document title.</description>
+
+<code_example><![CDATA[```astro
+// File: src/components/SocialShareRail.astro, Lines 7-14
+
+const { canonicalPath, title } = Astro.props;
+const twitterHref = `https://twitter.com/intent/tweet?text=${encodedTitle}%20${encodedUrl}&via=musclehacking`;
+const facebookHref = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&title=${encodedTitle}`;
+const linkedInHref = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`;
+```
+
+```javascript
+// File: js/scl.min.js, authoritative legacy behaviour
+
+var socialTitle = getTitle();
+var documentTitle = document.title || "Worth reading";
+// Twitter receives socialTitle; Facebook and LinkedIn receive documentTitle.
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Twitter** | Legacy social or Open Graph title plus canonical URL | Matches on all 15 rail-enabled routes |
+| **Facebook title** | Exact legacy document title | H1 or route-specific social title |
+| **LinkedIn title** | Exact legacy document title | H1 or route-specific social title |
+| **Coverage** | Compare each service against its legacy source field | Test uses one new-component title for all services |
+| **Recommendation** | Pass separate social and document titles and derive fixture expectations from the legacy metadata | One shared title hides cross-route payload drift |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Migration] Content extraction removes seven legacy image captions</title>
+<one_line_description>Rerunning the checked-in article migration overwrites seven captioned entries without their `imageCaption` frontmatter.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/scripts/migrate-legacy-content.mjs - frontmatter extraction and overwrite, Lines 74-86
+- /Users/sacino/musclehacking/src/content.config.ts - optional image-caption schema, Lines 5-20
+- /Users/sacino/musclehacking/src/layouts/ArticleLayout.astro - caption rendering, Lines 21 and 50-51
+- /Users/sacino/musclehacking/src/content/blog/australian-health-star-rating.md - retained `imageCaption` frontmatter, Line 11
+- /Users/sacino/musclehacking/src/content/blog/best-protein-powder-for-building-muscle.md - retained `imageCaption` frontmatter, Line 12
+- /Users/sacino/musclehacking/src/content/blog/healthy-low-calorie-foods.md - retained `imageCaption` frontmatter, Line 12
+- /Users/sacino/musclehacking/src/content/blog/healthy-organic-post.md - retained `imageCaption` frontmatter, Line 11
+- /Users/sacino/musclehacking/src/content/blog/normal.md - retained `imageCaption` frontmatter, Line 12
+- /Users/sacino/musclehacking/src/content/blog/reject-modernity-embrace-masculinity.md - retained `imageCaption` frontmatter, Line 12
+- /Users/sacino/musclehacking/src/content/blog/what-is-intermittent-fasting.md - retained `imageCaption` frontmatter, Line 12
+]]></file_locations>
+
+<issue_description>
+<description>The legacy sources contain a `.figurecap` immediately after the hero on seven articles, and the current Markdown correctly stores those values in `imageCaption`. The migration script extracts the hero image, alternative text, dimensions, and byline, but it never extracts the caption before it overwrites every Markdown file. An in-memory execution of the exact migration algorithm produced byte-identical output for only five of twelve entries. The other seven outputs were smaller and lacked only the manually retained caption frontmatter. If a maintainer follows the repository migration utility again, `ArticleLayout.astro` receives `undefined` and removes those seven visible captions from the final routes. Current `verify:dist` passes because it checks the already-correct checked-in content and does not execute or compare the migration result.</description>
+
+<code_example><![CDATA[```javascript
+// File: scripts/migrate-legacy-content.mjs, Lines 74-86
+
+const imageAlt = $('#post-thumbnail img').attr('alt')?.trim() || title;
+const imageMetadata = await sharp(join(repositoryRoot, image.slice(1))).metadata();
+const byline = $('.post-header p').first().text().replace(/\s+/g, ' ').trim();
+const frontmatter = `---\n...\nimageHeight: ${imageMetadata.height}\nbyline: ${quote(byline)}\n---\n\n`;
+
+writeFileSync(join(outputDirectory, `${slug}.md`), `${frontmatter}${importedHtml}\n`);
+```
+
+```astro
+// File: src/layouts/ArticleLayout.astro, Line 51
+
+{(imageCaption || isLegacyCalculatorGuide) &amp;&amp; &lt;p class="figurecap"&gt;{imageCaption ?? 'How to use the Calorie and Macro Calculator.'}&lt;/p&gt;}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Repeatability** | Rerunning extraction preserves the current twelve article contracts | Seven generated Markdown files differ from the checked-in versions |
+| **Visible content** | All seven legacy hero captions remain present | `imageCaption` is removed and the caption no longer renders |
+| **Current verification** | A migration-result fixture rejects destructive extraction drift | `verify:dist` examines only current checked-in content |
+| **Recommendation** | Extract `.figurecap` into frontmatter and add a non-destructive repeatability fixture for all twelve outputs | Caption preservation depends on manual post-migration edits |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+</bug_report>

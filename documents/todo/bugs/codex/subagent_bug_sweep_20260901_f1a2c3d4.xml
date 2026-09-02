@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Calculator] Accepted imperial boundary weights become invalid after switching to metric</title>
+<one_line_description>The unit switch displays an in-range metric weight but validates the unrounded canonical value, disabling results for an input that was valid before the switch.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - functions: `toCalculatorInput`, `updateNumeric`, and `updateUnits`, Lines 241-277 and 348-403
+- /Users/sacino/musclehacking/src/features/calculator/domain/validation.ts - `CALCULATOR_BOUNDS` and `validateCalculatorInput`, Lines 13-25 and 48-82
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - test: `calculator unit toggle preserves results for the same physical inputs`, Lines 20-41
+]]></file_locations>
+
+<issue_description>
+<description>The calculator accepts 66.1 lb as the documented imperial minimum. Editing that value stores its exact conversion, approximately 29.9825 kg, in `canonicalWeightKg`. Switching to metric renders the rounded display value `30`, but `toCalculatorInput` validates the unchanged canonical value against the 30 kg minimum. The visible 30 kg field therefore receives `aria-invalid="true"`, shows “Enter a value from 30 to 300 kg.”, replaces the results with an error summary, and disables copy. The same mismatch occurs at the accepted 661.4 lb maximum: the UI displays 300 kg while the canonical value is approximately 300.0064 kg and is rejected. This was reproduced in the built page at `/calorie-calculator/` by selecting Imperial, entering 66.1 lb, and switching back to Metric. The existing round-trip test only uses the default 80 kg value, so it does not exercise either accepted imperial boundary.</description>
+
+<code_example><![CDATA[```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 252-262 and 348-401
+
+return {
+  ...displayForm,
+  weight:
+    form.units === "metric"
+      ? canonicalWeightKg
+      : kilogramsToPounds(canonicalWeightKg),
+  // ...
+};
+
+// Entering 66.1 lb stores about 29.9825 kg here.
+canonicalWeightKg:
+  current.units === "metric"
+    ? Number(value)
+    : poundsToKilograms(Number(value)),
+
+// The switch displays the rounded value 30, but leaves canonicalWeightKg unchanged.
+weight: String(
+  units === "imperial"
+    ? convertWeightForDisplay(current.canonicalWeightKg, "metric-to-imperial")
+    : convertWeightForDisplay(Number(current.weight), "imperial-to-metric"),
+),
+```
+
+Reproduction:
+
+1. Open `/calorie-calculator/`.
+2. Change Units to `Imperial (lb, in)`.
+3. Enter `66.1` in Weight. The field is valid and results remain visible.
+4. Change Units to `Metric (kg, cm)`.
+5. Observe Weight displays `30`, but it is marked invalid and the results are disabled.
+]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Unit round trip** | An accepted imperial boundary remains valid after switching units | 66.1 lb and 661.4 lb become invalid after switching to metric |
+| **Visible validation** | Displayed 30 kg and 300 kg values pass their stated 30-300 kg bounds | The displayed values are rejected because hidden canonical values fall just outside the bounds |
+| **Calculator result** | Results remain available for the same accepted physical input | Results are replaced by an error and the copy control is disabled |
+| **Recommendation** | Align conversion rounding, canonical state, and validation tolerance so the value shown to the user is the value judged against the active unit bounds; add boundary round-trip browser regressions | Only the default 80 kg round trip is currently covered |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+</bug_report>

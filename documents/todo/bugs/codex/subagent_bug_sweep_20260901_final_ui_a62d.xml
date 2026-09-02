@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Supplements] Generated prose links lose the legacy underline treatment</title>
+<one_line_description>Links nested inside generated supplement detail and reference content fall outside the shared prose-link selectors.</one_line_description>
+</summary>
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/styles/global.css - shared prose-link selectors, Lines 300-317
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - generated supplement detail and support containers, Lines 41-56
+- /Users/sacino/musclehacking/src/features/supplements/content.ts - extracted legacy supplement HTML, Lines 24-65
+]]></file_locations>
+<issue_description>
+<description>The shared selector styles only direct paragraph links under `.supplement-card`, while the migrated supplement copy is inserted inside `.supplement-detail` and the support sections. On the running Worker, links such as “this is what I recommend” and “calorie and macro calculator” render blue with no inset underline. The audited legacy page renders the same links with inherited text colour, the `#206593` inset underline, and the hover fill. This leaves a large set of product, internal, email, and source links outside the restored prose-link contract.</description>
+<code_example><![CDATA[```css
+/* File: src/styles/global.css, Lines 300-310 */
+.legacy-content a,
+.home-note a,
+.home-feature > p a,
+.calculator-guide a,
+.supplement-card > p a,
+.sidebar-about a,
+.newsletter-prompt-note a {
+  color: inherit;
+  box-shadow: inset 0 -2px 0 #206593;
+}
+```]]></code_example>
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Supplement prose** | All ordinary migrated links use the audited inherited colour and inset underline | Nested `.supplement-detail` and support links render blue with `box-shadow: none` |
+| **Hover state** | Links receive the legacy inset hover fill | The uncovered links never receive the shared hover rule |
+| **Coverage** | Generated supplement copy follows the same prose contract as articles | Only direct `.supplement-card > p` links are covered |
+
+Recommendation: extend the shared prose-link owner to the generated supplement detail and support containers while retaining the intentional exclusions for heading and inline-reference controls.
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Supplements] Evidence popover remains open after its badge is hidden</title>
+<one_line_description>Changing to Show All can hide an evidence badge without closing its controlled popover.</one_line_description>
+</summary>
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `enhanceSupplementExplorer`, Lines 25-89
+- /Users/sacino/musclehacking/src/features/supplements/enhance.ts - function: `closeAllPopovers`, Lines 263-266
+- /Users/sacino/musclehacking/src/components/SupplementExplorer.astro - evidence badge and panel markup, Lines 31-38
+]]></file_locations>
+<issue_description>
+<description>`applyFilter` updates or hides evidence badges but does not close open popovers. The filter-button branch returns immediately, so it also skips the later outside-click cleanup. In the running build, activating the Creatine evidence control through a keyboard-style click and then activating Show All leaves `#evidence-help-creatine` visible with `aria-expanded="true"` while its controlling badge is hidden. The orphaned tooltip presents stale evidence help with no visible trigger.</description>
+<code_example><![CDATA[```ts
+// File: src/features/supplements/enhance.ts, Lines 42-48 and 73-77
+const evidenceTag = section.querySelector<HTMLElement>(EVIDENCE_SELECTOR);
+if (evidenceTag) {
+  const selectedEvidence = record?.selectedEvidence;
+  evidenceTag.hidden = !selectedEvidence;
+}
+
+if (filterButton && eventRoot.contains(filterButton)) {
+  applyFilter(filterButton.dataset.supplementFilter ?? "");
+  return;
+}
+```]]></code_example>
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Filter change** | Every open evidence or term popover closes before content is reordered or hidden | The existing open state survives the filter change |
+| **Control relationship** | A visible popover always has a visible controlling badge | The panel remains visible after the badge becomes hidden |
+| **State** | Hidden controls report `aria-expanded="false"` | The hidden badge remains `aria-expanded="true"` |
+
+Recommendation: close all controlled supplement popovers at the start of every filter transition, before hiding badges or moving sections.
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Home] Fixed mobile grid clips the page at 320 pixels</title>
+<one_line_description>The home layout keeps a 360-pixel grid plus a 15-pixel offset on a 320-pixel viewport.</one_line_description>
+</summary>
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/styles/global.css - mobile content grid and page shell, Lines 1467-1497
+- /Users/sacino/musclehacking/src/styles/global.css - mobile article-list and home-feature widths, Lines 1527-1535 and 1867-1875
+- /Users/sacino/musclehacking/src/components/HomeListing.astro - home card list, Lines 12-29
+]]></file_locations>
+<issue_description>
+<description>The mobile breakpoint assigns `.content-grid` and `.page-shell` a fixed width of 360 pixels, then offsets the shell 15 pixels from the left. At a 320-pixel viewport, the running Worker reports a root scroll width of 375 pixels. The first image ends at x=375 and the card begins at x=-10.1875, so content is clipped beyond both viewport edges. Horizontal overflow is hidden by the global mobile policy, which prevents users from reaching the missing right-hand content rather than containing it.</description>
+<code_example><![CDATA[```css
+/* File: src/styles/global.css, Lines 1485-1497 */
+.content-grid {
+  grid-template-columns: 360px;
+}
+
+.page-shell {
+  width: 360px;
+  margin-left: 15px;
+  margin-right: 0;
+}
+```]]></code_example>
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **320 px containment** | Root scroll width equals the 320-pixel viewport | Root scroll width is 375 pixels |
+| **Home cards** | Images, overlays, excerpts, and hit areas stay inside the viewport | The first card spans x=-10.1875 to x=375 |
+| **User impact** | All home content remains visible at the documented 320-pixel breakpoint | Overflow is clipped and cannot be reached horizontally |
+
+Recommendation: make the narrow home shell and grid fluid below their 360-pixel reference width, including the existing left gutter in the available-width calculation.
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+
+<bug_4>
+<summary>
+<title>[Social Share] Rail is clipped at the legacy 768-pixel breakpoint</title>
+<one_line_description>The mobile share-rail rule starts one pixel too late and leaves the desktop rail outside the viewport at intermediate widths.</one_line_description>
+</summary>
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/styles/global.css - desktop social rail positioning, Lines 1236-1248
+- /Users/sacino/musclehacking/src/styles/global.css - mobile social rail breakpoint, Lines 1615-1647
+- /Users/sacino/musclehacking/css/pretty-tippy.css - audited legacy mobile rail breakpoint, Lines 308-331
+- /Users/sacino/musclehacking/src/components/SocialShareRail.astro - rail controls, Lines 17-26
+]]></file_locations>
+<issue_description>
+<description>The audited legacy stylesheet switches the social rail to its full-width bottom bar at `max-width: 768px`, but the Astro rule uses `max-width: 767px`. At 768 pixels, the running Worker therefore uses the desktop formula and places the 40-pixel rail from x=752.390625 to x=792.390625, clipping 24.390625 pixels beyond the viewport. The rail remains partially clipped through 820 pixels, including all five share controls. This breaks the legacy responsive state and reduces the visible and clickable area at common tablet widths.</description>
+<code_example><![CDATA[```css
+/* File: src/styles/global.css, Lines 1236-1241 and 1615-1627 */
+#sh-box {
+  right: calc(((100vw - 740px) / 2) - 5vw);
+  width: 40px;
+}
+
+@media (max-width: 767px) {
+  #sh-box {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
+```]]></code_example>
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **768 px state** | Legacy three-control bottom rail fills the viewport | Five-control desktop rail is used |
+| **Containment** | Every visible control remains within the viewport | 24.390625 pixels of each control are clipped at 768 pixels |
+| **Responsive parity** | The mobile transition occurs at the audited 768-pixel boundary | The transition begins at 767 pixels |
+
+Recommendation: align the social-rail breakpoint with the audited 768-pixel contract and add containment assertions across the 768-821 pixel transition.
+]]></expected_vs_actual>
+</issue_description>
+</bug_4>
+</bug_report>

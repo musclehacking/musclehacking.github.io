@@ -1,0 +1,27 @@
+---
+import Sidebar from '../components/Sidebar.astro';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  image?: string;
+  indexable?: boolean;
+  article?: boolean;
+  showSidebar?: boolean;
+}
+
+const { showSidebar = true, ...metadata } = Astro.props;
+---
+
+<BaseLayout {...metadata}>
+  <main class="page-shell">
+    <div class="content-grid">
+      <div class="content-column">
+        <slot />
+      </div>
+      {showSidebar && <Sidebar />}
+    </div>
+  </main>
+</BaseLayout>

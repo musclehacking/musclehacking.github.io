@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Newsletter] Article forms are rejected as invalid sources</title>
+<one_line_description>Every article renders the shared newsletter form with an article path that the server schema rejects before challenge or provider processing.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - newsletter form hidden source field, Lines 12-17
+- /Users/sacino/musclehacking/src/components/Sidebar.astro - shared sidebar form, Lines 5-10
+- /Users/sacino/musclehacking/src/layouts/ContentLayout.astro - sidebar placement on content routes, Lines 17-24
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - `ALLOWED_SOURCE_PATHS` and `validateSubscriptionForm`, Lines 1-3 and 20-40
+- /Users/sacino/musclehacking/tests/unit/newsletter.test.ts - newsletter validation fixtures, Lines 5-35
+]]></file_locations>
+
+<issue_description>
+<description>The sidebar is rendered on all twelve article routes and submits `Astro.url.pathname`, such as `/blog/breakup-energy`, as `sourceUrl`. The schema allowlist contains only section paths and omits every article path. A valid article subscription therefore receives `400 invalid_source` before anti-abuse or provider processing. The unit suite uses only `/join/`, so this route-to-schema mismatch passes. Recommendation: derive the allowed newsletter sources from the reviewed route registry or add the exact article paths, then test every route that renders the form.</description>
+
+<code_example><![CDATA[```astro
+<!-- NewsletterForm.astro, Lines 12-15 -->
+<form class="newsletter-form" method="post" action="/api/subscribe">
+  <input type="hidden" name="sourceUrl" value={Astro.url.pathname} />
+```
+
+```ts
+// schema.ts, Lines 2-3 and 38
+const ALLOWED_SOURCE_PATHS = new Set([
+  '/', '/blog/', '/books/', '/calorie-calculator/', '/join/',
+  '/lose-fat-gain-muscle/', '/supplements/'
+]);
+if (!sourceUrl || !ALLOWED_SOURCE_PATHS.has(sourceUrl)) {
+  return { ok: false, status: 400, code: 'invalid_source' };
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Article form** | A valid article subscription reaches anti-abuse verification | The schema returns `400 invalid_source` |
+| **Source policy** | Every rendered form path is an approved source | All twelve article paths are absent |
+| **Test coverage** | Tests exercise sources from every form placement | Tests exercise only `/join/` |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Newsletter] No form can produce the required reCAPTCHA token</title>
+<one_line_description>The provider requires server-verified reCAPTCHA, but the rendered forms and browser bundle never load or submit a challenge token.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - complete newsletter form markup, Lines 12-24
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - challenge token extraction, Lines 29-40
+- /Users/sacino/musclehacking/src/features/newsletter/provider.ts - mandatory reCAPTCHA verification, Lines 16-26 and 34-42
+- /Users/sacino/musclehacking/public/_headers - browser CSP, Lines 1-6
+- /Users/sacino/musclehacking/tests/unit/newsletter.test.ts - synthetic challenge fixture, Lines 5-13 and 62-78
+]]></file_locations>
+
+<issue_description>
+<description>The form has no `g-recaptcha-response` field and no script or component obtains a token. A repository scan finds reCAPTCHA only in server code. When provider credentials are configured, `subscribe` rejects the empty token as `challenge_failed`, so even a valid production or preview submission cannot succeed. The current CSP also limits scripts and connections to `self`, so adding the existing Google browser challenge without finalising the required origins would be blocked. Unit tests hide the integration failure by inserting a synthetic token directly into `FormData`. Recommendation: keep cutover blocked until the approved anti-abuse flow is implemented end to end, including client token creation, CSP origins, server validation, and a hosted sandbox success test; otherwise remove the unusable configured-provider path until the approved replacement exists.</description>
+
+<code_example><![CDATA[```astro
+<!-- NewsletterForm.astro, Lines 12-23: no challenge field or challenge script -->
+<form class="newsletter-form" method="post" action="/api/subscribe">
+  <input type="hidden" name="campaign" value={campaign} />
+  <input type="hidden" name="formId" value={formId} />
+  <input type="hidden" name="sourceUrl" value={Astro.url.pathname} />
+  <input id={`email-${formId}`} name="email" type="email" required />
+</form>
+```
+
+```ts
+// provider.ts, Lines 16-17 and 39-41
+async function verifyRecaptcha(token: string, secret: string): Promise<boolean> {
+  if (!token) return false;
+}
+if (!(await verifyRecaptcha(input.challengeToken, RECAPTCHA_SECRET, fetcher))) {
+  return { ok: false, code: 'challenge_failed' };
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Browser flow** | The approved challenge supplies a token with the native form submission | No challenge integration or token field exists |
+| **Configured provider** | A valid authorised submission can return `303` | Every rendered form reaches `challenge_failed` after configuration |
+| **CSP** | Approved challenge resources are allowed exactly | Browser policy allows only same-origin scripts and connections |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Newsletter] Chunked requests bypass the 8 KiB body limit</title>
+<one_line_description>The endpoint checks only Content-Length, then buffers the full form body when that header is absent.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/pages/api/subscribe.ts - request-size check and form parsing, Lines 35-46
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - post-buffer field bounds, Lines 17-40
+- /Users/sacino/musclehacking/documents/architecture/newsletter.md - stated request-bound contract, Lines 1-3
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - newsletter endpoint checks, Lines 41-73
+]]></file_locations>
+
+<issue_description>
+<description>The request limit treats a missing `Content-Length` as zero. Transfer-Encoding chunked requests therefore pass the 8 KiB guard and are fully buffered by `request.formData()` before field bounds run. A local Wrangler request with more than 10 KiB and `Transfer-Encoding: chunked` returned `413 field_too_large`, proving that the endpoint parsed beyond the advertised request limit instead of returning `request_too_large`. An attacker can send a much larger body and consume Worker memory and CPU before rejection. Recommendation: consume the body through a hard byte-limited reader or reject requests without a valid bounded length before form parsing, and add chunked and misleading-length regression cases.</description>
+
+<code_example><![CDATA[```ts
+// subscribe.ts, Lines 37-45
+const contentLength = Number(request.headers.get('content-length') ?? '0');
+if (Number.isFinite(contentLength) && contentLength > MAXIMUM_REQUEST_BYTES) {
+  return safeError(413, 'request_too_large');
+}
+const validation = validateSubscriptionForm(await request.formData());
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Maximum body** | No request body above 8,192 bytes is buffered | Headerless or chunked bodies are buffered without a byte limit |
+| **Observed response** | Oversized chunked input returns `request_too_large` before parsing | 10 KiB input reached schema parsing and returned `field_too_large` |
+| **Abuse resistance** | Cost is bounded before form decoding | Memory and decode cost scale with attacker-controlled body size |
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+
+<bug_4>
+<summary>
+<title>[Newsletter] Malformed form bodies escape the safe error contract</title>
+<one_line_description>A malformed multipart request throws during form parsing and produces an empty 500 response without the endpoint security or cache headers.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/pages/api/subscribe.ts - safe response helpers and unguarded form parsing, Lines 10-29 and 35-52
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - API failure coverage, Lines 41-73
+- /Users/sacino/musclehacking/documents/architecture/security.md - API response-header ownership, Lines 1-5
+]]></file_locations>
+
+<issue_description>
+<description>`request.formData()` is outside a try/catch. Workerd throws when a multipart body has a missing or truncated boundary, and Astro converts the exception into a bare `500` with no JSON error, `Cache-Control: no-store`, CSP, `nosniff`, or frame policy. This violates the stable redacted failure and strict API-header contract. A local Wrangler reproduction with `Content-Type: multipart/form-data; boundary=broken` and an invalid body returned `500` with `Content-Length: 0`. The E2E suite checks configured safe responses but has no malformed-parser case. Recommendation: catch form decoding failures and map them to a bounded safe 400-class response with the standard headers, then cover malformed URL-encoded and multipart input through Wrangler.</description>
+
+<code_example><![CDATA[```ts
+// subscribe.ts, Lines 40-46
+if (!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded') &&
+    !request.headers.get('content-type')?.startsWith('multipart/form-data')) {
+  return safeError(415, 'unsupported_media_type');
+}
+
+const validation = validateSubscriptionForm(await request.formData());
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Malformed form** | Stable redacted 400-class JSON response | Uncaught parser error becomes an empty `500` |
+| **Response policy** | Every API failure has `no-store` and security headers | Framework-generated `500` omits those headers |
+| **Information boundary** | Invalid input remains a handled validation failure | Invalid input reaches the generic exception boundary |
+]]></expected_vs_actual>
+</issue_description>
+</bug_4>
+
+<bug_5>
+<summary>
+<title>[Runtime] Every static request executes the Worker</title>
+<one_line_description>The Worker-first asset configuration and catch-all entrypoint run request-time code for all pages and assets instead of only the newsletter API.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/wrangler.jsonc - Worker-first static asset setting, Lines 5-12
+- /Users/sacino/musclehacking/src/worker.ts - catch-all request handler, Lines 4-25
+- /Users/sacino/musclehacking/astro.config.mjs - static output configuration, Lines 5-13
+- /Users/sacino/musclehacking/README.md - documented runtime boundary, Lines 1-3
+- /Users/sacino/musclehacking/AGENTS.md - repository runtime policy, Lines 3-5
+]]></file_locations>
+
+<issue_description>
+<description>`assets.run_worker_first` is `true`, so Cloudflare invokes `src/worker.ts` before the Static Assets binding for every request. The handler parses every URL and forwards all unmatched pages and assets through Astro's server entrypoint. This contradicts the repository rule and README claim that only `/api/subscribe` executes per request, adds request-time cost to all prerendered documents and assets, and widens the failure surface beyond the narrow POST endpoint. Recommendation: move route-shape handling to static asset or redirect configuration and restrict Worker-first routing to the API; if exact route compatibility genuinely requires document execution, obtain explicit approval and update the architecture contract before cutover.</description>
+
+<code_example><![CDATA[```jsonc
+// wrangler.jsonc, Lines 6-11
+"assets": {
+  "directory": "./dist/client",
+  "binding": "ASSETS",
+  "not_found_handling": "404-page",
+  "html_handling": "auto-trailing-slash",
+  "run_worker_first": true
+}
+```
+
+```ts
+// worker.ts, Lines 5 and 24
+async fetch(request: Request, environment: Env, context: ExecutionContext) {
+  // route-shape checks run for every request
+  return astroWorker.fetch(request, environment, context);
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Runtime boundary** | Only `/api/subscribe` executes Worker code per request | Every route and asset executes `src/worker.ts` first |
+| **Documents** | Prerendered pages are served directly by Static Assets | Pages pass through the Astro Worker entrypoint |
+| **Operational risk** | Runtime failures are isolated to newsletter submission | Catch-all Worker failures can affect the complete site |
+]]></expected_vs_actual>
+</issue_description>
+</bug_5>
+
+<bug_6>
+<summary>
+<title>[Build Verification] Forbidden runtime code is excluded from the output scan</title>
+<one_line_description>The distribution verifier claims to detect legacy dependencies and forbidden strings but never scans generated JavaScript files.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - output collection and forbidden-string checks, Lines 60-69
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs - success claim, Lines 83-88
+- /Users/sacino/musclehacking/documents/testing/README.md - stated build verification coverage, Lines 3-8
+- /Users/sacino/musclehacking/documents/migration/human-review-packet.md - claimed legacy-string evidence, Lines 16-24
+]]></file_locations>
+
+<issue_description>
+<description>The verifier builds `outputText` from only HTML, XML, text, and CSS. It then searches that subset for jQuery, Bootstrap JavaScript, Popper, Tippy, AnchorJS, analytics, preview hosts, and object coercion. Generated `dist/client/_astro/*.js` files are excluded, even though that is where browser dependencies and runtime third-party origins normally appear. A regression that imports a forbidden browser package can therefore pass `pnpm verify:dist`, while the script and review packet report that legacy dependencies and forbidden strings were checked. Recommendation: scan all emitted browser JavaScript and relevant manifests, or inspect the generated module graph, and add a controlled fixture proving the gate fails when a forbidden dependency is present only in JavaScript.</description>
+
+<code_example><![CDATA[```js
+// verify-dist.mjs, Lines 60-66
+const outputText = readdirRecursive(clientRoot)
+  .filter((path) => /\.(?:html|xml|txt|css)$/.test(path))
+  .map((path) => readFileSync(path, 'utf8'))
+  .join('\n');
+
+for (const forbidden of ['jquery', 'bootstrap.min.js', 'popper', 'tippy']) {
+  if (outputText.toLowerCase().includes(forbidden.toLowerCase())) {
+    fail(`Forbidden output string: ${forbidden}`);
+  }
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Dependency gate** | Forbidden browser dependencies fail verification wherever emitted | Generated JavaScript is never searched |
+| **Third-party scan** | Runtime origins in browser code are detected | JavaScript-only origins evade the scan |
+| **Reported evidence** | Success means the complete browser output was checked | Success covers only markup, discovery text, and CSS |
+]]></expected_vs_actual>
+</issue_description>
+</bug_6>
+</bug_report>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Newsletter] Article forms submit a source path rejected by the API</title>
+<one_line_description>Prerendered article forms add a trailing slash to sourceUrl, while API validation permits only no-slash article paths.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/components/NewsletterForm.astro - component: `NewsletterForm`, Lines 12-21
+- /Users/sacino/musclehacking/src/features/newsletter/schema.ts - constant: `ALLOWED_SOURCE_PATHS`, Lines 5-15; function: `validateSubscriptionForm`, Lines 41-52
+- /Users/sacino/musclehacking/tests/unit/newsletter.test.ts - suite: `newsletter validation`, Lines 28-33
+]]></file_locations>
+
+<issue_description>
+<description>The shared form writes Astro.url.pathname directly into sourceUrl. During prerendering, article pages emit values such as /blog/breakup-energy/, but ALLOWED_SOURCE_PATHS derives article entries as /blog/breakup-energy without the trailing slash. A rendered article submission therefore fails validation with HTTP 400 and invalid_source before it can reach the configured provider. The unit test supplies the accepted no-slash value manually, so it does not exercise the value emitted by NewsletterForm. Normalise the form value to the route registry's slash policy, or make validation accept the exact emitted article path, and add a built-page submission contract.</description>
+
+<code_example><![CDATA[```astro
+<!-- File: src/components/NewsletterForm.astro, Line 15 -->
+<input type="hidden" name="sourceUrl" value={Astro.url.pathname} />
+```
+
+```ts
+// File: src/features/newsletter/schema.ts, Lines 13-14
+// Article routes are no-slash sources.
+...blogSlugs.map((slug) => `/blog/${slug}`),
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **Rendered value** | Article form source matches its allowed no-slash route | Built article form contains a trailing slash |
+| **API result** | Valid article form advances to challenge/provider handling | API returns 400 invalid_source |
+| **User impact** | Readers can subscribe from article-bottom placements | Every restored article placement rejects submission |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+
+<bug_2>
+<summary>
+<title>[Calculator] Intermediate viewport widths retain the fixed desktop grid</title>
+<one_line_description>The calculator overflows horizontally above the 800-pixel stacking breakpoint and below the width required by its fixed columns.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/calculator.css - rules: `.calculator-columns` and responsive breakpoint, Lines 55-59 and 405-455
+- /Users/sacino/musclehacking/src/styles/global.css - rules: `.calculator-page` and 820-pixel breakpoint, Lines 541-545 and 725-777
+- /Users/sacino/musclehacking/tests/e2e/calculator-responsive.spec.ts - test: `calculator controls fit within a 390 pixel viewport`, Lines 3-35
+]]></file_locations>
+
+<issue_description>
+<description>The desktop calculator grid requires 957 pixels before form padding because it fixes columns at 217, 298, and 382 pixels with two 30-pixel gaps. It switches to one column only at 800 pixels. At widths between 801 pixels and the desktop layout's required width, the shell is narrower but the grid remains fixed. The global 820-pixel media rule makes the mismatch larger by shrinking the calculator page to 390 pixels while calculator.css still uses the desktop grid from 801 to 820 pixels. Rendered checks measured document scroll widths of 979 pixels at an 810-pixel viewport and 994 pixels at a 900-pixel viewport. The existing responsive test checks only 390 pixels, where the stack rule is active. Align the stacking breakpoint with the real minimum grid width and cover representative tablet and narrow-desktop widths.</description>
+
+<code_example><![CDATA[```css
+/* File: src/features/calculator/calculator.css, Lines 55-59 */
+.calculator-columns {
+  align-items: start;
+  grid-template-columns: 217px 298px 382px;
+  gap: 30px;
+}
+
+/* File: src/features/calculator/calculator.css, Lines 405 and 439-441 */
+@media (max-width: 800px) {
+  .calculator-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **810 px viewport** | Calculator fits within 810 pixels | Document expands to 979 pixels |
+| **900 px viewport** | Calculator fits within 900 pixels | Document expands to 994 pixels |
+| **User impact** | Tablet and narrow-window users see all controls without lateral movement | Inputs and results extend beyond the viewport and require horizontal scrolling |
+]]></expected_vs_actual>
+</issue_description>
+</bug_2>
+
+<bug_3>
+<summary>
+<title>[Calculator] Copy success remains after results change</title>
+<one_line_description>The calculator continues showing Results copied after an input change makes the displayed results differ from the clipboard.</one_line_description>
+</summary>
+
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/features/calculator/Calculator.tsx - state: `copyStatus`, Lines 247-255; functions: `updateNumeric`, `updateUnits`, and `copyResults`, Lines 278-359; status output, Lines 824-826
+- /Users/sacino/musclehacking/tests/e2e/interactions.spec.ts - tests: calculator clipboard success and failure, Lines 43-89
+]]></file_locations>
+
+<issue_description>
+<description>copyResults sets a persistent success or failure message, but calculator state changes never clear that message. After copying the default result and changing Weight from 80 to 81, the rendered result updates while the live status still says Results copied. The clipboard contains the old values, so the visible confirmation no longer describes the current result. The same stale state can survive diet and unit changes, and an unresolved clipboard promise can also report against a newer result. Clear the status whenever result-producing state changes and ensure an older copy attempt cannot update feedback for a newer result snapshot.</description>
+
+<code_example><![CDATA[```tsx
+// File: src/features/calculator/Calculator.tsx, Lines 253-255 and 353-357
+const [copyStatus, setCopyStatus] = useState("");
+const input = useMemo(() => toCalculatorInput(form), [form]);
+const calculation = useMemo(() => calculateCalories(input), [input]);
+
+try {
+  await navigator.clipboard.writeText(text);
+  setCopyStatus("Results copied.");
+} catch {
+  setCopyStatus("Could not copy results. Please try again.");
+}
+```]]></code_example>
+
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|--------|----------|--------|
+| **After copy** | Success describes the result written to the clipboard | Success is initially correct |
+| **After input change** | Copy status clears or indicates that the current result has not been copied | Results copied remains visible |
+| **User impact** | User can tell whether the displayed values are on the clipboard | User can paste stale calorie and macro values while seeing a success message |
+]]></expected_vs_actual>
+</issue_description>
+</bug_3>
+</bug_report>

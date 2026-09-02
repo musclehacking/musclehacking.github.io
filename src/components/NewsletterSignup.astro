@@ -1,0 +1,82 @@
+---
+import NewsletterForm from './NewsletterForm.astro';
+
+interface Props {
+  formId: string;
+  campaign?: string;
+  heading?: string;
+  description?: string;
+  buttonText?: string;
+  assurance?: string;
+  placement?: 'article-bottom' | 'longform-bottom' | 'calculator-bottom';
+}
+
+const {
+  formId,
+  campaign = 'content',
+  heading = 'Want to read more articles like this?',
+  description = 'Enter your email below and I’ll send you my best content.',
+  buttonText = 'Email Me',
+  assurance = 'No junk. Unsubscribe at any time.',
+  placement = 'article-bottom',
+} = Astro.props;
+---
+
+<section class:list={['newsletter-signup', `newsletter-signup--${placement}`]} aria-labelledby={`${formId}-heading`}>
+  <h2 id={`${formId}-heading`}>{heading}</h2>
+  <p>{description}</p>
+  <NewsletterForm formId={formId} campaign={campaign} {buttonText} placement={placement} hideLabel />
+  <p class="newsletter-assurance"><em>{assurance}</em></p>
+</section>
+
+<style>
+  .newsletter-signup {
+    width: 100%;
+    max-width: 740px;
+    margin: 50px auto 0;
+    border-top: 1px solid #c6c6c6;
+    padding: 1.2rem 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  /* Legacy `#g-resp > div { margin-top: 10px }` applies to the heading line too. */
+  .newsletter-signup h2 {
+    margin: 10px 0 0;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: inherit;
+    letter-spacing: inherit;
+  }
+
+  .newsletter-signup p {
+    margin: 10px 0 0;
+  }
+
+  .newsletter-signup :global(.newsletter-form) {
+    max-width: 500px;
+    margin: 20px auto 0;
+  }
+
+  /* Legacy `#em-opt #under-form-notice`: body-sized copy with `#g-resp > div { margin-top: 10px }`
+     and `#em-opt #under-form-notice { margin-bottom: 10px }` (measured 21px/33.2px at 1440). */
+  .newsletter-signup .newsletter-assurance {
+    margin: var(--assurance-gap, 10px) 0 10px;
+    font-size: 1em;
+  }
+
+  /* Legacy `@media (max-width: 620px) { #parent-e-form { margin: 10px auto } }` adds 10px below
+     the stacked form; on the calculator page e-on-delay.css then forces the notice's own
+     top margin to 0 below 576px. */
+  @media (max-width: 620px) {
+    .newsletter-signup {
+      --assurance-gap: 20px;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .newsletter-signup.newsletter-signup--calculator-bottom {
+      --assurance-gap: 10px;
+    }
+  }
+</style>

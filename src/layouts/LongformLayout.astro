@@ -1,0 +1,53 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ArticleEnding from '../components/ArticleEnding.astro';
+
+interface Props {
+  title: string;
+  pageTitle: string;
+  description: string;
+  canonicalPath: string;
+  image: string;
+  imageAlt: string;
+  imageWidth: number;
+  imageHeight: number;
+  byline: string;
+  previousPost: { href: string; label: string; title: string };
+  nextPost: { href: string; label: string; title: string };
+  disclaimer?: 'generic';
+}
+
+const { title, pageTitle, description, canonicalPath, image, imageAlt, imageWidth, imageHeight, byline, previousPost, nextPost, disclaimer } = Astro.props;
+---
+
+<BaseLayout title={pageTitle} description={description} canonicalPath={canonicalPath} image={image}>
+  <main class="article-page longform-page">
+    <article>
+      <header>
+        <h1>{title}</h1>
+        <p class="byline">{byline}</p>
+        <img class="hero-image" src={image} alt={imageAlt} width={imageWidth} height={imageHeight} loading="eager" fetchpriority="high" decoding="async" />
+      </header>
+      <div class="legacy-content">
+        <slot />
+      </div>
+      <ArticleEnding
+        {canonicalPath}
+        {title}
+        documentTitle={pageTitle}
+        formId="content-bottom"
+        campaign="content-bottom"
+        placement="longform-bottom"
+        previous={previousPost}
+        next={nextPost}
+        wrapTitles
+        {disclaimer}
+        floatingShare
+      />
+    </article>
+  </main>
+</BaseLayout>
+
+<script>
+  import '../scripts/heading-links';
+</script>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found | Muscle Hacking" description="The requested page could not be found." canonicalPath="/404.html" indexable={false}>
+  <main class="page-shell not-found-page">
+    <h1>Page not found</h1>
+    <p>The page may have moved. Use one of these links to continue:</p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/calorie-calculator/">Calorie calculator</a></li>
+      <li><a href="/supplements/">Supplements</a></li>
+      <li><a href="/sitemap.xml">Sitemap</a></li>
+      <li><a href="/llms.txt">LLM site guide</a></li>
+      <li><a href="mailto:jay@musclehacking.com">Contact</a></li>
+    </ul>
+  </main>
+</BaseLayout>

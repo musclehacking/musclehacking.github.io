@@ -1,0 +1,762 @@
+.calculator-shell {
+  --calculator-blue: #206593;
+  --calculator-blue-light: #367ca8;
+  --calculator-green: #45b39d;
+  --calculator-orange: #f39c12;
+  /* Match the audited calculator text colour inherited from the legacy body. */
+  --calculator-ink: rgb(0 0 0 / 84%);
+  --calculator-muted: #5d6971;
+  --calculator-line: #d7dfe4;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: none;
+  color: var(--calculator-ink);
+  margin: 0;
+}
+
+.calculator-title-row {
+  background: #fff;
+  color: #2b2b2b;
+  display: block;
+  padding: 0.5em 1em 0;
+}
+
+.calculator-title-row h1 {
+  margin: 0 0 8px -2.63px;
+  padding-bottom: 5px;
+  color: var(--calculator-ink);
+  font-size: 38px;
+  line-height: 1.04;
+  text-align: center;
+}
+
+.calculator-form {
+  padding: 0 1em 0.75em;
+}
+
+.calculator-mode-row,
+.calculator-columns {
+  display: grid;
+  gap: 1rem;
+}
+
+.calculator-mode-row {
+  grid-template-columns: repeat(2, calc((100% + 30px) / 2 - 30px));
+  column-gap: 30px;
+  margin-bottom: 0;
+}
+
+/* Legacy `.app-h3` inside the Diet/Units labels: 34px, margin 0, 1.15 line height. */
+.calculator-mode-row .calculator-field > label,
+.calculator-mode-row .calculator-field-label > label {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+
+.calculator-mode-row .calculator-field-label > label {
+  margin-bottom: 0;
+}
+
+/* Legacy Bootstrap `col-md-3 / col-md-4 / col-md-5` widths derived from the
+   row width (content + 30px negative margins) minus the 30px column padding. */
+.calculator-columns {
+  align-items: start;
+  grid-template-columns:
+    calc((100% + 30px) * 0.25 - 30px)
+    calc((100% + 30px) * 0.3333333 - 30px)
+    calc((100% + 30px) * 0.4166667 - 30px);
+  column-gap: 30px;
+}
+
+.calculator-panel {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+/* Legacy `.app-h3`: 34px, margin 0, line height 1.15. */
+.calculator-panel > legend,
+.calculator-results h3 {
+  color: var(--calculator-ink);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Floated legends render as ordinary blocks, so their margins are honoured. */
+.calculator-panel > legend {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.calculator-panel > legend + * {
+  clear: both;
+}
+
+/* Legacy `.form-group { margin-bottom: .5rem }` with Bootstrap `label { margin-bottom: .5rem }`. */
+.calculator-field {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+/* Block labels: the 8px label margin then collapses with a following range
+   slider's 20px margin exactly as the flex help-label rows do. */
+.calculator-field > label,
+.calculator-field-label > label,
+.calculator-choice-group > legend {
+  display: block;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.58;
+  margin-bottom: 8px;
+}
+
+.calculator-field-label {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.calculator-field-label > label {
+  margin: 0;
+}
+
+.calculator-field input,
+.calculator-field select {
+  background: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  color: #495057;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  height: 38px;
+  min-height: 38px;
+  padding: 6px 12px;
+  width: 100%;
+}
+
+.calculator-field input:focus,
+.calculator-field select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 3.2px rgb(0 123 255 / 25%);
+}
+
+.calculator-results button:focus-visible,
+.calculator-segmented input:focus-visible + span {
+  outline: 3px solid rgb(243 156 18 / 45%);
+  outline-offset: 2px;
+}
+
+.calculator-input-group {
+  display: flex;
+}
+
+/* Bootstrap `.input-group > .form-control { flex: 1 1 auto; width: 1% }` so the
+   appended text keeps its natural width instead of being shrunk by the field. */
+.calculator-input-group > input {
+  flex: 1 1 auto;
+  width: 1%;
+  border-radius: 4px 0 0 4px;
+}
+
+.calculator-input-group > span {
+  align-items: center;
+  background: #e9ecef;
+  border: 1px solid #ced4da;
+  box-sizing: border-box;
+  display: flex;
+  font-size: 16px;
+  height: 38px;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 47px;
+  margin-left: -1px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.calculator-shell--leangains .calculator-columns > .calculator-panel:nth-child(2) .calculator-input-group > span {
+  min-width: 93px;
+}
+
+.calculator-shell--keto :is(#calculator-keto-protein, #calculator-keto-carbs) + span {
+  min-width: 109px;
+}
+
+.calculator-choice-group {
+  border: 0;
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.calculator-segmented {
+  display: flex;
+}
+
+.calculator-segmented label {
+  cursor: pointer;
+  flex: 1 1 0;
+  margin: 0;
+  position: relative;
+}
+
+.calculator-segmented input {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.calculator-segmented span {
+  background: var(--calculator-blue-light);
+  border: 1px solid var(--calculator-blue-light);
+  color: #fff;
+  display: block;
+  box-sizing: border-box;
+  height: 38px;
+  min-height: 38px;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
+
+.calculator-segmented label + label {
+  margin-left: -1px;
+}
+
+.calculator-segmented label + label span {
+  border-left: 0;
+}
+
+.calculator-segmented input:checked + span {
+  background: var(--calculator-blue);
+  border-color: var(--calculator-blue);
+  color: #fff;
+}
+
+.calculator-results {
+  background: #fff;
+  border-left: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.calculator-results-heading {
+  display: block;
+  line-height: 1.58;
+}
+
+.calculator-results-heading h3 {
+  display: inline;
+}
+
+/* Legacy `#copyB`: Bootstrap `.btn.btn-sm.btn-outline-secondary` plus addon.css
+   `padding-bottom: 0; margin-bottom: .6rem; margin-left: 5px; border-radius: 7px`. */
+.calculator-results button {
+  background: transparent;
+  border: 1px solid #6c757d;
+  border-radius: 7px;
+  color: #6c757d;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  height: auto;
+  margin: 0;
+  padding: 4px 8px 0;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 32px;
+}
+
+.calculator-results button:hover {
+  background-color: #5dade2;
+  border-color: #206593;
+  color: #fff;
+}
+
+/* Inline like the legacy SVG so the button keeps its text baseline. */
+.calculator-results button svg {
+  display: inline;
+  width: 14px;
+  height: 16px;
+  vertical-align: baseline;
+  fill: #000;
+}
+
+.calculator-results button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Legacy `#bmr-h { margin-top: 10px }` below the Results line box. */
+.calculator-energy {
+  display: block;
+  margin: 10px 0 0;
+}
+
+.calculator-energy div {
+  align-items: flex-start;
+  display: flex;
+  gap: 5px;
+  border: 0;
+  min-height: 62.71875px;
+  padding: 0;
+}
+
+.calculator-energy dt {
+  margin-left: -1.63px;
+  color: var(--calculator-ink);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.22;
+}
+
+.calculator-energy dd {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.22;
+  margin: 0;
+}
+
+.calculator-results table {
+  border-collapse: collapse;
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.calculator-results caption {
+  color: var(--calculator-ink);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.22;
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+.calculator-results th,
+.calculator-results td {
+  border: 0;
+  border-top: 1px solid #dee2e6;
+  font-size: inherit;
+  padding: 8px;
+  text-align: center;
+}
+
+.calculator-results tr {
+  border-style: hidden;
+}
+
+.calculator-results :is(th, td):first-child {
+  width: 28%;
+}
+
+.calculator-results th {
+  background: var(--calculator-blue);
+  color: var(--calculator-ink);
+}
+
+.calculator-results th:nth-child(1) { background: rgb(231 77 60 / 85%); }
+.calculator-results th:nth-child(2) { background: #2ecc71; }
+.calculator-results th:nth-child(3) { background: #45b39d; }
+.calculator-results th:nth-child(4) { background: #f39c12; }
+
+.calculator-results td:nth-child(1) { background: rgb(236 113 99 / 75%); }
+.calculator-results td:nth-child(2) { background: rgb(46 204 112 / 60%); }
+.calculator-results td:nth-child(3) { background: rgb(115 198 181 / 77%); }
+.calculator-results td:nth-child(4) { background: rgb(248 196 113 / 90%); }
+
+.calculator-results td {
+  background: #fff;
+  font-weight: 700;
+}
+
+.calculator-change {
+  border: 0;
+  background: #d9edf9;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.22;
+  margin: 30px 0 0 -1.63px;
+  padding: 3px 0;
+  text-align: center;
+}
+
+.calculator-shell--leangains .calculator-change {
+  margin: 65px 0;
+}
+
+.calculator-info-mark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: -0.5px;
+  margin-top: -3px;
+}
+
+.calculator-info-mark > img {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+/* Legacy vue-popper (`.popper`): black, 10px radius, 16px muscle2, 5px arrow, right placement. */
+.calculator-info-tooltip,
+.calculator-range-value {
+  position: absolute;
+  z-index: 200000;
+  left: calc(100% + 5px);
+  top: 50%;
+  display: none;
+  width: max-content;
+  max-width: min(260px, 80vw);
+  transform: translateY(-50%);
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  padding: 5px 10px 4px;
+  font-family: muscle2, Georgia, Cambria, 'Times New Roman', serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.003em;
+  pointer-events: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.calculator-info-tooltip::before,
+.calculator-range-value::before {
+  position: absolute;
+  top: calc(50% - 5px);
+  left: -5px;
+  border-color: transparent #000 transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 5px 0;
+  content: '';
+}
+
+.calculator-info-mark:hover .calculator-info-tooltip,
+.calculator-info-mark:focus-visible .calculator-info-tooltip,
+.calculator-range:hover + .calculator-range-value,
+.calculator-range:focus-visible + .calculator-range-value {
+  display: block;
+}
+
+.calculator-info-mark:hover,
+.calculator-info-mark:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.calculator-info-mark:focus-visible {
+  outline: 3px solid rgb(243 156 18 / 60%);
+  outline-offset: 2px;
+}
+
+.calculator-field > input.calculator-range {
+  --calculator-range-progress: 50%;
+  --calculator-range-start: var(--calculator-green);
+  --calculator-range-end: var(--calculator-orange);
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    var(--calculator-range-start) 0,
+    var(--calculator-range-start) var(--calculator-range-progress),
+    var(--calculator-range-end) var(--calculator-range-progress),
+    var(--calculator-range-end) 100%
+  );
+  border: 0;
+  border-radius: 15px;
+  display: block;
+  /* Legacy vue-slider: `width: auto` inside an 8px-padded wrapper, so the track spans the column. */
+  width: calc(100% - 16px);
+  max-width: calc(100% - 16px);
+  height: 6px;
+  min-height: 6px;
+  /* Legacy vue-slider: the track sits 14px below the label's margin edge
+     (8px label margin + 14px) and the number field 16px below the track. */
+  margin: 26px 8px 6px;
+  padding: 0;
+  transform: translateY(-4px);
+}
+
+.calculator-range-value {
+  top: auto;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.calculator-range-value::before {
+  top: auto;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  border-color: #000 transparent transparent;
+  border-width: 5px 5px 0;
+}
+
+/* The wrapper carries the legacy `#copyB` inline geometry (Bootstrap `.btn`
+   `vertical-align: middle`, `margin-left: 5px`, `margin-bottom: .6rem`) so the
+   tooltip roots can anchor to the button box itself. */
+.calculator-copy-control {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 0.6rem 5px;
+  vertical-align: middle;
+}
+
+/* Shared project tooltip roots anchored to the copy button. Production used
+   tippy `placement: right` for the hint (10px popper offset) and `top` for
+   the click-triggered "Copied!" state. */
+.project-tip-root.calculator-copy-tip {
+  position: absolute;
+}
+
+.project-tip-root.calculator-copy-tip--right {
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+.project-tip-root.calculator-copy-tip--top {
+  top: auto;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.calculator-field > input.calculator-range--protein {
+  --calculator-range-start: #2ecc71;
+  --calculator-range-end: rgb(0 0 0 / 10%);
+  box-shadow: inset 0.5px 0.5px 3px 1px rgb(0 0 0 / 36%);
+}
+
+.calculator-field > input.calculator-range--steps {
+  --calculator-range-start: #5dade2;
+  --calculator-range-end: rgb(0 0 0 / 10%);
+  box-shadow: inset 0.5px 0.5px 3px 1px rgb(0 0 0 / 36%);
+}
+
+.calculator-field > input.calculator-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0.5px 0.5px 2px 1px rgb(0 0 0 / 32%);
+  cursor: pointer;
+}
+
+.calculator-field > input.calculator-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0.5px 0.5px 2px 1px rgb(0 0 0 / 32%);
+  cursor: pointer;
+}
+
+.calculator-field-help {
+  font-size: 17px;
+  line-height: 1.58;
+  margin: 0 0 7px;
+}
+
+.calculator-share {
+  color: inherit;
+  margin: 0;
+  text-align: center;
+}
+
+.calculator-share p {
+  margin: 0 0 16px;
+  font-size: 1em;
+  line-height: 1.58;
+}
+
+/* Legacy `.sh-app`: inline anchors with 35px `.icon` SVGs (`margin: auto 10px`)
+   sitting on the paragraph baseline, so the line box keeps the font descent below them. */
+.calculator-share div {
+  display: block;
+  margin: 0;
+  line-height: 1.58;
+  text-align: center;
+}
+
+.calculator-share a {
+  display: inline;
+  color: #000;
+  text-decoration: none;
+}
+
+.calculator-share svg {
+  display: inline;
+  width: 35px;
+  height: 35px;
+  margin: auto 10px;
+  vertical-align: baseline;
+  fill: #000;
+}
+
+.calculator-error,
+.calculator-error-summary {
+  color: #a22b27;
+}
+
+.calculator-error {
+  font-size: 0.75rem;
+  margin: 0.25rem 0 0;
+}
+
+.calculator-error-summary {
+  background: #fff;
+  border: 1px solid #dba6a3;
+  padding: 0.8rem;
+}
+
+.calculator-error-summary p {
+  margin: 0.3rem 0 0;
+}
+
+/* Legacy addon.css `@media (max-width: 1023px) { #app-format { border: 0 } }`. */
+@media (max-width: 1023px) {
+  .calculator-shell {
+    border: 0;
+  }
+}
+
+/* Below Bootstrap's `md` breakpoint the legacy `col-sm-12` columns stack and the
+   767px mobile rules apply: 18px body copy, `.app-h3 { margin: 10px 0 5px }`,
+   `.form-group { margin-bottom: 1rem }`, `.form-group > label { margin-bottom: .75rem }`,
+   `#copyB { margin-bottom: .7rem }`, `.input-group-std { min-width: 62px }`,
+   `#lw-heading` as a 26px bordered pill, and `.sh-app { margin-top: 20px }`. */
+@media (max-width: 767px) {
+  .calculator-shell {
+    font-size: 18px;
+  }
+
+  /* Legacy mobile `#toprow, #toprow2 { margin-top: 25px }` rows. */
+  .calculator-mode-row,
+  .calculator-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin-top: 25px;
+  }
+
+  .calculator-mode-row {
+    grid-template-columns: repeat(2, calc((100% + 30px) / 2 - 30px));
+    column-gap: 30px;
+  }
+
+  /* The Diet/Units `.app-h3` (margin 10px 0 5px) sits inside a label with a 12px bottom margin. */
+  .calculator-mode-row .calculator-field > label,
+  .calculator-panel > legend {
+    margin: 10px 0 5px;
+  }
+
+  .calculator-mode-row .calculator-field > label {
+    margin-bottom: 17px;
+  }
+
+  .calculator-mode-row .calculator-field-label {
+    margin: 10px 0 17px;
+  }
+
+  /* Help labels: the 12px `.form-group > label` gap belongs to the label row, not both. */
+  .calculator-field-label {
+    margin-bottom: 12px;
+  }
+
+  .calculator-field-label > label {
+    margin-bottom: 0;
+  }
+
+  .calculator-mode-row .calculator-field-label > label {
+    margin: 0;
+  }
+
+  .calculator-results h3 {
+    margin: 10px 0 5px;
+  }
+
+  .calculator-field {
+    margin-bottom: 1rem;
+  }
+
+  .calculator-field > label,
+  .calculator-field-label > label,
+  .calculator-choice-group > legend {
+    font-size: 18px;
+  }
+
+  .calculator-field > label,
+  .calculator-choice-group > legend {
+    margin-bottom: 0.75rem;
+  }
+
+  .calculator-choice-group {
+    margin-bottom: 1rem;
+  }
+
+  .calculator-copy-control {
+    margin-bottom: 0.7rem;
+  }
+
+  /* Legacy `.input-group-std { min-width: 62px }` only marks the percentage suffixes. */
+  .calculator-input-group > span.calculator-input-group-std {
+    min-width: 62px;
+  }
+
+  .calculator-change {
+    font-size: 26px;
+    margin: 1em auto 0.5em;
+    border: 1px solid #1f618d;
+    border-radius: 50px;
+    padding: 5px;
+  }
+
+  .calculator-field > input.calculator-range {
+    margin-top: 30px;
+  }
+
+  /* Legacy `#sh-app2 { margin-top: 0 }` outranks the mobile `.sh-app` rule. */
+  .calculator-share {
+    margin-top: 0;
+  }
+
+  /* Legacy mobile `h4 { margin-top: 22px }` between the energy headings. */
+  .calculator-energy div {
+    min-height: 54.71875px;
+  }
+}
+
+@media (max-width: 520px) {
+  .calculator-mode-row {
+    grid-template-columns: repeat(2, calc((100% + 30px) / 2 - 30px));
+  }
+}

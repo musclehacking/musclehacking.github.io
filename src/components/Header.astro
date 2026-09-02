@@ -1,0 +1,71 @@
+---
+const navigation = [
+  ['/calorie-calculator/', '/img/calorie-calculator.svg', 'Calorie Calculator', 'calculator'],
+  ['/supplements/', '/img/supplements.svg', 'Supplements', 'supplements'],
+  ['/books/', '/img/fitness-books.svg', 'Books', 'books'],
+  ['/join/', '/img/email.svg', 'Newsletter', 'email'],
+] as const;
+
+const socialLinks = [
+  {
+    label: 'Muscle Hacking on Twitter',
+    href: 'https://twitter.com/musclehacking',
+    icon: 'twitter',
+    viewBox: '0 0 951 1024',
+    path: 'M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z',
+  },
+  {
+    label: 'Muscle Hacking on Instagram',
+    href: 'https://www.instagram.com/musclehacking/',
+    icon: 'instagram',
+    viewBox: '0 0 24 24',
+    path: 'M11.984 16.815c2.596 0 4.706-2.111 4.706-4.707 0-1.409-.623-2.674-1.606-3.538-.346-.303-.735-.556-1.158-.748-.593-.27-1.249-.421-1.941-.421s-1.349.151-1.941.421c-.424.194-.814.447-1.158.749-.985.864-1.608 2.129-1.608 3.538 0 2.595 2.112 4.706 4.706 4.706zm.016-8.184c1.921 0 3.479 1.557 3.479 3.478 0 1.921-1.558 3.479-3.479 3.479s-3.479-1.557-3.479-3.479c0-1.921 1.558-3.478 3.479-3.478zm5.223.369h6.777v10.278c0 2.608-2.114 4.722-4.722 4.722h-14.493c-2.608 0-4.785-2.114-4.785-4.722v-10.278h6.747c-.544.913-.872 1.969-.872 3.109 0 3.374 2.735 6.109 6.109 6.109s6.109-2.735 6.109-6.109c.001-1.14-.327-2.196-.87-3.109zm2.055-9h-12.278v5h-1v-5h-1v5h-1v-4.923c-.346.057-.682.143-1 .27v4.653h-1v-4.102c-1.202.857-2 2.246-2 3.824v3.278h7.473c1.167-1.282 2.798-2 4.511-2 1.722 0 3.351.725 4.511 2h7.505v-3.278c0-2.608-2.114-4.722-4.722-4.722zm2.722 5.265c0 .406-.333.735-.745.735h-2.511c-.411 0-.744-.329-.744-.735v-2.53c0-.406.333-.735.744-.735h2.511c.412 0 .745.329.745.735v2.53z',
+  },
+  {
+    label: 'Muscle Hacking on Reddit',
+    href: 'https://www.reddit.com/user/musclehacking/',
+    icon: 'reddit',
+    viewBox: '0 0 24 24',
+    path: 'M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857 0 3.911 4.808 7.093 10.719 7.093s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zm-17.224 1.816c0-.868.71-1.575 1.582-1.575.872 0 1.581.707 1.581 1.575s-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179l-.013-.003-.013.003c-1.777 0-3.028-.386-3.824-1.179-.145-.144-.145-.379 0-.523.145-.145.381-.145.526 0 .65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962.145-.145.381-.144.526 0 .145.145.145.379 0 .524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574 0-.868.709-1.575 1.581-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574z',
+  },
+  {
+    label: 'Muscle Hacking on Substack',
+    href: 'https://musclehacking.substack.com/',
+    icon: 'substack',
+    viewBox: '0 0 24 24',
+    path: 'M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z',
+  },
+] as const;
+
+interface Props {
+  canonicalPath: string;
+}
+
+const { canonicalPath } = Astro.props;
+const mobileVisibleHref = canonicalPath === '/join/' || canonicalPath === '/one-last-step/' ? '/supplements/' : '/join/';
+const visibleNavigation = canonicalPath === '/one-last-step/' ? navigation.filter(([href]) => href !== '/join/') : navigation;
+---
+
+<header class="site-header">
+  <nav class="site-nav" aria-label="Primary navigation">
+    <a class="site-brand" href="/" aria-label="Muscle Hacking home">
+      <img class="site-brand-mark" src="/img/muscle-hacking.png" width="52" height="50" alt="" />
+      <img class="site-brand-wordmark" src="/img/musclehacking.png" width="416" height="30" alt="" />
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-links">Menu</button>
+    <ul class="nav-links" id="primary-links" data-open="false">
+      {visibleNavigation.map(([href, icon, label, iconName]) => <li class:list={{ 'mobile-visible': href === mobileVisibleHref }}><a href={href}><img class={`nav-icon nav-icon--${iconName}`} src={icon} width="28" height="28" alt="" />{label}</a></li>)}
+    </ul>
+    <div class="header-socials" role="group" aria-label="Social media">
+      {socialLinks.map(({ label, href, icon, viewBox, path }) => (
+        <a class={`header-social-link header-social-link--${icon}`} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} title={label}>
+          <svg viewBox={viewBox} aria-hidden="true" focusable="false"><path d={path}></path></svg>
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<script>
+  import '../scripts/navigation';
+</script>

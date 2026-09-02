@@ -1,0 +1,43 @@
+---
+interface PostLink {
+  href: string;
+  label: string;
+  title: string;
+  displayTitle?: string;
+}
+
+interface Props {
+  previous?: PostLink;
+  next?: PostLink;
+  wrapTitles?: boolean;
+}
+
+const { previous, next, wrapTitles = false } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav id="post-nav" class:list={{ 'post-navigation--wrap': wrapTitles }} aria-label="Related posts">
+    <ul id="clearfix">
+    {previous && (
+      <li>
+        <a id="post-prev" href={previous.href} title={previous.title}>
+          <div id="prev-pad">
+            <strong id="pre-arrow">{previous.label}</strong>
+            <span class="span-t">{previous.displayTitle ?? previous.title}</span>
+          </div>
+        </a>
+      </li>
+    )}
+    {next && (
+      <li>
+        <a id="post-next" href={next.href} title={next.title}>
+          <div id="next-pad">
+            <strong id="post-arrow">{next.label}</strong>
+            <span class="span-t">{next.displayTitle ?? next.title}</span>
+          </div>
+        </a>
+      </li>
+    )}
+    </ul>
+  </nav>
+)}

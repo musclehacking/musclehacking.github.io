@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ArticleEnding from '../components/ArticleEnding.astro';
+import type { ArticleNavigationLink } from '../config/article-navigation';
+
+interface Props {
+  title: string;
+  pageTitle: string;
+  description: string;
+  canonicalPath: string;
+  image: string;
+  imageAlt: string;
+  imageWidth: number;
+  imageHeight: number;
+  imageCaption?: string;
+  byline: string;
+  previousPost?: ArticleNavigationLink;
+  nextPost?: ArticleNavigationLink;
+}
+
+const { title, pageTitle, description, canonicalPath, image, imageAlt, imageWidth, imageHeight, imageCaption, byline, previousPost, nextPost } = Astro.props;
+const isLegacyCalculatorGuide = canonicalPath === '/blog/calorie-calculator-how-to';
+const slug = canonicalPath.split('/').filter(Boolean).at(-1) ?? '';
+const wrappingTitles = new Set(['breakup-energy', 'change', 'idols', 'weak']).has(slug);
+const hasFloatingShare = !isLegacyCalculatorGuide;
+const disclaimer = slug === 'healthy-low-calorie-foods' ? 'generic' : undefined;
+---
+
+<BaseLayout title={pageTitle} description={description} canonicalPath={canonicalPath} image={image} article>
+  <main class="article-page">
+    <article>
+    <header>
+      <h1>{title}</h1>
+      <p class="byline">{byline}</p>
+      {isLegacyCalculatorGuide && (
+        <aside class="markdown-alert markdown-alert-important" aria-label="Important">
+          <strong class="alert-title">
+            <svg aria-hidden="true" class="octicon octicon-report" height="16" viewBox="0 0 16 16" width="16">
+              <path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" fill="currentColor"></path>
+            </svg>
+            Important
+          </strong>
+          <p>
+            This page has been superseded by the explanation below the <a href="/calorie-calculator/#how-to-use">calorie calculator</a>.<br /><br />
+            I kept this page up so you can still enjoy the picture of Moe holding a calculator.<br /><br />
+            No problem.
+          </p>
+        </aside>
+      )}
+      <img class="hero-image" src={image} alt={imageAlt} width={imageWidth} height={imageHeight} loading="eager" fetchpriority="high" decoding="async" />
+      {(imageCaption || isLegacyCalculatorGuide) && <p class="figurecap">{imageCaption ?? 'How to use the Calorie and Macro Calculator.'}</p>}
+    </header>
+    {/* The audited legacy calculator article never loaded AnchorJS, so it renders no heading self-links. */}
+    <div class="legacy-content" data-heading-links={isLegacyCalculatorGuide ? 'off' : undefined}>
+      <slot />
+    </div>
+    <ArticleEnding
+      {canonicalPath}
+      {title}
+      documentTitle={pageTitle}
+      formId="article-bottom"
+      campaign="article-bottom"
+      placement="article-bottom"
+      previous={previousPost}
+      next={nextPost}
+      wrapTitles={wrappingTitles}
+      disclaimer={disclaimer}
+      floatingShare={hasFloatingShare}
+    />
+    </article>
+  </main>
+</BaseLayout>
+
+<script>
+  import '../scripts/heading-links';
+</script>

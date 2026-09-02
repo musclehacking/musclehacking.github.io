@@ -1,0 +1,20 @@
+---
+import pageContent from '../../content/pages/guide.html?raw';
+import LongformLayout from '../../layouts/LongformLayout.astro';
+---
+
+<LongformLayout
+  title="How to Lose Fat And Gain Muscle (As A Beginner)"
+  pageTitle="How to Lose Fat And Gain Muscle (As A Beginner) | Muscle Hacking"
+  description="How to lose fat and gain muscle as a beginner. Stop procrastinating and start getting results."
+  canonicalPath="/lose-fat-gain-muscle/"
+  image="/img/lose-fat-gain-mucle-beginner.png"
+  imageAlt="How to Lose Fat And Gain Muscle (As A Beginner)"
+  imageWidth={1700}
+  imageHeight={1020}
+  byline="By Jay — Posted September 2024"
+  previousPost={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Nutrition Related', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
+  nextPost={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Society Related', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
+>
+  <Fragment set:html={pageContent} />
+</LongformLayout>

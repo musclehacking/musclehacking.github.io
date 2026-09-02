@@ -1,0 +1,16 @@
+---
+interface Props {
+  variant?: 'generic' | 'calculator';
+}
+
+const { variant = 'generic' } = Astro.props;
+---
+
+<div class="affiliate-disclaimer">
+  <hr />
+  {variant === 'calculator' ? (
+    <p><em>Note that I am a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for me to earn fees by linking to Amazon.com and affiliated sites.<br /><br />Some of the links in this post are affiliate links, and if you click on them and make a purchase, I will earn a small commission (at no extra cost to you).<br /><br />I never let this commission cloud my judgement when recommending products.<br /><br />As you can see in this article—I only recommended body fat calipers (if you want to measure your body fat) and Martin’s book on The Leangains Method (if you want to learn more about The Leangains Method).<br /><br />You really don’t need much to start. Just start.</em></p>
+  ) : (
+    <p><em>Note that I am a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for me to earn fees by linking to Amazon.com and affiliated sites.<br /><br />Some of the links in this post are affiliate links, and if you click on them and make a purchase, I will earn a small commission (at no extra cost to you).<br /><br />I never let this commission cloud my judgement when recommending products.<br /><br />I recommend what I think is the best, irrespective of the $ involved.</em></p>
+  )}
+</div>
