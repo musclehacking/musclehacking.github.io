@@ -1,0 +1,29 @@
+---
+export interface TocItem {
+  href: string;
+  label: string;
+  title?: string;
+  children?: TocItem[];
+}
+
+interface Props {
+  items: TocItem[];
+  heading?: string;
+  ariaLabel?: string;
+}
+
+const { items, heading = 'Table of Contents', ariaLabel = 'Table of contents' } = Astro.props;
+---
+
+<nav id="toc_container" aria-label={ariaLabel}>
+  <p id="toc-h">{heading}</p>{' '}
+  <ul id="toc-ul">
+    {items.map((item) => (
+      <li>
+        <a href={item.href} title={item.title}>{item.label}</a>{' '}
+        {item.children && <ul>{item.children.map((child) => <li><a href={child.href} title={child.title}>{child.label}</a>{' '}</li>)}</ul>}
+        {' '}
+      </li>
+    ))}
+  </ul>
+</nav>

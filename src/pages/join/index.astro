@@ -3,12 +3,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout
-  title="Join the Muscle Hacking Newsletter"
-  description="Subscribe to receive the latest Muscle Hacking articles."
-  canonicalPath="/join/"
-  indexable={false}
->
+<BaseLayout metadata={{ title: 'Join the Muscle Hacking Newsletter', titleMode: 'absolute', description: 'Subscribe to receive the latest Muscle Hacking articles.', canonicalPath: '/join/', indexable: false }}>
   <main class="article-page join-page">
     <h1>Ready to get serious?</h1>
     <p>This is a newsletter for people who are ready to get serious about their health and fitness.</p>

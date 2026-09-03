@@ -27,7 +27,7 @@ test('blog index keeps corrected metadata and the rendered legacy listing contra
 
   await expect(page).toHaveTitle(blogRoute.title);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', blogRoute.description);
-  await expect(page.locator('h1')).toHaveText(homeRoute.title);
+  await expect(page.locator('h1')).toHaveText(`${site.name}${site.titlePrefixSeparator}${homeRoute.title}`);
   await expect(page.locator('.sidebar')).toHaveCount(1);
   await expect(page.locator('.sidebar .newsletter-form input[name="sourceUrl"]')).toHaveValue('/blog/');
 });

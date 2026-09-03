@@ -1,6 +1,8 @@
 ---
 import NewsletterForm from './NewsletterForm.astro';
-import { recentPosts } from '../config/home';
+import { getListing } from '../lib/content';
+
+const listing = await getListing();
 ---
 
 <aside class="sidebar" aria-label="About Muscle Hacking">
@@ -36,7 +38,7 @@ import { recentPosts } from '../config/home';
   <section class="sidebar-recent" aria-labelledby="recent-posts-heading">
     <h2 id="recent-posts-heading">Recent Posts</h2>
     <ul>
-      {recentPosts.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      {listing.map((entry) => <li><a href={entry.href}>{entry.sidebarTitle}</a></li>)}
     </ul>
   </section>
 </aside>

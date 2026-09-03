@@ -31,7 +31,9 @@ The local preview serves documents through Static Assets and invokes the Worker 
 
 - Routes and index policy: `src/config/routes.ts`
 - Site facts and metadata: `src/config/site.ts`
-- Articles: `src/content/blog/`
+- Article metadata composition: `src/lib/metadata.ts`
+- Articles and long-form pages: `src/content/blog/` and `src/content/pages/`
+- Content editing guide: `documents/content/editing.md`
 - Calculator: `src/features/calculator/`
 - Supplements: `src/features/supplements/`
 - Newsletter: `src/features/newsletter/` and `src/pages/api/subscribe.ts`

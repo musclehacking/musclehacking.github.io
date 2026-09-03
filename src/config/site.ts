@@ -1,9 +1,11 @@
 export const site = {
   origin: 'https://www.musclehacking.com',
   name: 'Muscle Hacking',
+  titleSeparator: ' | ',
+  titlePrefixSeparator: ': ',
+  language: 'en',
   authorDisplayName: 'Jay',
   contactEmail: 'jay@musclehacking.com',
-  defaultTitle: 'Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)',
   defaultDescription:
     'An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started.',
   defaultImage: '/img/musclehacking.png',

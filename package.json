@@ -8,20 +8,27 @@
     "node": ">=22.12.0 <25"
   },
   "scripts": {
+    "sync:blog-slugs": "node scripts/sync-blog-slugs.mjs",
+    "predev": "pnpm sync:blog-slugs",
     "dev": "astro dev",
+    "precheck": "pnpm sync:blog-slugs",
     "check": "astro check",
+    "pretest": "pnpm sync:blog-slugs",
     "test": "vitest run",
     "test:e2e": "playwright test tests/e2e",
     "test:agent-a11y": "playwright test --project=chromium tests/a11y",
     "test:visual": "node scripts/visual-parity.mjs",
+    "prebuild": "pnpm sync:blog-slugs",
     "build": "astro build && node scripts/shape-routes.mjs && node scripts/finalize-headers.mjs",
     "preview:worker": "wrangler dev --port 8787",
+    "preverify:dist": "node scripts/sync-blog-slugs.mjs --check",
     "verify:dist": "node scripts/verify-dist.mjs",
     "typegen": "wrangler types src/env.d.ts",
     "upload:version": "pnpm build && wrangler versions upload"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.2.5",
+    "@astrojs/mdx": "7.0.8",
     "@astrojs/react": "6.0.4",
     "astro": "7.2.9",
     "react": "19.2.8",

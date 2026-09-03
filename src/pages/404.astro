@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Page not found | Muscle Hacking" description="The requested page could not be found." canonicalPath="/404.html" indexable={false}>
+<BaseLayout metadata={{ title: 'Page not found', description: 'The requested page could not be found.', canonicalPath: '/404.html', indexable: false }}>
   <main class="page-shell not-found-page">
     <h1>Page not found</h1>
     <p>The page may have moved. Use one of these links to continue:</p>

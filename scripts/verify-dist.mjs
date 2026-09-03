@@ -10,6 +10,7 @@ import { findForbiddenOutputMatches } from './verify-dist-output.ts';
 const clientRoot = new URL('../dist/client/', import.meta.url).pathname;
 const legacyBlogRoot = new URL('../blog/', import.meta.url).pathname;
 const legacyPages = JSON.parse(readFileSync(new URL('../tests/fixtures/legacy/pages.json', import.meta.url), 'utf8')).pages;
+const expectedTitles = JSON.parse(readFileSync(new URL('../tests/fixtures/expected-titles.json', import.meta.url), 'utf8'));
 const failures = [];
 const fail = (message) => failures.push(message);
 
@@ -32,8 +33,12 @@ for (const relativePath of generatedHtml) {
   const $ = load(html);
   const label = `/${relativePath}`;
   if ($('title').length !== 1 || !$('title').text().trim()) fail(`${label}: expected one non-empty title`);
+  if ($('title').text() !== expectedTitles[relativePath]) fail(`${label}: document title differs from the pre-authoring build`);
   if ($('meta[name="description"]').length !== 1 || !$('meta[name="description"]').attr('content')?.trim()) fail(`${label}: expected one description`);
+  if ($('meta[property="og:title"]').length !== 1) fail(`${label}: expected one og:title`);
+  if ($('meta[name="twitter:title"]').length !== 1) fail(`${label}: expected one twitter:title`);
   if ($('link[rel="canonical"]').length !== 1) fail(`${label}: expected one canonical`);
+  if ($('html').attr('lang') !== 'en') fail(`${label}: expected html lang=en`);
   if (!$('link[rel="canonical"]').attr('href')?.startsWith(site.origin)) fail(`${label}: canonical must use production origin`);
   if ($('main').length !== 1) fail(`${label}: expected one main landmark`);
   if ($('h1').length !== 1 || !$('h1').first().text().trim()) fail(`${label}: expected one visible h1`);
@@ -76,14 +81,14 @@ for (const legacyPage of legacyPages) {
   }
 }
 
-const normalizeText = (value) => value.replace(/\s+/g, ' ').trim();
+const normalizeText = (value) => value.replaceAll('\u200b', '').replace(/\s+/g, ' ').trim();
 for (const slug of blogSlugs) {
   const legacyPage = load(readFileSync(join(legacyBlogRoot, `${slug}.html`), 'utf8'));
   const legacyBody = legacyPage('.post-body').first();
   // Footer disclosures belong to the shared article ending, not the retained article copy.
   legacyBody.find('#comm').nextUntil('#post-nav').remove();
   legacyBody.find('script, #share, #comm, .e-on-delay, .email-float, form').remove();
-  const legacyNavigation = legacyBody.find('#post-nav').first().clone();
+  const legacyNavigation = legacyPage('#post-nav').first().clone();
   legacyBody.find('#post-nav').remove();
 
   const generatedHtml = readFileSync(join(clientRoot, 'blog', `${slug}.html`), 'utf8');
@@ -113,6 +118,43 @@ for (const slug of blogSlugs) {
   if (JSON.stringify(generatedEndingOrder) !== JSON.stringify(expectedEndingOrder)) fail(`/blog/${slug}: complete article ending sequence is incorrect`);
   const expectedRailCount = slug === 'calorie-calculator-how-to' ? 0 : 1;
   if (generatedPage('#sh-box').length !== expectedRailCount) fail(`/blog/${slug}: floating share rail presence is incorrect`);
+
+  const legacyHeadingIds = legacyBody.find('h2[id], h3[id], h4[id], h5[id]')
+    .map((_, heading) => (legacyPage(heading).attr('id') ?? '').replace(/^#/, '')).get();
+  const generatedIds = new Set(generatedBody.find('[id]').map((_, element) => generatedPage(element).attr('id')).get());
+  for (const id of legacyHeadingIds) {
+    if (!generatedIds.has(id)) fail(`/blog/${slug}: missing retained heading id ${id}`);
+  }
+  generatedBody.find('a[href^="#"]').each((_, anchor) => {
+    const id = decodeURIComponent((generatedPage(anchor).attr('href') ?? '').slice(1));
+    const pageIds = new Set(generatedPage('[id]').map((__, element) => generatedPage(element).attr('id')).get());
+    if (id && !pageIds.has(id)) fail(`/blog/${slug}: unresolved fragment #${id}`);
+  });
+}
+
+for (const [path, legacyRelativePath] of [
+  ['/books/', 'books/index.html'],
+  ['/lose-fat-gain-muscle/', 'lose-fat-gain-muscle/index.html'],
+]) {
+  const route = routes.find((candidate) => candidate.path === path);
+  if (!route) {
+    fail(`${path}: route is missing from the registry`);
+    continue;
+  }
+  const legacyPage = load(readFileSync(new URL(`../${legacyRelativePath}`, import.meta.url), 'utf8'));
+  const legacyBody = legacyPage('.post-body').first();
+  const legacyNavigation = legacyPage('#post-nav').first().clone();
+  legacyBody.find('script, style, form, #share, #comm, #post-nav, .e-on-delay, .email-float').remove();
+  const generatedPage = load(readFileSync(join(clientRoot, routeFile(route)), 'utf8'));
+  const generatedBody = generatedPage('.legacy-content').first();
+  const generatedNavigation = generatedPage('#post-nav').first();
+  if (normalizeText(generatedBody.text()) !== normalizeText(legacyBody.text())) fail(`${path}: long-form body text differs from retained legacy content`);
+  for (const selector of ['a[href]', 'img', 'iframe']) {
+    if (generatedBody.find(selector).length !== legacyBody.find(selector).length) fail(`${path}: retained ${selector} count differs from legacy content`);
+  }
+  const legacyLinks = legacyNavigation.find('a').map((_, link) => `${legacyPage(link).attr('id')}|${legacyPage(link).attr('href')}|${legacyPage(link).attr('title')}`).get();
+  const generatedLinks = generatedNavigation.find('a').map((_, link) => `${generatedPage(link).attr('id')}|${generatedPage(link).attr('href')}|${generatedPage(link).attr('title')}`).get();
+  if (JSON.stringify(generatedLinks) !== JSON.stringify(legacyLinks)) fail(`${path}: long-form navigation links differ from retained legacy content`);
 }
 
 for (const { path, disclaimer } of [
@@ -157,5 +199,5 @@ if (failures.length > 0) {
   console.error(failures.map((failure) => `- ${failure}`).join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`Verified ${generatedHtml.length} HTML files, ${routes.length} public routes, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.`);
+  console.log(`Verified ${generatedHtml.length} HTML files, ${routes.length} public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.`);
 }

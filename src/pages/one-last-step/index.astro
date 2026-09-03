@@ -1,14 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostNavigation from '../../components/PostNavigation.astro';
+import PostNavigation from '../../components/article/PostNavigation.astro';
 ---
 
-<BaseLayout
-  title="One Last Step | Muscle Hacking"
-  description="Confirm your email address and I’ll send you my latest articles."
-  canonicalPath="/one-last-step/"
-  indexable={false}
->
+<BaseLayout metadata={{ title: 'One Last Step', description: 'Confirm your email address and I’ll send you my latest articles.', canonicalPath: '/one-last-step/', indexable: false }}>
   <main class="article-page confirmation-page">
     <h1>One Last Step</h1>
     <picture class="intrinsic intrinsic--new18 confirmation-image">

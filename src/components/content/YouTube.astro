@@ -1,0 +1,12 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+if (!/^[A-Za-z0-9_-]+$/.test(id)) throw new Error('YouTube id must not contain a host or path.');
+const src = `https://www.youtube-nocookie.com/embed/${id}`;
+---
+
+<iframe class="video" {src} {title} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

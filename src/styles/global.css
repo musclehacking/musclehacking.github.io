@@ -718,6 +718,15 @@ figcaption,
   line-height: 1.58;
 }
 
+.article-page .legacy-content .project-callout .alert-content > p,
+.project-callout .alert-content > p {
+  line-height: 1.58;
+}
+
+.project-callout .alert-content > p + p {
+  margin-top: 1.58em;
+}
+
 .project-callout--note,
 .markdown-alert-note {
   border-left-color: #2f81f7;
@@ -750,6 +759,30 @@ figcaption,
 
 .home-note {
   margin: 25px 0 20px;
+}
+
+.article-notice {
+  margin-bottom: 10px;
+}
+
+.longform-note {
+  margin: 25px 0 20px;
+}
+
+.intermittent-fasting-note {
+  margin-top: 20px;
+}
+
+.beginner-guide-page #introduction-read-this {
+  margin-top: 20px;
+}
+
+.beginner-guide-page #introduction-read-this + p {
+  margin-top: 10px;
+}
+
+.beginner-guide-page #the-basics {
+  margin-top: 35px;
 }
 
 #comm,
@@ -1574,6 +1607,10 @@ figcaption,
   margin-top: 8px;
 }
 
+.article-page .legacy-content #stats + p {
+  margin-top: 10px;
+}
+
 :is(.article-page, .calculator-guide) .legacy-content :is(h4, h5) + p {
   margin-top: 6px;
 }
@@ -1640,6 +1677,19 @@ figcaption,
 
 :is(.article-page, .calculator-guide) .legacy-content blockquote p {
   margin: 0 0 12px;
+}
+
+.article-page .legacy-content blockquote:has(+ blockquote) p,
+.article-page .legacy-content blockquote + blockquote p {
+  line-height: inherit;
+}
+
+.books-page .legacy-content blockquote p {
+  line-height: inherit;
+}
+
+.books-page .legacy-content > p:has(.content-mark) + p {
+  margin-top: 26.5px;
 }
 
 :is(.article-page, .calculator-guide) .legacy-content blockquote p:last-child {
@@ -1818,6 +1868,12 @@ figcaption,
   background-color: #1f618d;
 }
 
+.legacy-content #th-1 { width: 20%; min-width: 125px; }
+.legacy-content #th-2 { width: 25%; min-width: 150px; }
+.legacy-content #th-3 { width: 25%; min-width: 180px; }
+.legacy-content #th-4 { width: 30%; min-width: 200px; }
+.legacy-content :is(#th-5, #th-6, #th-7) { width: 33%; min-width: 150px; }
+
 .legacy-content :is(#th-1, #th-2, #th-3, #th-4, #th-5, #th-6, #th-7) {
   border-right: 1px solid #fff;
   padding: 5px;
@@ -1843,20 +1899,33 @@ figcaption,
 .legacy-content .re2 { background-color: #ff8080; }
 
 /* Legacy reference lists: 17px items indented 1.4em, 8px below their heading. */
-.legacy-content .ref {
+.legacy-content :is(.ref, .references li) {
   font-size: 17px;
 }
 
-.legacy-content .ref-list > .ref {
+.legacy-content :is(.ref-list > .ref, .references ol > li) {
   margin-left: 1.4em;
 }
 
-:is(.article-page, .calculator-guide) .legacy-content > ol.ref-list {
+:is(.article-page, .calculator-guide) .legacy-content > ol.ref-list,
+:is(.article-page, .calculator-guide) .legacy-content .references > ol {
   margin-top: 8px;
+  margin-bottom: 0;
+  padding-left: 0;
 }
 
-:is(.article-page, .calculator-guide) .legacy-content > ol.ref-list > li {
+:is(.article-page, .calculator-guide) .legacy-content > ol.ref-list > li,
+:is(.article-page, .calculator-guide) .legacy-content .references > ol > li {
   margin-left: 1.4em;
+}
+
+.legacy-content .content-mark {
+  background-color: #2f8fd032;
+  padding: 0.15em 0.1em;
+}
+
+.legacy-content .content-underline {
+  text-decoration: underline;
 }
 
 /* Legacy `article div.post-body ul li, ol li { margin-bottom: 5px }` applies at every depth. */
@@ -2469,6 +2538,19 @@ figcaption,
     margin-top: 21px;
   }
 
+  .books-page .legacy-content > p:has(.content-mark) + p {
+    margin-top: 11px;
+  }
+
+  .beginner-guide-page #the-basics {
+    margin-top: 30px;
+  }
+
+  .blog-reject-modernity-embrace-masculinity picture:has(img[src='/img/springfield-gorge.png']) + p {
+    margin-top: 0;
+    padding-bottom: 14px;
+  }
+
   :is(.article-page, .calculator-guide) .legacy-content picture {
     margin-top: 29px;
   }
@@ -2543,11 +2625,12 @@ figcaption,
     font-size: 14.4px;
   }
 
-  :is(.article-page, .calculator-guide) .legacy-content > ol.ref-list {
+  :is(.article-page, .calculator-guide) .legacy-content > ol.ref-list,
+  :is(.article-page, .calculator-guide) .legacy-content .references > ol {
     margin-top: 8px;
   }
 
-  .legacy-content .ref,
+  .legacy-content :is(.ref, .references li),
   .supplements-page .ref {
     font-size: 14px;
   }
@@ -2691,4 +2774,7 @@ figcaption,
   #next-pad {
     margin: 0 20px 0 0;
   }
+}
+.content-figure {
+  margin: 0;
 }

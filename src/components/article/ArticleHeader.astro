@@ -1,0 +1,44 @@
+---
+import Figure from '../content/Figure.astro';
+import Callout from '../Callout.astro';
+import type { ArticleModel } from '../../lib/content';
+
+interface Props {
+  article: ArticleModel;
+}
+
+const { article } = Astro.props;
+---
+
+<header>
+  <h1>{article.title}</h1>
+  <p class="byline">{article.byline}</p>
+  {article.notice && (
+    <Callout class="article-notice" variant={article.notice.variant as 'note' | 'important' | 'warning'} label={article.notice.label}>
+      <Fragment set:html={article.notice.html} />
+    </Callout>
+  )}
+  {article.hero.caption ? (
+    <Figure
+      src={article.hero.src}
+      alt={article.hero.alt}
+      width={article.hero.width}
+      height={article.hero.height}
+      loading="eager"
+      fetchpriority="high"
+      class="hero-image"
+    >
+      {article.hero.caption}
+    </Figure>
+  ) : (
+    <Figure
+      src={article.hero.src}
+      alt={article.hero.alt}
+      width={article.hero.width}
+      height={article.hero.height}
+      loading="eager"
+      fetchpriority="high"
+      class="hero-image"
+    />
+  )}
+</header>

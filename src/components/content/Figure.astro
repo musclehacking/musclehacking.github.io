@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  width?: number;
+  height?: number;
+  ratio?: string;
+  align?: 'centre';
+  loading?: 'eager' | 'lazy';
+  id?: string;
+  class?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  ratio,
+  align,
+  loading = 'lazy',
+  id,
+  class: imageClass,
+  fetchpriority,
+} = Astro.props;
+const caption = Astro.slots.has('default');
+
+if (typeof src === 'string' && (!src.startsWith('/img/') || !width || !height)) {
+  throw new Error('Figure string src must start with /img/ and include width and height.');
+}
+---
+
+{ratio ? (
+  <>
+    <picture id={id} class={`intrinsic intrinsic--${ratio}`}>
+      <img class:list={['intrinsic-item', imageClass]} src={typeof src === 'string' ? src : src.src} {alt} width={width ?? (src as ImageMetadata).width} height={height ?? (src as ImageMetadata).height} {loading} {fetchpriority} decoding="async" />
+    </picture>
+    {caption && <p class:list={['figurecap', { 'fig-centre': align === 'centre' }]}><slot /></p>}
+  </>
+) : (
+  <figure id={id} class="content-figure">
+    {typeof src === 'string' ? (
+      <img class={imageClass} {src} {alt} width={width} height={height} {loading} {fetchpriority} decoding="async" />
+    ) : (
+      <Image class={imageClass} {src} {alt} width={width ?? src.width} height={height ?? src.height} {loading} {fetchpriority} />
+    )}
+    {caption && <p class:list={['figurecap', { 'fig-centre': align === 'centre' }]}><slot /></p>}
+  </figure>
+)}

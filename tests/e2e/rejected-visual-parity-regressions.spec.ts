@@ -127,8 +127,8 @@ test('note callout icons share one inline row and the legacy palette on every su
     { path: '/supplements/', selector: '.supplement-note .alert-title' },
     { path: '/', selector: '.home-note .alert-title' },
     { path: '/calorie-calculator/', selector: '.project-callout--note .alert-title' },
-    { path: '/books/', selector: '.markdown-alert-note .alert-title' },
-    { path: '/lose-fat-gain-muscle/', selector: '.markdown-alert-note .alert-title' },
+    { path: '/books/', selector: '.project-callout--note .alert-title' },
+    { path: '/lose-fat-gain-muscle/', selector: '.project-callout--note .alert-title' },
   ] as const;
 
   for (const surface of surfaces) {
@@ -157,7 +157,7 @@ test('note callout icons share one inline row and the legacy palette on every su
 
   // Important keeps the legacy purple; Warning keeps the legacy amber.
   await page.goto('/blog/calorie-calculator-how-to');
-  const important = page.locator('.markdown-alert-important .alert-title').first();
+  const important = page.locator('.project-callout--important .alert-title').first();
   await expect(important).toHaveCSS('color', 'rgb(163, 113, 247)');
 });
 

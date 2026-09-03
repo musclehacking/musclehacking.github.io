@@ -12,8 +12,9 @@ if (!homeRoute) throw new Error('Missing / route registry entry.');
 
 <ContentLayout
   title={route.title}
+  titleMode={route.titleMode}
   description={route.description}
   canonicalPath={route.path}
 >
-  <HomeListing heading={homeRoute.title} />
+  <HomeListing heading={`Muscle Hacking${': '}${homeRoute.title}`} />
 </ContentLayout>

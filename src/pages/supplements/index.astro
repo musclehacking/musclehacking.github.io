@@ -2,21 +2,26 @@
 import SupplementExplorer from '../../components/SupplementExplorer.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../../components/Callout.astro';
-import ArticleEnding from '../../components/ArticleEnding.astro';
+import ArticleEnding from '../../components/article/ArticleEnding.astro';
 import { routeByPath } from '../../config/routes';
+import { site } from '../../config/site';
+import { resolvePageMetadata } from '../../lib/metadata';
 
 const route = routeByPath.get('/supplements/');
 
 if (!route) throw new Error('Missing /supplements/ route registry entry.');
+
+const metadata = {
+  title: route.title,
+  description: route.description,
+  canonicalPath: route.path,
+  image: '/img/muscle-building-supplement-stack.png',
+  socialTitle: 'Beyond the Hype: Supplements That Work',
+};
+const { documentTitle } = resolvePageMetadata(metadata, site);
 ---
 
-<BaseLayout
-  title={route.title}
-  description={route.description}
-  canonicalPath={route.path}
-  image="/img/muscle-building-supplement-stack.png"
-  socialTitle="Beyond the Hype: Supplements That Work"
->
+<BaseLayout {metadata}>
   <main class="supplements-page" data-heading-links>
     <h1>Muscle Building Supplement Stack (Based on Research)</h1>
     <p class="byline">By Jay — Updated March 2024, Posted August 2023</p>
@@ -27,7 +32,7 @@ if (!route) throw new Error('Missing /supplements/ route registry entry.');
     <ArticleEnding
       canonicalPath="/supplements/"
       title="Muscle Building Supplement Stack (Based on Research)"
-      documentTitle="The Best Muscle Building Supplement Stack (Based on Research) | Muscle Hacking"
+      {documentTitle}
       formId="supplements-bottom"
       campaign="supplements-bottom"
       placement="longform-bottom"

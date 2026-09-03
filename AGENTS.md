@@ -10,7 +10,10 @@ Source ownership:
 
 - Routes and index policy: `src/config/routes.ts`
 - Site identity and metadata: `src/config/site.ts`
-- Blog content: `src/content/blog/`
+- Document metadata composition: `src/lib/metadata.ts`
+- Blog and long-form content: `src/content/blog/` and `src/content/pages/`
+- Article defaults, listing cards, and navigation: `src/lib/content/`
+- Authored content components: `src/components/content/`
 - Calculator: `src/features/calculator/`
 - Supplements: `src/features/supplements/`
 - Newsletter: `src/features/newsletter/` and `src/pages/api/subscribe.ts`

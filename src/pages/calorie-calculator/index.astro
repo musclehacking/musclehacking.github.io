@@ -3,16 +3,20 @@ import Calculator from '../../features/calculator/Calculator';
 import CalculatorNewsletterPrompts from '../../components/CalculatorNewsletterPrompts.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CalculatorGuideIntro from '../../components/CalculatorGuideIntro.astro';
-import ArticleEnding from '../../components/ArticleEnding.astro';
+import ArticleEnding from '../../components/article/ArticleEnding.astro';
 import { calculatorGuideRemainderHtml } from '../../content/pages/calculator-guide';
+import { site } from '../../config/site';
+import { resolvePageMetadata } from '../../lib/metadata';
 
+const metadata = {
+  title: 'Calorie And Macro Calculator (Bulking, Maintenance or Cutting)',
+  description: 'Calculate how many calories and macros you need while bulking, cutting, or maintaining.',
+  canonicalPath: '/calorie-calculator/',
+};
+const { documentTitle } = resolvePageMetadata(metadata, site);
 ---
 
-<BaseLayout
-  title="Calorie And Macro Calculator (Bulking, Maintenance or Cutting) | Muscle Hacking"
-  description="Calculate how many calories and macros you need while bulking, cutting, or maintaining."
-  canonicalPath="/calorie-calculator/"
->
+<BaseLayout {metadata}>
   <main class="calculator-page">
     <Calculator client:load />
   </main>
@@ -28,7 +32,7 @@ import { calculatorGuideRemainderHtml } from '../../content/pages/calculator-gui
     <ArticleEnding
       canonicalPath="/calorie-calculator/"
       title="Calorie & Macro Calculator: How To Use It"
-      documentTitle="Calorie And Macro Calculator (Bulking, Maintenance or Cutting) | Muscle Hacking"
+      {documentTitle}
       formId="calculator-bottom"
       campaign="calculator-bottom"
       placement="calculator-bottom"

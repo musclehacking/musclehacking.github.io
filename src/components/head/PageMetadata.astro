@@ -1,0 +1,28 @@
+---
+import { site } from '../../config/site';
+import { resolvePageMetadata, type PageMetadataInput } from '../../lib/metadata';
+
+interface Props {
+  metadata: PageMetadataInput;
+}
+
+const resolved = resolvePageMetadata(Astro.props.metadata, site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={resolved.description} />
+{!resolved.indexable && <meta name="robots" content="noindex, follow" />}
+<link rel="canonical" href={resolved.canonicalUrl} />
+<link rel="icon" href="/img/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:type" content={resolved.article ? 'article' : 'website'} />
+<meta property="og:title" content={resolved.socialTitle} />
+<meta property="og:description" content={resolved.description} />
+<meta property="og:url" content={resolved.canonicalUrl} />
+<meta property="og:image" content={resolved.socialImageUrl} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={resolved.socialTitle} />
+<meta name="twitter:description" content={resolved.description} />
+<title>{resolved.documentTitle}</title>

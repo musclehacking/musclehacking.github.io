@@ -1,5 +1,6 @@
 ---
-import { typedHomeFeatures } from '../config/home';
+import { Image } from 'astro:assets';
+import { getListing } from '../lib/content';
 import Callout from './Callout.astro';
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 const { heading = 'Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)' } = Astro.props;
+const listing = await getListing();
 ---
 
 <h1 class="home-title">{heading}</h1>
@@ -14,11 +16,15 @@ const { heading = 'Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)' } 
   <p>If you’re new, <a href="/lose-fat-gain-muscle/">start here</a>. Want to get jacked? <a href="/join/">Join my free newsletter</a>.</p>
 </Callout>
 <div class="article-list">
-  {typedHomeFeatures.map((entry, index) => (
+  {listing.map((entry, index) => (
     <article class="home-feature">
       <a class="article-card" href={entry.href}>
         <figure class="feature-media" style={`--feature-ratio: ${entry.ratio}`}>
-          <img src={entry.image} alt={entry.imageAlt} width="700" height={entry.ratio === '5 / 3' ? '420' : '361'} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+          {typeof entry.image === 'string' ? (
+            <img src={entry.image} alt={entry.imageAlt} width="700" height={entry.ratio === '5 / 3' ? '420' : '361'} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+          ) : (
+            <Image src={entry.image} alt={entry.imageAlt} width={700} height={entry.ratio === '5 / 3' ? 420 : 361} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} />
+          )}
           <figcaption class="feature-title">
             <h2>{entry.title}</h2>
             <strong>{entry.date}</strong>

@@ -1,21 +1,16 @@
 ---
 import Sidebar from '../components/Sidebar.astro';
 import BaseLayout from './BaseLayout.astro';
+import type { PageMetadataInput } from '../lib/metadata';
 
-interface Props {
-  title: string;
-  description: string;
-  canonicalPath: string;
-  image?: string;
-  indexable?: boolean;
-  article?: boolean;
+interface Props extends PageMetadataInput {
   showSidebar?: boolean;
 }
 
 const { showSidebar = true, ...metadata } = Astro.props;
 ---
 
-<BaseLayout {...metadata}>
+<BaseLayout metadata={metadata}>
   <main class="page-shell">
     <div class="content-grid">
       <div class="content-column">

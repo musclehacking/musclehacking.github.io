@@ -1,5 +1,36 @@
 ---
 import Callout from './Callout.astro';
+import TableOfContents from './content/TableOfContents.astro';
+
+const tocItems = [
+  { href: '#diet', label: 'Diet', children: [
+    { href: '#standard', label: 'Standard' },
+    { href: '#leangains', label: 'Leangains' },
+    { href: '#keto', label: 'Keto' },
+  ] },
+  { href: '#stats', label: 'Stats' },
+  { href: '#modifiers', label: 'Modifiers', children: [
+    { href: '#activity-level', label: 'Activity Level' },
+    { href: '#goal', label: 'Goal' },
+    { href: '#how-much-protein', label: 'How Much Protein?' },
+    { href: '#fat-carb-calorie-split', label: 'Fat/Carb Calorie Split' },
+  ] },
+  { href: '#results', label: 'Results', children: [
+    { href: '#bmr', label: 'BMR' },
+    { href: '#tdee', label: 'TDEE' },
+    { href: '#daily-calories-and-macros', label: 'Daily Calories and Macros' },
+    { href: '#estimated-weight-loss-per-week', label: 'Estimated Weight Loss per Week' },
+  ] },
+  { href: '#the-leangains-method', label: 'Leangains Calculator', children: [
+    { href: '#age', label: 'Age' },
+    { href: '#height', label: 'Height' },
+    { href: '#body-fat', label: 'Body Fat' },
+    { href: '#muscle-mass', label: 'Muscle Mass' },
+    { href: '#goal-leangains', label: 'Goal (Leangains specific)' },
+    { href: '#steps', label: 'Steps' },
+    { href: '#how-much-protein-leangains', label: 'How Much Protein? (Leangains specific)' },
+  ] },
+];
 ---
 
 <Callout class="calculator-guide-callout">
@@ -20,43 +51,4 @@ import Callout from './Callout.astro';
 <picture id="mb-29" class="calculator-guide-image">
   <img src="/img/leangains-calculator.jpg" alt="Cheerios Commercial" width="700" height="400" loading="lazy" decoding="async" />
 </picture>
-<nav id="toc_container" aria-label="Calculator guide table of contents">
-  <p id="toc-h">Table of Contents</p>
-  <ul id="toc-ul">
-    <li><a href="#diet">Diet</a>
-      <ul>
-        <li><a href="#standard">Standard</a></li>
-        <li><a href="#leangains">Leangains</a></li>
-        <li><a href="#keto">Keto</a></li>
-      </ul>
-    </li>
-    <li><a href="#stats">Stats</a></li>
-    <li><a href="#modifiers">Modifiers</a>
-      <ul>
-        <li><a href="#activity-level">Activity Level</a></li>
-        <li><a href="#goal">Goal</a></li>
-        <li><a href="#how-much-protein">How Much Protein?</a></li>
-        <li><a href="#fat-carb-calorie-split">Fat/Carb Calorie Split</a></li>
-      </ul>
-    </li>
-    <li><a href="#results">Results</a>
-      <ul>
-        <li><a href="#bmr">BMR</a></li>
-        <li><a href="#tdee">TDEE</a></li>
-        <li><a href="#daily-calories-and-macros">Daily Calories and Macros</a></li>
-        <li><a href="#estimated-weight-loss-per-week">Estimated Weight Loss per Week</a></li>
-      </ul>
-    </li>
-    <li><a href="#the-leangains-method">Leangains Calculator</a>
-      <ul>
-        <li><a href="#age">Age</a></li>
-        <li><a href="#height">Height</a></li>
-        <li><a href="#body-fat">Body Fat</a></li>
-        <li><a href="#muscle-mass">Muscle Mass</a></li>
-        <li><a href="#goal-leangains">Goal (Leangains specific)</a></li>
-        <li><a href="#steps">Steps</a></li>
-        <li><a href="#how-much-protein-leangains">How Much Protein? (Leangains specific)</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+<TableOfContents items={tocItems} ariaLabel="Calculator guide table of contents" />

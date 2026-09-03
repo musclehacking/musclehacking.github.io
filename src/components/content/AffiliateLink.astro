@@ -1,0 +1,10 @@
+---
+interface Props {
+  href: string;
+  note?: string;
+}
+
+const { href, note = 'Links to Amazon' } = Astro.props;
+---
+
+<a data-content={note} data-toggle="popover" {href} rel="noopener" target="_blank"><slot /></a>

@@ -14,7 +14,11 @@ The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local 
 | --- | --- |
 | Public paths, slash mode, indexability | `src/config/routes.ts` |
 | Canonical origin and approved site facts | `src/config/site.ts` |
-| Article body and metadata | `src/content/blog/` |
+| Document metadata composition | `src/lib/metadata.ts` and `src/components/head/PageMetadata.astro` |
+| Article and long-form body and frontmatter | `src/content/blog/` and `src/content/pages/` |
+| Article defaults, cards, listing, and navigation | `src/lib/content/` |
+| Authored figures, callouts, video, references, TOC, and affiliate links | `src/components/content/` |
+| Generated published blog slug union | `src/config/blog-slugs.generated.ts` |
 | Shared page metadata and shell | `src/layouts/` |
 | Security and cache headers | `public/_headers` |
 | Worker name, compatibility date, assets | `wrangler.jsonc` |
@@ -22,6 +26,21 @@ The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local 
 | Built route and budget enforcement | `scripts/verify-dist.mjs` |
 
 The legacy source files remain as audited migration input. Astro does not import their Bootstrap, jQuery, Popper, Tippy, AnchorJS, Vue, or Universal Analytics runtime.
+
+## Authored content flow
+
+```mermaid
+flowchart LR
+    C[Markdown and MDX collections] --> H[src/lib/content helpers]
+    H --> M[ArticleModel]
+    M --> L[ArticleLayout]
+    C --> X[Shared content components]
+    X --> L
+    L --> B[Prerendered routes]
+    H --> D[Home, feed, sitemap, and llms.txt]
+```
+
+Collection helpers exclude drafts and future-dated entries before they reach routes or discovery output. Blog navigation is chronological by default. Frontmatter stores only exceptions. Document titles are composed once from an uncomposed content title and the separators in `src/config/site.ts`.
 
 ## Heading links, share rail, callouts, and back-to-top
 

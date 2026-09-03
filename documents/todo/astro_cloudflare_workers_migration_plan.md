@@ -9,7 +9,7 @@
 </important_note>
 
 <important_note>
-> **IMPORTANT NOTE:** `documents/todo/astro_content_authoring_plan.md` is a prerequisite plan. It converts the twelve article bodies and both long-form page bodies from imported legacy HTML to authored Markdown/MDX and centralises article rendering in one layout, shared content components, and collection defaults. Complete it, with `pnpm verify:dist` and the full Playwright suite green, before the Step 11 review packet is finalised and before the Step 12 hosted-preview parity re-run, so hosted acceptance runs once against the final article markup.
+> **IMPORTANT NOTE:** `documents/todo/astro_content_authoring_plan.md` is the completed prerequisite implementation record. The twelve article bodies and both long-form page bodies now use authored Markdown/MDX with one article layout, shared content components, collection defaults, and green local distribution and Playwright gates. Step 11 review and Step 12 hosted-preview parity must use this final article markup.
 </important_note>
 
 ## 1. Goal
@@ -392,6 +392,8 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 **Objective:** Produce the complete public information architecture from Astro and repair verified discovery defects.
 
+**Content-authoring checkpoint:** The twelve blog posts, Books, and the beginner guide now render from the `blog` and `pages` collections. Home listings, navigation, feed, sitemap, and `llms.txt` use the shared filtered collection helpers. Local desktop and mobile document-height parity passes for all fourteen converted routes.
+
 #### 5.1 High-Level Approach
 
 - Build Astro pages for home, blog index, books, calorie calculator, join, fat-loss guide, confirmation, supplements, and all twelve article routes.
@@ -532,6 +534,8 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 **Objective:** Make regressions fail before a Worker version can be considered for cutover.
 
+**Content-authoring checkpoint:** Metadata, schema, byline, navigation, listing, authoring-lint, shared-component, disposable fixture-build, full-text, fragment, and distribution regressions now cover the authored collections. The dedicated content parity harness records 28 accepted desktop/mobile measurements and complete side-by-side screenshots outside Git.
+
 #### 10.1 High-Level Approach
 
 - Add Vitest suites for route data, metadata, feed and sitemap generation, calculator domain logic, supplement filtering, form validation, provider mapping, and header helpers.
@@ -657,6 +661,8 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 **Objective:** Leave a cold reader able to operate, verify, update, and roll back the site without conversation history.
 
+**Content-authoring checkpoint:** `README.md`, project policy, content editing, site architecture, and testing documentation now describe the collection workflow, generated slug owner, metadata composition, shared content components, validation commands, and parity evidence location.
+
 #### 15.1 High-Level Approach
 
 - Update `README.md`, root `AGENTS.md`, the `documents/AGENTS.md` bundle, and focused documents for architecture, route policy, content editing, calculator formulas, supplement data, newsletter operations, secrets, testing, Cloudflare Builds, security headers, cutover, and rollback.
@@ -682,7 +688,7 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 ### 5.2 Reopened Parity Checkpoint - 1 September 2026
 
-- Human review supplied thirteen issue references across twelve unique screenshots. Browser comparison reproduced the shared heading, supplement, hover, footer, article-navigation, heading-copy, prompt-focus, calculator-content, and newsletter-placement failures described in UI-01 through UI-13.
+- Human review supplied thirteen issue references across twelve unique screenshots. Browser comparison reproduced the shared heading, supplement, hover, footer, article navigation, heading-copy, prompt-focus, calculator-content, and newsletter-placement failures described in UI-01 through UI-13.
 - The previous `all 46 visual captures passed` result did not prove component parity. A 2 percent full-page threshold allowed small but important controls to fail on tall pages, and the suite did not capture hover tooltips, pointer popovers, delayed/floating prompts, modal-open state, article endings, or all lazy images after scroll.
 - Steps 4, 5, 6, 7, and 10 are reopened. Their earlier functional work remains valuable, but none may return to completed until the detailed component-state matrix and human side-by-side review pass locally and on the hosted preview.
 - Verified examples include: article H3 `40px/46px` live versus `20.8px/24.544px` Astro; calculator-guide H4 `32px` live versus `21px` Astro; supplement `Creatine` H2 `40px` live versus `36px` Astro; a live evidence popover on hover versus no Astro popover; a live `Click to Copy` tooltip versus no Astro tooltip; and a live 23-pixel email navigation icon with custom offsets versus a default 28-pixel Astro icon.
@@ -776,7 +782,7 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - Supplement filters now use the exact legacy active `#1f618d`, inactive `#4c88af`, information `#6fa4c9`, hover, pressed, radius, and shadow states. Evidence badges use the recorded translucent green, type, padding, and heading-top alignment. The exact legacy palette retains one selector-limited axe contrast exception because the recorded white labels do not meet the automated WCAG threshold.
 - The home grid now constrains every image, overlay, and card to the content column. Exact containment and zero-overflow assertions pass at 821, 959, 1000, 1200, and 1250 pixels. A direct 959-pixel comparison reproduces the legacy content edge at `639.328` pixels and the image right edge at `626.016` pixels with zero overflow.
 - The legacy-content migration script now removes `#share`, `#comm`, `#post-nav`, the disclosure nodes between Comment and navigation, and empty `#em-opt` markers. An in-memory extraction check confirms that all twelve retained legacy articles are free of shared-ending nodes after cleanup, so rerunning the migration cannot recreate duplicate endings.
-- A final independent route and component audit found six edge cases after the third-review fixes. The remediation now preserves the legacy document title separately in Facebook and LinkedIn rail payloads, retains all seven hero captions when migration is rerun, styles generated supplement prose links, closes orphaned evidence popovers on every filter change, contains the home grid at 320 pixels, and contains the social rail from the 768-pixel mobile transition through 821 pixels. `migrate-legacy-content.mjs --check` verifies byte-identical output for all twelve articles.
+- A final independent route and component audit found six edge cases after the third-review fixes. The remediation now preserves the legacy document title separately in Facebook and LinkedIn rail payloads, retains all seven hero captions, styles generated supplement prose links, closes orphaned evidence popovers on every filter change, contains the home grid at 320 pixels, and contains the social rail from the 768-pixel mobile transition through 821 pixels. Authored-content regression tests now verify all twelve articles.
 - Two fresh independent remediation audits then rechecked the route/data and rendered-component partitions and found no defects. Their validated consolidated result is `documents/todo/bugs/codex/combined_bug_sweep_20260901_5e8c1a7d.xml`.
 - The complete local gate set passes on the final build: `pnpm check` reports 0 errors and 3 deprecation hints, Vitest passes 51 tests, `pnpm build` succeeds, `pnpm verify:dist` verifies 21 HTML files and 20 routes including exact ending sequences, Playwright passes all 186 desktop/mobile E2E tests, and the six agent accessibility scans reject every unapproved serious or critical issue.
 - All 23 desktop `pnpm test:visual` captures pass. Seventeen retained mobile baselines still exceed the full-page threshold because they preserve desktop-like legacy geometry while the approved migration uses fluid narrow layouts. Direct 390-pixel browser checks and the complete mobile E2E route matrix pass. No new visual mask or mismatch-threshold exception was added.

@@ -1,4 +1,5 @@
 import cloudflare from '@astrojs/cloudflare';
+import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 
@@ -11,7 +12,7 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: 'compile',
   }),
-  integrations: [react()],
+  integrations: [mdx(), react()],
   build: {
     assets: '_astro',
     inlineStylesheets: 'never',

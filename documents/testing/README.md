@@ -7,7 +7,11 @@
 - `pnpm test:e2e`: all 20 routes and key interactions in desktop and mobile Chromium through local Wrangler.
 - `pnpm test:agent-a11y`: axe serious and critical checks on representative content, interaction, form, and 404 routes.
 
+The unit suite also validates collection schemas, metadata composition, authoring lint, bylines, derived navigation, listing order, and disposable draft/future fixtures. `scripts/content-authoring-parity.mjs` compares all twelve articles plus Books and the beginner guide against the audited legacy tree at 1440px and 390px.
+
 Legacy reduced fixtures are under `tests/fixtures/legacy/`. Large baseline screenshots are outside Git at `/Users/sacino/Documents/codex/web-development/musclehacking/legacy-baseline-9bf25d0/`. Candidate screenshots belong beside them under `astro-candidate/`.
+
+Content-authoring side-by-side screenshots and the 28 document-height measurements are outside Git at `/Users/sacino/Documents/codex/web-development/musclehacking/content-authoring-baseline/`. The accepted tolerance is 1px at 1440px and 2px at 390px. The final run passed every measurement.
 
 Never send a real newsletter mutation during ordinary tests. A hosted success test requires preview-only credentials and a human-approved test destination.
 
