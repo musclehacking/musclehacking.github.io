@@ -8,6 +8,10 @@
 > **IMPORTANT NOTE:** The target is a faithful rebuild, not a redesign. Preserve the current public design, copy, route shapes, calculator results, supplement interactions, and newsletter outcome. Fix only verified technical defects and additions required for a secure Astro and Cloudflare implementation. Any copy, identity, canonical, crawler, analytics, or legal-policy decision that is not provable from the current site requires human approval before cutover.
 </important_note>
 
+<important_note>
+> **IMPORTANT NOTE:** `documents/todo/astro_content_authoring_plan.md` is a prerequisite plan. It converts the twelve article bodies and both long-form page bodies from imported legacy HTML to authored Markdown/MDX and centralises article rendering in one layout, shared content components, and collection defaults. Complete it, with `pnpm verify:dist` and the full Playwright suite green, before the Step 11 review packet is finalised and before the Step 12 hosted-preview parity re-run, so hosted acceptance runs once against the final article markup.
+</important_note>
+
 ## 1. Goal
 
 Replace the hand-authored GitHub Pages build with a current Astro site deployed through Cloudflare Workers Builds and Workers Static Assets. The agent owns discovery, implementation, content migration, interaction parity, testing, Cloudflare preview setup, documentation, and the cutover rehearsal. A human owns the final production cutover approval.
