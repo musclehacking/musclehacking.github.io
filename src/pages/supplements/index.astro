@@ -69,8 +69,9 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     line-height: 35px;
   }
 
+  /* AUD-07/A11Y-01: GitHub light-mode `--color-accent-fg`, replacing `#2F81F7`. */
   .supplement-note {
-    border-left: 4px solid #2f81f7;
+    border-left: 4px solid #0969da;
     margin: 0 0 25px;
     padding: 0 16px;
   }
@@ -101,10 +102,16 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     margin: 0 5px 25px;
   }
 
+  /*
+   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy `.btn-info` fill
+   * `#4c88af` measures 3.85:1 with white 16px text. The approved AA-safe fill is
+   * `#3d7295` (5.20:1); hover moves to `#356886` (6.04:1) so it stays visibly
+   * darker, and the active `#1f618d` (6.66:1) is unchanged from legacy.
+   */
   .supplements-page .supplement-filters button {
-    border: 1px solid #4c88af;
+    border: 1px solid #3d7295;
     border-radius: 8px;
-    background: #4c88af;
+    background: #3d7295;
     box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
     color: white;
     padding: 6px 12px;
@@ -120,13 +127,20 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
   }
 
   .supplements-page .supplement-filters button:not(.active):not([data-supplement-filter='information']):hover {
-    border-color: #397197;
-    background: #397197;
+    border-color: #356886;
+    background: #356886;
   }
 
+  /*
+   * AUD-07/A11Y-02: the legacy `information` filter is a lighter `#6fa4c9` tint at
+   * 2.68:1 with white text. A lighter fill cannot reach 4.5:1 against white, so the
+   * approved variant keeps the lighter appearance and inverts the text: `#14496B`
+   * on `#DCEAF4` measures 7.80:1.
+   */
   .supplements-page .supplement-filters button[data-supplement-filter='information']:not(.active) {
-    border-color: #6fa4c9;
-    background: #6fa4c9;
+    border-color: #9dc0d8;
+    background: #dceaf4;
+    color: #14496b;
   }
 
   .supplements-page .supplement-filters button:active {
@@ -186,10 +200,16 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     letter-spacing: -0.015em;
   }
 
+  /*
+   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy semi-transparent
+   * evidence fills measure 3.11:1 (high), 1.86:1 (medium) and 3.80:1 (low) with
+   * white 18.9px 600-weight text. The approved variant keeps the traffic-light
+   * hues and darkens each fill to an opaque AA-safe value.
+   */
   .supplements-page .evidence-badge {
     border: 0;
     border-radius: 5px;
-    background: rgb(37 167 92 / 95%);
+    background: #177245;
     color: white;
     padding: 2px 8px;
     font: 600 18.9px/1.15 muscle2, Georgia, Cambria, 'Times New Roman', serif;
@@ -201,7 +221,7 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
   .supplements-page .evidence-badge:hover,
   .supplements-page .evidence-badge:focus-visible,
   .supplements-page .evidence-badge[aria-expanded='true'] {
-    background: rgb(37 167 92 / 95%);
+    background: #177245;
   }
 
   .supplement-category-note {
@@ -212,12 +232,13 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     margin-top: 0;
   }
 
+  /* AUD-07/A11Y-01: GitHub light-mode `--color-done-fg`, replacing `#A371F7`. */
   .supplement-category-note--important {
-    border-left-color: #a371f7;
+    border-left-color: #8250df;
   }
 
   .supplement-category-note--important strong {
-    color: #a371f7;
+    color: #8250df;
   }
 
   .supplements-page .supplement-detail h3 {
@@ -354,16 +375,17 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     padding: 0;
   }
 
+  /* #b02a1c is 6.57:1, #8a5a00 is 5.93:1, and #177245 is 5.95:1 with white text. */
   .supplements-page .evidence-badge[data-evidence-level='low'] {
-    background: rgb(231 77 60 / 85%);
+    background: #b02a1c;
   }
 
   .supplements-page .evidence-badge[data-evidence-level='medium'] {
-    background: rgb(245 178 59 / 95%);
+    background: #8a5a00;
   }
 
   .supplements-page .evidence-badge[data-evidence-level='high'] {
-    background: rgb(37 167 92 / 95%);
+    background: #177245;
   }
 
   .supplements-page .supplement-detail > ul > li {

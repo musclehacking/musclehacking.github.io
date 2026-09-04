@@ -307,6 +307,7 @@ h5 {
 .supplement-detail a:not(.anchorjs-link),
 [data-supplement-support] a,
 .sidebar-about a,
+.sidebar-recent li > a,
 .newsletter-prompt-note a,
 .project-callout a,
 .markdown-alert a,
@@ -316,11 +317,12 @@ h5 {
   color: inherit;
   text-decoration: none;
   box-shadow: inset 0 -2px 0 #206593;
-  transition: box-shadow 0.2s linear;
+  /* Legacy `.side-a` uses the unprefixed all-property `transition: .2s linear`. */
+  transition: 0.2s linear;
 }
 
-:is(.legacy-content, .home-note, .home-feature > p, .calculator-guide, .supplement-card > p, .supplement-detail, [data-supplement-support], .sidebar-about, .newsletter-prompt-note, .project-callout, .markdown-alert, .confirmation-page, .join-page, .not-found-page) a:not(.anchorjs-link):hover,
-:is(.legacy-content, .home-note, .home-feature > p, .calculator-guide, .supplement-card > p, .supplement-detail, [data-supplement-support], .sidebar-about, .newsletter-prompt-note, .project-callout, .markdown-alert, .confirmation-page, .join-page, .not-found-page) a:not(.anchorjs-link):focus-visible {
+:is(.legacy-content, .home-note, .home-feature > p, .calculator-guide, .supplement-card > p, .supplement-detail, [data-supplement-support], .sidebar-about, .sidebar-recent li, .newsletter-prompt-note, .project-callout, .markdown-alert, .confirmation-page, .join-page, .not-found-page) a:not(.anchorjs-link):hover,
+:is(.legacy-content, .home-note, .home-feature > p, .calculator-guide, .supplement-card > p, .supplement-detail, [data-supplement-support], .sidebar-about, .sidebar-recent li, .newsletter-prompt-note, .project-callout, .markdown-alert, .confirmation-page, .join-page, .not-found-page) a:not(.anchorjs-link):focus-visible {
   color: inherit;
   box-shadow: inset 0 -21px 0 #3f95d033;
 }
@@ -564,13 +566,17 @@ figcaption,
   margin-bottom: 0;
   padding-left: 6%;
   margin-left: -7%;
-  transition: border-color 50ms ease-in-out, color 50ms ease-in-out;
+  /* Legacy `.main` transitions only colour on the way out, so the border snaps back. */
+  transition-property: color;
+  transition-duration: 0.25s;
 }
 
+/* Legacy `.main:hover` replaces that with its 50ms ease-in-out shorthand. */
 .article-card:hover,
 .article-card:focus-visible {
   border-left-color: #1f618d;
   color: #1f618d;
+  transition: 50ms ease-in-out;
 }
 
 .feature-media {
@@ -629,11 +635,11 @@ figcaption,
   letter-spacing: -0.015em;
 }
 
+/* The legacy card paragraph carries no colour, so it follows `.main` into the hover blue. */
 .feature-excerpt {
   width: 700px;
   max-width: 100%;
   margin: 0;
-  color: rgb(0 0 0 / 84%);
 }
 
 .sidebar-recent h2 {
@@ -649,12 +655,6 @@ figcaption,
 .sidebar-recent li {
   margin: 0;
   text-indent: -1.38em;
-}
-
-.sidebar-recent a {
-  color: inherit;
-  text-decoration: none;
-  box-shadow: inset 0 -2px 0 #206593;
 }
 
 .project-callout,
@@ -727,24 +727,32 @@ figcaption,
   margin-top: 1.58em;
 }
 
+/*
+ * AUD-07/A11Y-01 human decision, 4 September 2026. The legacy tokens are GitHub's
+ * dark-mode markdown-alert palette (`--color-accent-fg: #2F81F7` at 3.75:1 and
+ * `--color-done-fg: #A371F7` at 3.35:1 on white), which fail AA for this 18.9px
+ * 600-weight title. The approved replacements are GitHub's light-mode values,
+ * `#0969DA` (5.19:1) and `#8250DF` (5.05:1). One token drives both the rule and
+ * the title, exactly as in the legacy CSS.
+ */
 .project-callout--note,
 .markdown-alert-note {
-  border-left-color: #2f81f7;
+  border-left-color: #0969da;
 }
 
 .project-callout--note .alert-title,
 .markdown-alert-note .alert-title {
-  color: #2f81f7;
+  color: #0969da;
 }
 
 .project-callout--important,
 .markdown-alert-important {
-  border-left-color: #a371f7;
+  border-left-color: #8250df;
 }
 
 .project-callout--important .alert-title,
 .markdown-alert-important .alert-title {
-  color: #a371f7;
+  color: #8250df;
 }
 
 .project-callout--warning,
@@ -1074,23 +1082,23 @@ figcaption,
   align-items: flex-start;
   margin: 0 0 10px;
   padding: 0 16px;
-  border-left: 4px solid #a371f7;
+  border-left: 4px solid #8250df;
 }
 
 .article-page .markdown-alert .alert-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #a371f7;
+  color: #8250df;
   font-weight: 600;
 }
 
 .article-page .markdown-alert-note {
-  border-left-color: #2f81f7;
+  border-left-color: #0969da;
 }
 
 .article-page .markdown-alert-note .alert-title {
-  color: #2f81f7;
+  color: #0969da;
 }
 
 .article-page .markdown-alert p {
@@ -1768,9 +1776,10 @@ figcaption,
   line-height: 35px;
 }
 
+/* Legacy `#g-resp > #parent-e-form { margin-top: 20px }` on the 500px column. */
 .join-page .newsletter-form {
   width: 500px;
-  margin: 22px 0 0;
+  margin: 20px 0 0;
 }
 
 .join-page .newsletter-fields button {
@@ -1778,8 +1787,14 @@ figcaption,
   font-weight: 400;
 }
 
+/*
+ * Legacy `.join-page #under-form-notice { font-size: 1.1em }` on the 18px `.sidebar-text`
+ * body, so the notice stays 19.8px/31.284px at every width, 10px below the column.
+ */
 .join-page .join-assurance {
-  margin-top: 8px;
+  margin-top: 10px;
+  font-size: 19.8px;
+  line-height: 31.284px;
 }
 
 /* Bootstrap 4 `.table` as loaded by the legacy pages, with the addon.css overrides. */
@@ -2286,26 +2301,31 @@ figcaption,
     margin-bottom: 5px;
   }
 
+  /* Legacy `.sidebar-text #parent-e-form { margin: 10px auto; width: 90%; max-width: 300px }`. */
   .join-page .newsletter-form {
-    width: 300px;
+    width: min(300px, 90%);
     margin-top: 20px;
-    margin-left: 80px;
+    margin-inline: auto;
   }
 
   .join-page > p {
     margin-top: 21px;
   }
 
+  /* Legacy `.sidebar-text #e-gresp { margin-bottom: 4px }` between the stacked controls. */
   .join-page .newsletter-fields {
-    row-gap: 6px;
+    row-gap: 4px;
   }
 
+  /* Legacy `#e-i-gresp`/`#b-i-gresp` keep their 10px/15px padding box and 5px radii. */
   .join-page .newsletter-form :is(input, button) {
-    height: 51px;
+    height: auto;
+    border-radius: 5px;
   }
 
+  /* Legacy stacks `#parent-e-form` (10px bottom) above `#g-resp > div` (10px top). */
   .join-page .join-assurance {
-    margin-top: 17px;
+    margin-top: 20px;
   }
 
   .home-title,
@@ -2745,12 +2765,15 @@ figcaption,
     font-size: 33px;
   }
 
-  /* Bottom, modal, and join forms scale with the 18px mobile body (`#parent-e-form { font-size: .9em }`). */
+  /*
+   * Bottom and modal forms scale with the 18px mobile body (`#parent-e-form { font-size: .9em }`).
+   * `/join/` is excluded because `.join-page #parent-e-form { font-size: 1.05em }` has no
+   * breakpoint, so the join column stays 18.9px at every width.
+   */
   .newsletter-form--article-bottom,
   .newsletter-form--longform-bottom,
   .newsletter-form--calculator-bottom,
-  .newsletter-form--modal,
-  .newsletter-form--join {
+  .newsletter-form--modal {
     font-size: 16.2px;
   }
 

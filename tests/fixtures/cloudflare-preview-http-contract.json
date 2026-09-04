@@ -86,7 +86,10 @@
     },
     {
       "name": "fingerprinted assets are immutable",
-      "path": "/_astro/BaseLayout.Df0DBGh3.css",
+      "pathFromBuild": {
+        "file": "../../dist/client/index.html",
+        "pattern": "/_astro/BaseLayout\\.[A-Za-z0-9_-]+\\.css"
+      },
       "expect": {
         "status": 200,
         "headers": {

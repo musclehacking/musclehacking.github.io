@@ -12,6 +12,10 @@
 > **IMPORTANT NOTE:** `documents/todo/astro_content_authoring_plan.md` is the completed prerequisite implementation record. The twelve article bodies and both long-form page bodies now use authored Markdown/MDX with one article layout, shared content components, collection defaults, and green local distribution and Playwright gates. Step 11 review and Step 12 hosted-preview parity must use this final article markup.
 </important_note>
 
+<important_note>
+> **IMPORTANT NOTE:** Section 5.12 records the independent 4 September 2026 state audit. Every documented gate reproduces on commit `41d7b28`, but the audit found seven open items (AUD-01 through AUD-07): a `/join/` mobile newsletter-form overflow, a `/join/` desktop rhythm gap, a visual harness whose stored mobile baselines do not match the audited legacy tree, non-reproducible Lighthouse claims, a stale hosted preview, documentation drift, and unlisted accessibility decisions. Resolve AUD-01 and AUD-02 before the next human side-by-side review; resolve AUD-03 through AUD-07 before Step 10, Step 12, or Step 13 can advance.
+</important_note>
+
 ## 1. Goal
 
 Replace the hand-authored GitHub Pages build with a current Astro site deployed through Cloudflare Workers Builds and Workers Static Assets. The agent owns discovery, implementation, content migration, interaction parity, testing, Cloudflare preview setup, documentation, and the cutover rehearsal. A human owns the final production cutover approval.
@@ -369,7 +373,7 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 #### 4.2 Reopened Shared-Shell Parity Work
 
-- Update `Header.astro` and its styles to keep the constrained container while showing the words `Muscle Hacking`, restoring the audited navigation-icon classes, per-icon dimensions and offsets, brand/nav spacing, social hit areas, and desktop/intermediate/mobile breakpoints.
+- Update `Header.astro` and its styles to keep the constrained container while rendering the real `/img/musclehacking.png` wordmark image beside the `/img/muscle-hacking.png` symbol (never text, per UI-06), restoring the audited navigation-icon classes, per-icon dimensions and offsets, brand/nav spacing, social hit areas, and desktop/intermediate/mobile breakpoints.
 - Replace Unicode note markers in `HomeListing.astro`, the calculator page, `SupplementExplorer.astro`, and the supplement page with one shared SVG callout title component. Audit the existing raw-content callouts so Note, Important, and Warning retain their distinct approved icons and colours. Fix the current flex/markup bug so the SVG and title word occupy one inline title row and share the production baseline instead of wrapping onto separate lines.
 - Give `NewsletterForm.astro` explicit placement variants. Record exact live geometry for sidebar, article/long-form/calculator bottom, floating prompt, exit modal, and join placements rather than allowing one fixed 120-pixel button to control all forms.
 - Restore the article and long-form H1-H5 type scale, line height, tracking, margins, fixed-header scroll offset, and anchor position from the legacy desktop and mobile CSS. Keep calculator-application headings and supplement headings as named variants instead of inheriting article defaults.
@@ -383,7 +387,7 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - No page loads Bootstrap, jQuery, Popper, Tippy, AnchorJS, or a remote font.
 - Every content image has stable dimensions, correct alternative text policy, and no visible layout shift from a missing intrinsic size.
 - Core content, links, navigation, and newsletter form remain available with JavaScript disabled.
-- The header shows the approved icon-plus-`Muscle Hacking` brand within the constrained container and matches the recorded per-icon and social hit-area matrix at 1440, 1000, 820, 560, 390, and 320 pixels.
+- The header shows the approved symbol-plus-wordmark-image brand (`/img/muscle-hacking.png` 52 by 50 and `/img/musclehacking.png` 416 by 30, not text) within the constrained container and matches the recorded per-icon and social hit-area matrix at 1440, 1000, 820, 560, 390, and 320 pixels.
 - Every Note callout uses the same audited 16-pixel information SVG and title geometry; Important and Warning callouts keep their own approved SVGs. At 1440, 820, 390, and 320 pixels, the visible SVG centre and title-text centre differ by no more than the production measurement, and the icon and title word never occupy separate lines.
 - Every newsletter placement passes its own desktop and mobile geometry fixture, and `Email Me` remains centred, single-line, and unclipped.
 - No route in the parity matrix contains `.site-footer`, footer navigation, footer copyright copy, or footer-reserved spacing.
@@ -912,7 +916,7 @@ This checkpoint may return to completed only after all of the following are true
 
 ### 5.10 Fourth-Review Correction and Parity Fix Pass - 2 September 2026 ✅ **LOCAL FIXES COMPLETE, HUMAN REVIEW PENDING**
 
-This pass compared the retained legacy sources (`js/anchor.js`, `css/pretty-tippy.css`, `css/addon.css`, `blog/*.html`, `supplements/index.html`, `calorie-calculator/index.html`, the CDN AnchorJS 5 inline styles and the tippy.js 6.3.7 runtime served by the local legacy copy at `http://127.0.0.1:4173`) line by line and state by state against the Astro implementation served by Wrangler at `http://127.0.0.1:8787`. Every production value below was measured in a real browser on the legacy page before the fix and re-measured on the Astro page after it. `src/styles/legacy-addon.css`, which earlier sections cite as the retained reference, is an empty file; the authoritative retained CSS is `css/addon.css` and `css/pretty-tippy.css`.
+This pass compared the retained legacy sources (`js/anchor.js`, `css/pretty-tippy.css`, `css/addon.css`, `blog/*.html`, `supplements/index.html`, `calorie-calculator/index.html`, the CDN AnchorJS 5 inline styles and the tippy.js 6.3.7 runtime served by the local legacy copy at `http://127.0.0.1:4173`) line by line and state by state against the Astro implementation served by Wrangler at `http://127.0.0.1:8787`. Every production value below was measured in a real browser on the legacy page before the fix and re-measured on the Astro page after it. `src/styles/legacy-addon.css`, which earlier sections cite as the retained reference, is a 50,588-byte single-line minified copy of the legacy CSS that nothing imports; it is reference material only. The authoritative retained CSS for comparison is `css/addon.css` and `css/pretty-tippy.css`.
 
 #### 5.10.1 Root causes and fixes for the seven open items
 
@@ -1004,6 +1008,188 @@ The human reviewed the local Worker again and reported six defects. Every item w
 #### 5.11.5 Boundary
 
 No Worker upload, production promotion, domain, DNS record, repository setting, newsletter destination, or production data changed. Steps 4, 5, 6, 7, and 10 remain in progress until the human accepts this local pass and the hosted preview re-runs the matrix.
+
+### 5.12 Independent Migration State Audit - 4 September 2026 ✅ **ALL SEVEN ITEMS CLOSED IN SECTION 5.13**
+
+This audit checked whether the documented state in this plan and in `documents/todo/astro_content_authoring_plan.md` matches the actual repository, the local Worker build, the isolated hosted preview, and production. It ran on branch `codex/astro-cloudflare-migration` at commit `41d7b28` with a clean working tree, Node `22.23.2`, and pnpm `11.24.0`. The audited legacy tree was served from the repository root at `http://127.0.0.1:4173` and the Worker build at `http://127.0.0.1:8787`. Raw evidence (screenshots, measurement scripts, and Lighthouse JSON) is outside Git at `/Users/sacino/Documents/codex/web-development/musclehacking/reports/musclehacking/20260904-migration-audit/`.
+
+#### 5.12.1 Documented state that reproduces
+
+| Claim | Result on commit `41d7b28` |
+| --- | --- |
+| `pnpm check` | 116 files, 0 errors, 0 warnings, 5 deprecation hints (matches Section 5.11.4 and the authoring plan) |
+| `pnpm test` | 97 tests passed in 16 files (matches the authoring plan) |
+| `pnpm build` and `pnpm verify:dist` | Pass; the summary line reads exactly `Verified 21 HTML files, 20 public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.` |
+| `scripts/run-e2e-local.sh --workers=3` | 258 passed, 22 intentional project skips, 0 failed; the wrapper released port 8787 and its lock |
+| `pnpm test:agent-a11y` | 6 passed |
+| `node scripts/migrate-calculator-guide.mjs --check` | `calculator-guide.html is current` |
+| `node scripts/content-authoring-parity.mjs` | All 28 article and long-form document heights within 1 px at 1440 px and 2 px at 390 px |
+| Full 20-route document heights (both viewports) | 38 of 40 within tolerance; the two exceptions are `/supplements/` at -4 px (1440 px) and -46 px (390 px), exactly as Section 5.11.4 records; every candidate route has zero horizontal overflow except `/join/` below 400 px (AUD-01) |
+| Built discovery output | Sitemap lists the 18 indexable routes; feed links resolve to real article URLs; `robots.txt` keeps the two archive-bot exclusions; `llms.txt` links only canonical HTML; no built file contains a footer, a Unicode `ⓘ`, `UA-120945323-1`, a `workers.dev` host, or `[object Object]` outside the React runtime string that `verify-dist` deliberately allows |
+| Built metadata | `/blog/` self-canonical, `/join/` and `/one-last-step/` `noindex, follow` with self-canonicals, `/blog/calorie-calculator-how-to` self-canonical, `<html lang="en">`, no JSON-LD emitted (pending Step 11 identity decision) |
+| Header, callouts, footer, back-to-top | `Header.astro` renders the 52 by 50 symbol and 416 by 30 wordmark image; `Footer.astro` is not imported anywhere; `BackToTop.astro` renders only on `/calorie-calculator/` and `/supplements/` |
+| Production | `https://www.musclehacking.com/` still serves GitHub Pages (`Server: GitHub.com`, no CSP), the apex still returns one `301` to `www`, public DNS still shows Cloudflare nameservers, the four GitHub Pages A records, and the `www` CNAME to `musclehacking.github.io`; the live feed still contains `[object Object]` and the live home page still loads `UA-120945323-1` |
+| Isolated hosted preview | `wrangler versions list` for `musclehacking-astro-preview` shows the newest version is still `88b47e15-e6fb-408a-8379-1b7997f67645` (1 September 02:07 UTC) and `e9e4425e-eb64-493f-a05e-dfbf99a5a388` remains the tagged legacy rollback; both preview hosts return `200` |
+
+#### 5.12.2 Open items found by the audit
+
+| ID | Surface and evidence | Verified defect or drift | Owner |
+| --- | --- | --- | --- |
+| AUD-01 | `/join/` newsletter form at 320-399 px, evidence `join-390-*.png`, `join-320-*.png`, and `join-overflow.mjs` | The Astro form is 300 px wide at `x=100` at every width below 560 px, so `document.documentElement.scrollWidth` is 400 px: 10 px of horizontal overflow at 390 px, 25 px at 375 px, 80 px at 320 px. Legacy has zero overflow at every width. Legacy at 390 px centres `#parent-e-form` at `x=45`, 300 by 107.7 px, with 18.9 px controls that are 51.9 px tall, 5 px radii, and a 19.8 px / 31.284 px `#under-form-notice` with a 10 px top margin; at 320 px the legacy control column is 252 px wide at `x=34`. Astro renders 16.2 px controls forced to 51 px with 4 px radii and an 18 px / 35 px assurance line with a 17 px top margin. | `src/styles/global.css` (`.join-page .newsletter-form { width: 300px; margin-left: 80px }` and the forced 51 px height inside the 560 px block; `.newsletter-form--join { font-size: 16.2px }` inside the 767 px block; the placement rule `.newsletter-form--join { width: min(300px, 85vw); margin-inline: auto }` loses to the higher-specificity `.join-page .newsletter-form` rule) |
+| AUD-02 | `/join/` at 1440 px, evidence `join-1440-*.png` and `join-inner.mjs` | The Astro form starts at `y=485.8` (22 px top margin) where legacy `#parent-e-form` starts at `y=483.8` (20 px inside `#g-resp`), and the Astro assurance paragraph is 21 px / 35 px with an 8 px top margin where legacy `#under-form-notice` is 19.8 px / 31.284 px with a 10 px top margin. The page container is therefore 490.7 px tall instead of 487.0 px. The document-height gate cannot see this because the page is shorter than the 1000 px viewport. | `src/styles/global.css` (`.join-page .newsletter-form { margin: 22px 0 0 }`, `.join-page .join-assurance { margin-top: 8px }`, missing `1.1em` assurance scale) |
+| AUD-03 | `pnpm test:visual`, evidence `mobile-diff.mjs` and `mobile-*-{legacy,astro}.png` | The harness now reports 18 of 46 captures above the 2 percent threshold (home, blog, books, join, guide, confirmation, and all twelve articles at 390 px). `documents/testing/README.md` and `documents/migration/human-review-packet.md` still say 4, and Section 5.7 says 17. The stored mobile baselines differ from the audited legacy tree itself by 8.65 percent (join) to 46.66 percent (home and blog) when captured with the harness method, while fresh same-method legacy-versus-Astro captures differ by 0.47 to 1.19 percent on home, blog, books, guide, and the sampled articles, 2.64 percent on the confirmation page (animated GIF frame only; every block rectangle matches), and 6.97 percent on join (AUD-01). The harness therefore cannot act as the coarse regression signal that Step 10.2 requires. | `scripts/visual-parity.mjs` and the baseline directory `/Users/sacino/Documents/codex/web-development/musclehacking/legacy-baseline-9bf25d0/screenshots/mobile/` |
+| AUD-04 | REQ-13 Lighthouse, evidence `lighthouse-astro-current/*.json` and `lighthouse-legacy-9bf25d0/*.json` | The documented mobile scores (home `99/100/96/100`, LCP 1.26-1.94 s) come from a 30 August build and do not reproduce. Lighthouse 13.4.1 mobile on the current Worker build, run in isolation, reports home `74/96/96/100` with LCP 14.4 s and CLS 0.052, article `/blog/breakup-energy` `78/100/96/100` with LCP 5.9 s, calculator `100/96/96/100` with LCP 1.4 s, and supplements `100/96/96/100` with LCP 1.5 s. The same tool on the legacy tree reports home Performance 93 with LCP 3.0 s and article Performance 76 with LCP 6.7 s. The home LCP element is the first card image `/img/breakup-energy.png` (519,228 bytes); the Astro home also fetches `/img/lose-fat-gain-mucle-beginner.png` (738,688 bytes) at High priority because the second card sits inside the 844 px mobile viewport despite `loading="lazy"`. The article LCP element is the 1536 by 922 hero PNG rendered at 372 px wide. Best Practices 96 is the pre-existing `image-size-responsive` audit. | Home listing and hero images (`src/components/HomeListing.astro`, `src/components/article/ArticleHeader.astro`, `public/img/`); the authoring plan deliberately kept the `/img/` URLs, so this is a decision item |
+| AUD-05 | Isolated hosted preview and `tests/fixtures/cloudflare-preview-http-contract.json` | The hosted preview still serves version `88b47e15`, whose home page contains `site-footer` and none of the AnchorJS, project-tip, or content-authoring markup; it predates every fix in Sections 5.5 through 5.11 and the authoring plan. The hosted contract fixture also pins `/_astro/BaseLayout.Df0DBGh3.css`, while the current build emits `/_astro/BaseLayout.CG-OJOUx.css`, so the fixture will fail against any new upload until updated. | Step 12 upload and `tests/fixtures/cloudflare-preview-http-contract.json` |
+| AUD-06 | Project documentation | (a) `documents/testing/README.md` instructs a pre-started `wrangler dev` while `documents/testing/local-runtime-lifecycle.md` prohibits it and requires `scripts/run-e2e-local.sh`; `README.md` and `AGENTS.md` do not mention the wrapper. (b) `documents/testing/README.md` still quotes 248 cases, 226 passes, 11 UI cases, and 4 failing mobile captures; `documents/migration/human-review-packet.md` and `documents/migration/cloudflare-cutover-runbook.md` still quote the 31 August evidence (74 files, 51 unit tests, 158 or 180 browser tests, 44 passing captures, 0 hints). (c) Section 5.10 states that `src/styles/legacy-addon.css` is an empty file; it is a 50,588-byte single-line minified copy of the legacy CSS that nothing imports. (d) Until this audit, Step 4.2, the Step 4 success criteria, Section 8.2, and Section 8.3 still described a text `Muscle Hacking` brand that UI-06 rejected; those four sentences are now corrected. (e) `src/components/Footer.astro` remains in the tree although Step 4.2 requires the footer's removal and nothing imports it. | `documents/testing/README.md`, `documents/migration/human-review-packet.md`, `documents/migration/cloudflare-cutover-runbook.md`, `README.md`, `AGENTS.md`, `src/components/Footer.astro`, this plan |
+| AUD-07 | Accessibility decisions, evidence Lighthouse `accessibility` audits and `tests/a11y/site.spec.ts` | Lighthouse reports `color-contrast` on the legacy `#2F81F7` `.alert-title` (home, calculator, supplements), on the white-on-`#4c88af` supplement filter buttons (20 nodes on supplements), and `heading-order` on the calculator results `h3`. The axe suite passes only because it carries selector-limited exceptions for the callout title and the supplement filter palette. Sections 5.7 and 5.10.4 record these as human decision items, but `documents/migration/human-review-packet.md` does not list them, so the human cannot decide them from the packet alone. | `documents/migration/human-review-packet.md` |
+
+#### 5.12.3 Next steps and verification per item
+
+**AUD-01 `/join/` mobile form**
+
+1. In `src/styles/global.css`, replace the `.join-page .newsletter-form` overrides inside the `@media (max-width: 560px)` block so the join placement reproduces the legacy `#g-resp` and `#parent-e-form` contract: a centred control column of `min(300px, 90%)` (the legacy `.sidebar-text #parent-e-form { width: 90% }` rule below 950 px, which measures 252 px at 320 px), no fixed left margin, padding-driven control height at 18.9 px, 5 px radii, and stacked full-width input and button. Remove the 767 px `.newsletter-form--join { font-size: 16.2px }` override because legacy keeps `.join-page #parent-e-form { font-size: 1.05em }` at every width. Give `.join-assurance` the legacy 1.1em scale (19.8 px on the 18 px mobile body) and 10 px top margin.
+2. Add a production-derived regression to `tests/e2e/ui-parity.spec.ts` or `tests/e2e/fifth-review-parity.spec.ts` that loads `/join/` at 390, 375, 320, and 414 px and asserts `scrollWidth === clientWidth`, the control column box (`x=45`, width 300 at 390 px; `x=34`, width 252 at 320 px; `x=57`, width 300 at 414 px), 18.9 px control type, 51.9 px control height, 5 px radii, and the 19.8 px assurance line. Confirm the test fails on the current build before the fix.
+3. Verification: the new test passes on both Playwright projects; `pnpm test:e2e` stays at 0 failures; `join-overflow.mjs` reports `overflow=0` at 320, 375, and 390 px; fresh same-method 390 px captures of legacy and Astro differ by no more than 2 percent; `/join/` document height still matches legacy at both viewports.
+
+**AUD-02 `/join/` desktop rhythm**
+
+1. Change `.join-page .newsletter-form` to a 20 px top margin and `.join-page .join-assurance` to the legacy 1.1em scale with a 10 px top margin so the container height returns to 487.0 px at 1440 px.
+2. Extend the AUD-01 regression with the 1440 px case: form top `y=483.8`, assurance top `y=545.7`, assurance height 31.3 px, and `main.join-page` height 487 px.
+3. Verification: block-by-block comparison of `/join/` at 1440 px shows every rectangle within 1 px; the desktop visual capture stays within 2 percent.
+
+**AUD-03 visual harness baselines**
+
+1. Decide, as a human decision recorded in `documents/migration/human-review-packet.md`, that the mobile baselines may be regenerated from the audited tree at commit `9bf25d0` served locally (`python3 -m http.server 4173`) using the harness's own settle-and-capture path, because the retained production captures are provably not the legacy layout. Do not change masks, thresholds, or the two approved Show All exceptions.
+2. Add a `VISUAL_CAPTURE_BASELINE=1` mode (or a sibling script) to `scripts/visual-parity.mjs` that writes baselines from `http://127.0.0.1:4173` with the same viewport, GIF-frame pinning, and settle logic, then regenerate the 23 mobile baselines and record the legacy commit, tool, and date beside them.
+3. Verification: `pnpm test:visual` reports every mobile capture as PASS or APPROVED except `join` until AUD-01 lands; after AUD-01, all 46 captures pass or use an existing approval; `documents/testing/README.md`, `documents/migration/human-review-packet.md`, and Section 5.7 quote the new counts.
+
+**AUD-04 Lighthouse and REQ-13**
+
+1. Re-measure the four representative routes on the hosted preview after AUD-05 so that a real network replaces the local-origin simulation, and store the JSON beside the 30 August files.
+2. If home or article still misses REQ-13, choose one of: (a) serve responsive AVIF/WebP variants of the home card images and article heroes through the Astro image pipeline while keeping the `/img/` URLs for `og:image` and the legacy links, and keep the second home card at `fetchpriority="low"`; or (b) record a human-approved REQ-13 exception in the cutover packet with the measured cause (519-738 KB PNG assets rendered at 350-372 px) and impact. Option (a) changes emitted markup and must re-run the height, visual, and `verify:dist` gates.
+3. Verification: Lighthouse 13.x mobile on the hosted preview reports Performance at or above 95 and LCP at or below 2.5 s on `/`, `/blog/breakup-energy`, `/calorie-calculator/`, and `/supplements/`, or the cutover packet carries the approved exception; `documents/testing/README.md` and the packet cite the new run.
+
+**AUD-05 hosted preview and contract fixture**
+
+1. After AUD-01 and AUD-02 are fixed locally and the human accepts the refreshed local packet, run `pnpm build` and upload the candidate to the isolated review Worker `musclehacking-astro-preview` in account `213ab3604485056376263d22fa242742` without touching any production resource, then record the new version ID here, in `documents/migration/cloudflare-builds.md`, and in the cutover runbook.
+2. Make the hosted contract read the current fingerprinted stylesheet name from `dist/client/index.html` instead of a hard-coded `/_astro/BaseLayout.*.css` path, or update the fixture in the same change as the upload.
+3. Verification: all 13 hosted contract cases pass against the new version; the hosted home page contains no `site-footer`; the UI-01 through UI-13 matrix and the Section 5.8 to 5.11 regressions pass against the hosted origin; the legacy rollback version still responds `200`.
+
+**AUD-06 documentation drift**
+
+1. Rewrite the E2E instructions in `documents/testing/README.md` to require `scripts/run-e2e-local.sh`, and add the wrapper to `README.md` and root `AGENTS.md`; keep `documents/testing/local-runtime-lifecycle.md` as the owner of the lifecycle rules.
+2. Replace the 31 August and 1 September counts in `documents/testing/README.md`, `documents/migration/human-review-packet.md`, and `documents/migration/cloudflare-cutover-runbook.md` with the current gate results from Section 5.12.1, and note that the hosted preview evidence is stale until AUD-05.
+3. Correct the Section 5.10 statement about `src/styles/legacy-addon.css`: it is the retained minified legacy CSS, not an empty file, and it is reference material only. Move `src/components/Footer.astro` to Trash and confirm no import or test references it.
+4. Verification: `grep -rn "pre-started\|158 \|180 \|51 unit\|74 source\|4 mobile" documents README.md` returns only historical checkpoint sections of this plan; `git ls-files src/components/Footer.astro` returns nothing; `pnpm check`, `pnpm build`, and `pnpm verify:dist` still pass.
+
+**AUD-07 accessibility decisions**
+
+1. Add three explicit decision rows to `documents/migration/human-review-packet.md`: keep the legacy `#2F81F7` callout title colour (3.74:1) or approve a darker Note blue; keep the legacy white-on-`#4c88af` and `#1f618d` supplement filter palette or approve an AA-safe variant; keep the calculator results `h3` heading order as legacy or approve a semantic correction.
+2. Verification: each row names the affected selectors, the measured contrast ratio, the legacy source rule, and the regression that would change if the human approves a new colour; `tests/a11y/site.spec.ts` exceptions match the approved decisions exactly.
+
+#### 5.12.4 Unchanged blockers
+
+The following remain exactly as previous checkpoints recorded them and were not re-tested beyond read-only observation: the newsletter provider contract and secrets, access to the Cloudflare account that holds the `musclehacking.com` zone, Workers Builds Git integration, the production apex redirect rule, the authoritative DNS snapshot, and the human identity, legal, contact, analytics, canonical, and crawler decisions in `documents/migration/human-review-packet.md`.
+
+#### 5.12.5 Boundary
+
+This audit performed only read-only checks against production, public DNS, and the isolated review Worker (`wrangler whoami`, `wrangler versions list`, and `wrangler deployments list`). No Worker upload, version promotion, custom-domain binding, DNS record, repository setting, newsletter destination, secret, or production data changed. The only repository edits are to this document.
+
+
+### 5.13 Audit Closure Pass AUD-01 to AUD-07 - 4 September 2026 ✅ **ALL SEVEN ITEMS CLOSED, HUMAN SIDE-BY-SIDE ACCEPTANCE PENDING**
+
+This pass executed Section 5.12.3 end to end on branch `codex/astro-cloudflare-migration` with Node `22.23.2` and pnpm `11.24.0`. The audited legacy tree was served from the repository root at `http://127.0.0.1:4173` with `python3 -m http.server 4173`. Every fix carries a production-derived regression that was confirmed failing before the change and passing after it. Four items required human decisions; all four were put to the human and answered on 4 September 2026, and each answer is recorded in `documents/migration/human-review-packet.md`.
+
+#### 5.13.1 Item outcomes
+
+| ID | Outcome | Change | Regression proving it |
+| --- | --- | --- | --- |
+| AUD-01 | **Closed.** `/join/` has zero horizontal overflow at 1440, 414, 390, 375, and 320 px, and every measured box matches legacy. | `src/styles/global.css`: inside `@media (max-width: 560px)`, `.join-page .newsletter-form` became `width: min(300px, 90%); margin-inline: auto` (was `width: 300px; margin-left: 80px`); the forced `height: 51px` became `height: auto` with `border-radius: 5px`; `.join-page .newsletter-fields` row gap 6px became 4px; `.join-assurance` top margin 17px became 20px. `.newsletter-form--join` was removed from the `@media (max-width: 767px)` `font-size: 16.2px` list, because `.join-page #parent-e-form { font-size: 1.05em }` has no legacy breakpoint. | `tests/e2e/ui-parity.spec.ts` `AUD-01 and AUD-02 reproduce the legacy /join/ form box at every audited width`, in both Playwright projects. |
+| AUD-02 | **Closed.** `main.join-page` is 487.0 px tall at 1440 px, matching the legacy container. | `src/styles/global.css`: `.join-page .newsletter-form` top margin 22px became 20px (legacy `#g-resp > #parent-e-form`); `.join-page .join-assurance` became `margin-top: 10px; font-size: 19.8px; line-height: 31.284px` (legacy `.join-page #under-form-notice { font-size: 1.1em }` on the 18px `.sidebar-text` body, which holds at every width). | Same case as AUD-01, which asserts form top `y=483.8`, assurance top `y=545.7`, assurance height 31.3 px, and `main.join-page` height 487 px. |
+| AUD-03 | **Closed under human decision VIS-01.** All 46 visual captures now pass or use an existing approval. | `scripts/visual-parity.mjs` gained a `VISUAL_CAPTURE_BASELINE=1` mode that records baselines from the legacy origin using the same viewport, GIF-frame pinning, settle loop, and double-screenshot raster flush as the comparison path, plus a legacy route map and legacy `prepare` hooks. The 23 mobile baselines were regenerated from commit `9bf25d0`; `PROVENANCE.json` beside them records commit, origin, tool version, viewport, date, and every source URL. Masks, thresholds, and the two approved Show All exceptions were unchanged, and desktop baselines were untouched. | `pnpm test:visual` moved from 18 failures to 0. Mobile evaluated mismatches fell from 8.65-46.66 percent to 0.09-0.97 percent. |
+| AUD-04 | **Closed under human decision PERF-01,** a recorded REQ-13 exception. | No markup change. `fetchpriority="low"` on the home cards after the first was tested on hosted version `6b3f62ea`, moved LCP by 0.0 s, and was reverted. | Lighthouse 13.4.1 mobile against hosted version `fc27fbf7`: home `90/100/96/100` LCP 3.7 s CLS 0.052, article `90/100/96/100` LCP 3.6 s CLS 0, calculator `100/99/96/100` LCP 1.1 s, supplements `100/100/96/100` LCP 1.2 s. |
+| AUD-05 | **Closed.** The isolated review Worker serves the current candidate and passes all 13 hosted contract cases. | `tests/fixtures/cloudflare-preview-http-contract.json` now derives the fingerprinted asset path from `dist/client/index.html` through `pathFromBuild` instead of a hard-coded hash. New `scripts/hosted-contract.mjs` runs the fixture against any origin and never writes to Cloudflare. `playwright.config.ts` accepts `MUSCLEHACKING_BASE_URL`, which also suppresses the local `webServer`. Version `fc27fbf7-b28e-46ba-9342-2f731fc3e641` was uploaded and, with explicit human approval, deployed at 100 percent. | 13 of 13 hosted contract cases pass; the hosted home page contains no `site-footer` across five routes; the hosted E2E run passes every UI-01 to UI-13, Section 5.8 to 5.11, and AUD case; the legacy rollback version still returns `200`. |
+| AUD-06 | **Closed.** | `documents/testing/README.md` rewritten around `scripts/run-e2e-local.sh`; the wrapper added to `README.md` and root `AGENTS.md`; `documents/todo/astro_content_authoring_plan.md` no longer instructs a pre-started `wrangler dev`; the 31 August and 1 September counts in the testing README, the review packet, and the cutover runbook replaced with current results; the Section 5.10 claim that `src/styles/legacy-addon.css` is empty corrected to the retained 50,588-byte minified reference copy; `src/components/Footer.astro` moved to Trash and its deletion staged. | `git ls-files src/components/Footer.astro` returns nothing. `grep -rn "pre-started\|158 \|180 \|51 unit\|74 source\|4 mobile" documents README.md` leaves only the historical checkpoint sections of this plan, two dated 1 September bug-sweep XML records under `documents/todo/bugs/`, and unrelated numeric coincidences in `documents/architecture/calculator.md` (`180 cm`) and `documents/migration/legacy-baseline.md` (`844 mobile`). |
+| AUD-07 | **Closed under human decisions A11Y-01, A11Y-02, and A11Y-03.** `tests/a11y/site.spec.ts` now carries no `color-contrast` exception at all. | Callout titles and rules `#2F81F7` -> `#0969DA` (3.75:1 -> 5.19:1) and `#A371F7` -> `#8250DF` (3.35:1 -> 5.05:1). Supplement filters `#4c88af` -> `#3d7295` (3.85:1 -> 5.20:1) and hover `#397197` -> `#356886` (6.04:1); the information filter inverted from white on `#6fa4c9` (2.68:1) to `#14496B` on `#DCEAF4` (7.80:1); evidence badges darkened to `#177245`, `#8A5A00`, and `#B02A1C` (1.86-3.80:1 -> 5.93-6.57:1). The active filter `#1f618d` is unchanged. The calculator `heading-order` skip was deliberately kept, because the audited legacy tree renders the identical `h1` then `h3` sequence from `js/one.js`. | `tests/e2e/ui-parity.spec.ts` `AUD-07 applies the approved AA-safe callout and supplement control palette` asserts every approved value and computes each contrast ratio. `pnpm test:agent-a11y` passes with the exception list removed, and Lighthouse reports no `color-contrast` node on any audited route. |
+
+#### 5.13.2 Additional defects found and fixed in the same pass
+
+1. `scripts/run-e2e-local.sh` reported `Cleanup incomplete: TERM failed for task-owned descendant PID …` and retained its lock whenever a short-lived descendant exited between the liveness check and the `kill`. A green suite therefore exited non-zero and blocked the next run. Cleanup now treats a failed `kill` as success only when the owned PID is verifiably gone, which preserves the ownership contract and removes the race.
+2. Three stale palette assertions survived the AUD-07 change and were found by the hosted run: the filter-state matrix and the information-filter fill in `tests/e2e/calculator-supplement-comprehensive.spec.ts`, and the Important callout title in `tests/e2e/rejected-visual-parity-regressions.spec.ts`. All three now assert the approved values.
+
+#### 5.13.3 Gate results
+
+Every command below was run on the final tree.
+
+| Gate | Result |
+| --- | --- |
+| `pnpm check` | 115 files, 0 errors, 0 warnings, 5 deprecation hints |
+| `pnpm test` | 97 tests passed in 16 files |
+| `pnpm build` | Pass |
+| `pnpm verify:dist` | Pass, with the summary line `Verified 21 HTML files, 20 public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.` |
+| `scripts/run-e2e-local.sh --workers=3` | 284 cases: 262 passed, 22 intentional single-project skips, 0 failed. Exit code 0, and the wrapper released port 8787 and its lock with no retained runtime evidence. |
+| `pnpm test:agent-a11y` | 6 passed, with no `color-contrast` exception remaining in the suite |
+| `pnpm test:visual` | 44 PASS, 2 APPROVED, 0 FAIL. Highest unapproved evaluated mismatch 1.20 percent (desktop calculator LeanGains); every mobile capture between 0.09 and 0.97 percent. Served from the route-shaped `dist/client` build rather than a pre-started `wrangler dev`; the same build is hosted version `fc27fbf7`, whose byte-exact home HTML the hosted contract verifies. |
+| Full 20-route document heights, 1440 px and 390 px | 38 of 40 within tolerance. The two exceptions remain `/supplements/` at -4 px and -46 px, unchanged from Section 5.11.4. Every route has zero horizontal overflow at 1440, 414, 390, 375, and 320 px. |
+| Hosted contract, `node scripts/hosted-contract.mjs` | 13 of 13 against `https://musclehacking-astro-preview.webpop.workers.dev` version `fc27fbf7` |
+| Hosted E2E, `MUSCLEHACKING_BASE_URL=…` | 252 passed, 22 skipped, 10 failures that are local-preview contracts by construction (four newsletter specs hardcoding `origin: http://127.0.0.1:8787`, one raw socket to `127.0.0.1:8787`, and `tests/e2e/routes.spec.ts:176`, whose name states it asserts local-preview behaviour) |
+| Lighthouse 13.4.1 mobile, hosted `fc27fbf7` | home `90/100/96/100` LCP 3.7 s, article `90/100/96/100` LCP 3.6 s, calculator `100/99/96/100` LCP 1.1 s, supplements `100/100/96/100` LCP 1.2 s. REQ-13 median thresholds met; LCP clause carries the approved PERF-01 exception. |
+
+#### 5.13.4 Human decisions taken in this pass
+
+| ID | Question put to the human | Answer |
+| --- | --- | --- |
+| VIS-01 | Regenerate the 23 mobile visual baselines from the audited legacy tree at commit `9bf25d0`? | Approved, after the human asked for and received the three-way comparison evidence showing the stored baselines disagree with the legacy tree by as much as they disagree with the candidate. |
+| A11Y-01 | Keep the legacy `#2F81F7` Note callout title, or approve a darker blue? | Approved GitHub's light-mode palette for both Note (`#0969DA`) and Important (`#8250DF`). |
+| A11Y-02 | Keep the legacy white-on-`#4c88af` supplement filter palette, or approve an AA-safe variant? | Approved darkening the default and hover fills and inverting the information filter to dark text. When the 8 evidence badges were found to fail worse and to sit under the same axe exception, the human separately approved darkening those fills while keeping white text. |
+| A11Y-03 | Keep the calculator results `h3` heading order, or approve a semantic correction? | Keep the legacy heading order. |
+| PERF-01 | Close the REQ-13 LCP gap with responsive AVIF/WebP variants, or record an exception? | Record the exception, with the measured cause and the rejected alternative documented in the cutover packet. |
+| AUD-05 deployment | Deploy uploaded version `fc27fbf7` on the isolated review Worker, or leave `88b47e15` serving? | Deploy `fc27fbf7` at 100 percent on the isolated review Worker only. |
+
+#### 5.13.5 Boundary
+
+Writes in this pass were limited to the repository, the non-Git evidence directories, and the isolated review Worker `musclehacking-astro-preview` in account `213ab3604485056376263d22fa242742`. No DNS record, custom domain, production Worker version, repository visibility setting, GitHub Pages source, newsletter destination, provider secret, or production data changed. Production and public DNS were read only. The superseded review version `88b47e15-e6fb-408a-8379-1b7997f67645` and the tagged legacy rollback `e9e4425e-eb64-493f-a05e-dfbf99a5a388` both remain available. The superseded mobile baselines are retained outside Git at `reports/musclehacking/20260904-migration-audit/superseded-mobile-baselines/`. No commit was created; `src/components/Footer.astro` is staged as a deletion so `git ls-files` reflects its removal.
+
+
+### 5.14 Sixth Human Review - Home Hover States - 4 September 2026 ✅ **LOCAL FIXES COMPLETE AND HOSTED, HUMAN REVIEW PENDING**
+
+The human reviewed hosted version `fc27fbf7` and reported two defects on `/`: the card excerpt below each post did not turn blue on hover, and the sidebar Recent Posts links had the wrong hover effect while the sidebar prose links (`calorie and macro calculator`, the email address) were correct. Both reproduced against the audited legacy tree served at `http://127.0.0.1:4173`.
+
+#### 5.14.1 Reported defects, root causes, and fixes
+
+| Defect | Root cause | Fix |
+| --- | --- | --- |
+| The home card excerpt stayed `rgba(0, 0, 0, 0.84)` on hover instead of turning legacy `#1f618d` with the rest of the card | `.feature-excerpt` set `color: rgb(0 0 0 / 84%)` on the paragraph. That is the same value the paragraph inherits at rest, so the rest state looked correct, but the explicit declaration blocked the `.article-card:hover { color: #1f618d }` inheritance. The legacy card paragraph carries no colour of its own. | Removed the `color` declaration from `.feature-excerpt` in `src/styles/global.css`. |
+| The card hover and release timing did not match legacy | `.article-card` used `transition: border-color 50ms ease-in-out, color 50ms ease-in-out` in both directions. Legacy `.main` sets `transition-property: color; transition-duration: .25s` at rest (so the left border snaps back rather than fading), and `.main:hover` replaces it with a `-webkit-transition: 50ms` shorthand that Chromium resolves to `all 0.05s ease-in-out`. | `.article-card` now uses `transition-property: color; transition-duration: 0.25s`, and `.article-card:hover, .article-card:focus-visible` adds `transition: 50ms ease-in-out`. |
+| Sidebar Recent Posts links had no hover effect at all | `.sidebar-recent a` was a standalone rule carrying only the rest state `box-shadow: inset 0 -2px 0 #206593`, with no `:hover` partner and no transition. The shared prose-link rule and its hover partner never included the recent-posts list. In legacy these links are `.side-a`, which shares exactly the prose-link treatment: `inset 0 -2px 0 0 #206593` at rest and `inset 0 -21px 0 0 #3f95d033` on hover over `transition: .2s linear`. | Deleted the standalone rule and added `.sidebar-recent li > a` to the shared prose-link rest selector and `.sidebar-recent li` to the shared `:hover` and `:focus-visible` scopes. |
+| The shared prose-link transition was narrower than legacy | The shared rule used `transition: box-shadow 0.2s linear`; legacy `.side-a` and `p > a` use the all-property `transition: .2s linear`. | Shared rule changed to `transition: 0.2s linear`. |
+
+#### 5.14.2 Why the existing gates missed this
+
+`tests/e2e/ui-parity.spec.ts` UI-10 hovered every home card but asserted only `border-left-color`, never the card or excerpt text colour, and nothing anywhere asserted a sidebar Recent Posts hover state. The page-wide visual harness captures only the rest state, so no hover regression can reach it.
+
+#### 5.14.3 Regression
+
+`tests/e2e/ui-parity.spec.ts` `home card text and sidebar recent links reproduce the legacy hover states` runs in both Playwright projects and pins, against legacy-measured values: card rest `color: rgba(0, 0, 0, 0.84)`, `border-left-color: rgb(255, 255, 255)`, `transition-property: color`, `0.25s`, `ease`; card hover `color` and `border-left-color: rgb(31, 97, 141)`, `transition-property: all`, `0.05s`, `ease-in-out`; excerpt colour following the card into and back out of hover; Recent Posts link rest `rgb(32, 101, 147) 0px -2px 0px 0px inset` with `all 0.2s linear` and hover `rgba(63, 149, 208, 0.2) 0px -21px 0px 0px inset`; and the same rest and hover box shadows on the sidebar prose links the human confirmed correct. It was confirmed failing on the previous build before the fix.
+
+#### 5.14.4 Verification
+
+Direct legacy-versus-candidate measurement of `.article-card`, `.feature-excerpt`, `.feature-title h2`, `.feature-title strong`, and the sidebar links at 1440 px and 390 px, in rest, hover-over-excerpt, and hover-over-card states, now reports zero differences in colour, border, box shadow, and transition. Gate results on the final tree:
+
+| Gate | Result |
+| --- | --- |
+| `pnpm check` | 115 files, 0 errors, 0 warnings, 5 deprecation hints |
+| `pnpm test` | 97 tests passed in 16 files |
+| `pnpm build` and `pnpm verify:dist` | Pass, unchanged summary line |
+| `scripts/run-e2e-local.sh --workers=3` | 286 cases: 264 passed, 22 intentional single-project skips, 0 failed; exit 0 and clean cleanup |
+| `pnpm test:agent-a11y` | 6 passed |
+| `pnpm test:visual` | 44 PASS, 2 APPROVED, 0 FAIL |
+| Full 20-route document heights | 38 of 40 within tolerance, the same two `/supplements/` exceptions; zero horizontal overflow on every route |
+| Hosted contract | 13 of 13 |
+
+#### 5.14.5 Hosted state
+
+Version `3e129585-482f-40a7-a9fc-232fee971f75` was uploaded and deployed at 100 percent on the isolated review Worker `musclehacking-astro-preview`, superseding `fc27fbf7-b28e-46ba-9342-2f731fc3e641`. No DNS, custom domain, production Worker version, repository setting, or newsletter destination changed.
 
 ---
 
@@ -1152,7 +1338,7 @@ sequenceDiagram
 | Component | Location | Purpose | Interaction |
 | --- | --- | --- | --- |
 | Base shell | `src/layouts/BaseLayout.astro` | Shared metadata, constrained branded header, navigation, and main; no unapproved footer | Server-rendered; navigation progressively enhanced |
-| Header | `src/components/Header.astro` | Show the symbol and `Muscle Hacking` brand with legacy navigation and social icon sizing | Responsive navigation plus exact hover/focus states |
+| Header | `src/components/Header.astro` | Show the symbol and the `/img/musclehacking.png` wordmark image with legacy navigation and social icon sizing | Responsive navigation plus exact hover/focus states |
 | Callout title | New focused component used by home, calculator, supplements, books, guide, and articles | Preserve Note, Important, and Warning icons and title geometry | Server-rendered; links remain usable without JavaScript |
 | Article layout | `src/layouts/ArticleLayout.astro` | Consistent article semantics, heading hierarchy, navigation ending, newsletter, and discovery metadata | Server-rendered plus heading-copy enhancement |
 | Newsletter form | `src/components/NewsletterForm.astro` | Subscribe from seven audited placements | Placement-specific geometry; native POST; optional pending and error enhancement |
@@ -1171,7 +1357,7 @@ No visual redesign, copy refresh, route normalisation, new animation system, or 
 
 | Surface | Route coverage | Required desktop evidence | Required responsive and interaction evidence |
 | --- | --- | --- | --- |
-| Header | Complete route matrix | Constrained width, symbol plus visible `Muscle Hacking`, exact nav/social icon boxes and gaps | 1000/820/560/390/320 layouts, open/closed menu, hover, focus, and active-route states |
+| Header | Complete route matrix | Constrained width, symbol plus the wordmark image at its intrinsic 416 by 30 geometry, exact nav/social icon boxes and gaps | 1000/820/560/390/320 layouts, open/closed menu, hover, focus, and active-route states |
 | Callouts | `/`, `/books/`, `/lose-fat-gain-muscle/`, `/calorie-calculator/`, `/supplements/`, and articles containing Note/Important/Warning | Exact SVG path, 16 by 16 box, title baseline, border, colour, gap, and copy order; icon and title word visibly share one inline row | Mobile wrapping must keep the icon with the title word; link hover/focus; no Unicode `ⓘ`; no icon-only first line followed by a title-only second line |
 | Newsletter forms | Sidebar, article bottom, long-form bottom, calculator bottom, floating, exit modal, and join | Placement-specific width, 67/33 split where recorded, font, 48/52-pixel control height, border join, and assurance spacing | Stacked mobile state, centred single-line button label, keyboard focus, validation, no-JavaScript POST |
 | Home cards | Every home feature | Full linked region, image/overlay/excerpt geometry, white initial left border and `#1f618d` hover border | Keyboard focus equivalent, touch-safe link, lazy image loaded after scroll, no layout shift |

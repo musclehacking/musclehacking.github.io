@@ -135,8 +135,9 @@ test('note callout icons share one inline row and the legacy palette on every su
     await page.goto(surface.path);
     const title = page.locator(surface.selector).first();
     await expect(title).toBeVisible();
-    // Legacy addon.css palette: --color-accent-fg #2F81F7 for Note.
-    await expect(title).toHaveCSS('color', 'rgb(47, 129, 247)');
+    // AUD-07/A11Y-01 replaced the legacy dark-mode `--color-accent-fg` #2F81F7 (3.75:1)
+    // with GitHub's light-mode #0969DA (5.19:1). The single token drives rule and title.
+    await expect(title).toHaveCSS('color', 'rgb(9, 105, 218)');
     const rows = await title.evaluate((node) => {
       const svg = node.querySelector('svg')!.getBoundingClientRect();
       const textNode = [...node.childNodes, ...[...node.children].flatMap((child) => [...child.childNodes])]
@@ -158,7 +159,9 @@ test('note callout icons share one inline row and the legacy palette on every su
   // Important keeps the legacy purple; Warning keeps the legacy amber.
   await page.goto('/blog/calorie-calculator-how-to');
   const important = page.locator('.project-callout--important .alert-title').first();
-  await expect(important).toHaveCSS('color', 'rgb(163, 113, 247)');
+  // AUD-07/A11Y-01 replaced the legacy dark-mode `--color-done-fg` #A371F7 (3.35:1)
+  // with GitHub's light-mode #8250DF (5.05:1).
+  await expect(important).toHaveCSS('color', 'rgb(130, 80, 223)');
 });
 
 test('share rail icons match the production visible-path geometry inside the 40px circles', async ({ page }) => {

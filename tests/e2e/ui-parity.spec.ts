@@ -170,13 +170,15 @@ test('UI-03 and UI-04 restore supplement controls and evidence hover', async ({ 
     radius: '16px',
   });
   await expect(active).toHaveCSS('font-family', /muscle2/);
-  await expect(inactive).toHaveCSS('background-color', 'rgb(76, 136, 175)');
+  // AUD-07/A11Y-02 replaced the legacy `#4c88af` and `#6fa4c9` fills, which failed AA.
+  await expect(inactive).toHaveCSS('background-color', 'rgb(61, 114, 149)');
   await expect(inactive).toHaveCSS('border-radius', '8px');
-  await expect(information).toHaveCSS('background-color', 'rgb(111, 164, 201)');
+  await expect(information).toHaveCSS('background-color', 'rgb(220, 234, 244)');
+  await expect(information).toHaveCSS('color', 'rgb(20, 73, 107)');
   await expect(information).toHaveCSS('border-radius', '8px');
   await expect(inactive).toHaveCSS('box-shadow', /rgba?\(0, 0, 0/);
   await inactive.hover();
-  await expect(inactive).toHaveCSS('background-color', 'rgb(57, 113, 151)');
+  await expect(inactive).toHaveCSS('background-color', 'rgb(53, 104, 134)');
   const inactiveBox = await inactive.boundingBox();
   await page.mouse.move(inactiveBox!.x + inactiveBox!.width / 2, inactiveBox!.y + inactiveBox!.height / 2);
   await page.mouse.down();
@@ -192,7 +194,7 @@ test('UI-03 and UI-04 restore supplement controls and evidence hover', async ({ 
   await expect(badge).toHaveCSS('font-size', '18.9px');
   await expect(badge).toHaveCSS('font-weight', '600');
   await expect(badge).toHaveCSS('color', 'rgb(255, 255, 255)');
-  await expect(badge).toHaveCSS('background-color', 'rgba(37, 167, 92, 0.95)');
+  await expect(badge).toHaveCSS('background-color', 'rgb(23, 114, 69)');
   await expect(badge).toHaveCSS('padding', '2px 8px');
   // The audited legacy page reaches references only through inline `.inl-ref` links;
   // the intro "here" link keeps the legacy inset underline treatment.
@@ -795,4 +797,273 @@ test('reopened article endings restore share, comment, disclaimers, wrapping, an
     'href',
     'https://twitter.com/intent/tweet?text=Check+out+this+supplement+guide:+https://www.musclehacking.com/supplements/%20from%20@musclehacking',
   );
+});
+
+/*
+ * AUD-01 and AUD-02 (independent migration audit, 4 September 2026). Every number
+ * below was measured on the audited legacy tree at commit 9bf25d0, served from the
+ * repository root with `python3 -m http.server 4173`, in the same Chromium viewport
+ * (`/join/index.html`, height 844 for the mobile widths and 1000 for 1440px).
+ *
+ * Legacy sources: css/addon-pretty.css `#g-resp`, `#parent-e-form`, `#e-i-gresp`,
+ * `#b-i-gresp`, `#under-form-notice`, `.join-page #parent-e-form { font-size: 1.05em }`,
+ * `.join-page #under-form-notice { font-size: 1.1em }`, and the `@media (max-width: 1399px)`,
+ * `(max-width: 950px)`, and `(max-width: 620px)` stacking blocks.
+ */
+
+const joinLegacyGeometry = [
+  // 1440px keeps the legacy inline row: 500px column, 67/33 split, 10px assurance gap.
+  { width: 1_440, height: 1_000, columnX: 370, columnWidth: 500, columnHeight: 51.9, assuranceTop: 545.7, assuranceHeight: 31.3 },
+  // Below 1399px the legacy column stacks, centres, and is `min(300px, 90%)` of the text column.
+  { width: 414, height: 844, columnX: 57, columnWidth: 300, columnHeight: 107.7, assuranceTop: 604.2, assuranceHeight: 62.5 },
+  { width: 390, height: 844, columnX: 45, columnWidth: 300, columnHeight: 107.7, assuranceTop: 604.2, assuranceHeight: 62.5 },
+  { width: 375, height: 844, columnX: 37.5, columnWidth: 300, columnHeight: 107.7, assuranceTop: 639.2, assuranceHeight: 93.8 },
+  // At 320px `.sidebar-text #parent-e-form { width: 90% }` measures 252px inside the 280px column.
+  { width: 320, height: 844, columnX: 34, columnWidth: 252, columnHeight: 107.7, assuranceTop: 711.6, assuranceHeight: 93.8 },
+] as const;
+
+test('AUD-01 and AUD-02 reproduce the legacy /join/ form box at every audited width', async ({ page }) => {
+  await page.goto('/join/');
+
+  for (const expected of joinLegacyGeometry) {
+    await page.setViewportSize({ width: expected.width, height: expected.height });
+    const measured = await page.evaluate(() => {
+      const doc = document.documentElement;
+      const box = (selector: string) => document.querySelector(selector)!.getBoundingClientRect();
+      const style = (selector: string) => getComputedStyle(document.querySelector(selector)!);
+      const column = box('form.newsletter-form--join .newsletter-fields');
+      const input = box('input[name="email"]');
+      const button = box('form.newsletter-form--join button');
+      const assurance = box('p.join-assurance');
+      const inputStyle = style('input[name="email"]');
+      const assuranceStyle = style('p.join-assurance');
+      return {
+        assuranceFontSize: assuranceStyle.fontSize,
+        assuranceHeight: assurance.height,
+        assuranceLineHeight: assuranceStyle.lineHeight,
+        assuranceTop: assurance.top,
+        buttonHeight: button.height,
+        clientWidth: doc.clientWidth,
+        columnHeight: column.height,
+        columnWidth: column.width,
+        columnX: column.left,
+        inputFontSize: inputStyle.fontSize,
+        inputHeight: input.height,
+        inputRadius: inputStyle.borderTopLeftRadius,
+        mainHeight: box('main.join-page').height,
+        scrollWidth: doc.scrollWidth,
+      };
+    });
+
+    const at = `${expected.width}px`;
+    // AUD-01: the legacy page has no horizontal overflow at any audited width.
+    expect(measured.scrollWidth, `scrollWidth at ${at}`).toBe(measured.clientWidth);
+    expect(measured.columnX, `column x at ${at}`).toBeCloseTo(expected.columnX, 1);
+    expect(measured.columnWidth, `column width at ${at}`).toBeCloseTo(expected.columnWidth, 1);
+    expect(measured.columnHeight, `column height at ${at}`).toBeCloseTo(expected.columnHeight, 1);
+    // `.join-page #parent-e-form { font-size: 1.05em }` holds at every legacy width.
+    expect(measured.inputFontSize, `control font size at ${at}`).toBe('18.9px');
+    expect(measured.inputHeight, `control height at ${at}`).toBeCloseTo(51.9, 1);
+    expect(measured.buttonHeight, `button height at ${at}`).toBeCloseTo(51.9, 1);
+    expect(measured.inputRadius, `control radius at ${at}`).toBe('5px');
+    // AUD-02: `#under-form-notice` is 1.1em of the 18px body at every legacy width.
+    expect(measured.assuranceFontSize, `assurance font size at ${at}`).toBe('19.8px');
+    expect(measured.assuranceLineHeight, `assurance line height at ${at}`).toBe('31.284px');
+    expect(measured.assuranceTop, `assurance top at ${at}`).toBeCloseTo(expected.assuranceTop, 0);
+    expect(measured.assuranceHeight, `assurance height at ${at}`).toBeCloseTo(expected.assuranceHeight, 0);
+
+    if (expected.width === 1_440) {
+      // Legacy `main` equivalent measures 487.0px tall once the rhythm matches.
+      expect(measured.mainHeight, 'main.join-page height at 1440px').toBeCloseTo(487, 0);
+    }
+  }
+});
+
+/*
+ * AUD-07 human decisions A11Y-01 and A11Y-02, recorded in
+ * `documents/migration/human-review-packet.md` on 4 September 2026.
+ *
+ * The legacy `--color-accent-fg: #2F81F7` / `--color-done-fg: #A371F7` callout
+ * titles measure 3.75:1 and 3.35:1 on white, and the legacy `.btn-info` supplement
+ * filter palette measures 3.85:1 (`#4c88af`) and 2.68:1 (`#6fa4c9`) with white text.
+ * The human approved GitHub's light-mode markdown-alert values and an AA-safe
+ * filter palette, so every one of these controls must now reach the 4.5:1 AA
+ * threshold for normal-sized text.
+ */
+
+const relativeLuminance = ([red, green, blue]: number[]) => {
+  const channel = (value: number) => {
+    const ratio = value / 255;
+    return ratio <= 0.03928 ? ratio / 12.92 : ((ratio + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(red!) + 0.7152 * channel(green!) + 0.0722 * channel(blue!);
+};
+
+const contrastRatio = (foreground: number[], background: number[]) => {
+  const [lighter, darker] = [relativeLuminance(foreground), relativeLuminance(background)].sort((a, b) => b - a);
+  return (lighter! + 0.05) / (darker! + 0.05);
+};
+
+const parseColour = (value: string) => value.match(/\d+(\.\d+)?/g)!.slice(0, 3).map(Number);
+
+test('AUD-07 applies the approved AA-safe callout and supplement control palette', async ({ page }) => {
+  const readColours = (selector: string) => page.evaluate((target) => {
+    const element = document.querySelector(target);
+    if (!element) return null;
+    const style = getComputedStyle(element);
+    return { background: style.backgroundColor, border: style.borderLeftColor, colour: style.color };
+  }, selector);
+
+  await page.goto('/');
+  const homeNote = (await readColours('.project-callout--note .alert-title'))!;
+  // GitHub light-mode `--color-accent-fg`, replacing the 3.75:1 dark-mode `#2F81F7`.
+  expect(homeNote.colour).toBe('rgb(9, 105, 218)');
+  expect(contrastRatio(parseColour(homeNote.colour), [255, 255, 255])).toBeGreaterThanOrEqual(4.5);
+  expect((await readColours('.project-callout--note'))!.border).toBe('rgb(9, 105, 218)');
+
+  // The only Important callout in the build is on the legacy calculator article.
+  await page.goto('/blog/calorie-calculator-how-to');
+  const guideImportant = (await readColours('.project-callout--important .alert-title'))!;
+  // GitHub light-mode `--color-done-fg`, replacing the 3.35:1 dark-mode `#A371F7`.
+  expect(guideImportant.colour).toBe('rgb(130, 80, 223)');
+  expect(contrastRatio(parseColour(guideImportant.colour), [255, 255, 255])).toBeGreaterThanOrEqual(4.5);
+  expect((await readColours('.project-callout--important'))!.border).toBe('rgb(130, 80, 223)');
+
+  await page.goto('/supplements/');
+  const filters = await page.evaluate(() => {
+    const read = (element: Element) => {
+      const style = getComputedStyle(element);
+      return { background: style.backgroundColor, border: style.borderTopColor, colour: style.color };
+    };
+    return {
+      active: read(document.querySelector('[data-supplement-filter][aria-pressed="true"]')!),
+      information: read(document.querySelector('[data-supplement-filter="information"]')!),
+      inactive: read(document.querySelector('[data-supplement-filter="sleep"]')!),
+    };
+  });
+  // White on the darkened legacy `.btn-info` fill.
+  expect(filters.inactive).toMatchObject({ background: 'rgb(61, 114, 149)', colour: 'rgb(255, 255, 255)' });
+  expect(contrastRatio(parseColour(filters.inactive.colour), parseColour(filters.inactive.background))).toBeGreaterThanOrEqual(4.5);
+  // The active fill is the unchanged legacy `#1f618d`, which already passes at 6.66:1.
+  expect(filters.active).toMatchObject({ background: 'rgb(31, 97, 141)', colour: 'rgb(255, 255, 255)' });
+  expect(contrastRatio(parseColour(filters.active.colour), parseColour(filters.active.background))).toBeGreaterThanOrEqual(4.5);
+  // A lighter fill can never reach 4.5:1 with white text, so `information` inverts to dark text.
+  expect(filters.information).toMatchObject({ background: 'rgb(220, 234, 244)', colour: 'rgb(20, 73, 107)' });
+  expect(contrastRatio(parseColour(filters.information.colour), parseColour(filters.information.background))).toBeGreaterThanOrEqual(4.5);
+
+  // The hover fill has to stay visibly darker than the new default, so read the
+  // emitted filter rules rather than relying on pointer semantics in both projects.
+  const filterRules = await page.evaluate(() => Array.from(document.styleSheets)
+    .flatMap((sheet) => {
+      try {
+        return Array.from(sheet.cssRules as unknown as CSSRule[]);
+      } catch {
+        return [];
+      }
+    })
+    .filter((rule) => 'selectorText' in rule && String((rule as CSSStyleRule).selectorText).includes('supplement-filter'))
+    .map((rule) => rule.cssText));
+
+  // Evidence levels are category-specific, so they only exist after enhancement
+  // selects the default goal.
+  await page.waitForFunction(() => Array.from(document.querySelectorAll('[data-supplement-evidence]'))
+    .some((element) => (element.getAttribute('data-evidence-level') ?? '') !== ''));
+  const badges = await page.evaluate(() => Array.from(
+    document.querySelectorAll('[data-supplement-evidence]:not([data-evidence-level=""])[data-evidence-level]'),
+    (element) => {
+      const style = getComputedStyle(element);
+      return { background: style.backgroundColor, colour: style.color, level: element.getAttribute('data-evidence-level') };
+    },
+  ));
+  expect(badges.length).toBeGreaterThan(0);
+  const approvedBadgeFill: Record<string, string> = {
+    high: 'rgb(23, 114, 69)',
+    low: 'rgb(176, 42, 28)',
+    medium: 'rgb(138, 90, 0)',
+  };
+  for (const badge of badges) {
+    expect(badge.background, `${badge.level} evidence badge fill`).toBe(approvedBadgeFill[badge.level!]);
+    expect(badge.colour).toBe('rgb(255, 255, 255)');
+    expect(
+      contrastRatio(parseColour(badge.colour), parseColour(badge.background)),
+      `${badge.level} evidence badge contrast`,
+    ).toBeGreaterThanOrEqual(4.5);
+  }
+
+  const hoverRule = filterRules.find((rule) => rule.includes(':hover'));
+  expect(hoverRule, 'supplement filter hover rule').toBeDefined();
+  // `#356886` is 6.04:1 with white text and stays darker than the new `#3d7295` default.
+  expect(hoverRule).toContain('rgb(53, 104, 134)');
+  // No filter rule may reintroduce a legacy fill that fails AA with white text.
+  for (const rule of filterRules) {
+    expect(rule, 'legacy 3.85:1 filter fill').not.toContain('rgb(76, 136, 175)');
+    expect(rule, 'legacy 2.68:1 information fill').not.toContain('rgb(111, 164, 201)');
+  }
+});
+
+/*
+ * Sixth human review, 4 September 2026. UI-10 checked the home card's left border on
+ * hover but never the card text itself, and nothing covered the sidebar Recent Posts
+ * links, so two hover states regressed unnoticed.
+ *
+ * Every value below was measured on the audited legacy tree served from the repository
+ * root at `http://127.0.0.1:4173`. Legacy sources: `css/addon.css` `.main`
+ * (`transition-property: color; transition-duration: .25s`), `.main:hover`
+ * (`color:#1f618d`, `-webkit-transition: 50ms` with `ease-in-out`, and the 768px
+ * `border-left: 6px solid #1f618d`), and the `.side-a` / `.side-a:hover` pair that
+ * carries `box-shadow: inset 0 -2px 0 0 #206593` then `inset 0 -21px 0 0 #3f95d033`
+ * over `transition: .2s linear`.
+ */
+test('home card text and sidebar recent links reproduce the legacy hover states', async ({ page }) => {
+  await page.setViewportSize({ width: 1_440, height: 1_000 });
+  await page.goto('/');
+
+  const card = page.locator('.article-card').first();
+  const excerpt = card.locator('.feature-excerpt');
+
+  await page.mouse.move(0, 0);
+  await expect(card).toHaveCSS('color', 'rgba(0, 0, 0, 0.84)');
+  await expect(card).toHaveCSS('border-left-color', 'rgb(255, 255, 255)');
+  // Legacy `.main` only transitions colour at rest, so the border snaps back.
+  await expect(card).toHaveCSS('transition-property', 'color');
+  await expect(card).toHaveCSS('transition-duration', '0.25s');
+  await expect(card).toHaveCSS('transition-timing-function', 'ease');
+  // The excerpt carries no colour of its own; it inherits the card's.
+  await expect(excerpt).toHaveCSS('color', 'rgba(0, 0, 0, 0.84)');
+
+  await excerpt.hover();
+  await expect(card).toHaveCSS('color', 'rgb(31, 97, 141)');
+  await expect(card).toHaveCSS('border-left-color', 'rgb(31, 97, 141)');
+  // The whole card, including the excerpt below the image, turns legacy blue.
+  await expect(excerpt).toHaveCSS('color', 'rgb(31, 97, 141)');
+  await expect(card).toHaveCSS('transition-property', 'all');
+  await expect(card).toHaveCSS('transition-duration', '0.05s');
+  await expect(card).toHaveCSS('transition-timing-function', 'ease-in-out');
+
+  await page.mouse.move(0, 0);
+  await expect(excerpt).toHaveCSS('color', 'rgba(0, 0, 0, 0.84)');
+
+  // The sidebar Recent Posts links use the legacy `.side-a` highlight fill, which is a
+  // different effect from the card hover above.
+  const recent = page.locator('.sidebar-recent li a').first();
+  await recent.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(recent).toHaveCSS('box-shadow', 'rgb(32, 101, 147) 0px -2px 0px 0px inset');
+  await expect(recent).toHaveCSS('color', 'rgba(0, 0, 0, 0.84)');
+  await expect(recent).toHaveCSS('text-decoration-line', 'none');
+  await expect(recent).toHaveCSS('transition-property', 'all');
+  await expect(recent).toHaveCSS('transition-duration', '0.2s');
+  await expect(recent).toHaveCSS('transition-timing-function', 'linear');
+
+  await recent.hover();
+  await expect(recent).toHaveCSS('box-shadow', 'rgba(63, 149, 208, 0.2) 0px -21px 0px 0px inset');
+  await expect(recent).toHaveCSS('color', 'rgba(0, 0, 0, 0.84)');
+
+  // The prose links the human confirmed as correct must keep the identical treatment.
+  const prose = page.locator('.sidebar-about a').first();
+  await prose.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(prose).toHaveCSS('box-shadow', 'rgb(32, 101, 147) 0px -2px 0px 0px inset');
+  await prose.hover();
+  await expect(prose).toHaveCSS('box-shadow', 'rgba(63, 149, 208, 0.2) 0px -21px 0px 0px inset');
 });

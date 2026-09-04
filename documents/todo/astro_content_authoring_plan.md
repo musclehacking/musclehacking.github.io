@@ -425,7 +425,7 @@ Expected document titles after this step (must equal the current build output):
 - Legacy heading ids present after conversion: all 44 retained ids, with `bcaa-leucine-content` replacing `#bcaa-leucine-content`; all 44 in-page fragment links resolve.
 - `img` count 41, `iframe` count 7, `a[href]` counts per post equal the legacy counts (the existing `verify-dist` assertion).
 - Document height per converted route, measured with the audited tree served at `http://127.0.0.1:4173` (`python3 -m http.server 4173` from the repository root) and the Worker at `http://127.0.0.1:8787`, differs by at most 1 px at 1440 px and 2 px at 390 px; record the 28 measurements in `documents/testing/README.md`.
-- `pnpm test:e2e` (`wrangler dev --port 8787` pre-started, `pnpm exec playwright test tests/e2e --workers=3`) reports 0 failures; `pnpm test:agent-a11y` passes.
+- `./scripts/run-e2e-local.sh --workers=3` reports 0 failures; `pnpm test:agent-a11y` passes. The wrapper owns its own Wrangler preview; never pre-start one.
 - Side-by-side screenshots of every converted route at 1440 px and 390 px against the baseline snapshot show no visible difference other than the verified defect fixes in Section 4.2; store them under the baseline directory and reference the path in Step 10 documentation.
 
 ### ~~Step 7: Convert the two long-form pages to the pages collection~~ ✅ **COMPLETED**
@@ -539,7 +539,7 @@ Expected document titles after this step (must equal the current build output):
    - Verify: exit code 0 and the summary line in Step 9.
 
 2. **Full route matrix and interactions**
-   - Action: start `wrangler dev --port 8787`, run `pnpm exec playwright test tests/e2e --workers=3` and `pnpm test:agent-a11y`.
+   - Action: run `./scripts/run-e2e-local.sh --workers=3` and `pnpm test:agent-a11y`. The wrapper owns its own Wrangler preview; never pre-start one.
    - Expected: 0 failures across both projects; heading links, share rail, callout geometry, navigation geometry, and newsletter placements unchanged.
    - Verify: Playwright report; existing specs unchanged except where a selector moved with a component path.
 

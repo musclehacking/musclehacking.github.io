@@ -288,10 +288,11 @@ test('all visible supplement badges have exact metrics and every evidence popove
       await expect(badge).toHaveCSS('font-weight', '600');
       await expect(badge).toHaveCSS('line-height', '21.735px');
       await expect(badge).toHaveCSS('color', 'rgb(255, 255, 255)');
+      // AUD-07/A11Y-02 darkened the legacy semi-transparent fills to opaque AA-safe values.
       const expectedBackground = {
-        high: 'rgba(37, 167, 92, 0.95)',
-        medium: 'rgba(245, 178, 59, 0.95)',
-        low: 'rgba(231, 77, 60, 0.85)',
+        high: 'rgb(23, 114, 69)',
+        medium: 'rgb(138, 90, 0)',
+        low: 'rgb(176, 42, 28)',
       }[level];
       expect(expectedBackground).toBeTruthy();
       await expect(badge).toHaveCSS('background-color', expectedBackground!);
@@ -350,10 +351,12 @@ test('filter buttons expose exact standard, hover, focus, pressed, and active vi
     await page.getByRole('button', { name: 'Muscle Growth', exact: true }).click();
     if (label === 'Muscle Growth') await page.getByRole('button', { name: 'Sleep', exact: true }).click();
     await assertBaseMetrics(button);
-    await expect(button).toHaveCSS('background-color', 'rgb(76, 136, 175)');
+    // AUD-07/A11Y-02: `#3d7295` at 5.20:1 replaces the legacy `#4c88af` at 3.85:1,
+    // and hover moves to `#356886` at 6.04:1 so it stays visibly darker.
+    await expect(button).toHaveCSS('background-color', 'rgb(61, 114, 149)');
     await expect(button).toHaveCSS('border-radius', '8px');
     await button.hover();
-    await expect(button).toHaveCSS('background-color', 'rgb(57, 113, 151)');
+    await expect(button).toHaveCSS('background-color', 'rgb(53, 104, 134)');
     await button.focus();
     await expect(button).toBeFocused();
     const box = await button.boundingBox();
@@ -369,8 +372,12 @@ test('filter buttons expose exact standard, hover, focus, pressed, and active vi
 
   const information = page.getByRole('button', { name: 'What is this?', exact: true });
   await page.getByRole('button', { name: 'Muscle Growth', exact: true }).click();
-  await assertBaseMetrics(information);
-  await expect(information).toHaveCSS('background-color', 'rgb(111, 164, 201)');
+  // AUD-07/A11Y-02: the information filter keeps its lighter fill and inverts to
+  // `#14496B` on `#DCEAF4` (7.80:1), because a light fill cannot pass with white text.
+  await expect(information).toHaveCSS('font-family', /muscle2/);
+  await expect(information).toHaveCSS('font-size', '16px');
+  await expect(information).toHaveCSS('color', 'rgb(20, 73, 107)');
+  await expect(information).toHaveCSS('background-color', 'rgb(220, 234, 244)');
   await expect(information).toHaveCSS('border-radius', '8px');
   await information.click();
   await expect(information).toHaveCSS('background-color', 'rgb(31, 97, 141)');

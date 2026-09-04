@@ -4,7 +4,9 @@ Read `/Users/sacino/AGENTS.md` first. It is the higher-level workspace policy.
 
 This repository is an Astro site deployed with Cloudflare Workers Static Assets. Keep documents prerendered. Only `/api/subscribe` may execute per request. Do not change DNS, bind production domains, promote a production Worker version, make the repository private, or retire GitHub Pages without explicit human approval of the exact cutover packet.
 
-Use `pnpm`. Use the Node version pinned in `.nvmrc`. Run `pnpm check`, `pnpm test`, `pnpm build`, `pnpm verify:dist`, `pnpm test:e2e`, and `pnpm test:agent-a11y` for migration changes.
+Use `pnpm`. Use the Node version pinned in `.nvmrc`. Run `pnpm check`, `pnpm test`, `pnpm build`, `pnpm verify:dist`, `./scripts/run-e2e-local.sh --workers=3`, and `pnpm test:agent-a11y` for migration changes.
+
+Run the E2E suite only through `scripts/run-e2e-local.sh`. It owns one Wrangler preview from build through cleanup. Do not pre-start `wrangler dev` for an E2E run and do not call `pnpm test:e2e` against a manually started preview. `documents/testing/local-runtime-lifecycle.md` owns the lifecycle rules.
 
 Source ownership:
 

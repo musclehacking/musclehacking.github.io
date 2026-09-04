@@ -61,7 +61,9 @@ cleanup() {
       descendant_identities "${SERVER_PID}" > "${LOCK_DIR}/descendants"
       chmod 600 "${LOCK_DIR}/descendants"
 
-      if kill -TERM "${SERVER_PID}"; then
+      # A `kill` can lose a race with a process that is already exiting. The goal is
+      # that the owned process is gone, so only a still-live PID is a real failure.
+      if kill -TERM "${SERVER_PID}" || ! ps -p "${SERVER_PID}" >/dev/null 2>&1; then
         for _ in $(seq 1 20); do
           ps -p "${SERVER_PID}" >/dev/null 2>&1 || break
           sleep 0.5
@@ -82,9 +84,10 @@ cleanup() {
       if ps -p "${remaining_pid}" >/dev/null 2>&1; then
         current_start="$(ps -p "${remaining_pid}" -o lstart= | sed 's/^[[:space:]]*//')"
         if [ "${current_start}" = "${expected_start}" ]; then
+          # Same exiting-process race as the root PID above.
           if kill -TERM "${remaining_pid}"; then
             signalled_descendant=1
-          else
+          elif ps -p "${remaining_pid}" >/dev/null 2>&1; then
             printf 'Cleanup incomplete: TERM failed for task-owned descendant PID %s.\n' "${remaining_pid}" >&2
             cleanup_failed=1
           fi
