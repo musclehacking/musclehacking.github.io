@@ -3,7 +3,15 @@ export const site = {
   name: 'Muscle Hacking',
   titleSeparator: ' | ',
   titlePrefixSeparator: ': ',
+  /** BCP 47 tag rendered into `<html lang>`. Not a locale: no territory subtag. */
   language: 'en',
+  /**
+   * Open Graph locale, `language_TERRITORY`, rendered into `og:locale`.
+   * Deliberately separate from `language`: the audience is American, so the
+   * territory is US, while `<html lang>` stays the plain `en` tag.
+   * Do not collapse the pair into one value.
+   */
+  openGraphLocale: 'en_US',
   authorDisplayName: 'Jay',
   contactEmail: 'jay@musclehacking.com',
   defaultDescription:

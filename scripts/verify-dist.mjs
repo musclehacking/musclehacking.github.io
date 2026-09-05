@@ -36,6 +36,9 @@ for (const relativePath of generatedHtml) {
   if ($('title').text() !== expectedTitles[relativePath]) fail(`${label}: document title differs from the pre-authoring build`);
   if ($('meta[name="description"]').length !== 1 || !$('meta[name="description"]').attr('content')?.trim()) fail(`${label}: expected one description`);
   if ($('meta[property="og:title"]').length !== 1) fail(`${label}: expected one og:title`);
+  if ($('meta[property="og:site_name"]').length !== 1) fail(`${label}: expected one og:site_name`);
+  if ($('meta[property="og:locale"]').length !== 1) fail(`${label}: expected one og:locale`);
+  if ($('meta[property="og:locale"]').attr('content') !== site.openGraphLocale) fail(`${label}: og:locale must be ${site.openGraphLocale}`);
   if ($('meta[name="twitter:title"]').length !== 1) fail(`${label}: expected one twitter:title`);
   if ($('link[rel="canonical"]').length !== 1) fail(`${label}: expected one canonical`);
   if ($('html').attr('lang') !== 'en') fail(`${label}: expected html lang=en`);
