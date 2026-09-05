@@ -20,8 +20,8 @@ Wrangler deploys the candidate build directly to a review-only Worker in the per
 
 - Worker: `musclehacking-astro-preview`
 - URL: `https://musclehacking-astro-preview.webpop.workers.dev`
-- Active version: `3e129585-482f-40a7-a9fc-232fee971f75`, uploaded and deployed at 100 percent on 4 September 2026 (sixth-review hover fixes)
-- Superseded versions retained for rollback: `fc27fbf7-b28e-46ba-9342-2f731fc3e641` (4 September 2026) and `88b47e15-e6fb-408a-8379-1b7997f67645` (1 September 2026)
+- Active version: `7b471461-e0f3-4d8d-9bcc-5442c1480bf3`, uploaded and deployed at 100 percent on 5 September 2026 (sitewide `og:locale`)
+- Superseded versions retained for rollback: `3e129585-482f-40a7-a9fc-232fee971f75` (4 September 2026), `fc27fbf7-b28e-46ba-9342-2f731fc3e641` (4 September 2026) and `88b47e15-e6fb-408a-8379-1b7997f67645` (1 September 2026)
 - Inactive legacy rollback version: `e9e4425e-eb64-493f-a05e-dfbf99a5a388`
 - Legacy version preview: `https://legacy-9bf25d0-musclehacking-astro-preview.webpop.workers.dev`
 - Release controller: direct Wrangler deployment, not Workers Builds or a Git integration

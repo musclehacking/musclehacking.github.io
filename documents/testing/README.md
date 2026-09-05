@@ -56,7 +56,7 @@ The capture mode reuses the comparison path's viewport, GIF-frame pinning, settl
 
 ### Hosted verification
 
-The isolated review Worker `musclehacking-astro-preview` serves version `3e129585-482f-40a7-a9fc-232fee971f75`, deployed 4 September 2026.
+The isolated review Worker `musclehacking-astro-preview` serves version `7b471461-e0f3-4d8d-9bcc-5442c1480bf3`, deployed 5 September 2026.
 
 ```bash
 node scripts/hosted-contract.mjs                                   # 13 HTTP contract cases

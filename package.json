@@ -24,7 +24,8 @@
     "preverify:dist": "node scripts/sync-blog-slugs.mjs --check",
     "verify:dist": "node scripts/verify-dist.mjs",
     "typegen": "wrangler types src/env.d.ts",
-    "upload:version": "pnpm build && wrangler versions upload"
+    "upload:version": "pnpm build && CLOUDFLARE_ACCOUNT_ID=213ab3604485056376263d22fa242742 wrangler versions upload --name musclehacking-astro-preview --var NEWSLETTER_ALLOWED_ORIGIN:https://musclehacking-astro-preview.webpop.workers.dev",
+    "deploy:preview": "CLOUDFLARE_ACCOUNT_ID=213ab3604485056376263d22fa242742 wrangler versions deploy --name musclehacking-astro-preview"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.2.5",
