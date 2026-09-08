@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { configuredOrigin } from './configured-origin';
 
 test('calculator renders exact Standard, LeanGains, and keto defaults', async ({ page }) => {
   await page.goto('/calorie-calculator/');
@@ -328,9 +329,10 @@ test('Show All does not leave empty evidence controls visible', async ({ page })
   await expect(page.locator('[data-supplement-evidence]:visible')).toHaveCount(0);
 });
 
-test('newsletter fails closed without provider credentials and rejects other methods', async ({ request }) => {
+test('newsletter fails closed without provider credentials and rejects other methods', async ({ request }, testInfo) => {
+  const origin = configuredOrigin(testInfo);
   for (const method of ['GET', 'HEAD', 'PUT', 'PATCH', 'DELETE']) {
-    const response = await request.fetch('/api/subscribe', { method, headers: { origin: 'http://127.0.0.1:8787' } });
+    const response = await request.fetch('/api/subscribe', { method, headers: { origin } });
     expect(response.status()).toBe(405);
     expect(response.headers().allow).toBe('POST');
     expect(response.headers()['content-security-policy']).toContain("default-src 'none'");
@@ -352,7 +354,7 @@ test('newsletter fails closed without provider credentials and rejects other met
 
   const postResponse = await request.post('/api/subscribe', {
     headers: {
-      origin: 'http://127.0.0.1:8787',
+      origin,
       'content-type': 'application/x-www-form-urlencoded',
     },
     data: body.toString(),
@@ -362,10 +364,10 @@ test('newsletter fails closed without provider credentials and rejects other met
   expect(await postResponse.json()).toEqual({ error: 'newsletter_unavailable' });
 });
 
-test('newsletter safely rejects malformed multipart input', async ({ request }) => {
+test('newsletter safely rejects malformed multipart input', async ({ request }, testInfo) => {
   const response = await request.post('/api/subscribe', {
     headers: {
-      origin: 'http://127.0.0.1:8787',
+      origin: configuredOrigin(testInfo),
       'content-type': 'multipart/form-data; boundary=broken',
     },
     data: 'this body has no multipart boundary',

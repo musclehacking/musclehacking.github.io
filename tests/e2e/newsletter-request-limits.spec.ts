@@ -1,7 +1,9 @@
 import { request as sendHttpRequest } from 'node:http';
 import { expect, test } from '@playwright/test';
 
-test('newsletter rejects an oversized chunked request before form validation', async () => {
+test('newsletter rejects an oversized chunked request before form validation', {
+  tag: '@local-runtime',
+}, async () => {
   const requestBody = new URLSearchParams({ company: 'x'.repeat(8_192) }).toString();
   const response = await new Promise<{ status: number | undefined; body: string }>((resolve, reject) => {
     const request = sendHttpRequest('http://127.0.0.1:8787/api/subscribe', {

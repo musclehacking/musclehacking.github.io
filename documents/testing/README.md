@@ -24,7 +24,7 @@ nvm use "$(tr -d '[:space:]' < /Users/sacino/musclehacking/.nvmrc)"
 /Users/sacino/musclehacking/scripts/run-e2e-local.sh --workers=3
 ```
 
-The wrapper builds first, starts one task-owned `wrangler dev` on `127.0.0.1:8787`, runs Playwright against it, and proves the preview and its lock are released. Pass ordinary Playwright arguments after the script name for a focused run, for example `--grep "AUD-01"`.
+The wrapper builds first, starts one task-owned `wrangler dev` on `127.0.0.1:8787`, runs Playwright against it, including `@local-runtime` checks, and proves the preview and its lock are released. Pass ordinary Playwright arguments after the script name for a focused run, for example `--grep "AUD-01"` or `--grep @local-runtime`.
 
 Do not pre-start `wrangler dev`, do not run `pnpm test:e2e` directly against a manually started preview, and do not use `astro preview`. `documents/testing/local-runtime-lifecycle.md` owns the full lifecycle and ownership rules, including what to inspect when the wrapper reports incomplete cleanup.
 
@@ -61,12 +61,19 @@ The isolated review Worker `musclehacking-astro-preview` serves version `7b47146
 ```bash
 node scripts/hosted-contract.mjs                                   # 13 HTTP contract cases
 MUSCLEHACKING_BASE_URL=https://musclehacking-astro-preview.webpop.workers.dev \
-  pnpm exec playwright test tests/e2e --workers=3                  # UI matrix against the hosted origin
+  pnpm exec playwright test tests/e2e --workers=3                  # portable UI matrix against the hosted origin
 ```
 
-`scripts/hosted-contract.mjs` only issues HTTP requests; it never uploads or promotes anything. The fingerprinted-asset case resolves its path out of `dist/client/index.html`, so a new content hash does not invalidate the fixture. Setting `MUSCLEHACKING_BASE_URL` also suppresses the Playwright `webServer`, so a hosted run never starts a Wrangler preview.
+`scripts/hosted-contract.mjs` only issues HTTP requests; it never uploads or promotes anything. The fingerprinted-asset case resolves its path out of `dist/client/index.html`, so a new content hash does not invalidate the fixture. Setting `MUSCLEHACKING_BASE_URL` points Playwright at that origin, suppresses `webServer`, and selects the portable suite by excluding tests tagged `@local-runtime`.
 
-Ten E2E cases fail against a hosted origin by construction and are expected: four newsletter specs hardcode `origin: http://127.0.0.1:8787` (the hosted Worker correctly answers `403 invalid_origin`), `tests/e2e/newsletter-request-limits.spec.ts` opens a raw socket to `127.0.0.1:8787`, and `tests/e2e/routes.spec.ts:176` asserts local-preview behaviour by name. The hosted run was 252 passed, 22 skipped, 10 such failures.
+Portable newsletter specs send `Origin` from the configured Playwright `baseURL`. Against the hosted Worker they fail closed (`405` for other methods, `400 malformed_form`, `503 newsletter_unavailable`) instead of using a loopback origin.
+
+Genuinely local-runtime checks stay tagged `@local-runtime` and keep their assertions. They run through `scripts/run-e2e-local.sh`, which does not set `MUSCLEHACKING_BASE_URL`:
+
+- `tests/e2e/newsletter-request-limits.spec.ts`: raw `node:http` chunked POST to the task-owned Wrangler preview at `127.0.0.1:8787`
+- `tests/e2e/routes.spec.ts`: the local Static Assets preview does not implement the external apex `Host` redirect
+
+The hosted portable matrix selects 282 cases. The six newsletter specs that previously failed with a loopback `Origin` now pass against the configured origin. The four `@local-runtime` cases are not selected. Do not convert those checks into `test.skip` on hosted runs.
 
 A Cloudflare *version preview* URL is not equivalent to the deployed review URL: it blocks cross-site form POSTs at the edge with its own plain-text `403`, so the newsletter contract case only passes against the deployed URL, and it sends `x-robots-tag: noindex`, which drops a Lighthouse SEO score to 69.
 

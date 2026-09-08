@@ -173,7 +173,9 @@ test('mixed route shapes and custom 404 match the legacy contract', async ({ req
   expect(await unknown.text()).toContain('Page not found');
 });
 
-test('the local Static Assets preview does not implement the external apex redirect', async ({ request }) => {
+test('the local Static Assets preview does not implement the external apex redirect', {
+  tag: '@local-runtime',
+}, async ({ request }) => {
   const response = await request.get('/blog/change?baseline=1', {
     headers: { host: 'musclehacking.com' },
     maxRedirects: 0,

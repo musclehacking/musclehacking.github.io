@@ -11,7 +11,7 @@ nvm use "$(tr -d '[:space:]' < /Users/sacino/musclehacking/.nvmrc)"
 /Users/sacino/musclehacking/scripts/run-e2e-local.sh
 ```
 
-Pass ordinary Playwright arguments after the script name when a focused run is required. The wrapper always builds first and serves the Cloudflare Worker on `127.0.0.1:8787`.
+Pass ordinary Playwright arguments after the script name when a focused run is required, including `--grep @local-runtime`. The wrapper always builds first, serves the Cloudflare Worker on `127.0.0.1:8787`, and runs the full E2E suite, including `@local-runtime` checks that a hosted `MUSCLEHACKING_BASE_URL` run excludes.
 
 ## Ownership contract
 

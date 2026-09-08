@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { configuredOrigin } from './configured-origin';
 
-test('article newsletter form submits a source accepted by the API', async ({ page, request }) => {
+test('article newsletter form submits a source accepted by the API', async ({ page, request }, testInfo) => {
   await page.goto('/blog/breakup-energy');
 
   const sourceUrl = await page
@@ -16,7 +17,7 @@ test('article newsletter form submits a source accepted by the API', async ({ pa
 
   const response = await request.post('/api/subscribe', {
     headers: {
-      origin: 'http://127.0.0.1:8787',
+      origin: configuredOrigin(testInfo),
       'content-type': 'application/x-www-form-urlencoded',
     },
     data: body.toString(),
