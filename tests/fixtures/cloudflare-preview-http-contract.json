@@ -166,7 +166,7 @@
       }
     },
     {
-      "name": "newsletter fails closed without provider credentials",
+      "name": "newsletter rejects a submission without a Turnstile token",
       "path": "/api/subscribe",
       "method": "POST",
       "headers": {
@@ -175,7 +175,7 @@
       },
       "body": "email=preview-test%40example.invalid&campaign=sidebar&formId=sidebar&sourceUrl=%2F&company=",
       "expect": {
-        "status": 503,
+        "status": 400,
         "headers": {
           "content-type": { "includes": "application/json" },
           "cache-control": "no-store",
@@ -183,7 +183,28 @@
           "x-frame-options": "DENY"
         },
         "utf8": true,
-        "bodyIncludes": "{\"error\":\"newsletter_unavailable\"}"
+        "bodyIncludes": "{\"error\":\"challenge_failed\"}"
+      }
+    },
+    {
+      "name": "newsletter rejects a forged Turnstile token after siteverify",
+      "path": "/api/subscribe",
+      "method": "POST",
+      "headers": {
+        "content-type": "application/x-www-form-urlencoded",
+        "origin": "https://musclehacking-astro-preview.webpop.workers.dev"
+      },
+      "body": "email=preview-test%40example.invalid&campaign=sidebar&formId=sidebar&sourceUrl=%2F&company=&cf-turnstile-response=forged-token",
+      "expect": {
+        "status": 400,
+        "headers": {
+          "content-type": { "includes": "application/json" },
+          "cache-control": "no-store",
+          "x-content-type-options": "nosniff",
+          "x-frame-options": "DENY"
+        },
+        "utf8": true,
+        "bodyIncludes": "{\"error\":\"challenge_failed\"}"
       }
     }
   ]

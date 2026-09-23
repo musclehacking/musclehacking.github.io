@@ -33,9 +33,10 @@ Do not pre-start `wrangler dev`, do not run `pnpm test:e2e` directly against a m
 Measured on 4 September 2026 on branch `codex/astro-cloudflare-migration` with Node 22.23.2 and pnpm 11.24.0, after the AUD-01 to AUD-07 audit pass:
 
 - `pnpm check`: 115 files, 0 errors, 0 warnings, 5 deprecation hints.
-- `pnpm test`: 97 tests passed in 16 files.
+- `pnpm test`: 134 tests passed in 18 files (23 September 2026). `tests/unit/og-locale.test.ts` adds one case per built HTML file, so the count follows the current `dist`.
 - `pnpm build` and `pnpm verify:dist`: pass, with the summary line `Verified 20 HTML files, 19 public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.`
-- `scripts/run-e2e-local.sh --workers=3`: 286 cases, 264 passed, 22 intentional single-project skips, 0 failed.
+- `scripts/run-e2e-local.sh --workers=3`: 296 cases, 271 passed, 25 intentional single-project skips, 0 failed (23 September 2026).
+- After a failed run the wrapper keeps `/tmp/musclehacking-e2e-8787.lock` as evidence. Before rerunning, confirm every PID in its `lease` and `descendants` files has exited, then move the lock to the Trash.
 - `pnpm test:agent-a11y`: 6 passed, with **no** `color-contrast` exception left in `tests/a11y/site.spec.ts` after the A11Y-01 and A11Y-02 palette decisions.
 - Full 20-route document heights at 1440px and 390px: 38 of 40 within tolerance. The two exceptions are `/supplements/` at -4px (1440px) and -46px (390px) across a 56,000px document. Every route has zero horizontal overflow at 1440px, 414px, 390px, 375px, and 320px.
 
@@ -56,7 +57,7 @@ The capture mode reuses the comparison path's viewport, GIF-frame pinning, settl
 
 ### Hosted verification
 
-The isolated review Worker `musclehacking-astro-preview` serves version `7b471461-e0f3-4d8d-9bcc-5442c1480bf3`, deployed 5 September 2026.
+The isolated review Worker `musclehacking-astro-preview` serves version `796979bd-5ce6-4ac2-b67e-7f1e569e1139` (commit `5b115b2` plus the `TURNSTILE_SECRET_KEY` secret), deployed 23 September 2026. All 14 hosted HTTP contract cases pass, and the full hosted E2E run gives 267 passed, 25 intentional skips, and 0 failed.
 
 ```bash
 node scripts/hosted-contract.mjs                                   # 13 HTTP contract cases

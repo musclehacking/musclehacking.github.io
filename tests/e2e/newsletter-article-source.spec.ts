@@ -23,7 +23,11 @@ test('article newsletter form submits a source accepted by the API', async ({ pa
     data: body.toString(),
   });
 
-  expect(response.status()).toBe(503);
-  expect(await response.json()).toEqual({ error: 'newsletter_unavailable' });
+  // The source passed validation: the request only fails closed at the challenge or provider
+  // step (503 without a Turnstile secret, 400 challenge_failed with one), never invalid_source.
+  expect([
+    [503, 'newsletter_unavailable'],
+    [400, 'challenge_failed'],
+  ]).toContainEqual([response.status(), (await response.json()).error]);
   expect(sourceUrl).toBe('/blog/breakup-energy');
 });

@@ -360,9 +360,13 @@ test('newsletter fails closed without provider credentials and rejects other met
     },
     data: body.toString(),
   });
-  expect(postResponse.status()).toBe(503);
   expect(postResponse.headers()['cache-control']).toBe('no-store');
-  expect(await postResponse.json()).toEqual({ error: 'newsletter_unavailable' });
+  // A token-less form never subscribes: 503 where no Turnstile secret is configured (local
+  // preview), 400 where one is (hosted review Worker).
+  expect([
+    [503, 'newsletter_unavailable'],
+    [400, 'challenge_failed'],
+  ]).toContainEqual([postResponse.status(), (await postResponse.json()).error]);
 });
 
 test('newsletter safely rejects malformed multipart input', async ({ request }, testInfo) => {
