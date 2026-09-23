@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 import { load } from 'cheerio';
-import { blogSlugs, routes } from '../src/config/routes.ts';
+import { blogSlugs, permanentRedirects, routes } from '../src/config/routes.ts';
 import { site } from '../src/config/site.ts';
 import { findForbiddenOutputMatches } from './verify-dist-output.ts';
 
@@ -45,8 +45,13 @@ for (const relativePath of generatedHtml) {
   if (!$('link[rel="canonical"]').attr('href')?.startsWith(site.origin)) fail(`${label}: canonical must use production origin`);
   if ($('main').length !== 1) fail(`${label}: expected one main landmark`);
   if ($('h1').length !== 1 || !$('h1').first().text().trim()) fail(`${label}: expected one visible h1`);
+  const jsonLd = $('script[type="application/ld+json"]');
+  if (jsonLd.length !== 1) fail(`${label}: expected one JSON-LD block`);
+  const jsonLdSource = jsonLd.html() ?? '';
+  try { JSON.parse(jsonLdSource); } catch { fail(`${label}: JSON-LD must parse`); }
+  if (/mailto|"email"|"address"|[\w.]+@[\w.]+\.\w+/u.test(jsonLdSource)) fail(`${label}: JSON-LD must not contain an email or postal address`);
   const headerPolicy = readFileSync(join(clientRoot, '_headers'), 'utf8');
-  $('script:not([src])').each((_, script) => {
+  $('script:not([src]):not([type="application/ld+json"])').each((_, script) => {
     const source = $(script).html() ?? '';
     const hash = `'sha256-${createHash('sha256').update(source).digest('base64')}'`;
     if (!headerPolicy.includes(hash)) fail(`${label}: inline script hash is missing from CSP`);
@@ -68,7 +73,15 @@ for (const relativePath of generatedHtml) {
   });
 }
 
+const retiredPaths = new Set(permanentRedirects.map(({ from }) => from));
+const redirectFile = readFileSync(join(clientRoot, '_redirects'), 'utf8');
+for (const { from, to } of permanentRedirects) {
+  if (!redirectFile.includes(`${from} ${to} 301\n`)) fail(`_redirects: missing permanent redirect ${from} -> ${to}`);
+}
+
 for (const legacyPage of legacyPages) {
+  // Retired legacy URLs are answered by a permanent redirect, not a page.
+  if (retiredPaths.has(legacyPage.path)) continue;
   const route = routes.find(({ path }) => path === legacyPage.path);
   if (!route) {
     fail(`${legacyPage.path}: legacy newsletter placement has no matching public route`);
@@ -92,6 +105,8 @@ for (const slug of blogSlugs) {
   legacyBody.find('#comm').nextUntil('#post-nav').remove();
   legacyBody.find('script, #share, #comm, .e-on-delay, .email-float, form').remove();
   const legacyNavigation = legacyPage('#post-nav').first().clone();
+  // Legacy links to a retired article have no counterpart; the derived navigation skips that article.
+  legacyNavigation.find('a').filter((_, link) => retiredPaths.has(new URL(legacyPage(link).attr('href') ?? '', `${site.origin}/blog/`).pathname)).remove();
   legacyBody.find('#post-nav').remove();
 
   const generatedHtml = readFileSync(join(clientRoot, 'blog', `${slug}.html`), 'utf8');
@@ -119,8 +134,7 @@ for (const slug of blogSlugs) {
     : ['newsletter-signup', 'share', 'comm', 'post-nav'];
   const generatedEndingOrder = generatedEnding.children().map((_, child) => generatedPage(child).attr('id') || (generatedPage(child).attr('class') ?? '').split(/\s+/)[0]).get();
   if (JSON.stringify(generatedEndingOrder) !== JSON.stringify(expectedEndingOrder)) fail(`/blog/${slug}: complete article ending sequence is incorrect`);
-  const expectedRailCount = slug === 'calorie-calculator-how-to' ? 0 : 1;
-  if (generatedPage('#sh-box').length !== expectedRailCount) fail(`/blog/${slug}: floating share rail presence is incorrect`);
+  if (generatedPage('#sh-box').length !== 1) fail(`/blog/${slug}: floating share rail presence is incorrect`);
 
   const legacyHeadingIds = legacyBody.find('h2[id], h3[id], h4[id], h5[id]')
     .map((_, heading) => (legacyPage(heading).attr('id') ?? '').replace(/^#/, '')).get();
@@ -147,6 +161,8 @@ for (const [path, legacyRelativePath] of [
   const legacyPage = load(readFileSync(new URL(`../${legacyRelativePath}`, import.meta.url), 'utf8'));
   const legacyBody = legacyPage('.post-body').first();
   const legacyNavigation = legacyPage('#post-nav').first().clone();
+  // Legacy links to a retired article have no counterpart; the derived navigation skips that article.
+  legacyNavigation.find('a').filter((_, link) => retiredPaths.has(new URL(legacyPage(link).attr('href') ?? '', `${site.origin}/blog/`).pathname)).remove();
   legacyBody.find('script, style, form, #share, #comm, #post-nav, .e-on-delay, .email-float').remove();
   const generatedPage = load(readFileSync(join(clientRoot, routeFile(route)), 'utf8'));
   const generatedBody = generatedPage('.legacy-content').first();

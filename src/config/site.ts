@@ -13,7 +13,6 @@ export const site = {
    */
   openGraphLocale: 'en_US',
   authorDisplayName: 'Jay',
-  contactEmail: 'jay@musclehacking.com',
   defaultDescription:
     'An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started.',
   defaultImage: '/img/musclehacking.png',

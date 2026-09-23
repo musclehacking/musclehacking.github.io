@@ -3,7 +3,6 @@ export const blogSlugs = [
   "australian-health-star-rating",
   "best-protein-powder-for-building-muscle",
   "breakup-energy",
-  "calorie-calculator-how-to",
   "change",
   "healthy-low-calorie-foods",
   "healthy-organic-post",

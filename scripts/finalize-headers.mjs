@@ -8,7 +8,8 @@ const hashes = new Set();
 
 for (const path of readdirRecursive(clientRoot).filter((candidate) => candidate.endsWith('.html'))) {
   const $ = load(readFileSync(path, 'utf8'));
-  $('script:not([src])').each((_, script) => {
+  // JSON-LD blocks are data, not executable script, so CSP does not govern them.
+  $('script:not([src]):not([type="application/ld+json"])').each((_, script) => {
     const source = $(script).html() ?? '';
     if (source) hashes.add(`'sha256-${createHash('sha256').update(source).digest('base64')}'`);
   });

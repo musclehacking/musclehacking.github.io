@@ -480,9 +480,6 @@ test('UI-08 calculator guide restores its distinct intro, image, TOC, and Diet h
   await expect(page.locator('#goal-leangains')).toHaveCount(1);
   await expect(page.locator('#how-much-protein-leangains')).toHaveCount(1);
 
-  await page.goto('/blog/calorie-calculator-how-to');
-  await expect(page.locator('#diet')).toHaveCount(0);
-  await expect(page.locator('#goal-lg')).toHaveCount(1);
 });
 
 test('UI-09 restores article, calculator guide, and supplement heading hierarchy', async ({ page }) => {
@@ -525,7 +522,8 @@ test('UI-10 restores the complete legacy home grid, overlay alignment, and recen
     '/blog/australian-health-star-rating',
     '/blog/healthy-organic-post',
     '/blog/what-is-intermittent-fasting',
-    '/blog/calorie-calculator-how-to',
+    // Replaces the retired calculator guide article, which now 301s to the calculator.
+    '/calorie-calculator/#how-to-use',
   ];
 
   for (const [width, expectedTitleX, expectedImageX] of [
@@ -650,7 +648,8 @@ test('UI-12 restores previous and next article navigation at desktop and mobile'
   }
 
   await page.setViewportSize({ width: 1_440, height: 1_000 });
-  await page.goto('/blog/calorie-calculator-how-to');
+  // The oldest served article has no previous post.
+  await page.goto('/blog/what-is-intermittent-fasting');
   await expect(page.locator('#post-prev')).toHaveCount(0);
   await expect(page.locator('#post-next')).toHaveCSS('float', 'right');
   await page.setViewportSize({ width: 390, height: 844 });
@@ -667,7 +666,6 @@ test('reopened article endings restore share, comment, disclaimers, wrapping, an
     'australian-health-star-rating',
     'best-protein-powder-for-building-muscle',
     'breakup-energy',
-    'calorie-calculator-how-to',
     'change',
     'healthy-low-calorie-foods',
     'healthy-organic-post',
@@ -677,7 +675,7 @@ test('reopened article endings restore share, comment, disclaimers, wrapping, an
     'weak',
     'what-is-intermittent-fasting',
   ];
-  const railRoutes = new Set(articleSlugs.filter((slug) => slug !== 'calorie-calculator-how-to'));
+  const railRoutes = new Set(articleSlugs);
   const wrappingRoutes = new Set(['breakup-energy', 'change', 'idols', 'weak']);
   const disclaimerRoutes = new Set(['healthy-low-calorie-foods']);
 
@@ -921,13 +919,7 @@ test('AUD-07 applies the approved AA-safe callout and supplement control palette
   expect(contrastRatio(parseColour(homeNote.colour), [255, 255, 255])).toBeGreaterThanOrEqual(4.5);
   expect((await readColours('.project-callout--note'))!.border).toBe('rgb(9, 105, 218)');
 
-  // The only Important callout in the build is on the legacy calculator article.
-  await page.goto('/blog/calorie-calculator-how-to');
-  const guideImportant = (await readColours('.project-callout--important .alert-title'))!;
-  // GitHub light-mode `--color-done-fg`, replacing the 3.35:1 dark-mode `#A371F7`.
-  expect(guideImportant.colour).toBe('rgb(130, 80, 223)');
-  expect(contrastRatio(parseColour(guideImportant.colour), [255, 255, 255])).toBeGreaterThanOrEqual(4.5);
-  expect((await readColours('.project-callout--important'))!.border).toBe('rgb(130, 80, 223)');
+  // No served page renders an Important callout since the calculator guide article became a 301.
 
   await page.goto('/supplements/');
   const filters = await page.evaluate(() => {

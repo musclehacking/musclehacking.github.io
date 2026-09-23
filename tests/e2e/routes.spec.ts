@@ -108,19 +108,12 @@ test('canonical calculator guide receives the recorded legacy article geometry',
   await expect(guide.locator('> #ul-nm7')).toHaveCSS('margin-top', '10px');
 });
 
-test('legacy calculator guide preserves the recorded Important callout icon', async ({ page }) => {
-  await page.goto('/blog/calorie-calculator-how-to');
-
-  const callout = page.getByRole('complementary', { name: 'Important' });
-  const icon = callout.locator('.alert-title > svg.octicon.octicon-report');
-  await expect(callout.locator('.alert-title')).toHaveText('Important');
-  await expect(icon).toHaveAttribute('aria-hidden', 'true');
-  await expect(icon).toHaveAttribute('viewBox', '0 0 16 16');
-  await expect(icon).toHaveAttribute('width', '16');
-  await expect(icon).toHaveAttribute('height', '16');
-  await expect(icon.locator('path')).toHaveAttribute('d', 'M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z');
-  await expect(callout).not.toContainText('▣');
-  expect(await icon.boundingBox()).toMatchObject({ width: 16, height: 16 });
+test('the retired calculator guide article permanently redirects to the calculator', async ({ request }) => {
+  for (const path of ['/blog/calorie-calculator-how-to', '/blog/calorie-calculator-how-to/']) {
+    const response = await request.get(path, { maxRedirects: 0 });
+    expect(response.status(), path).toBe(301);
+    expect(response.headers().location, path).toBe('/calorie-calculator/');
+  }
 });
 
 test('desktop longform headings preserve their legacy self-links', async ({ page }) => {
@@ -196,7 +189,7 @@ test('discovery output is production-only and feed links resolve', async ({ requ
 
   const feed = await (await request.get('/feed.xml')).text();
   const links = [...feed.matchAll(/<link>(https:\/\/www\.musclehacking\.com\/blog\/[^<]+)<\/link>/g)].map((match) => new URL(match[1]!).pathname);
-  expect(links).toHaveLength(12);
+  expect(links).toHaveLength(11);
   for (const path of links) expect((await request.get(path)).status()).toBe(200);
 });
 

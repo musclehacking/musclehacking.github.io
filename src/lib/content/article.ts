@@ -27,6 +27,7 @@ export async function resolveArticle(entry: ArticleEntry, collection: 'blog' | '
     canonicalPath,
     image: typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src,
     article: isBlog,
+    articleDates: { published: entry.data.published, updated: entry.data.updated },
   };
   const resolvedMetadata = resolvePageMetadata(metadata, site);
   let navigation: ResolvedNavigation;

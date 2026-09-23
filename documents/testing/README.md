@@ -4,7 +4,7 @@
 - `pnpm test`: route, calculator, supplement, and newsletter unit contracts.
 - `pnpm build`: Astro build, mixed-route shaping, and CSP hash finalisation.
 - `pnpm verify:dist`: complete route inventory, metadata, links, images, discovery output, forbidden strings across emitted markup, styles, browser JavaScript, source maps, and manifests, CSP, and compressed JavaScript budgets.
-- `scripts/run-e2e-local.sh`: all 20 routes and key interactions in desktop and mobile Chromium through one task-owned local Wrangler preview. This wrapper is the only supported way to run the E2E suite locally.
+- `scripts/run-e2e-local.sh`: all 19 served routes, the retired-URL 301, and key interactions in desktop and mobile Chromium through one task-owned local Wrangler preview. This wrapper is the only supported way to run the E2E suite locally.
 - `pnpm test:agent-a11y`: axe serious and critical checks on representative content, interaction, form, and 404 routes.
 
 The unit suite also validates collection schemas, metadata composition, authoring lint, bylines, derived navigation, listing order, and disposable draft/future fixtures. `scripts/content-authoring-parity.mjs` compares all twelve articles plus Books and the beginner guide against the audited legacy tree at 1440px and 390px.
@@ -34,7 +34,7 @@ Measured on 4 September 2026 on branch `codex/astro-cloudflare-migration` with N
 
 - `pnpm check`: 115 files, 0 errors, 0 warnings, 5 deprecation hints.
 - `pnpm test`: 97 tests passed in 16 files.
-- `pnpm build` and `pnpm verify:dist`: pass, with the summary line `Verified 21 HTML files, 20 public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.`
+- `pnpm build` and `pnpm verify:dist`: pass, with the summary line `Verified 20 HTML files, 19 public routes, expected titles, article and long-form bodies, fragments, discovery output, CSP, links, images, browser output forbidden strings, and JavaScript budgets.`
 - `scripts/run-e2e-local.sh --workers=3`: 286 cases, 264 passed, 22 intentional single-project skips, 0 failed.
 - `pnpm test:agent-a11y`: 6 passed, with **no** `color-contrast` exception left in `tests/a11y/site.spec.ts` after the A11Y-01 and A11Y-02 palette decisions.
 - Full 20-route document heights at 1440px and 390px: 38 of 40 within tolerance. The two exceptions are `/supplements/` at -4px (1440px) and -46px (390px) across a 56,000px document. Every route has zero horizontal overflow at 1440px, 414px, 390px, 375px, and 320px.

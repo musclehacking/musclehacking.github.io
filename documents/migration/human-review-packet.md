@@ -1,17 +1,23 @@
 # Human review packet
 
-Status: approval required before hosted newsletter completion or production cutover.
+Status: content and policy decisions recorded 23 September 2026. Hosted acceptance, newsletter credentials, and cutover approval remain.
 
-## Decisions required
+## Content and policy decisions recorded - 23 September 2026
 
-1. Confirm the public identity and structured-data type. Current visible source uses the name `Jay`; no structured data is emitted by the rebuild.
-2. Confirm the contact address `jay@musclehacking.com` and the migrated About copy.
-3. Decide whether `/about/`, `/contact/`, and `/privacy/` should be added, and supply approved facts and privacy wording.
-4. Approve self-canonicals for all 18 indexable routes or list exact exceptions.
-5. Approve the preserved `archive.org_bot` and `ia_archiver` crawler exclusions.
-6. Confirm that no analytics should ship, or supply an approved current destination and privacy basis.
-7. Provide access to the Cloudflare account containing the `musclehacking.com` zone.
-8. Confirm the existing newsletter provider, audience, challenge policy, and a preview-only test destination. If reCAPTCHA cannot be recovered, approve or reject a separate Turnstile change.
+| ID | Decision | Applied change |
+| --- | --- | --- |
+| POL-01 | Public identity is **Jay**. Emit structured data with **no postal or email address**. | `src/lib/structured-data.ts` emits a `WebSite` and `Person` ("Jay", `sameAs` the four social profiles) on every document, plus a `BlogPosting` on articles. `contactEmail` was removed from `src/config/site.ts`. `scripts/verify-dist.mjs` requires one parseable JSON-LD block per page with no email or address. JSON-LD is data, so it is excluded from the CSP hash list. |
+| POL-02 | No `/about/`, `/contact/`, or `/privacy/` pages. | None. |
+| POL-03 | Self-canonicals on every indexable route. `/blog/calorie-calculator-how-to` (which always canonicalised to the calculator) becomes a Cloudflare `301` to `/calorie-calculator/`. | `permanentRedirects` in `src/config/routes.ts`, written first into `_redirects` by `scripts/shape-routes.mjs`. The article source was moved to the macOS Trash and remains in Git history at `a7a851f`. The home card and sidebar link now point to `/calorie-calculator/#how-to-use`. |
+| POL-04 | Keep the `archive.org_bot` and `ia_archiver` exclusions. | None. |
+| POL-05 | No page analytics. Use Cloudflare's built-in zone traffic analytics only. | None: no script, cookie, or CSP change. |
+| POL-06 | Cloudflare access: `jake.sacino@gmail.com` was invited to the zone's account. | Verified read access to zone `325308665734cda0d51e001f336becca` in account `da18a65e27f34f43051b853e509ef411` (Free plan, active). |
+| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay with the Cloudflare Worker if simpler. | Pending implementation. The legacy relay is `https://dev.musclehacking.com/subscription-handler.php`, which forwards to GetResponse (`campaign_token=qwsfu`). Recommended: `/api/subscribe` verifies Turnstile and calls the GetResponse API directly. Needs a GetResponse API key, the production and preview list names, and a Turnstile widget. |
+
+## Decisions still open
+
+1. Hosted side-by-side acceptance of the review Worker URL.
+2. Whether the visible `jay@musclehacking.com` links in the sidebar, the 404 page, and `healthy-low-calorie-foods` stay. POL-01 covers structured data only.
 
 ## Accessibility decisions recorded (AUD-07) - 4 September 2026
 

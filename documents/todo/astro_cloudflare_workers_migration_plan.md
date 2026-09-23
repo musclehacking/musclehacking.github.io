@@ -570,7 +570,9 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - The suite fails if the callout icon and title wrap onto separate lines; if the heading arrow points away from the anchor; if the anchor glyph is thicker than production; if `Link Copied` uses a different motion or placement; if Facebook, LinkedIn, or copy-link is not optically centred; or if share tooltips use a non-bouncy substitute animation.
 - The visual report separates raw full-page difference, evaluated component difference, masks, viewport, interaction state, live baseline timestamp, and reviewer decision.
 
-### Step 11: Complete Human Content and Policy Review
+### Step 11: Complete Human Content and Policy Review 🔄 **IN PROGRESS**
+
+**23 September 2026:** identity, structured data, page set, canonicals, the calculator-guide 301, crawler policy, analytics, and Cloudflare access are decided and applied (POL-01 to POL-06 in `documents/migration/human-review-packet.md`). The Turnstile and GetResponse newsletter change (POL-07) and the visible contact-email question remain.
 
 **Objective:** Resolve facts that code and public source inspection cannot authoritatively decide.
 

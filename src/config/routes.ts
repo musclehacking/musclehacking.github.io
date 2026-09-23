@@ -107,5 +107,15 @@ export const routes: readonly PublicRoute[] = [
   })),
 ];
 
+/**
+ * Retired legacy URLs that Cloudflare answers with a permanent redirect.
+ * `scripts/shape-routes.mjs` writes these into `_redirects` ahead of the route rules.
+ */
+export const permanentRedirects: readonly { from: string; to: string }[] = [
+  // The guide was always canonicalised to the calculator page (human decision, 23 September 2026).
+  { from: '/blog/calorie-calculator-how-to', to: '/calorie-calculator/' },
+  { from: '/blog/calorie-calculator-how-to/', to: '/calorie-calculator/' },
+];
+
 export const routeByPath = new Map(routes.map((route) => [route.path, route]));
 export { blogSlugs };

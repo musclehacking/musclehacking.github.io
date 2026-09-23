@@ -1,4 +1,5 @@
 import type { site as siteConfig } from '../config/site';
+import type { ArticleDates } from './structured-data';
 
 export type TitleMode = 'composed' | 'prefixed' | 'absolute';
 
@@ -11,9 +12,11 @@ export interface PageMetadataInput {
   indexable?: boolean;
   article?: boolean;
   socialTitle?: string;
+  /** Publication dates for article JSON-LD; omitted on non-article documents. */
+  articleDates?: ArticleDates;
 }
 
-export interface ResolvedPageMetadata extends Required<Omit<PageMetadataInput, 'socialTitle'>> {
+export interface ResolvedPageMetadata extends Required<Omit<PageMetadataInput, 'socialTitle' | 'articleDates'>> {
   pageTitle: string;
   documentTitle: string;
   canonicalUrl: string;

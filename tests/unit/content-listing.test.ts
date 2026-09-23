@@ -34,7 +34,6 @@ const posts = [
   entry('australian-health-star-rating', '2018-06-01', 'Australian Health Star Ratings: A Failed Experiment'),
   entry('healthy-organic-post', '2018-05-01', 'A Healthy, Organic, Naturally Flavoured Post'),
   entry('what-is-intermittent-fasting', '2018-04-01', 'What is Intermittent Fasting?'),
-  entry('calorie-calculator-how-to', '2018-03-01', 'How To Use The Calorie Calculator'),
 ];
 
 const pages = [
@@ -47,17 +46,19 @@ describe('getListing', () => {
     content.getCollection.mockImplementation(async (name: string) => name === 'blog' ? posts : pages);
   });
 
-  it('merges posts, listed pages, and the pinned supplement in published order', async () => {
+  it('merges posts, listed pages, and the pinned sections in published order', async () => {
     const listing = await getListing(new Date('2026-09-03T00:00:00Z'));
     expect(listing).toHaveLength(15);
     expect(listing.map((item) => item.href)).toEqual([
       '/blog/breakup-energy', '/lose-fat-gain-muscle/', '/blog/idols', '/blog/weak', '/blog/change', '/books/', '/supplements/', '/blog/normal',
       '/blog/reject-modernity-embrace-masculinity', '/blog/best-protein-powder-for-building-muscle', '/blog/healthy-low-calorie-foods',
-      '/blog/australian-health-star-rating', '/blog/healthy-organic-post', '/blog/what-is-intermittent-fasting', '/blog/calorie-calculator-how-to',
+      '/blog/australian-health-star-rating', '/blog/healthy-organic-post', '/blog/what-is-intermittent-fasting', '/calorie-calculator/#how-to-use',
     ]);
     expect(listing[0]).toMatchObject({ title: 'Breakup Energy', description: 'A new fundamental force has been discovered.', imageAlt: 'Breakup Energy', date: 'September 2025', ratio: '5 / 3' });
     expect(listing[6]).toMatchObject({ title: 'The Best Muscle Building Supplement Stack (Based on Research)', sidebarTitle: 'Muscle Building Supplement Stack (Based on Research)' });
     expect(listing[7]?.ratio).toBe('100 / 51.57142857');
+    // The retired calculator guide article is replaced by a pinned card that skips the 301.
+    expect(listing[14]).toMatchObject({ title: 'How To Use The Calorie Calculator', sidebarTitle: 'How To Use The Calorie Calculator', date: 'March 2018' });
   });
 
   it('excludes draft and future posts', async () => {

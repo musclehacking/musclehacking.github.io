@@ -1,12 +1,14 @@
 ---
 import { site } from '../../config/site';
 import { resolvePageMetadata, type PageMetadataInput } from '../../lib/metadata';
+import { buildStructuredData, serializeStructuredData } from '../../lib/structured-data';
 
 interface Props {
   metadata: PageMetadataInput;
 }
 
 const resolved = resolvePageMetadata(Astro.props.metadata, site);
+const structuredData = serializeStructuredData(buildStructuredData(resolved, site, Astro.props.metadata.articleDates));
 ---
 
 <meta charset="utf-8" />
@@ -27,3 +29,4 @@ const resolved = resolvePageMetadata(Astro.props.metadata, site);
 <meta name="twitter:title" content={resolved.socialTitle} />
 <meta name="twitter:description" content={resolved.description} />
 <title>{resolved.documentTitle}</title>
+<script is:inline type="application/ld+json" set:html={structuredData} />

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
+import { permanentRedirects } from '../src/config/routes.ts';
 
 const repositoryRoot = '/Users/sacino/musclehacking';
 const baselineRoot = process.env.VISUAL_BASELINE_DIR ?? '/Users/sacino/Documents/codex/web-development/musclehacking/legacy-baseline-9bf25d0/screenshots';
@@ -24,6 +25,7 @@ const maxChannelDelta = 16;
 const comparisonRadius = 1;
 // Include antialiased borders and control shadows without masking adjacent content.
 const maskPadding = 4;
+const retiredPaths = new Set(permanentRedirects.map(({ from }) => from));
 const routesFixture = JSON.parse(await readFile(path.join(repositoryRoot, 'tests/fixtures/legacy/routes.json'), 'utf8'));
 const confirmationGifPath = path.join(repositoryRoot, 'public/img/hit-me-up-bb-girl.gif');
 const modernityHeroPath = path.join(repositoryRoot, 'public/img/reject-modernity-embrace-masculinity.png');
@@ -80,7 +82,8 @@ const legacyPrepare = {
 };
 
 const states = [
-  ...routesFixture.routes.map(({ path: routePath }) => ({
+  // Retired legacy URLs are 301s now, so they have no page to compare.
+  ...routesFixture.routes.filter(({ path: routePath }) => !retiredPaths.has(routePath)).map(({ path: routePath }) => ({
     path: routePath,
     name: routeName(routePath),
     prepare: routePath === '/supplements/'

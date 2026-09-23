@@ -29,9 +29,6 @@ test.describe('fifth review parity', () => {
     await expect(page.locator('[data-content-ending] .anchorjs-link')).toHaveCount(0);
     await expect(page.locator('.anchorjs-link')).toHaveCount(204);
 
-    // The legacy calculator article never loaded anchor.js.
-    await page.goto('/blog/calorie-calculator-how-to');
-    await expect(page.locator('.anchorjs-link')).toHaveCount(0);
     await page.goto('/blog/best-protein-powder-for-building-muscle');
     await expect(page.locator('.anchorjs-link')).toHaveCount(17);
   });

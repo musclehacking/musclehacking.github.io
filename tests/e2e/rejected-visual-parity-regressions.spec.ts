@@ -155,13 +155,6 @@ test('note callout icons share one inline row and the legacy palette on every su
     expect(rows.svgSize).toEqual([16, 16]);
     expect(rows.gap).toBeCloseTo(8, 0);
   }
-
-  // Important keeps the legacy purple; Warning keeps the legacy amber.
-  await page.goto('/blog/calorie-calculator-how-to');
-  const important = page.locator('.project-callout--important .alert-title').first();
-  // AUD-07/A11Y-01 replaced the legacy dark-mode `--color-done-fg` #A371F7 (3.35:1)
-  // with GitHub's light-mode #8250DF (5.05:1).
-  await expect(important).toHaveCSS('color', 'rgb(130, 80, 223)');
 });
 
 test('share rail icons match the production visible-path geometry inside the 40px circles', async ({ page }) => {

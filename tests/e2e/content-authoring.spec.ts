@@ -24,20 +24,3 @@ test('books renders its authored callout component', async ({ page }) => {
   await page.goto('/books/');
   await expect(page.locator('.project-callout')).toHaveCount(1);
 });
-
-test('calculator article keeps the notice before its hero and disables heading links', async ({ page }) => {
-  await page.goto('/blog/calorie-calculator-how-to');
-
-  const callout = page.locator('.project-callout--important');
-  const hero = page.locator('.hero-image');
-  await expect(callout).toHaveCount(1);
-  await expect(hero).toHaveCount(1);
-  expect(await page.evaluate(() => {
-    const calloutElement = document.querySelector('.project-callout--important');
-    const heroElement = document.querySelector('.hero-image');
-    return Boolean(calloutElement && heroElement && (
-      calloutElement.compareDocumentPosition(heroElement) & Node.DOCUMENT_POSITION_FOLLOWING
-    ));
-  })).toBe(true);
-  await expect(page.locator('[data-heading-links="off"]')).toHaveCount(1);
-});
