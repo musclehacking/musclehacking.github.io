@@ -1,9 +1,25 @@
+/*
+ * Legacy `css/addon.css` split: each face ships a small basic-Latin file plus a full file for
+ * every other character (accents, en dash, ×, ½, ...), selected by unicode-range. Semibold has
+ * only the Latin subset in legacy, so other characters fall back to the nearest weight.
+ */
+
 @font-face {
   font-family: muscle2;
   src: url('./muscle2-reg-latin.woff') format('woff');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+  unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: muscle2;
+  src: url('./muscle2-reg.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+80-9F, U+A1-2009, U+200B-2013, U+2015-2017, U+201A-201B, U+201E-2021, U+2023-2025, U+2027-10FFFF;
 }
 
 @font-face {
@@ -12,6 +28,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
+  unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
 }
 
 @font-face {
@@ -20,6 +37,16 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
+  unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: muscle2;
+  src: url('./muscle2-bol.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+80-9F, U+A1-2009, U+200B-2013, U+2015-2017, U+201A-201B, U+201E-2021, U+2023-2025, U+2027-10FFFF;
 }
 
 @font-face {
@@ -28,6 +55,16 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
+  unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: muscle2;
+  src: url('./muscle2-ita.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+80-9F, U+A1-2009, U+200B-2013, U+2015-2017, U+201A-201B, U+201E-2021, U+2023-2025, U+2027-10FFFF;
 }
 
 @font-face {
@@ -36,6 +73,16 @@
   font-style: italic;
   font-weight: 700;
   font-display: swap;
+  unicode-range: U+0-7F, U+A0, U+200A, U+2014, U+2018, U+2019, U+201C, U+201D, U+2022, U+2026;
+}
+
+@font-face {
+  font-family: muscle2;
+  src: url('./muscle2-bol-ita.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  unicode-range: U+80-9F, U+A1-2009, U+200B-2013, U+2015-2017, U+201A-201B, U+201E-2021, U+2023-2025, U+2027-10FFFF;
 }
 
 @font-face {
@@ -1007,6 +1054,31 @@ figcaption,
   display: none;
 }
 
+/* Inline glossary terms (ADP, ATP, DHT, ...). Legacy rendered them as prose links with the
+   same underline, hover fill, and "What is X?" popover as the evidence badge. */
+.term-popover {
+  position: relative;
+}
+
+.supplement-detail .supplement-term {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  /* A button is sized by its line box; `normal` gives the legacy inline link's 25px text box. */
+  line-height: normal;
+  letter-spacing: inherit;
+  cursor: pointer;
+  box-shadow: inset 0 -2px 0 #206593;
+  transition: 0.2s linear;
+}
+
+.supplement-detail .supplement-term:is(:hover, :focus-visible, [aria-expanded='true']) {
+  box-shadow: inset 0 -21px 0 #3f95d033;
+}
+
 .legacy-content :is(.row, .container, [class*='col-']) {
   width: 100%;
   max-width: 100%;
@@ -1209,8 +1281,31 @@ figcaption,
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+ * The AnchorJS link glyph (U+E9CB). The font glyph still sizes the control, so its advance and
+ * the heading's letter-spacing keep the legacy geometry, but it is painted transparent. The
+ * visible icon is the same outline as an SVG mask, so a blocked or failed
+ * `anchorjs-icons.ttf` request can never show a missing-glyph box. The mask box is the
+ * font's 1024-unit em box (ascent 960, descent 64), centred like the glyph's content area,
+ * and 704 units wide so the outline's overhang past the 640-unit advance is not clipped.
+ */
 :is(.legacy-content, [data-heading-links]) .anchorjs-link::after {
   content: attr(data-anchorjs-icon);
+  -webkit-text-fill-color: transparent;
+}
+
+:is(.legacy-content, [data-heading-links]) .anchorjs-link::before {
+  --anchorjs-glyph: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20704%201024'%3E%3Cpath%20d='M321%20653Q315%20653%20309%20650.5Q303%20648%20298%20643Q253%20598%20253%20533.5Q253%20469%20298%20423L420%20301Q442%20279%20470.5%20267.5Q499%20256%20530%20256Q561%20256%20589.5%20267.5Q618%20279%20640%20301Q685%20347%20685%20411Q685%20475%20640%20521L584%20577Q574%20586%20560.5%20586Q547%20586%20537%20577Q527%20567%20527%20553.5Q527%20540%20537%20530L593%20474Q619%20448%20619%20411Q619%20374%20593%20348Q580%20335%20564%20328.5Q548%20322%20530%20322Q512%20322%20496%20328.5Q480%20335%20467%20348L345%20470Q319%20496%20319%20533Q319%20570%20345%20596Q354%20606%20354%20619.5Q354%20633%20345%20643Q340%20648%20334%20650.5Q328%20653%20321%20653ZM204%20892Q173%20892%20144.5%20880.5Q116%20869%2094%20847Q49%20801%2049%20737Q49%20673%2094%20627L150%20571Q160%20562%20173.5%20562Q187%20562%20197%20571Q207%20581%20207%20594.5Q207%20608%20197%20618L141%20674Q115%20700%20115%20737Q115%20774%20141%20800Q154%20813%20170%20819.5Q186%20826%20204%20826Q222%20826%20238%20819.5Q254%20813%20267%20800L389%20678Q415%20652%20415%20615Q415%20578%20389%20552Q380%20542%20380%20528.5Q380%20515%20389%20505Q399%20495%20412.5%20495Q426%20495%20436%20505Q481%20550%20481%20614.5Q481%20679%20436%20725L314%20847Q292%20869%20263.5%20880.5Q235%20892%20204%20892Z'/%3E%3C/svg%3E");
+  position: absolute;
+  top: 50%;
+  left: 0.25em;
+  width: 0.6875em;
+  height: 1em;
+  margin-top: -0.5em;
+  background-color: currentColor;
+  content: '';
+  -webkit-mask: var(--anchorjs-glyph) no-repeat 0 0 / 100% 100%;
+  mask: var(--anchorjs-glyph) no-repeat 0 0 / 100% 100%;
 }
 
 :is(.legacy-content, [data-heading-links]) :is(h2, h3, h4, h5):hover > .anchorjs-link {

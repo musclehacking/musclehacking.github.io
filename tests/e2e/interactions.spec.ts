@@ -276,7 +276,8 @@ test('supplement filters update their context note and first-result state', asyn
       filter: 'Testosterone',
       firstResult: 'Zinc',
       title: 'Important',
-      note: 'Zinc and magnesium supplements may contribute to normalizing testosterone levels only if there is an underlying deficiency in these minerals. Supplementing with these minerals in the absence of a deficiency has not been shown to improve testosterone levels.',
+      // Two legacy paragraphs joined by <br><br>, which contribute no text.
+      note: 'Zinc and magnesium supplements may contribute to normalizing testosterone levels only if there is an underlying deficiency in these minerals.Supplementing with these minerals in the absence of a deficiency has not been shown to improve testosterone levels.',
     },
     { filter: 'Focus', firstResult: 'Alpha GPC' },
     { filter: 'Brain Function', firstResult: 'Creatine' },

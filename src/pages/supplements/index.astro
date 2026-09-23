@@ -170,8 +170,24 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
   }
 
   .supplement-toc a {
+    /* Legacy `#toc .nav>li>a`: 10px padding after a 2px rail, pulled left so text keeps its x. */
+    display: block;
+    margin-left: -12px;
+    padding-left: 10px;
+    border-left: 2px solid transparent;
     color: #6f6f6f;
     text-decoration: none;
+  }
+
+  /* Legacy `#toc .nav-link.active, #toc .nav>li>a:hover` (Bootstrap ScrollSpy state). */
+  .supplement-toc a:hover,
+  .supplement-toc a.active {
+    color: #000;
+    border-left-color: #1f618d;
+  }
+
+  .supplement-toc a.active {
+    border-left-width: 3px;
   }
 
   .supplements-page .supplement-card {
@@ -424,6 +440,15 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
 
   /* Legacy 767px mobile rhythm: `article div.post-body ol, p, ul { margin-top: 21px }`. */
   @media (max-width: 767px) {
+    /* Legacy mobile body text is 18px; the byline and the 0.9em evidence badge inherit it. */
+    .supplements-page .byline {
+      font-size: 18px;
+    }
+
+    .supplements-page .evidence-badge {
+      font-size: 16.2px;
+    }
+
     .supplements-page .supplement-detail p,
     .supplements-page .supplement-detail > ul,
     .supplements-page [data-supplement-support] p,

@@ -13,7 +13,7 @@ const EVIDENCE_SELECTOR = "[data-supplement-evidence]";
 const POPOVER_TRIGGER_SELECTOR = "[data-supplement-popover]";
 const INFORMATION_LINK_SELECTOR = "[data-supplement-information-link]";
 const NOTE_ICON_PATH = "M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z";
-const IMPORTANT_ICON_PATH = "M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z";
+const IMPORTANT_ICON_PATH = "M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z";
 
 /**
  * Enhances fully rendered supplement HTML. If this module does not run, all
@@ -33,6 +33,7 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
       updateActiveFilter(root, filterId);
       updateCategoryNote(root, filterId);
       updateCategoryTop(root, "supplement-information");
+      updateActiveTocLink(root, documentNode);
       return;
     }
 
@@ -70,6 +71,17 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
     updateCategoryNote(root, filterId);
     updateCategoryTop(root, selected[0]?.id);
     renderTableOfContents(root, filterId);
+    updateActiveTocLink(root, documentNode);
+  };
+
+  // Legacy Bootstrap 4 scrollspy on <body>: recompute on scroll, at most once per frame.
+  let scrollFrame = 0;
+  const handleScroll = (): void => {
+    if (scrollFrame) return;
+    scrollFrame = documentNode.defaultView?.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      updateActiveTocLink(root, documentNode);
+    }) ?? 0;
   };
 
   const handleClick = (event: Event): void => {
@@ -181,6 +193,7 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
   eventRoot.addEventListener("pointerout", handlePointerOut);
   eventRoot.addEventListener("focusin", handleFocusIn);
   eventRoot.addEventListener("focusout", handleFocusOut);
+  documentNode.defaultView?.addEventListener("scroll", handleScroll, { passive: true });
 
   const initialFilter = hasValidHashTarget(documentNode) ? "show-all" : "muscle-growth";
   applyFilter(initialFilter);
@@ -194,6 +207,8 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
     eventRoot.removeEventListener("pointerout", handlePointerOut);
     eventRoot.removeEventListener("focusin", handleFocusIn);
     eventRoot.removeEventListener("focusout", handleFocusOut);
+    documentNode.defaultView?.removeEventListener("scroll", handleScroll);
+    if (scrollFrame) documentNode.defaultView?.cancelAnimationFrame(scrollFrame);
   };
 }
 
@@ -250,7 +265,12 @@ function updateCategoryNote(root: ExplorerRoot, filterId: string): void {
   const text = container.querySelector<HTMLElement>("[data-supplement-category-note-text]");
   const icon = container.querySelector<SVGPathElement>("[data-supplement-category-note-icon]");
   if (title) title.textContent = notice.title;
-  if (text) text.textContent = notice.text;
+  // Blank-line breaks in the notice text become the legacy `<br><br>` paragraph breaks.
+  if (text) {
+    text.replaceChildren(...notice.text.split("\n\n").flatMap((paragraph, index) => index === 0
+      ? [paragraph]
+      : [text.ownerDocument.createElement("br"), text.ownerDocument.createElement("br"), paragraph]));
+  }
   if (icon) icon.setAttribute("d", notice.title === "Important" ? IMPORTANT_ICON_PATH : NOTE_ICON_PATH);
 }
 
@@ -261,6 +281,40 @@ function updateCategoryTop(root: ExplorerRoot, targetId: string | undefined): vo
 
   if (!targetId) return;
   root.querySelector<HTMLElement>(`#${targetId}`)?.classList.add("category-top");
+}
+
+/** Bootstrap 4 ScrollSpy's default offset: a target is current once its top is within 10px of the viewport top. */
+const SCROLLSPY_OFFSET = 10;
+
+/**
+ * Mirrors Bootstrap 4 ScrollSpy: the current link is the last visible target whose top is at
+ * or above the scroll position plus the offset. Before the first target nothing is current,
+ * and at the bottom of the page the last target is current.
+ */
+function updateActiveTocLink(root: ExplorerRoot, documentNode: Document): void {
+  const view = documentNode.defaultView;
+  const links = [...root.querySelectorAll<HTMLAnchorElement>("[data-supplement-toc] a[href^='#']")];
+  if (!view || links.length === 0) return;
+
+  const scrollTop = view.scrollY + SCROLLSPY_OFFSET;
+  const maxScroll = documentNode.documentElement.scrollHeight - view.innerHeight;
+  const targets = links
+    .map((link) => ({ link, target: documentNode.getElementById(decodeURIComponent(link.hash.slice(1))) }))
+    .filter((entry): entry is { link: HTMLAnchorElement; target: HTMLElement } =>
+      entry.target !== null && entry.target.getClientRects().length > 0)
+    .map(({ link, target }) => ({ link, top: target.getBoundingClientRect().top + view.scrollY }))
+    .sort((left, right) => left.top - right.top);
+
+  let active: HTMLAnchorElement | undefined;
+  if (targets.length && scrollTop >= maxScroll + SCROLLSPY_OFFSET - 1) {
+    active = targets[targets.length - 1]!.link;
+  } else {
+    for (const { link, top } of targets) {
+      if (scrollTop >= top) active = link;
+    }
+  }
+
+  for (const link of links) link.classList.toggle("active", link === active);
 }
 
 function renderTableOfContents(root: ExplorerRoot, filterId: string): void {

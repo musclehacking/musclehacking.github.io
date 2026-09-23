@@ -29,7 +29,11 @@ test('supplement term help exposes the recorded explanation', async ({ page }) =
   await page.goto('/supplements/');
 
   const trigger = page.locator('#creatine button.supplement-term', { hasText: 'ADP' }).first();
-  await trigger.click();
+  // Keep the term clear of the floating share rail, then use the device's own pointer:
+  // a tap on touch devices, and the legacy hover trigger with a mouse.
+  await trigger.evaluate((element) => element.scrollIntoView({ block: 'center' }));
+  if (test.info().project.use.hasTouch) await trigger.tap();
+  else await trigger.hover();
 
   const panelId = await trigger.getAttribute('aria-controls');
   expect(panelId).not.toBeNull();

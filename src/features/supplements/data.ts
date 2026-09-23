@@ -53,7 +53,7 @@ export const supplementFilters = [
     categories: ["test"],
     notice: {
       title: "Important",
-      text: "Zinc and magnesium supplements may contribute to normalizing testosterone levels only if there is an underlying deficiency in these minerals. Supplementing with these minerals in the absence of a deficiency has not been shown to improve testosterone levels.",
+      text: "Zinc and magnesium supplements may contribute to normalizing testosterone levels only if there is an underlying deficiency in these minerals.\n\nSupplementing with these minerals in the absence of a deficiency has not been shown to improve testosterone levels.",
     },
   },
   { id: "focus", label: "Focus", categories: ["focus"] },

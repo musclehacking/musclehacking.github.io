@@ -94,6 +94,11 @@ function replaceTermPopovers(root: Selection, supplementId: SupplementId): void 
     if (!content) return;
 
     const panelId = `term-help-${supplementId}-${index + 1}`;
+    const label = term.text().trim();
+    // Legacy Bootstrap popovers titled each term ("What is ADP?"); reuse the evidence popover's
+    // title/body structure so terms get the same positioned popover. Spans only: these sit
+    // inside <p> and <li>, where a block element would split the paragraph when parsed.
+    const title = term.attr("title")?.trim() || `What is ${label}?`;
     const button = $("<button></button>")
       .attr({
         type: "button",
@@ -104,9 +109,11 @@ function replaceTermPopovers(root: Selection, supplementId: SupplementId): void 
       })
       .html(term.html() ?? term.text());
     const panel = $("<span></span>")
-      .attr({ id: panelId, class: "term-help", hidden: "" })
-      .html(content);
+      .attr({ id: panelId, class: "project-popover evidence-help term-help", role: "tooltip", hidden: "" })
+      .append($("<strong></strong>").attr("class", "evidence-help-title").text(title))
+      .append($("<span></span>").attr("class", "evidence-help-body").html(content));
+    const wrapper = $("<span></span>").attr("class", "term-popover").append(button, panel);
 
-    term.replaceWith(button.add(panel));
+    term.replaceWith(wrapper);
   });
 }
