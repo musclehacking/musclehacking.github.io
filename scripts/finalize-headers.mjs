@@ -17,8 +17,9 @@ for (const path of readdirRecursive(clientRoot).filter((candidate) => candidate.
 
 const headersPath = join(clientRoot, '_headers');
 const headers = readFileSync(headersPath, 'utf8');
-const scriptPolicy = `script-src 'self' ${[...hashes].sort().join(' ')}`.trim();
-writeFileSync(headersPath, headers.replace(/script-src 'self'[^;]*/, scriptPolicy));
+// Append the inline hashes to the authored script-src sources (for example the Turnstile origin).
+const withHashes = headers.replace(/script-src ([^;]*)/, (_, sources) => `script-src ${[sources.trim(), ...[...hashes].sort()].join(' ')}`);
+writeFileSync(headersPath, withHashes);
 
 function readdirRecursive(directory) {
   return readdirSync(directory).flatMap((name) => {

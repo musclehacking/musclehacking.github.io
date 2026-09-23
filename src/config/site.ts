@@ -22,6 +22,12 @@ export const site = {
     reddit: 'https://www.reddit.com/user/musclehacking/',
     substack: 'https://musclehacking.substack.com/',
   },
+  /**
+   * Public sitekey of the invisible Turnstile widget `musclehacking-newsletter` in the
+   * zone's Cloudflare account. It covers musclehacking.com and the review Worker host,
+   * so one build can be promoted from preview to production unchanged.
+   */
+  turnstileSiteKey: '0x4AAAAAAFAolLk0PGOQbQuA',
   crawlerPolicy: {
     blockedAgents: ['archive.org_bot', 'ia_archiver'],
   },

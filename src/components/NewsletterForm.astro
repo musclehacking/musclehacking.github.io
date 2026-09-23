@@ -1,5 +1,7 @@
 ---
 import { routeByPath } from '../config/routes';
+import { site } from '../config/site';
+import { TURNSTILE_ACTION } from '../features/newsletter/provider';
 
 interface Props {
   campaign?: string;
@@ -16,7 +18,7 @@ const sourceUrl = routeByPath.get(renderedPath)?.path
   ?? renderedPath;
 ---
 
-<form class:list={['newsletter-form', `newsletter-form--${placement}`]} data-newsletter-placement={placement} method="post" action="/api/subscribe">
+<form class:list={['newsletter-form', `newsletter-form--${placement}`]} data-newsletter-placement={placement} data-turnstile-sitekey={site.turnstileSiteKey} data-turnstile-action={TURNSTILE_ACTION} method="post" action="/api/subscribe">
   <input type="hidden" name="campaign" value={campaign} />
   <input type="hidden" name="formId" value={formId} />
   <input type="hidden" name="sourceUrl" value={sourceUrl} />
@@ -28,4 +30,10 @@ const sourceUrl = routeByPath.get(renderedPath)?.path
     <input id={`email-${formId}`} name="email" type="email" autocomplete="email" maxlength="254" placeholder="Your email address" required />
     <button type="submit">{buttonText}</button>
   </div>
+  {/* The invisible Turnstile widget renders here on submit and adds the cf-turnstile-response field. */}
+  <div class="visually-hidden" data-turnstile></div>
 </form>
+
+<script>
+  import '../scripts/newsletter-challenge';
+</script>

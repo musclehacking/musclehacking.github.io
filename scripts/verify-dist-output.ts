@@ -11,6 +11,8 @@ export const forbiddenOutputStrings = [
   'tippy',
   'anchor.min.js',
   'musclehacking.workers.dev',
+  // Replaced by Turnstile (POL-07).
+  'recaptcha',
 ] as const;
 
 const scannableOutputExtensions = new Set([

@@ -490,6 +490,8 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 
 ### Step 8: Move Newsletter Submission to a Narrow Cloudflare Worker Endpoint 🧪 **PENDING TESTING**
 
+**23 September 2026:** the provider is GetResponse, called directly from the Worker, and the challenge is invisible Cloudflare Turnstile (POL-07). The code, widget, unit tests, and hermetic browser tests are in place. Hosted success testing waits for a GetResponse API key and a preview list.
+
 **Objective:** Reproduce subscription outcomes on Cloudflare without exposing secrets or making page rendering dynamic.
 
 #### 8.1 High-Level Approach

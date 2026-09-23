@@ -12,7 +12,7 @@ Status: content and policy decisions recorded 23 September 2026. Hosted acceptan
 | POL-04 | Keep the `archive.org_bot` and `ia_archiver` exclusions. | None. |
 | POL-05 | No page analytics. Use Cloudflare's built-in zone traffic analytics only. | None: no script, cookie, or CSP change. |
 | POL-06 | Cloudflare access: `jake.sacino@gmail.com` was invited to the zone's account. | Verified read access to zone `325308665734cda0d51e001f336becca` in account `da18a65e27f34f43051b853e509ef411` (Free plan, active). |
-| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay with the Cloudflare Worker if simpler. | Pending implementation. The legacy relay is `https://dev.musclehacking.com/subscription-handler.php`, which forwards to GetResponse (`campaign_token=qwsfu`). Recommended: `/api/subscribe` verifies Turnstile and calls the GetResponse API directly. Needs a GetResponse API key, the production and preview list names, and a Turnstile widget. |
+| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay (`https://dev.musclehacking.com/subscription-handler.php`, which forwarded to GetResponse) with the Cloudflare Worker. | `/api/subscribe` verifies an invisible Turnstile token and calls the GetResponse v3 API directly (`documents/architecture/newsletter.md`). Widget `musclehacking-newsletter` was created in the zone's account. Still needed: a GetResponse API key plus production and preview list IDs. |
 
 ## Decisions still open
 

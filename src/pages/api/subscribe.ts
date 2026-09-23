@@ -49,7 +49,10 @@ export const POST: APIRoute = async ({ request }) => {
   const validation = validateSubscriptionForm(body.form);
   if (!validation.ok) return safeError(validation.status, validation.code);
 
-  const result = await subscribe(validation.value, newsletterEnvironment);
+  const result = await subscribe(validation.value, newsletterEnvironment, {
+    hostname: new URL(request.url).hostname,
+    ipAddress: request.headers.get('cf-connecting-ip') ?? undefined,
+  });
   if (result.ok) return redirectSuccess();
   if (result.code === 'challenge_failed') return safeError(400, 'challenge_failed');
   if (result.code === 'not_configured') return safeError(503, 'newsletter_unavailable');

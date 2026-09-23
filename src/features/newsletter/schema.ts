@@ -1,7 +1,7 @@
 import { blogSlugs } from '../../config/routes';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_FIELDS = new Set(['email', 'campaign', 'formId', 'sourceUrl', 'company', 'g-recaptcha-response']);
+const ALLOWED_FIELDS = new Set(['email', 'campaign', 'formId', 'sourceUrl', 'company', 'cf-turnstile-response']);
 const ALLOWED_SOURCE_PATHS = new Set([
   '/',
   '/blog/',
@@ -42,7 +42,8 @@ export function validateSubscriptionForm(form: FormData): ValidationResult {
   const campaign = boundedText(form.get('campaign'), 64);
   const formId = boundedText(form.get('formId'), 64);
   const sourceUrl = boundedText(form.get('sourceUrl'), 160);
-  const challengeToken = boundedText(form.get('g-recaptcha-response'), 4096) ?? '';
+  // Turnstile tokens are at most 2048 characters.
+  const challengeToken = boundedText(form.get('cf-turnstile-response'), 2048) ?? '';
 
   if (!email || !EMAIL_PATTERN.test(email)) return { ok: false, status: 400, code: 'invalid_email' };
   if (!campaign || !/^[a-z0-9_-]+$/i.test(campaign)) return { ok: false, status: 400, code: 'invalid_campaign' };
