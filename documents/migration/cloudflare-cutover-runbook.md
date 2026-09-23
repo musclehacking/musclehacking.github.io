@@ -19,11 +19,223 @@ Status: draft only. No cutover authority has been granted.
 
 Do not promote a version, bind a custom domain, change DNS, make the repository private, or retire GitHub Pages until this file contains the exact candidate commit, candidate and legacy Worker version IDs, preview evidence, authoritative DNS snapshot, proposed DNS diff, and inverse rollback, and the human explicitly approves this exact packet.
 
+## Authoritative before-state - 23 September 2026
+
+Queried read-only through the Cloudflare API as `jake.sacino@gmail.com` after the account invitation. Re-query immediately before any approved write and stop on any drift.
+
+| Field | Value |
+| --- | --- |
+| Account | `da18a65e27f34f43051b853e509ef411` ("Jake.sacino@live.com.au's Account") |
+| Zone | `musclehacking.com`, ID `325308665734cda0d51e001f336becca`, Free plan, active |
+| SSL/TLS mode | `full`, edge certificate `active` |
+| Always Use HTTPS | `off` |
+| Minimum TLS | `1.0` |
+| Workers in account | none |
+| Worker routes on zone | none |
+| Zone rulesets | Cloudflare managed only (normalization, managed free WAF, DDoS L7); no custom redirect rules |
+
+### Affected records: every field returned by the API
+
+The apex A records and the `www` CNAME are DNS-only (`proxied: false`), so GitHub Pages serves both hosts today and performs the apex-to-`www` redirect itself.
+
+```json
+[
+  {
+    "id": "d6309731b81a59ac2560e64607df518a",
+    "name": "musclehacking.com",
+    "type": "A",
+    "content": "185.199.108.153",
+    "proxiable": true,
+    "proxied": false,
+    "ttl": 1,
+    "settings": {},
+    "meta": {},
+    "comment": null,
+    "tags": [],
+    "created_on": "2018-06-03T01:19:58.827889Z",
+    "modified_on": "2018-06-03T01:19:58.827889Z"
+  },
+  {
+    "id": "713320b13a1094779e1e72018cdba75c",
+    "name": "musclehacking.com",
+    "type": "A",
+    "content": "185.199.109.153",
+    "proxiable": true,
+    "proxied": false,
+    "ttl": 1,
+    "settings": {},
+    "meta": {},
+    "comment": null,
+    "tags": [],
+    "created_on": "2018-06-03T01:19:58.412602Z",
+    "modified_on": "2018-06-03T01:19:58.412602Z"
+  },
+  {
+    "id": "e856dbc9dc8208a7ad8894bf71d24849",
+    "name": "musclehacking.com",
+    "type": "A",
+    "content": "185.199.110.153",
+    "proxiable": true,
+    "proxied": false,
+    "ttl": 1,
+    "settings": {},
+    "meta": {},
+    "comment": null,
+    "tags": [],
+    "created_on": "2018-06-03T01:19:57.657062Z",
+    "modified_on": "2018-06-03T01:19:57.657062Z"
+  },
+  {
+    "id": "c954edffd55370d603860f70bface537",
+    "name": "musclehacking.com",
+    "type": "A",
+    "content": "185.199.111.153",
+    "proxiable": true,
+    "proxied": false,
+    "ttl": 1,
+    "settings": {},
+    "meta": {},
+    "comment": null,
+    "tags": [],
+    "created_on": "2018-06-03T01:19:56.679661Z",
+    "modified_on": "2018-06-03T01:19:56.679661Z"
+  },
+  {
+    "id": "49a112e934ad8c7deed7924c764c0c3e",
+    "name": "www.musclehacking.com",
+    "type": "CNAME",
+    "content": "musclehacking.github.io",
+    "proxiable": true,
+    "proxied": false,
+    "ttl": 1,
+    "settings": {
+      "flatten_cname": false
+    },
+    "meta": {},
+    "comment": null,
+    "tags": [],
+    "created_on": "2018-06-03T11:51:46.213616Z",
+    "modified_on": "2018-06-03T11:51:46.213616Z"
+  }
+]
+```
+
+### Page rules: every field returned by the API
+
+Rule `4e0a9ac3…` is active but has no effect today, because page rules apply only to proxied traffic and the apex is DNS-only. The other two rules are disabled.
+
+```json
+[
+  {
+    "id": "4e0a9ac33acaf78c4176a85401f358e3",
+    "targets": [
+      {
+        "target": "url",
+        "constraint": {
+          "operator": "matches",
+          "value": "https://musclehacking.com/*"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "id": "forwarding_url",
+        "value": {
+          "url": "https://www.musclehacking.com/$1",
+          "status_code": 301
+        }
+      }
+    ],
+    "priority": 3,
+    "status": "active",
+    "created_on": "2018-06-02T11:57:16.000000Z",
+    "modified_on": "2020-05-23T03:40:03.000000Z"
+  },
+  {
+    "id": "2c99aede9ae5b0139d9b52cc83bd7806",
+    "targets": [
+      {
+        "target": "url",
+        "constraint": {
+          "operator": "matches",
+          "value": "http://www.musclehacking.com/"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "id": "always_use_https"
+      }
+    ],
+    "priority": 2,
+    "status": "disabled",
+    "created_on": "2018-06-02T11:56:10.000000Z",
+    "modified_on": "2018-06-03T01:11:28.000000Z"
+  },
+  {
+    "id": "39760c85c4bacd4b68432456bd2bdd4b",
+    "targets": [
+      {
+        "target": "url",
+        "constraint": {
+          "operator": "matches",
+          "value": "https://www.musclehacking.com/"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "id": "cache_level",
+        "value": "cache_everything"
+      }
+    ],
+    "priority": 1,
+    "status": "disabled",
+    "created_on": "2018-06-02T11:59:06.000000Z",
+    "modified_on": "2020-05-23T03:24:46.000000Z"
+  }
+]
+```
+
+### Preserved records (must not change)
+
+| ID | Type | Name | Content | TTL | Proxied | Comment |
+| --- | --- | --- | --- | --- | --- | --- |
+| `78eb67675e67cf0c91bcb6c6b4a880c0` | A | `books.musclehacking.com` | `147.182.236.38` | 1 | false | Digital Ocean. Set up on 04/07/24. |
+| `4aeb215b57100f8d17ab15f1390937f4` | A | `dev.musclehacking.com` | `198.60.193.15` | 1 | true | This is at WPX. Only Used For reCAPTCHA Verification. |
+| `1b9c8b32b3a8a30812fe5cb9408e85c3` | MX | `musclehacking.com` | `aspmx.l.google.com` | 300 | false |  |
+| `bdbf4bac5e1b7ae3896e98f4437a49e0` | MX | `musclehacking.com` | `alt1.aspmx.l.google.com` | 300 | false |  |
+| `d7dd5cd88a382418432b5ea63ea759c9` | MX | `musclehacking.com` | `alt2.aspmx.l.google.com` | 300 | false |  |
+| `465fec3a51971c01b42c354988b9ef0b` | MX | `musclehacking.com` | `alt3.aspmx.l.google.com` | 300 | false |  |
+| `8d10a65654ad145315c5c96e6c25a3bf` | MX | `musclehacking.com` | `alt4.aspmx.l.google.com` | 300 | false |  |
+| `9746eead21ea559668ad83e3582e8fe0` | TXT | `744ad01d._domainkey.musclehacking.com` | `k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD…` | 1 | false | DKIM record from GetResponse |
+| `7c5b365d64323706cd3fda749e2a74c9` | TXT | `_dmarc.musclehacking.com` | `v=DMARC1; p=none; rua=mailto:jay@musclehacking.c…` | 1 | false |  |
+| `1a613f3b956b7a98d451aabfdc2dfd3b` | TXT | `google._domainkey.musclehacking.com` | `v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ…` | 1 | false |  |
+| `5df271e162d54d54ce5379fa040e8e1a` | TXT | `musclehacking.com` | `google-site-verification=clWlPOYYY5A3WhOzZeihn5s…` | 300 | false |  |
+| `1104c5bcadb35d11f29b2392f2b9b2b0` | TXT | `musclehacking.com` | `google-site-verification=7fLnG9OrB87YCZsZ29PMalx…` | 1 | false |  |
+| `687a0f30687f070eb81bfa2d3748a5a1` | TXT | `musclehacking.com` | `v=spf1 include:_spf.google.com ~all` | 3600 | false |  |
+
+`dev.musclehacking.com` (WPX) is commented "Only Used For reCAPTCHA Verification". Turnstile replaces it, so it can be retired after cutover, but only with a separate approval. `books.musclehacking.com` is the separate Writebook droplet and is out of scope.
+
+### Draft cutover operations (not approved, not executed)
+
+This draft is for review. It needs an approved candidate version and a completed newsletter test before it can become the approval packet.
+
+1. Create Worker `musclehacking` in account `da18a65e…` from the approved commit, with `workers_dev` off. Record its version ID.
+2. Delete CNAME `49a112e934ad8c7deed7924c764c0c3e` (`www` → `musclehacking.github.io`), then attach the Workers Custom Domain `www.musclehacking.com` to Worker `musclehacking`. Cloudflare creates the proxied record and certificate.
+3. Change the four apex A records (`d6309731…`, `713320b1…`, `e856dbc9…`, `c954edff…`) to `proxied: true`. Page rule `4e0a9ac3…` then returns `301` from `https://musclehacking.com/*` to `https://www.musclehacking.com/$1` at the edge. Plain `http://musclehacking.com/*` still reaches GitHub Pages, which redirects to `https://www.musclehacking.com` (a second hop). Decide before approval whether to add a matching `http://` rule instead.
+
+Inverse, in reverse order:
+
+1. Set the four apex A records back to `proxied: false`.
+2. Detach the `www.musclehacking.com` custom domain, then recreate `CNAME www.musclehacking.com → musclehacking.github.io`, `proxied: false`, `ttl: 1`.
+3. Leave the Worker in place; it serves no hostname once detached.
+
 ## Current public observation, not rollback data
 
 On 31 August 2026, public DNS reported Cloudflare nameservers `jill.ns.cloudflare.com` and `ken.ns.cloudflare.com`, four GitHub Pages apex A values, and `www.musclehacking.com` as a CNAME to `musclehacking.github.io`. These observations are not authoritative rollback data.
 
-The configured Cloudflare key could not list the `musclehacking.com` zone. Therefore record IDs, full record fields, custom-host binding method, certificate state, active production Worker version, and exact production rollback operations remain unavailable. No write to a production zone, route, domain, or Worker was attempted; all documented writes target only the isolated review Worker.
+Superseded on 23 September 2026 by the authoritative before-state above. Before that date, the configured Cloudflare key could not list the `musclehacking.com` zone, so record IDs, full record fields, custom-host binding method, certificate state, active production Worker version, and exact production rollback operations remain unavailable. No write to a production zone, route, domain, or Worker was attempted; all documented writes target only the isolated review Worker.
 
 The candidate uses Static Assets first and invokes the Worker only for `/api/subscribe`. This intentionally removes apex redirect handling from `src/worker.ts`. The local Wrangler preview therefore cannot prove the required apex-to-`www` redirect. Cutover remains blocked until the authoritative zone is available and this packet records the exact external Cloudflare redirect rule, affected resource identifiers, execution order, and inverse rollback for explicit approval.
 
