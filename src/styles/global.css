@@ -2,11 +2,13 @@
  * Legacy `css/addon.css` split: each face ships a small basic-Latin file plus a full file for
  * every other character (accents, en dash, ×, ½, ...), selected by unicode-range. Semibold has
  * only the Latin subset in legacy, so other characters fall back to the nearest weight.
+ * The files are the legacy WOFF fonts re-encoded as WOFF2 (format change only) by
+ * `scripts/fonts/convert-muscle2-woff2.py`.
  */
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-reg-latin.woff') format('woff');
+  src: url('./muscle2-reg-latin.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -15,7 +17,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-reg.woff') format('woff');
+  src: url('./muscle2-reg.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -24,7 +26,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-sem.woff') format('woff');
+  src: url('./muscle2-sem.woff2') format('woff2');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -33,7 +35,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-bol_latin.woff') format('woff');
+  src: url('./muscle2-bol_latin.woff2') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -42,7 +44,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-bol.woff') format('woff');
+  src: url('./muscle2-bol.woff2') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -51,7 +53,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-ita-latin.woff') format('woff');
+  src: url('./muscle2-ita-latin.woff2') format('woff2');
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -60,7 +62,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-ita.woff') format('woff');
+  src: url('./muscle2-ita.woff2') format('woff2');
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -69,7 +71,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-bol-ita-latin.woff') format('woff');
+  src: url('./muscle2-bol-ita-latin.woff2') format('woff2');
   font-style: italic;
   font-weight: 700;
   font-display: swap;
@@ -78,7 +80,7 @@
 
 @font-face {
   font-family: muscle2;
-  src: url('./muscle2-bol-ita.woff') format('woff');
+  src: url('./muscle2-bol-ita.woff2') format('woff2');
   font-style: italic;
   font-weight: 700;
   font-display: swap;
