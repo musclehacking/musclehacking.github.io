@@ -86,7 +86,9 @@ Lighthouse 13.4.1 JSON is outside Git at `/Users/sacino/Documents/codex/web-deve
 
 ## UI-01 through UI-13 parity suite
 
-`tests/e2e/ui-parity.spec.ts` maps every reopened UI issue to an observable component, state, route, and viewport assertion. It holds 17 cases that run in desktop and mobile Chromium, covering all thirteen issue IDs plus the AUD-01, AUD-02, and AUD-07 regressions and the sixth-review home and sidebar hover states.
+`tests/e2e/ui-parity.spec.ts` maps every reopened UI issue to an observable component, state, route, and viewport assertion. Its desktop and mobile Chromium cases cover all thirteen issue IDs plus the AUD-01, AUD-02, and AUD-07 regressions and the sixth-review home and sidebar hover states. Each article-ending route and the animated rail flow runs independently, so a slow provider iframe cannot consume the deadline for every route's assertions.
+
+`tests/e2e/calculator-supplement-comprehensive.spec.ts` checks each of the 28 Standard, LeanGains and keto control/value cases on its own default page. Its result-change check uses the native locator assertion against rendered text, rather than nesting an `innerText` locator request inside a separate `expect.poll` deadline. The original hosted trace records the correct result before that nested read stalls. All input validity and invalid-result checks remain. The timeout follow-up and preserved assertion inventory are in the component reuse acceptance record.
 
 The UI suite checks exact placement geometry, callout SVG paths, supplement pointer and keyboard popovers, pointer-leave dismissal, heading-link clipboard feedback and target scrolling, fixed-header behaviour, calculator prompt focus behaviour, calculator-guide content order, heading scales, every home-card hover and focus state, footer absence on every route, server-rendered article-ending order, mobile overflow, and article-bottom newsletter geometry. Distribution verification also compares every extracted article navigation label, destination, title, and display string with the retained legacy HTML.
 

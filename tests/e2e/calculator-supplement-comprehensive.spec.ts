@@ -38,65 +38,69 @@ async function expectResultChange(
   const before = await calculatorResult(page);
   await action();
   await expect(control).not.toHaveAttribute('aria-invalid', 'true');
-  await expect.poll(() => calculatorResult(page)).not.toBe(before);
+  // Keep the rendered-text assertion in the browser instead of nesting a
+  // layout-dependent locator read inside the runner's separate polling timer.
+  await expect(page.locator('.calculator-results')).not.toHaveText(before, { useInnerText: true });
   await expect(page.locator('.calculator-results')).not.toContainText(/NaN|Infinity/);
 }
 
-test('every calculator control participates in Standard, LeanGains, and keto results', async ({ page }) => {
-  await page.goto('/calorie-calculator/');
-
-  const standardActions = [
-    ['#calculator-age', () => page.locator('#calculator-age').fill('46')],
-    ['#calculator-weight', () => page.locator('#calculator-weight').fill('86')],
-    ['#calculator-height', () => page.locator('#calculator-height').fill('187')],
-    ['input[value="female"]', () => page.locator('input[value="female"]').check()],
-    ['#calculator-activity', () => page.locator('#calculator-activity').selectOption('1.55')],
-    ['#calculator-goal', () => page.locator('#calculator-goal').selectOption('0')],
-    ['#calculator-calorie-adjustment', () => page.locator('#calculator-calorie-adjustment').fill('-15')],
-    ['#calculator-standard-protein', () => page.locator('#calculator-standard-protein').selectOption('0.82')],
-    ['#calculator-fat-split', () => page.locator('#calculator-fat-split').fill('40')],
+// Each control starts from its own default page. The former single case made
+// 31 navigations and retained their browser/trace work under one test deadline.
+test.describe('every calculator control participates', () => {
+  const modes = [
+    {
+      name: 'Standard', search: '', actions: [
+        ['#calculator-age', 'fill', '46'],
+        ['#calculator-weight', 'fill', '86'],
+        ['#calculator-height', 'fill', '187'],
+        ['input[value="female"]', 'check', ''],
+        ['#calculator-activity', 'select', '1.55'],
+        ['#calculator-goal', 'select', '0'],
+        ['#calculator-calorie-adjustment', 'fill', '-15'],
+        ['#calculator-standard-protein', 'select', '0.82'],
+        ['#calculator-fat-split', 'fill', '40'],
+      ],
+    },
+    {
+      name: 'LeanGains', search: '?leangains', actions: [
+        ['#calculator-age', 'fill', '46'],
+        ['#calculator-weight', 'fill', '86'],
+        ['#calculator-height', 'fill', '187'],
+        ['input[value="female"]', 'check', ''],
+        ['#calculator-body-fat', 'select', '-0.5'],
+        ['#calculator-muscle-mass', 'select', '1'],
+        ['#calculator-lg-goal', 'select', 'maintain'],
+        ['#calculator-steps', 'fill', '10000'],
+        ['#calculator-lg-protein', 'fill', '45'],
+        ['#calculator-fat-split', 'fill', '40'],
+      ],
+    },
+    {
+      name: 'keto', search: '?keto', actions: [
+        ['#calculator-age', 'fill', '31'],
+        ['#calculator-weight', 'fill', '86'],
+        ['#calculator-height', 'fill', '187'],
+        ['input[value="female"]', 'check', ''],
+        ['#calculator-activity', 'select', '1.55'],
+        ['#calculator-goal', 'select', '0'],
+        ['#calculator-calorie-adjustment', 'fill', '-15'],
+        ['#calculator-keto-protein', 'fill', '0.8'],
+        ['#calculator-keto-carbs', 'fill', '35'],
+      ],
+    },
   ] as const;
 
-  for (const [selector, action] of standardActions) {
-    await page.goto('/calorie-calculator/');
-    await expectResultChange(page, page.locator(selector), action);
-  }
-
-  await page.goto('/calorie-calculator/?leangains');
-  const leangainsActions = [
-    ['#calculator-age', () => page.locator('#calculator-age').fill('46')],
-    ['#calculator-weight', () => page.locator('#calculator-weight').fill('86')],
-    ['#calculator-height', () => page.locator('#calculator-height').fill('187')],
-    ['input[value="female"]', () => page.locator('input[value="female"]').check()],
-    ['#calculator-body-fat', () => page.locator('#calculator-body-fat').selectOption('-0.5')],
-    ['#calculator-muscle-mass', () => page.locator('#calculator-muscle-mass').selectOption('1')],
-    ['#calculator-lg-goal', () => page.locator('#calculator-lg-goal').selectOption('maintain')],
-    ['#calculator-steps', () => page.locator('#calculator-steps').fill('10000')],
-    ['#calculator-lg-protein', () => page.locator('#calculator-lg-protein').fill('45')],
-    ['#calculator-fat-split', () => page.locator('#calculator-fat-split').fill('40')],
-  ] as const;
-
-  for (const [selector, action] of leangainsActions) {
-    await page.goto('/calorie-calculator/?leangains');
-    await expectResultChange(page, page.locator(selector), action);
-  }
-
-  await page.goto('/calorie-calculator/?keto');
-  const ketoActions = [
-    ['#calculator-age', () => page.locator('#calculator-age').fill('31')],
-    ['#calculator-weight', () => page.locator('#calculator-weight').fill('86')],
-    ['#calculator-height', () => page.locator('#calculator-height').fill('187')],
-    ['input[value="female"]', () => page.locator('input[value="female"]').check()],
-    ['#calculator-activity', () => page.locator('#calculator-activity').selectOption('1.55')],
-    ['#calculator-goal', () => page.locator('#calculator-goal').selectOption('0')],
-    ['#calculator-calorie-adjustment', () => page.locator('#calculator-calorie-adjustment').fill('-15')],
-    ['#calculator-keto-protein', () => page.locator('#calculator-keto-protein').fill('0.8')],
-    ['#calculator-keto-carbs', () => page.locator('#calculator-keto-carbs').fill('35')],
-  ] as const;
-
-  for (const [selector, action] of ketoActions) {
-    await page.goto('/calorie-calculator/?keto');
-    await expectResultChange(page, page.locator(selector), action);
+  for (const mode of modes) {
+    for (const [selector, kind, value] of mode.actions) {
+      test(`${mode.name}: ${selector} changes the results`, async ({ page }) => {
+        await page.goto(`/calorie-calculator/${mode.search}`);
+        const control = page.locator(selector);
+        const action = () => kind === 'check'
+          ? control.check()
+          : kind === 'select' ? control.selectOption(value) : control.fill(value);
+        await expectResultChange(page, control, action);
+      });
+    }
   }
 });
 

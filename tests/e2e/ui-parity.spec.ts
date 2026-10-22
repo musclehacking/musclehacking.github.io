@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { routes } from '../../src/config/routes';
 
 test('UI-01 and UI-13 use placement-specific newsletter geometry', async ({ page }) => {
@@ -658,9 +658,13 @@ test('UI-12 restores previous and next article navigation at desktop and mobile'
   await expect(page.locator('#post-next')).toHaveCSS('text-align', 'center');
 });
 
-test('reopened article endings restore share, comment, disclaimers, wrapping, and floating rail', async ({ page }) => {
-  const isMobile = test.info().project.name === 'mobile-chromium';
-  await page.setViewportSize(isMobile ? { width: 390, height: 844 } : { width: 1_440, height: 1_000 });
+// Keep each route and the animated rail scenario inside its own deadline. A
+// provider iframe on one article must not consume the budget for every ending.
+test.describe('reopened article endings', () => {
+  test.beforeEach(async ({ page }) => {
+    const isMobile = test.info().project.name === 'mobile-chromium';
+    await page.setViewportSize(isMobile ? { width: 390, height: 844 } : { width: 1_440, height: 1_000 });
+  });
 
   const articleSlugs = [
     'australian-health-star-rating',
@@ -679,7 +683,7 @@ test('reopened article endings restore share, comment, disclaimers, wrapping, an
   const wrappingRoutes = new Set(['breakup-energy', 'change', 'idols', 'weak']);
   const disclaimerRoutes = new Set(['healthy-low-calorie-foods']);
 
-  const expectSharePayloads = async (expectedSocialTitle?: string) => {
+  const expectSharePayloads = async (page: Page, expectedSocialTitle?: string) => {
     const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
     const socialTitle = expectedSocialTitle ?? (await page.locator('h1').innerText()).replace(/\s+/g, ' ').trim();
     const documentTitle = await page.title();
@@ -701,100 +705,106 @@ test('reopened article endings restore share, comment, disclaimers, wrapping, an
   };
 
   for (const slug of articleSlugs) {
-    await page.goto(`/blog/${slug}`);
-    const ending = page.locator('[data-content-ending]');
-    await expect(ending.locator('[data-newsletter-placement="article-bottom"]')).toHaveCount(1);
-    await expect(ending.locator('#share')).toHaveCount(1);
-    await expect(ending.locator('#comm')).toHaveCount(1);
-    await expect(ending.locator('#post-nav')).toHaveCount(1);
-    await expect(ending.locator('#share a')).toHaveCount(2);
-    await expect(ending.locator('#share a').nth(0)).toHaveAttribute('aria-label', 'Share on Twitter');
-    await expect(ending.locator('#share a').nth(1)).toHaveAttribute('aria-label', 'Share on Facebook');
-    await expect(ending.locator('#comm a')).toHaveAttribute('href', 'https://www.reddit.com/r/musclehacking/');
-    expect(await ending.evaluate((node) => Array.from(node.children).map((child) => child.id || child.classList[0]))).toEqual(
-      disclaimerRoutes.has(slug)
-        ? ['newsletter-signup', 'share', 'comm', 'affiliate-disclaimer', 'post-nav']
-        : ['newsletter-signup', 'share', 'comm', 'post-nav'],
-    );
-    await expect(page.locator('#sh-box')).toHaveCount(railRoutes.has(slug) ? 1 : 0);
-    if (railRoutes.has(slug)) await expectSharePayloads();
-    const title = ending.locator('#post-nav .span-t').first();
-    if (await title.count()) {
-      await expect(title).toHaveCSS('white-space', wrappingRoutes.has(slug) ? 'normal' : 'nowrap');
-    }
+    test(`${slug} preserves ending order, shares, comments, disclaimers and wrapping`, async ({ page }) => {
+      await page.goto(`/blog/${slug}`);
+      const ending = page.locator('[data-content-ending]');
+      await expect(ending.locator('[data-newsletter-placement="article-bottom"]')).toHaveCount(1);
+      await expect(ending.locator('#share')).toHaveCount(1);
+      await expect(ending.locator('#comm')).toHaveCount(1);
+      await expect(ending.locator('#post-nav')).toHaveCount(1);
+      await expect(ending.locator('#share a')).toHaveCount(2);
+      await expect(ending.locator('#share a').nth(0)).toHaveAttribute('aria-label', 'Share on Twitter');
+      await expect(ending.locator('#share a').nth(1)).toHaveAttribute('aria-label', 'Share on Facebook');
+      await expect(ending.locator('#comm a')).toHaveAttribute('href', 'https://www.reddit.com/r/musclehacking/');
+      expect(await ending.evaluate((node) => Array.from(node.children).map((child) => child.id || child.classList[0]))).toEqual(
+        disclaimerRoutes.has(slug)
+          ? ['newsletter-signup', 'share', 'comm', 'affiliate-disclaimer', 'post-nav']
+          : ['newsletter-signup', 'share', 'comm', 'post-nav'],
+      );
+      await expect(page.locator('#sh-box')).toHaveCount(railRoutes.has(slug) ? 1 : 0);
+      if (railRoutes.has(slug)) await expectSharePayloads(page);
+      const title = ending.locator('#post-nav .span-t').first();
+      if (await title.count()) {
+        await expect(title).toHaveCSS('white-space', wrappingRoutes.has(slug) ? 'normal' : 'nowrap');
+      }
+      if (slug === 'healthy-low-calorie-foods') {
+        await expect(page.locator('.affiliate-disclaimer')).toContainText('irrespective of the $ involved');
+      }
+    });
   }
 
   for (const path of ['/calorie-calculator/', '/supplements/', '/books/', '/lose-fat-gain-muscle/']) {
-    await page.goto(path);
-    const ending = page.locator('[data-content-ending]');
-    await expect(ending.locator('#share')).toHaveCount(1);
-    await expect(ending.locator('#comm')).toHaveCount(1);
-    await expect(ending.locator('#post-nav .span-t').first()).toHaveCSS('white-space', 'normal');
-    await expect(page.locator('#sh-box')).toHaveCount(1);
-    expect(await ending.evaluate((node) => Array.from(node.children).map((child) => child.id || child.classList[0]))).toEqual(
-      path === '/lose-fat-gain-muscle/'
-        ? ['newsletter-signup', 'share', 'comm', 'post-nav']
-        : ['newsletter-signup', 'share', 'comm', 'affiliate-disclaimer', 'post-nav'],
-    );
-    await expectSharePayloads(path === '/supplements/' ? 'Beyond the Hype: Supplements That Work' : undefined);
-    await page.evaluate(() => window.scrollTo({ top: 900, behavior: 'instant' }));
-    await expect(page.locator('#sh-box')).toHaveCSS('opacity', '1');
-    await expect(page.locator('#sh-box .sh-box2')).toHaveCount(5);
-  }
-
-  for (const path of ['/calorie-calculator/', '/supplements/', '/books/']) {
-    await page.goto(path);
-    await expect(page.locator('.affiliate-disclaimer')).toBeVisible();
-  }
-  await page.goto('/lose-fat-gain-muscle/');
-  await expect(page.locator('.affiliate-disclaimer')).toHaveCount(0);
-
-  await page.goto('/blog/healthy-low-calorie-foods');
-  await expect(page.locator('.affiliate-disclaimer')).toContainText('irrespective of the $ involved');
-  await page.goto('/blog/breakup-energy');
-  const rail = page.locator('#sh-box');
-  await expect(rail).toHaveCSS('opacity', '0');
-  await expect(rail).toHaveCSS('visibility', 'hidden');
-  await expect(rail).toHaveAttribute('aria-hidden', 'true');
-  await expect(rail).toHaveAttribute('inert', '');
-  const copyLink = rail.locator('[data-copy-page-link]');
-  await copyLink.focus();
-  await expect(copyLink).not.toBeFocused();
-  await page.evaluate(() => window.scrollTo({ top: 900, behavior: 'instant' }));
-  if (!isMobile) await expect(rail).toHaveCSS('position', 'fixed');
-  await expect(rail).toHaveCSS('opacity', '1');
-  await expect(rail).toHaveCSS('visibility', 'visible');
-  await expect(rail).toHaveAttribute('aria-hidden', 'false');
-  await expect(rail).not.toHaveAttribute('inert', '');
-  await expect(rail).toHaveCSS('transition-duration', '0.3s');
-  const twitterCircle = rail.locator('#tw-box');
-  if (isMobile) {
-    expect(await twitterCircle.boundingBox()).toMatchObject({ width: 130, height: 40 });
-    await expect(rail.locator('.sh-box2').nth(0)).toBeVisible();
-    await expect(rail.locator('.sh-box2').nth(1)).toBeVisible();
-    await expect(rail.locator('.sh-box2').nth(2)).toBeVisible();
-    await expect(rail.locator('.sh-box2').nth(3)).toBeHidden();
-    await expect(rail.locator('.sh-box2').nth(4)).toBeHidden();
-  } else {
-    expect(await twitterCircle.boundingBox()).toMatchObject({ width: 40, height: 40 });
-    await twitterCircle.hover();
-    await expect(twitterCircle).toHaveCSS('box-shadow', 'rgb(2, 206, 255) 0px 0px 0px 4px');
-    await page.evaluate(() => {
-      Object.defineProperty(navigator, 'clipboard', {
-        configurable: true,
-        value: { writeText: () => Promise.reject(new Error('Clipboard unavailable')) },
-      });
-      document.execCommand = () => true;
+    test(`${path} preserves ending order, share payloads, disclaimers and floating rail`, async ({ page }) => {
+      await page.goto(path);
+      const ending = page.locator('[data-content-ending]');
+      await expect(ending.locator('#share')).toHaveCount(1);
+      await expect(ending.locator('#comm')).toHaveCount(1);
+      await expect(ending.locator('#post-nav .span-t').first()).toHaveCSS('white-space', 'normal');
+      await expect(page.locator('#sh-box')).toHaveCount(1);
+      expect(await ending.evaluate((node) => Array.from(node.children).map((child) => child.id || child.classList[0]))).toEqual(
+        path === '/lose-fat-gain-muscle/'
+          ? ['newsletter-signup', 'share', 'comm', 'post-nav']
+          : ['newsletter-signup', 'share', 'comm', 'affiliate-disclaimer', 'post-nav'],
+      );
+      await expectSharePayloads(page, path === '/supplements/' ? 'Beyond the Hype: Supplements That Work' : undefined);
+      await page.evaluate(() => window.scrollTo({ top: 900, behavior: 'instant' }));
+      await expect(page.locator('#sh-box')).toHaveCSS('opacity', '1');
+      await expect(page.locator('#sh-box .sh-box2')).toHaveCount(5);
+      if (path === '/lose-fat-gain-muscle/') {
+        await expect(page.locator('.affiliate-disclaimer')).toHaveCount(0);
+      } else {
+        await expect(page.locator('.affiliate-disclaimer')).toBeVisible();
+      }
+      if (path === '/supplements/') {
+        await expect(page.locator('#share a[aria-label="Share on Twitter"]')).toHaveAttribute(
+          'href',
+          'https://twitter.com/intent/tweet?text=Check+out+this+supplement+guide:+https://www.musclehacking.com/supplements/%20from%20@musclehacking',
+        );
+      }
     });
-    await copyLink.click();
-    await expect(copyLink).toHaveAttribute('data-copied', 'true');
   }
 
-  await page.goto('/supplements/');
-  await expect(page.locator('#share a[aria-label="Share on Twitter"]')).toHaveAttribute(
-    'href',
-    'https://twitter.com/intent/tweet?text=Check+out+this+supplement+guide:+https://www.musclehacking.com/supplements/%20from%20@musclehacking',
-  );
+  test('floating rail preserves visibility, focus, dimensions, animation and copy feedback', async ({ page }) => {
+    const isMobile = test.info().project.name === 'mobile-chromium';
+    await page.goto('/blog/breakup-energy');
+    const rail = page.locator('#sh-box');
+    await expect(rail).toHaveCSS('opacity', '0');
+    await expect(rail).toHaveCSS('visibility', 'hidden');
+    await expect(rail).toHaveAttribute('aria-hidden', 'true');
+    await expect(rail).toHaveAttribute('inert', '');
+    const copyLink = rail.locator('[data-copy-page-link]');
+    await copyLink.focus();
+    await expect(copyLink).not.toBeFocused();
+    await page.evaluate(() => window.scrollTo({ top: 900, behavior: 'instant' }));
+    if (!isMobile) await expect(rail).toHaveCSS('position', 'fixed');
+    await expect(rail).toHaveCSS('opacity', '1');
+    await expect(rail).toHaveCSS('visibility', 'visible');
+    await expect(rail).toHaveAttribute('aria-hidden', 'false');
+    await expect(rail).not.toHaveAttribute('inert', '');
+    await expect(rail).toHaveCSS('transition-duration', '0.3s');
+    const twitterCircle = rail.locator('#tw-box');
+    if (isMobile) {
+      expect(await twitterCircle.boundingBox()).toMatchObject({ width: 130, height: 40 });
+      await expect(rail.locator('.sh-box2').nth(0)).toBeVisible();
+      await expect(rail.locator('.sh-box2').nth(1)).toBeVisible();
+      await expect(rail.locator('.sh-box2').nth(2)).toBeVisible();
+      await expect(rail.locator('.sh-box2').nth(3)).toBeHidden();
+      await expect(rail.locator('.sh-box2').nth(4)).toBeHidden();
+    } else {
+      expect(await twitterCircle.boundingBox()).toMatchObject({ width: 40, height: 40 });
+      await twitterCircle.hover();
+      await expect(twitterCircle).toHaveCSS('box-shadow', 'rgb(2, 206, 255) 0px 0px 0px 4px');
+      await page.evaluate(() => {
+        Object.defineProperty(navigator, 'clipboard', {
+          configurable: true,
+          value: { writeText: () => Promise.reject(new Error('Clipboard unavailable')) },
+        });
+        document.execCommand = () => true;
+      });
+      await copyLink.click();
+      await expect(copyLink).toHaveAttribute('data-copied', 'true');
+    }
+  });
 });
 
 /*
