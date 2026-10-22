@@ -57,10 +57,12 @@ The capture mode reuses the comparison path's viewport, GIF-frame pinning, settl
 
 ### Hosted verification
 
-The isolated review Worker `musclehacking-astro-preview` serves version `796979bd-5ce6-4ac2-b67e-7f1e569e1139` (commit `5b115b2` plus the `TURNSTILE_SECRET_KEY` secret), deployed 23 September 2026. All 14 hosted HTTP contract cases pass, and the full hosted E2E run gives 267 passed, 25 intentional skips, and 0 failed.
+The isolated review Worker `musclehacking-astro-preview` serves version `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` (component ownership commit `778bf9908c4143442ce17898dd143a0defcbcaea`, existing Turnstile secret retained), deployed at 100 percent on 22 October 2026. All 14 hosted HTTP contract cases and all six agent accessibility cases pass. All 140 eligible served files equal the local release build; 1,325 phone/tablet/desktop captures have zero changed pixels, and 44 settled boundary contexts match the original source. The [component reuse acceptance record](../evidence/component_reuse/acceptance.md) contains the method, raw-output paths and replay commands.
+
+The full three-worker hosted E2E run is **not fully green**: 265 passed, 25 existing project-specific skips and two timeouts. Desktop article-ending traversal reaches its whole-test deadline; mobile calculator result-change polling expires. Both cases and their opposite-device cases pass once in isolation on unchanged staging. The root causes remain unresolved; isolated passes do not replace the failed full run. No timeout, skip or unrelated assertion is changed. The component reuse plan remains pending testing for this gate.
 
 ```bash
-node scripts/hosted-contract.mjs                                   # 13 HTTP contract cases
+node scripts/hosted-contract.mjs                                   # 14 HTTP contract cases
 MUSCLEHACKING_BASE_URL=https://musclehacking-astro-preview.webpop.workers.dev \
   pnpm exec playwright test tests/e2e --workers=3                  # portable UI matrix against the hosted origin
 ```
@@ -74,7 +76,7 @@ Genuinely local-runtime checks stay tagged `@local-runtime` and keep their asser
 - `tests/e2e/newsletter-request-limits.spec.ts`: raw `node:http` chunked POST to the task-owned Wrangler preview at `127.0.0.1:8787`
 - `tests/e2e/routes.spec.ts`: the local Static Assets preview does not implement the external apex `Host` redirect
 
-The hosted portable matrix selects 282 cases. The six newsletter specs that previously failed with a loopback `Origin` now pass against the configured origin. The four `@local-runtime` cases are not selected. Do not convert those checks into `test.skip` on hosted runs.
+The hosted portable matrix selects 292 cases. The six newsletter specs that previously failed with a loopback `Origin` now pass against the configured origin. The four `@local-runtime` cases are not selected. Do not convert those checks into `test.skip` on hosted runs.
 
 A Cloudflare *version preview* URL is not equivalent to the deployed review URL: it blocks cross-site form POSTs at the edge with its own plain-text `403`, so the newsletter contract case only passes against the deployed URL, and it sends `x-robots-tag: noindex`, which drops a Lighthouse SEO score to 69.
 

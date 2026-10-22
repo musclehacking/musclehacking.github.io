@@ -8,7 +8,7 @@ R1-R8 in the [read-only audit](../../component-reuse-audit.md) now have document
 - Local acceptance base: `8d2f20d969d7976aa870c7f55d01d5c7fed86b7a` plus this task’s scoped changes. The intervening Node patch belongs to other work; all original application source hashes matched before editing.
 - Accepted application input manifest SHA-256: `18dc8f53199df54ef4821f738251c6315310f9f64602ef1d11a87b1fdec8ed34`. Raw `final-inputs.json` identifies every source file. The same source hashes still match after final tests.
 - Runtime: pinned Node 22.23.4, pnpm 11.24.0, installed Playwright 1.62.1 and Wrangler 4.127.1. No dependencies or settings are changed.
-- Implementation commit and deployed version: pending the authorised staging release. No production action is authorised or performed.
+- Implementation commit: `778bf9908c4143442ce17898dd143a0defcbcaea`, pushed to `codex/astro-cloudflare-migration`. Review Worker version `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` serves it at 100 percent. Subsequent acceptance/documentation commits do not change application inputs or require another deployment. No production action is authorised or performed.
 
 ## Local results
 
@@ -35,9 +35,9 @@ Built semantic trees retain text and meaningful whitespace, native tags/direct c
 
 Use the project lifecycle wrapper for every local server. No manually launched preview is used. The standard commands are `pnpm check`, `pnpm test`, `pnpm build` and `pnpm verify:dist`. Final E2E uses `scripts/run-e2e-local.sh --workers=3` with an absolute ignored output directory. The same six cases as `pnpm test:agent-a11y` run serially through that wrapper by adding `tests/a11y --project=chromium --grep "unapproved serious accessibility" --workers=1` and a separate ignored output directory.
 
-Temporary pixel acceptance uses the installed Chromium at DPR 1, en-US/UTC, fixed 22 October 2026 clock, 390×844, 768×1024 and 1440×900 viewports. External requests are blocked on both sides; animated GIF requests use their identical first decoded frame. This is browser-context control only. Fonts and every local image are loaded/decoded, native scroll events settle before advancing the application frame, the compositor is primed, and finite animations complete for screenshots. Overlapping visible scroll tiles retain every viewport pixel with 160px overlap. Hover/focus/copy states are settled explicitly. There are no masks, pixel tolerance, product screenshot mode or replacement baselines. Image decode failures stop the capture.
+Temporary pixel acceptance uses the installed Chromium at DPR 1, en-US/UTC, fixed 22 October 2026 clock, 390×844, 768×1024 and 1440×900 viewports. External requests are blocked on both sides; animated GIF requests use their identical first decoded frame. This is browser-context control only. Fonts and every local image are loaded/decoded, native scroll events settle before advancing the application frame, the compositor is primed, and finite animations complete for screenshots. Overlapping visible scroll tiles retain every viewport pixel with 160px overlap. Hover/focus/copy states are settled explicitly. There are no masks, pixel tolerance, product screenshot mode or replacement baselines. Image decode failures stop the capture. Normal-time E2E runs separately test interaction.
 
-To replay pixel comparison, use each accepted run’s `manifest.json` to pair PNGs with `baseline-final/` by filename. Decode both with installed sharp `ensureAlpha().raw()`, require equal dimensions and compare all RGBA bytes. Every accepted pair has zero unequal pixels. To recapture, recreate a disposable spec using the settings above, discover HTML from fresh `dist/client`, and run it only through the lifecycle wrapper. Temporary executable helpers are removed after hosted proof; raw PNGs, source/input manifests, snapshots and logs remain locally ignored until acceptance.
+To replay pixel comparison, use each accepted run’s `manifest.json` to pair PNGs with `baseline-final/` by filename. Decode both with installed sharp `ensureAlpha().raw()`, require equal dimensions and compare all RGBA bytes. Every accepted pair has zero unequal pixels. To recapture, recreate a disposable spec using the settings above, discover HTML from fresh `dist/client`, and run it only through the lifecycle wrapper. Temporary executable helpers and the original-build fixture are Trashed after hosted proof; raw PNGs, source/input manifests, snapshots and logs remain locally ignored until acceptance.
 
 ## Resolved failures and test judgement
 
@@ -50,7 +50,57 @@ To replay pixel comparison, use each accepted run’s `manifest.json` to pair PN
 
 ## Hosted acceptance
 
-Pending: authorised push, explicit review Worker upload/deploy, version/commit and asset readback, hosted HTTP/E2E/accessibility, three-width pixel parity, live breakpoint geometry and optical inspection. Target: `https://musclehacking-astro-preview.webpop.workers.dev`, Worker `musclehacking-astro-preview`, account `213ab3604485056376263d22fa242742`. Preflight verifies workers.dev enabled and no custom domains or routes across 55 account zones. GitHub Pages remains on `master`; the migration branch does not deploy production.
+Implementation, release, output and visual acceptance pass. The full hosted parallel E2E gate remains unresolved because two cases time out. Their isolated passes do not replace that failed full run. The plan remains pending testing.
+
+Target: [review site](https://musclehacking-astro-preview.webpop.workers.dev), Worker `musclehacking-astro-preview`, account `213ab3604485056376263d22fa242742`. On 22 October 2026, the documented release commands upload the committed build with the explicit review name, preview newsletter origin, commit tag/message, then deploy the returned version at 100 percent. Wrangler reports no non-versioned settings to sync. Preflight and postflight readback confirm workers.dev enabled, no custom domains and no routes on this Worker across 55 account zones. Existing Turnstile secret remains; GetResponse credentials remain absent. No trigger, route, domain, DNS or production deployment command runs.
+
+| Check | Actual result | Raw output under `.artifacts/component_reuse/` |
+| --- | --- | --- |
+| Release build/distribution | Pass on the committed application | `release-build.log`, `release-dist.log`, `release-document-contract.json` |
+| Remote source and active version | Commit `778bf99` pushed; version `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` active at 100 percent with full commit message and tag `778bf9908c41` | `preview-release.json`, `preview-upload-readback.json`, `preview-active-readback.json`, `preview-upload.log`, `preview-deploy.log` |
+| Release safety | Review Worker has no production routes or custom domains; previous version retained | `preview-safety.json` |
+| Hosted HTTP contracts | All 14 pass | `hosted-contract.log` |
+| Served bytes | All 140 eligible public files equal the local release build byte for byte | `hosted-bytes.json`, `hosted-bytes.log` |
+| Hosted pixels | All 20 documents and 1,325 captures match the original baseline with zero changed pixels; final local and hosted RGBA hashes, dimensions and scroll offsets also match | `hosted/manifest.json`, `hosted-390.log`, `hosted-768.log`, `hosted-1440.log`, `local-hosted-pixel-readback.json` |
+| Breakpoint geometry/type | 44 settled contexts equal an independent original repeat and staging exactly | `boundary-original-settled.json`, `boundary-original-repeat.json`, `boundary-hosted-settled.json`, `boundary-settled-result.json`, `settled-boundaries.log` |
+| Hosted agent accessibility | All six cases pass | `hosted-a11y.log`, `hosted-a11y-results/` |
+| Full hosted E2E, three workers | **265 pass, 25 existing project-specific skips, two timeouts** | `hosted-e2e.log`, `hosted-e2e-results/` |
+| Isolated diagnosis, one worker | Both failed cases and their opposite-device cases pass unchanged: four passes | `hosted-focused.log`, `hosted-focused-results/` |
+| Cleanup | Task browser closed; port 8787 and lifecycle lease absent; temporary tools/fixture Trashed; shared dependencies and ignored raw evidence retained | `cleanup.json` and live resource readback |
+
+GitHub exposes no check runs, workflow runs or status contexts for the implementation commit. The only automatic release workflow is the existing GitHub Pages deployment from `master`. The review release controller is direct Wrangler, so there is no pending automatic staging build to wait for. Hosted checks above run against the deployed review URL.
+
+### Remaining hosted failures
+
+- Desktop `ui-parity.spec.ts:661`, article endings/share rail: the 30-second whole-test deadline expires after a long multi-route traversal, near the final floating-rail visibility check. The trace is retained in `hosted-e2e-results/e2e-ui-parity-reopened-art-0cc0a--wrapping-and-floating-rail-chromium/`.
+- Mobile `calculator-supplement-comprehensive.spec.ts:45`, calculator controls: the five-second result-change poll expires after selecting Standard protein `0.82`. The trace is retained in `hosted-e2e-results/e2e-calculator-supplement--78182--LeanGains-and-keto-results-mobile-chromium/`.
+
+Both pass in the single isolated diagnostic run on the same deployment. This supports timing sensitivity but does not establish a root cause or prove the failures predate the refactor. The calculator trace already shows the Astro island hydrated before the selection, so adding a hydration wait is not an evidence-backed fix. No unrelated assertion, timeout, skip or application workaround is changed. A clean full parallel result remains unproven. Further diagnosis must distinguish a lost calculator input from a test timing race and inspect the article test's cumulative route cost before changing code or tests; repeated runs until green do not resolve either cause.
+
+### Additional geometry and optical evidence
+
+The first normal-time boundary measurements differ because the original measurement did not settle fonts/images and page geometry consistently. Those measurements remain diagnostic. To establish a valid original pair, an ignored `git archive` fixture from parent `8d2f20d` is checked against the original source hashes, built with the installed Astro CLI, and rendered from exact built bytes through browser request interception. This creates no worktree, branch or local server. All 20 original semantic/discovery outputs match the retained baseline; fixture-path-generated island UIDs alone are abstracted in the fixture comparison. The fixture is not a replacement pixel baseline.
+
+Two independently settled original runs and staging match at widths 320, 560, 561, 767, 768, 820, 821, 1399, 1400, 1750 and 1751, at height 900, on home, the protein article, supplements and calculator. Boxes, fonts, colours, margins and padding match in all 44 contexts. `original-fixture-contract.json` and `original-build-fixture-cli.log` retain the fixture validation/build results.
+
+Live contextual inspection confirms the desktop article's right-side share rail and Twitter tooltip, and phone supplements with Sleep selected and three visible cards. Accepted screenshots are `final/staging-article-desktop.png`, `final/staging-share-rail-detail.png` and `final/staging-supplements-phone.png` under `/Users/sacino/.dev-browser/tmp/mh-component-reuse-f84c/`; `evidence.json` identifies accepted and rejected diagnostic images. Earlier left-side crops miss the rail and are not acceptance evidence.
+
+### Hosted replay commands
+
+Run from the pinned runtime. Output must go to a fresh ignored run directory, so evidence from the recorded failed and passing runs remains intact.
+
+```bash
+node /Users/sacino/musclehacking/scripts/hosted-contract.mjs https://musclehacking-astro-preview.webpop.workers.dev
+MUSCLEHACKING_BASE_URL=https://musclehacking-astro-preview.webpop.workers.dev \
+  pnpm --dir /Users/sacino/musclehacking exec playwright test tests/e2e --workers=3 \
+  --output=/Users/sacino/musclehacking/.artifacts/component_reuse/replay/hosted-e2e-results
+MUSCLEHACKING_BASE_URL=https://musclehacking-astro-preview.webpop.workers.dev \
+  pnpm --dir /Users/sacino/musclehacking exec playwright test tests/a11y --project=chromium \
+  --grep 'unapproved serious accessibility' --workers=1 \
+  --output=/Users/sacino/musclehacking/.artifacts/component_reuse/replay/hosted-a11y-results
+```
+
+The isolated diagnostic uses the two named specs, `--grep 'every calculator control participates|reopened article endings restore'`, one worker and a separate output directory. It is diagnosis only, not a replacement acceptance command.
 
 ## Excluded edge cases
 

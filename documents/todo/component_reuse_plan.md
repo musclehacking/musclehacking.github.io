@@ -1,4 +1,4 @@
-# Shared component ownership plan 🔄 **IN PROGRESS**
+# Shared component ownership plan 🧪 **PENDING TESTING**
 
 Execution checklist: baseline; batch 1 facts/icons; batch 2 repeated composition; batch 3 CSS ownership; ownership docs; final verification; scoped commit; safe push/preview deploy; hosted proof; cleanup.
 
@@ -130,15 +130,18 @@ The initial all-route batch 3 capture passes at all widths. Final scope review r
 
 **Success criteria:** explorer CSS is component-owned, repeated approved values use one token owner, no duplicated exact recipe remains without an audit disposition; V1-V4 and batch gate pass.
 
-### Step 5: Final acceptance, commit and staging 🔄 **IN PROGRESS**
+### Step 5: Final acceptance, commit and staging 🧪 **PENDING TESTING**
 
 - [x] Run final local E2E/accessibility and complete the scoped diff.
-- [ ] Inspect hosted owners and compare the 44 live boundary contexts after asset parity.
-- [ ] Write the local acceptance record after results, validate tracking, and GAC only task changes. Keep ignored capture tools for hosted proof; Trash them after the last use.
-- [ ] Verify safe remote branch and review Worker, push, upload with commit message/tag and explicit name/origin, deploy the returned review version.
-- [ ] Verify hosted HTTP, portable E2E/accessibility, deployed version/commit and local-versus-hosted output/pixels; record results and close task resources.
+- [x] Inspect hosted owners and compare the 44 settled boundary contexts after asset parity.
+- [x] Write the local acceptance record after results, validate tracking, and GAC only task changes. Keep ignored capture tools for hosted proof; Trash them after the last use.
+- [x] Verify safe remote branch and review Worker, push, upload with commit message/tag and explicit name/origin, deploy the returned review version.
+- [x] Verify hosted HTTP/accessibility, deployed version/commit and local-versus-hosted output/pixels; record results and close task resources.
+- [ ] Obtain a conclusive full hosted portable E2E result: the recorded three-worker run has two timeouts; the isolated diagnostic passes do not replace it.
 
 The isolated local suite initially has 269 passes, 25 existing skips and two palette-source assertion failures. Those assertions intentionally encounter shared CSS tokens after R7; the existing test now resolves declarations in the filter context, checks exact background and border colours, and retains the forbidden legacy palette checks. Both focused desktop/mobile cases pass. Final type check has zero errors/warnings; the full suite has 271 passes, 25 existing skips and zero failures; the six accessibility cases pass serially. No application change or new test case is added.
+
+Release, hosted output/visual checks and cleanup pass. The review Worker serves implementation commit `778bf99` at 100 percent. All 14 HTTP cases, all 140 public-file byte comparisons, all 1,325 primary-width captures, all 44 settled breakpoint contexts and six hosted accessibility cases pass. The hosted three-worker E2E run has 265 passes, 25 existing skips and two timeouts: desktop article-ending traversal at the whole-test deadline and mobile calculator result-change polling. Both cases plus their opposite-device cases pass once in isolation on unchanged staging. Timing sensitivity is supported; root cause and pre-existing status are unproven. No timeout, skip or unrelated test/application change conceals these failures. Exact evidence and diagnosis limits are in the acceptance record. Implementation is finished; this required hosted validation remains unresolved.
 
 **Success criteria:** V5/V6 pass, configured identity is used, unrelated Node edits remain intact, preview URL and remote version identify the exact commit; final evidence and plan accurately report every outcome/limit.
 
@@ -167,7 +170,7 @@ Use `/Users/sacino/.agents/skills/dev-browser/SKILL.md` for live inspection; bro
 
 Enumerate fresh `dist/client` HTML rather than the sitemap; include the real missing-path 404. Anonymous persona, DPR 1, fixed Chromium/locale/timezone/clock, same fonts and asset bytes. Block external requests on both sides, retaining the native empty iframe fallback. Pin animated GIF requests to the same first decoded frame in the capture context only. Wait for fonts, decode all images including lazy images, settle geometry and prime the compositor. Complete finite CSS animations in screenshot context; never hide/mask regions or ship a screenshot mode. Capture complete documents through overlapping visible scroll tiles, with 160px overlap to expose content behind fixed controls; retain every viewport pixel. Wait for the native scroll event before advancing the controlled animation frame, prime the compositor, advance another fixed frame and retain the next screenshot. Wait for document.fonts.ready and native screenshot font readiness; do not force unused font faces. Await asynchronous copy feedback and clear it before the next focus state. These are capture-context controls only, with no shipped mode, masks or tolerance. Compare RGBA channel values exactly and record diff bounds for failures. A failure blocks the next batch.
 
-Check the final hosted build’s boundary geometry/type against the original local baseline at 320, 560/561, 767/768, 820/821, 1399/1400 and 1750/1751 on representative layout contexts using matching before/after computed boxes. Preserve the source query expressions as evidence for intermediate widths. Inspect rendered contextual and close-up screenshots for each changed owner/variant, including scrolled fixed controls. Reuse normal-time existing E2E for behaviour; a frozen screenshot does not prove interaction.
+Check the final hosted build’s boundary geometry/type against the original local baseline at 320, 560/561, 767/768, 820/821, 1399/1400 and 1750/1751 on representative layout contexts using matching before/after computed boxes. The first normal-time measurements did not settle consistently and remain diagnostic. An ignored archive of the original source, checked against its retained hashes and built with the installed CLI, supplies two independently matching settled original runs. Browser request interception serves exact fixture bytes without a server. All 44 original-repeat/staging contexts match boxes, fonts, colours, margins and padding; this does not replace the accepted pixel baseline. The fixture and temporary tools are Trashed after proof. Preserve the source query expressions as evidence for intermediate widths. Inspect rendered contextual and close-up screenshots for each changed owner/variant, including scrolled fixed controls. Reuse normal-time existing E2E for behaviour; a frozen screenshot does not prove interaction.
 
 ### 6.5 Completion gates
 
@@ -190,9 +193,14 @@ No currently emitted page, required primary width or affected local interaction 
 - Public facts, exact icon geometry, static rail/tooltips, disclosure prefix, section endings/navigation and supplement support wrappers now have one documented owner. Native renderer adapters, page-specific copy, margins and headings remain explicit.
 - Explorer CSS moves to its component, with the unique intro override in the page. Exact semantic colour roles and proven equal type/layout recipes are shared without changing values or query boundaries. No runtime/backend/cache/provider/route behaviour changes.
 - Existing palette E2E assertions resolve token values while retaining exact approved colours, contrast and forbidden-palette checks; no test case or skip is added.
-- Local checks and three per-batch 1,325-image comparisons pass. Hosted release/proof, final inspection and cleanup remain required.
+- Commands `pnpm check`, `pnpm test`, `pnpm build` and `pnpm verify:dist` pass for each batch; the final local lifecycle E2E has 271 passes and 25 existing skips, and all six accessibility cases pass. Three per-batch 1,325-image comparisons have zero changed pixels.
+- Commit `778bf99` is safely pushed and deployed as review version `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf`. Hosted HTTP (14), public-file byte equality (140), primary captures (1,325), settled boundary contexts (44) and accessibility (six) pass. Live article share-rail and phone supplement-filter inspection passes. No production release, routes, domains or DNS change.
+- Hosted `playwright test tests/e2e --workers=3` has 265 passes, 25 existing project-specific skips and two timeouts. One isolated diagnostic of both cases and their opposite-device cases has four passes on unchanged staging. The clean full parallel gate remains unproven; no further test/code change is justified by the current evidence. The acceptance record retains exact errors, traces and next diagnostic questions. No GitHub check/workflow/status jobs are configured for this branch; direct Wrangler owns staging releases.
+- Temporary capture code and the original archive fixture are Trashed. Task browser is closed, local port/lease are absent and shared dependencies remain intact. Raw ignored evidence remains until user acceptance. Final documentation records the release and unresolved hosted validation without redeploying unchanged application code.
 - Excluded edge cases are other browser/OS/GPU/DPR combinations, live provider iframe pixels and successful newsletter delivery, as detailed in section 6.6.
 - Files touched:
+  - `documents/migration/cloudflare-builds.md`
+  - `documents/testing/README.md`
   - `DESIGN.md`
   - `documents/AGENTS.md`
   - `documents/architecture/calculator.md`
