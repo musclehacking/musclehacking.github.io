@@ -10,7 +10,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Use Node `22.23.2`, as pinned in `.nvmrc` and `.node-version`.
+Use Node `22.23.4`, as pinned in `.nvmrc` and `.node-version`.
 
 ## Verification
 
