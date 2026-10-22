@@ -1,3 +1,4 @@
+import { site } from './site.ts';
 import { blogSlugs } from './blog-slugs.generated.ts';
 
 export type SlashMode = 'slash' | 'no-slash';
@@ -7,6 +8,7 @@ export interface PublicRoute {
   slashMode: SlashMode;
   owner: 'page' | 'blog';
   title: string;
+  heading?: string;
   titleMode?: 'composed' | 'prefixed' | 'absolute';
   description: string;
   indexable: boolean;
@@ -21,7 +23,7 @@ export const routes: readonly PublicRoute[] = [
     owner: 'page',
     title: 'Gain Muscle And Lose Fat (Without The BS)',
     titleMode: 'prefixed',
-    description: 'An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started.',
+    description: site.defaultDescription,
     indexable: true,
     sitemap: true,
     navigationLabel: 'Home',
@@ -30,7 +32,7 @@ export const routes: readonly PublicRoute[] = [
     path: '/blog/',
     slashMode: 'slash',
     owner: 'page',
-    title: 'Muscle Hacking Blog',
+    title: `${site.name} Blog`,
     titleMode: 'absolute',
     description: 'Evidence-based articles about gaining muscle, losing fat, nutrition, and fitness.',
     indexable: true,
@@ -61,9 +63,9 @@ export const routes: readonly PublicRoute[] = [
     path: '/join/',
     slashMode: 'slash',
     owner: 'page',
-    title: 'Join the Muscle Hacking Newsletter',
+    title: `Join the ${site.name} Newsletter`,
     titleMode: 'absolute',
-    description: 'Subscribe to receive the latest Muscle Hacking articles.',
+    description: `Subscribe to receive the latest ${site.name} articles.`,
     indexable: false,
     sitemap: false,
     navigationLabel: 'Newsletter',
@@ -91,6 +93,7 @@ export const routes: readonly PublicRoute[] = [
     slashMode: 'slash',
     owner: 'page',
     title: 'The Best Muscle Building Supplement Stack (Based on Research)',
+    heading: 'Muscle Building Supplement Stack (Based on Research)',
     description: 'Amplify your muscle growth with a curated supplement stack, distilled from 10+ years of scientific research. Gain muscle, lose the confusion.',
     indexable: true,
     sitemap: true,

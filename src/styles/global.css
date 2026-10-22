@@ -98,11 +98,22 @@
   --brand: #206593;
   --brand-light: #5499c7;
   --ink: #252b31;
+  --body-ink: rgb(0 0 0 / 84%);
   --muted: #5b6570;
   --paper: #fff;
   --soft: #f1f6f9;
   --line: #d7e0e6;
   --content: 760px;
+  --accent: #1f618d;
+  --callout-note: #0969da;
+  --callout-important: #8250df;
+  --callout-warning: #d29922;
+  --newsletter-border: #707070;
+  --section-rule: #c6c6c6;
+  --share-twitter: rgb(27 166 255);
+  --share-facebook: rgb(17 100 187);
+  --share-linkedin: rgb(0 119 181);
+  --share-email: #00ac98;
 }
 
 *,
@@ -114,7 +125,7 @@
 body {
   margin: 0;
   background: var(--paper);
-  color: rgb(0 0 0 / 84%);
+  color: var(--body-ink);
   font-family: muscle2, Georgia, Cambria, 'Times New Roman', serif;
   font-size: 21px;
   -moz-font-feature-settings: 'liga' on; /* legacy sets only the Firefox prefix; Chromium keeps ligatures off */
@@ -342,7 +353,7 @@ h2,
 h3,
 h4,
 h5 {
-  color: rgb(0 0 0 / 84%);
+  color: var(--body-ink);
   font-weight: 600;
   line-height: 1.18;
   font-family: muscle2, Georgia, Cambria, 'Times New Roman', serif;
@@ -365,7 +376,7 @@ h5 {
 .not-found-page :is(p, li) > a {
   color: inherit;
   text-decoration: none;
-  box-shadow: inset 0 -2px 0 #206593;
+  box-shadow: inset 0 -2px 0 var(--brand);
   /* Legacy `.side-a` uses the unprefixed all-property `transition: .2s linear`. */
   transition: 0.2s linear;
 }
@@ -462,7 +473,7 @@ figcaption,
   width: 100%;
   height: auto;
   min-height: 0;
-  border: 1px solid #707070;
+  border: 1px solid var(--newsletter-border);
   border-radius: 5px 0 0 5px;
   padding: 10px 15px;
   font: inherit;
@@ -474,7 +485,7 @@ figcaption,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #707070;
+  border: 1px solid var(--newsletter-border);
   border-left: 0;
   border-radius: 0 5px 5px 0;
   background: var(--brand);
@@ -623,8 +634,8 @@ figcaption,
 /* Legacy `.main:hover` replaces that with its 50ms ease-in-out shorthand. */
 .article-card:hover,
 .article-card:focus-visible {
-  border-left-color: #1f618d;
-  color: #1f618d;
+  border-left-color: var(--accent);
+  color: var(--accent);
   transition: 50ms ease-in-out;
 }
 
@@ -786,44 +797,42 @@ figcaption,
  */
 .project-callout--note,
 .markdown-alert-note {
-  border-left-color: #0969da;
+  border-left-color: var(--callout-note);
 }
 
 .project-callout--note .alert-title,
 .markdown-alert-note .alert-title {
-  color: #0969da;
+  color: var(--callout-note);
 }
 
 .project-callout--important,
 .markdown-alert-important {
-  border-left-color: #8250df;
+  border-left-color: var(--callout-important);
 }
 
 .project-callout--important .alert-title,
 .markdown-alert-important .alert-title {
-  color: #8250df;
+  color: var(--callout-important);
 }
 
 .project-callout--warning,
 .markdown-alert-warning {
-  border-left-color: #d29922;
+  border-left-color: var(--callout-warning);
 }
 
 .project-callout--warning .alert-title,
 .markdown-alert-warning .alert-title {
-  color: #d29922;
+  color: var(--callout-warning);
 }
 
-.home-note {
+.home-note,
+.longform-note,
+.calculator-guide-callout {
   margin: 25px 0 20px;
 }
 
 .article-notice {
   margin-bottom: 10px;
-}
-
-.longform-note {
-  margin: 25px 0 20px;
 }
 
 .intermittent-fasting-note {
@@ -849,7 +858,7 @@ figcaption,
   float: none;
   max-width: 740px;
   margin: 0 auto;
-  border-top: 1px solid #c6c6c6;
+  border-top: 1px solid var(--section-rule);
   padding: 1.2rem 0;
   text-align: center;
 }
@@ -1073,7 +1082,7 @@ figcaption,
   line-height: normal;
   letter-spacing: inherit;
   cursor: pointer;
-  box-shadow: inset 0 -2px 0 #206593;
+  box-shadow: inset 0 -2px 0 var(--brand);
   transition: 0.2s linear;
 }
 
@@ -1088,11 +1097,15 @@ figcaption,
   padding-inline: 0;
 }
 
-.article-page {
+.article-page,
+.calculator-guide {
   width: 740px;
   max-width: 100%;
-  margin: -6px auto 0;
   padding: 0 20px 0;
+}
+
+.article-page {
+  margin: -6px auto 0;
 }
 
 /* Legacy `#app-format { max-width: 1000px; margin: 10px auto 0 }` spans the full viewport below 1000px. */
@@ -1104,10 +1117,7 @@ figcaption,
 
 /* Legacy: the guide's `#how-to-use { margin-top: 30px }` is the only gap below `#app-format`. */
 .calculator-guide {
-  width: 740px;
-  max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 .calculator-guide h2 {
@@ -1156,23 +1166,23 @@ figcaption,
   align-items: flex-start;
   margin: 0 0 10px;
   padding: 0 16px;
-  border-left: 4px solid #8250df;
+  border-left: 4px solid var(--callout-important);
 }
 
 .article-page .markdown-alert .alert-title {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #8250df;
+  color: var(--callout-important);
   font-weight: 600;
 }
 
 .article-page .markdown-alert-note {
-  border-left-color: #0969da;
+  border-left-color: var(--callout-note);
 }
 
 .article-page .markdown-alert-note .alert-title {
-  color: #0969da;
+  color: var(--callout-note);
 }
 
 .article-page .markdown-alert p {
@@ -1244,9 +1254,6 @@ figcaption,
   margin-bottom: 0;
 }
 
-.calculator-guide-callout {
-  margin: 25px 0 20px;
-}
 
 .calculator-guide-image {
   display: block;
@@ -1457,16 +1464,16 @@ figcaption,
   fill: url('#b-gradient') #004570;
 }
 
-.project-tip-box[data-theme='tw'] { background: rgb(27 166 255); }
-.project-tip-box[data-theme='tw'] > .project-tip-arrow { fill: rgb(27 166 255); }
-.project-tip-box[data-theme='fa'] { background: rgb(17 100 187); }
-.project-tip-box[data-theme='fa'] > .project-tip-arrow { fill: rgb(17 100 187); }
-.project-tip-box[data-theme='lkn'] { background: rgb(0 119 181); }
-.project-tip-box[data-theme='lkn'] > .project-tip-arrow { fill: rgb(0 119 181); }
-.project-tip-box[data-theme='em'] { background: #00ac98; }
-.project-tip-box[data-theme='em'] > .project-tip-arrow { fill: #00ac98; }
-.project-tip-box[data-theme='link'] { background: #1f618d; }
-.project-tip-box[data-theme='link'] > .project-tip-arrow { fill: #1f618d; }
+.project-tip-box[data-theme='tw'] { background: var(--share-twitter); }
+.project-tip-box[data-theme='tw'] > .project-tip-arrow { fill: var(--share-twitter); }
+.project-tip-box[data-theme='fa'] { background: var(--share-facebook); }
+.project-tip-box[data-theme='fa'] > .project-tip-arrow { fill: var(--share-facebook); }
+.project-tip-box[data-theme='lkn'] { background: var(--share-linkedin); }
+.project-tip-box[data-theme='lkn'] > .project-tip-arrow { fill: var(--share-linkedin); }
+.project-tip-box[data-theme='em'] { background: var(--share-email); }
+.project-tip-box[data-theme='em'] > .project-tip-arrow { fill: var(--share-email); }
+.project-tip-box[data-theme='link'] { background: var(--accent); }
+.project-tip-box[data-theme='link'] > .project-tip-arrow { fill: var(--accent); }
 
 .article-page .legacy-content :is(h2, h3),
 .longform-page .legacy-content h3,
@@ -1509,7 +1516,7 @@ figcaption,
 #post-nav {
   max-width: 740px;
   margin: 0 auto 20px;
-  border-top: 1px solid #c6c6c6;
+  border-top: 1px solid var(--section-rule);
   padding: 60px 0 0;
 }
 
@@ -1633,11 +1640,11 @@ figcaption,
   text-align: center;
 }
 
-#sh-box #tw-box { background: rgb(27 166 255); }
-#sh-box #f-box { background: rgb(17 100 187); }
-#sh-box #li-box { background: rgb(0 119 181); }
-#sh-box #e-box { background: #00ac98; }
-#sh-box #l-box { background: #1f618d; }
+#sh-box #tw-box { background: var(--share-twitter); }
+#sh-box #f-box { background: var(--share-facebook); }
+#sh-box #li-box { background: var(--share-linkedin); }
+#sh-box #e-box { background: var(--share-email); }
+#sh-box #l-box { background: var(--accent); }
 #sh-box #tw-box:hover { box-shadow: 0 0 0 4px #02ceff; }
 #sh-box #f-box:hover { box-shadow: 0 0 0 4px #6e94fa; }
 #sh-box #li-box:hover { box-shadow: 0 0 0 4px #05a2ec; }
@@ -1775,7 +1782,7 @@ figcaption,
 
 :is(.article-page, .calculator-guide) .legacy-content blockquote {
   margin: 29px 0 29px -23px;
-  border-left: 3px solid #1f618d;
+  border-left: 3px solid var(--accent);
   padding: 0 0 2px 20px;
   font-style: italic;
 }
@@ -1977,7 +1984,7 @@ figcaption,
 }
 
 .legacy-content :is(#th-1, #th-2, #th-3, #th-4) {
-  background-color: #1f618d;
+  background-color: var(--accent);
 }
 
 .legacy-content #th-1 { width: 20%; min-width: 125px; }
@@ -2068,7 +2075,7 @@ figcaption,
 }
 
 .legacy-content a.anchor {
-  box-shadow: inset 0 -2px 0 #1f618d;
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 
 @media (min-width: 821px) and (max-width: 1279px) {
@@ -2240,7 +2247,7 @@ figcaption,
 
   .newsletter-form--sidebar .newsletter-fields :is(input, button) {
     width: 100%;
-    border: 1px solid #707070;
+    border: 1px solid var(--newsletter-border);
     border-radius: 5px;
   }
 }
@@ -2553,7 +2560,7 @@ figcaption,
   .newsletter-fields input,
   .newsletter-fields button {
     width: 100%;
-    border: 1px solid #707070;
+    border: 1px solid var(--newsletter-border);
     border-radius: 0.25rem;
   }
 
@@ -2747,8 +2754,7 @@ figcaption,
     margin-top: 8px;
   }
 
-  .legacy-content :is(.ref, .references li),
-  .supplements-page .ref {
+  .legacy-content :is(.ref, .references li) {
     font-size: 14px;
   }
 
@@ -2776,24 +2782,6 @@ figcaption,
     line-height: 1.15;
   }
 
-  /* Measured legacy 390px supplements: `.normalize-headings` h2/h3 keep their desktop scale. */
-  .supplements-page .supplement-card h2,
-  .supplements-page [data-supplement-support] h2 {
-    margin: 42px 0 0 -2.13px;
-    font-size: 40px;
-    line-height: 1.15;
-  }
-
-  .supplements-page .supplement-card h2 {
-    margin-top: 0;
-  }
-
-  .supplements-page .supplement-detail h3,
-  .supplements-page [data-supplement-support] h3 {
-    margin: 30px 0 0 -1.63px;
-    font-size: 32px;
-    line-height: 1.22;
-  }
 
   .longform-page .legacy-content h2 {
     margin: 0 0 8px;
@@ -2818,17 +2806,8 @@ figcaption,
     font-size: 23px;
   }
 
-  /* Measured legacy 390px supplement h4/h5: 28px with the desktop 30px top margin. */
-  .supplements-page .supplement-detail :is(h4, h5),
-  .supplements-page [data-supplement-support] :is(h4, h5) {
-    margin: 30px 0 0 -1.63px;
-    font-size: 28px;
-    line-height: 1.22;
-  }
 
-  :is(.article-page, .calculator-guide) .legacy-content h3 + :is(h4, h5),
-  .supplements-page .supplement-detail h3 + :is(h4, h5),
-  .supplements-page [data-supplement-support] h3 + :is(h4, h5) {
+  :is(.article-page, .calculator-guide) .legacy-content h3 + :is(h4, h5) {
     margin-top: 20px;
   }
 
@@ -2838,24 +2817,6 @@ figcaption,
     line-height: 1.22;
   }
 
-  .supplements-page [data-supplement-support] p,
-  .supplements-page [data-supplement-support] :is(ul, ol),
-  .supplements-page .supplement-detail p,
-  .supplements-page .supplement-detail > ul {
-    margin-top: 21px;
-  }
-
-  .supplements-page [data-supplement-support] :is(h2, h3) + :is(p, ul, ol),
-  .supplements-page .supplement-detail h3 + p,
-  .supplements-page .supplement-detail :is(h2, h3) + :is(ul, ol),
-  .supplements-page [data-supplement-support] ol.ref-list {
-    margin-top: 8px;
-  }
-
-  .supplements-page [data-supplement-support] :is(h4, h5) + p,
-  .supplements-page .supplement-detail :is(h4, h5) + p {
-    margin-top: 6px;
-  }
 
   #comm-t,
   #share-t {

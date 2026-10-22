@@ -31,3 +31,16 @@ export function deriveNavigation(entry: BlogEntry, orderedPosts: readonly BlogEn
 
   return { previous, next, wrapTitles };
 }
+
+/** Existing section destinations; each consumer keeps its own labels. */
+export function getSectionNavigation(posts: readonly BlogEntry[]) {
+  const target = (href: string) => {
+    const entry = posts.find((post) => `/blog/${post.id}` === href);
+    if (!entry) throw new Error(`Missing section navigation target ${href}.`);
+    return { href, title: entry.data.linkTitle ?? entry.data.title };
+  };
+  return {
+    previous: target('/blog/best-protein-powder-for-building-muscle'),
+    next: target('/blog/reject-modernity-embrace-masculinity'),
+  };
+}

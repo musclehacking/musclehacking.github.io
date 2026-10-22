@@ -1,16 +1,19 @@
 ---
+import { routeByPath } from '../../config/routes';
 import Calculator from '../../features/calculator/Calculator';
 import CalculatorNewsletterPrompts from '../../components/CalculatorNewsletterPrompts.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CalculatorGuideIntro from '../../components/CalculatorGuideIntro.astro';
-import ArticleEnding from '../../components/article/ArticleEnding.astro';
+import SectionEnding from '../../components/article/SectionEnding.astro';
 import { calculatorGuideRemainderHtml } from '../../content/pages/calculator-guide';
 import { site } from '../../config/site';
 import { resolvePageMetadata } from '../../lib/metadata';
 
+const route = routeByPath.get('/calorie-calculator/')!;
+const guideTitle = 'Calorie & Macro Calculator: How To Use It';
 const metadata = {
-  title: 'Calorie And Macro Calculator (Bulking, Maintenance or Cutting)',
-  description: 'Calculate how many calories and macros you need while bulking, cutting, or maintaining.',
+  title: route.title,
+  description: route.description,
   canonicalPath: '/calorie-calculator/',
 };
 const { documentTitle } = resolvePageMetadata(metadata, site);
@@ -22,28 +25,14 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
   </main>
   <article class="calculator-guide" data-heading-links>
     <header>
-      <h2 id="how-to-use">Calorie &amp; Macro Calculator: How To Use It</h2>
-      <p>By Jay — Updated April 2026</p>
+      <h2 id="how-to-use">{guideTitle}</h2>
+      <p>By {site.authorDisplayName} — Updated April 2026</p>
     </header>
     <div class="legacy-content">
       <CalculatorGuideIntro />
       <Fragment set:html={calculatorGuideRemainderHtml} />
     </div>
-    <ArticleEnding
-      canonicalPath="/calorie-calculator/"
-      title="Calorie & Macro Calculator: How To Use It"
-      {documentTitle}
-      formId="calculator-bottom"
-      campaign="calculator-bottom"
-      placement="calculator-bottom"
-      previous={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Read Something Similar', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
-      next={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Read Something Different', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
-      wrapTitles
-      disclaimer="calculator"
-      floatingShare
-      shareTitle="Calorie And Macro Calculator (Bulking, Maintenance or Cutting)"
-      twitterText="Check+out+this+calorie+and+macro+calculator:+https://www.musclehacking.com/calorie-calculator/%20from%20@musclehacking"
-    />
+    <SectionEnding section="calculator" title={guideTitle} {documentTitle} />
   </article>
   <CalculatorNewsletterPrompts />
 </BaseLayout>

@@ -1,0 +1,28 @@
+---
+import { getPublishedPosts } from '../../lib/content/collections';
+import ArticleEnding from './ArticleEnding.astro';
+import { calculatorTwitterText, supplementTwitterText } from '../../config/site';
+import { routeByPath } from '../../config/routes';
+import { getSectionNavigation } from '../../lib/content/navigation';
+interface Props { section: 'calculator' | 'supplements'; title: string; documentTitle: string; shareTitle?: string; }
+const { section, title, documentTitle, shareTitle } = Astro.props;
+const calculator = section === 'calculator';
+const canonicalPath = calculator ? '/calorie-calculator/' : '/supplements/';
+const formId = `${section}-bottom`;
+const sectionNavigation = getSectionNavigation(await getPublishedPosts());
+---
+<ArticleEnding
+  {canonicalPath}
+  title={title}
+  {documentTitle}
+  {formId}
+  campaign={formId}
+  placement={calculator ? 'calculator-bottom' : 'longform-bottom'}
+  previous={{ ...sectionNavigation.previous, label: 'Read Something Similar' }}
+  next={{ ...sectionNavigation.next, label: 'Read Something Different' }}
+  wrapTitles
+  disclaimer={calculator ? 'calculator' : 'generic'}
+  floatingShare
+  shareTitle={shareTitle ?? routeByPath.get(canonicalPath)!.title}
+  twitterText={calculator ? calculatorTwitterText : supplementTwitterText}
+/>

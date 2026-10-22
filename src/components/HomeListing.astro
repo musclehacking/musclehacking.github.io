@@ -1,5 +1,7 @@
 ---
 import { Image } from 'astro:assets';
+import { site } from '../config/site';
+import { routeByPath } from '../config/routes';
 import { getListing } from '../lib/content';
 import Callout from './Callout.astro';
 
@@ -7,7 +9,7 @@ interface Props {
   heading?: string;
 }
 
-const { heading = 'Muscle Hacking: Gain Muscle And Lose Fat (Without The BS)' } = Astro.props;
+const { heading = `${site.name}${site.titlePrefixSeparator}${routeByPath.get('/')!.title}` } = Astro.props;
 const listing = await getListing();
 ---
 

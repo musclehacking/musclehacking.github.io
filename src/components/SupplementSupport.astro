@@ -1,0 +1,8 @@
+---
+interface Props { id: string; heading: string; html: string; }
+const { id, heading, html } = Astro.props;
+---
+<section {id} data-supplement-support>
+  <h2 data-heading-link-target={id}>{heading}</h2>
+  <div set:html={html} />
+</section>

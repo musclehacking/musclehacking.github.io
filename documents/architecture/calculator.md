@@ -125,7 +125,7 @@ Any form change invalidates pending clipboard attempts so an older promise canno
 
 ## Layout contract
 
-`calculator.css` follows the legacy Bootstrap 4 grid: a two-column `Diet`/`Units` row and a 25/33.3/41.7 percent `Stats`/`Modifiers`/`Results` row (30px gutters) down to 768px, the `#app-format` border removed at or below 1023px, and the legacy 767px mobile stack (18px body copy, 25px row gaps, `.app-h3 { margin: 10px 0 5px }`, 1rem field gaps, 62px percentage suffixes, the 26px pill `Estimated` heading, 22px energy heading margins). Information icons are the 18px legacy `.info` image with the black 10px-radius `Click for more info` popper to their right. The share icons reuse the legacy `#icon-twit` and `#icon-book` symbol paths at 35px.
+`calculator.css` follows the legacy Bootstrap 4 grid: a two-column `Diet`/`Units` row and a 25/33.3/41.7 percent `Stats`/`Modifiers`/`Results` row (30px gutters) down to 768px, the `#app-format` border removed at or below 1023px, and the legacy 767px mobile stack (18px body copy, 25px row gaps, `.app-h3 { margin: 10px 0 5px }`, 1rem field gaps, 62px percentage suffixes, the 26px pill `Estimated` heading, 22px energy heading margins). Information icons are the 18px legacy `.info` image with the black 10px-radius `Click for more info` popper to their right. The share icons reuse the legacy `#icon-twit` and `#icon-book` symbol paths at 35px. Their geometry comes from named exports in `src/lib/icons.ts`; the native React SVG adapter preserves the original attributes. The route composes its ending through `SectionEnding.astro` with the calculator variant. [The component catalogue](components.md) owns the full pattern/variant/consumer map.
 
 ## Known legacy ambiguities
 

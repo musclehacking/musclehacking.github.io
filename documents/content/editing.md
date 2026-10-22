@@ -46,6 +46,10 @@ Pages use the same fields plus required `path`, which must exist in `src/config/
 
 Future-dated entries follow the same exclusion rules as drafts. Publishing uses UTC and begins when `published` is not later than the build time.
 
+## Shared page patterns
+
+Before adding a page section, check the [component catalogue](../architecture/components.md) for its owner and existing variants. Reuse the owner and supply only the page’s differences. Public facts come from `src/config/site.ts`, route facts from `src/config/routes.ts`, and native typography/layout from the owners in [DESIGN.md](../../DESIGN.md). Do not copy a component’s markup, icon paths or CSS into a page.
+
 ## Body components
 
 Use ordinary Markdown for paragraphs, headings, lists, links, emphasis, and blockquotes. Import nothing in the entry. MDX maps these component names automatically:

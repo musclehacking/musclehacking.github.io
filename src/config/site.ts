@@ -1,3 +1,5 @@
+const contactEmail = 'jay@musclehacking.com';
+
 export const site = {
   origin: 'https://www.musclehacking.com',
   name: 'Muscle Hacking',
@@ -13,6 +15,10 @@ export const site = {
    */
   openGraphLocale: 'en_US',
   authorDisplayName: 'Jay',
+  contact: { email: contactEmail, href: `mailto:${contactEmail}` },
+  socialHandle: 'musclehacking',
+  newsletter: { buttonText: 'Email Me' },
+  communityUrl: 'https://www.reddit.com/r/musclehacking/',
   defaultDescription:
     'An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started.',
   defaultImage: '/img/musclehacking.png',
@@ -34,3 +40,8 @@ export const site = {
 } as const;
 
 export const absoluteUrl = (path: string) => new URL(path, site.origin).href;
+
+/** Keep the legacy tweet encoding shared by the calculator and its guide ending. */
+export const calculatorTwitterText = `Check+out+this+calorie+and+macro+calculator:+${absoluteUrl('/calorie-calculator/')}%20from%20@${site.socialHandle}`;
+export const calculatorShareHref = `https://twitter.com/intent/tweet?text=${calculatorTwitterText}`;
+export const supplementTwitterText = `Check+out+this+supplement+guide:+${absoluteUrl('/supplements/')}%20from%20@${site.socialHandle}`;

@@ -1,4 +1,6 @@
 ---
+import SupplementSupport from './SupplementSupport.astro';
+import Icon from './Icon.astro';
 import { supplementFilters, supplements } from '../features/supplements';
 import { supplementContentById, supplementSupportContent } from '../features/supplements/content';
 
@@ -13,7 +15,7 @@ const initialNotice = supplementFilters.find((filter) => filter.id === 'muscle-g
     ))}
   </div>
   <aside class="project-callout project-callout--note supplement-note supplement-category-note" data-supplement-category-note aria-label="Selected goal note">
-    <strong class="alert-title" data-supplement-category-note-title><svg aria-hidden="true" class="octicon octicon-note" width="16" height="16" viewBox="0 0 16 16"><path data-supplement-category-note-icon d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" fill="currentColor"></path></svg><span data-supplement-category-note-label>{initialNotice?.title}</span></strong>
+    <strong class="alert-title" data-supplement-category-note-title><Icon name="note" class="octicon octicon-note" width="16" height="16" pathFill="currentColor" pathAttributes={{ 'data-supplement-category-note-icon': '' }} /><span data-supplement-category-note-label>{initialNotice?.title}</span></strong>
     <p data-supplement-category-note-text>{initialNotice?.text}</p>
   </aside>
   <nav class="supplement-toc" aria-label="Visible supplement sections">
@@ -54,17 +56,398 @@ const initialNotice = supplementFilters.find((filter) => filter.id === 'muscle-g
   ))}
 </div>
 
-<section id="supplement-information" data-supplement-support>
-  <h2 data-heading-link-target="supplement-information">What is this?</h2>
-  <div set:html={supplementSupportContent.informationHtml} />
-</section>
+<SupplementSupport id="supplement-information" heading="What is this?" html={supplementSupportContent.informationHtml} />
 
-<section id="all-references" data-supplement-support>
-  <h2 data-heading-link-target="all-references">References</h2>
-  <div set:html={supplementSupportContent.referencesHtml} />
-</section>
+<SupplementSupport id="all-references" heading="References" html={supplementSupportContent.referencesHtml} />
 
 <script>
   import { enhanceSupplementExplorer } from '../features/supplements/enhance';
   enhanceSupplementExplorer();
 </script>
+
+<style is:global>
+  .supplements-page {
+    --supplement-filter: #3d7295;
+    --supplement-filter-hover: #356886;
+    --supplement-evidence-high: #177245;
+    --supplement-subheading-gap: 20px;
+  }
+
+  /* AUD-07/A11Y-01: GitHub light-mode `--color-accent-fg`, replacing `#2F81F7`. */
+  .supplement-note {
+    border-left: 4px solid var(--callout-note);
+    margin: 0 0 25px;
+    padding: 0 16px;
+  }
+
+  .supplement-note p {
+    margin: -3px 0 0;
+    font-size: 0.9em;
+    line-height: 1.58;
+  }
+
+  .supplements-page .supplement-filter-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .supplements-page .supplement-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 5px 25px;
+  }
+
+  /*
+   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy `.btn-info` fill
+   * `#4c88af` measures 3.85:1 with white 16px text. The approved AA-safe fill is
+   * `#3d7295` (5.20:1); hover moves to `#356886` (6.04:1) so it stays visibly
+   * darker, and the active `var(--accent)` (6.66:1) is unchanged from legacy.
+   */
+  .supplements-page .supplement-filters button {
+    border: 1px solid var(--supplement-filter);
+    border-radius: 8px;
+    background: var(--supplement-filter);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+    color: white;
+    padding: 6px 12px;
+    font: 16px/1.5 muscle2, Georgia, Cambria, 'Times New Roman', serif;
+    cursor: pointer;
+  }
+
+  .supplements-page .supplement-filters button.active {
+    border-radius: 16px;
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+
+  .supplements-page .supplement-filters button:not(.active):not([data-supplement-filter='information']):hover {
+    border-color: var(--supplement-filter-hover);
+    background: var(--supplement-filter-hover);
+  }
+
+  /*
+   * AUD-07/A11Y-02: the legacy `information` filter is a lighter `#6fa4c9` tint at
+   * 2.68:1 with white text. A lighter fill cannot reach 4.5:1 against white, so the
+   * approved variant keeps the lighter appearance and inverts the text: `#14496B`
+   * on `#DCEAF4` measures 7.80:1.
+   */
+  .supplements-page .supplement-filters button[data-supplement-filter='information']:not(.active) {
+    border-color: #9dc0d8;
+    background: #dceaf4;
+    color: #14496b;
+  }
+
+  .supplements-page .supplement-filters button:active {
+    border-color: var(--accent) !important;
+    background: var(--accent) !important;
+    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
+  }
+
+  .supplements-page .supplement-filters button:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+  }
+
+  .supplement-toc {
+    position: fixed;
+    top: 84px;
+    left: 12px;
+    width: 150px;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .supplement-toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .supplement-toc a {
+    /* Legacy `#toc .nav>li>a`: 10px padding after a 2px rail, pulled left so text keeps its x. */
+    display: block;
+    margin-left: -12px;
+    padding-left: 10px;
+    border-left: 2px solid transparent;
+    color: #6f6f6f;
+    text-decoration: none;
+  }
+
+  /* Legacy `#toc .nav-link.active, #toc .nav>li>a:hover` (Bootstrap ScrollSpy state). */
+  .supplement-toc a:hover,
+  .supplement-toc a.active {
+    color: #000;
+    border-left-color: var(--accent);
+  }
+
+  .supplement-toc a.active {
+    border-left-width: 3px;
+  }
+
+  .supplements-page .supplement-card {
+    border: 0;
+    padding: 0;
+  }
+
+  .supplements-page .supplement-heading {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin: 42px 0 0;
+  }
+
+  /* Legacy `.category-top .heading-wrapper { margin-top: 22px }`; later wrappers use 42px. */
+  .supplements-page .supplement-card.category-top .supplement-heading,
+  .supplements-page .supplement-card:first-of-type .supplement-heading {
+    margin-top: 22px;
+  }
+
+  .supplements-page .supplement-card h2,
+  .supplements-page [data-supplement-support] h2 {
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .supplements-page .supplement-card h2 {
+    margin: 0 0 0 -2.13px;
+  }
+  /*
+   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy semi-transparent
+   * evidence fills measure 3.11:1 (high), 1.86:1 (medium) and 3.80:1 (low) with
+   * white 18.9px 600-weight text. The approved variant keeps the traffic-light
+   * hues and darkens each fill to an opaque AA-safe value.
+   */
+  .supplements-page .evidence-badge {
+    border: 0;
+    border-radius: 5px;
+    background: var(--supplement-evidence-high);
+    color: white;
+    padding: 2px 8px;
+    font: 600 18.9px/1.15 muscle2, Georgia, Cambria, 'Times New Roman', serif;
+    text-transform: lowercase;
+    text-decoration: none;
+    vertical-align: middle;
+  }
+
+  .supplements-page .evidence-badge:hover,
+  .supplements-page .evidence-badge:focus-visible,
+  .supplements-page .evidence-badge[aria-expanded='true'] {
+    background: var(--supplement-evidence-high);
+  }
+
+  .supplement-category-note {
+    margin-bottom: 10px;
+  }
+
+  .supplement-category-note p {
+    margin-top: 0;
+  }
+
+  /* AUD-07/A11Y-01: GitHub light-mode `--color-done-fg`, replacing `#A371F7`. */
+  .supplement-category-note--important {
+    border-left-color: var(--callout-important);
+  }
+
+  .supplement-category-note--important strong {
+    color: var(--callout-important);
+  }
+
+  .supplements-page .supplement-detail h3,
+  .supplements-page [data-supplement-support] h3 {
+    font-size: 32px;
+    line-height: 1.22;
+    letter-spacing: -0.012em;
+    margin: 30px 0 0 -1.63px;
+  }
+
+  .supplements-page .supplement-detail h3 + p {
+    margin: 8px 0 0;
+  }
+
+  /* Legacy `.normalize-headings h4, h5`: 28px, 30px top margin, 1.22 line height;
+     `h3 + h4 { margin-top: 20px }`; `h4 + p, h5 + p { margin-top: 6px }`. */
+  .supplements-page .supplement-detail :is(h4, h5),
+  .supplements-page [data-supplement-support] :is(h4, h5) {
+    font-size: 28px;
+    line-height: 1.22;
+    letter-spacing: -0.012em;
+    margin: 30px 0 0 -1.63px;
+  }
+
+  .supplements-page .supplement-detail h3 + :is(h4, h5) {
+    margin-top: var(--supplement-subheading-gap);
+  }
+
+  .supplements-page .supplement-detail :is(h4, h5) + p,
+  .supplements-page [data-supplement-support] :is(h4, h5) + p {
+    margin-top: 6px;
+  }
+
+  .supplements-page .supplement-detail :is(h2, h3) + :is(ul, ol) {
+    margin-top: 8px;
+  }
+
+  /* "What is this?" and References share the legacy `.normalize-headings` article rhythm. */
+  .supplements-page [data-supplement-support] h2 {
+    margin: 42px 0 0 -2.13px;
+  }
+
+  .supplements-page [data-supplement-support] p,
+  .supplements-page .supplement-detail p {
+    margin: 29px 0 0;
+    line-height: 35px;
+  }
+
+  .supplements-page [data-supplement-support] :is(h2, h3) + :is(p, ul, ol) {
+    margin-top: 8px;
+  }
+
+  /* The support copy is injected inside a wrapper div, so descendant selectors are used. */
+  .supplements-page [data-supplement-support] :is(ul, ol) {
+    margin: 29px 0 0;
+    padding: 0;
+  }
+
+  .supplements-page [data-supplement-support] li {
+    margin: 0 0 5px 30px;
+  }
+
+  .supplements-page [data-supplement-support] li > :is(ul, ol) {
+    margin: 0;
+  }
+
+  .supplements-page [data-supplement-support] ol.ref-list {
+    margin-top: 8px;
+  }
+
+  .supplements-page .ref {
+    font-size: 17px;
+  }
+
+  /* Legacy `.normalize-headings h3` also sizes the Share and Comment headings here. */
+  .supplements-page :is(#share-t, #comm-t) {
+    font-size: 32px;
+    line-height: 1.22;
+    letter-spacing: -0.012em;
+  }
+
+  .supplements-page [data-supplement-support] .ref-list > .ref {
+    margin-left: 1.4em;
+  }
+
+  /* Legacy addon.css: paragraphs run at 35px with a 29px top margin, list items at the
+     body 1.58 line height with a 5px bottom margin. */
+  .supplements-page .supplement-detail p {
+    overflow-wrap: anywhere;
+  }
+
+  .supplements-page .supplement-detail li {
+    margin-bottom: 5px;
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+  }
+
+  .supplements-page .supplement-detail a.inl-ref {
+    box-shadow: none;
+    color: var(--brand);
+    text-decoration: none;
+  }
+
+  .supplements-page .supplement-detail a.inl-ref > sup {
+    font-size: 70%;
+    line-height: 0;
+    position: relative;
+    top: -0.5em;
+    vertical-align: baseline;
+  }
+
+  .supplements-page .supplement-detail > ul {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+  }
+
+  /* #b02a1c is 6.57:1, #8a5a00 is 5.93:1, and #177245 is 5.95:1 with white text. */
+  .supplements-page .evidence-badge[data-evidence-level='low'] {
+    background: #b02a1c;
+  }
+
+  .supplements-page .evidence-badge[data-evidence-level='medium'] {
+    background: #8a5a00;
+  }
+
+  .supplements-page .evidence-badge[data-evidence-level='high'] {
+    background: var(--supplement-evidence-high);
+  }
+
+  .supplements-page .supplement-detail > ul > li {
+    margin: 0 0 5px 30px;
+  }
+
+  .supplements-page .supplement-detail > ul > li::before {
+    box-sizing: border-box;
+    content: '•';
+    display: inline-block;
+    font-size: 16.8px;
+    margin-left: -4.875em;
+    padding-right: 15px;
+    padding-top: 4px;
+    position: absolute;
+    text-align: right;
+    width: 4.875em;
+  }
+
+  @media (max-width: 820px) {
+    .supplement-toc {
+      display: none;
+    }
+  }
+
+  /* Legacy 767px mobile rhythm: `article div.post-body ol, p, ul { margin-top: 21px }`. */
+  @media (max-width: 767px) {
+    /* Legacy mobile body text is 18px; the byline and the 0.9em evidence badge inherit it. */
+    .supplements-page .evidence-badge {
+      font-size: 16.2px;
+    }
+
+    .supplements-page .supplement-detail p,
+    .supplements-page .supplement-detail > ul,
+    .supplements-page [data-supplement-support] p,
+    .supplements-page [data-supplement-support] :is(ul, ol) {
+      margin-top: 21px;
+    }
+
+    .supplements-page .supplement-detail h3 + p,
+    .supplements-page .supplement-detail :is(h2, h3) + :is(ul, ol),
+    .supplements-page [data-supplement-support] :is(h2, h3) + :is(p, ul, ol),
+    .supplements-page [data-supplement-support] ol.ref-list {
+      margin-top: 8px;
+    }
+
+    .supplements-page .supplement-detail :is(h4, h5) + p,
+    .supplements-page [data-supplement-support] :is(h4, h5) + p {
+      margin-top: 6px;
+    }
+
+    .supplements-page .supplement-detail li > :is(ul, ol),
+    .supplements-page [data-supplement-support] li > :is(ul, ol) {
+      margin-top: 21px;
+    }
+
+    /* Preserve the support-only mobile adjacency rule previously owned by global.css. */
+    .supplements-page [data-supplement-support] h3 + :is(h4, h5) {
+      margin-top: var(--supplement-subheading-gap);
+    }
+
+    .supplements-page .ref {
+      font-size: 14px;
+    }
+  }
+</style>

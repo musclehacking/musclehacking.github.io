@@ -1,15 +1,16 @@
 ---
+import { site } from '../config/site';
 import NewsletterForm from './NewsletterForm.astro';
 import { getListing } from '../lib/content';
 
 const listing = await getListing();
 ---
 
-<aside class="sidebar" aria-label="About Muscle Hacking">
+<aside class="sidebar" aria-label={`About ${site.name}`}>
   <p>Want to stay up to date with my writing?</p>
   <p>Enter your email below and I’ll send you my latest articles.</p>
   <p>(and other subscriber-only content).</p>
-  <NewsletterForm formId="sidebar" campaign="sidebar" buttonText="Email Me" placement="sidebar" hideLabel />
+  <NewsletterForm formId="sidebar" campaign="sidebar" buttonText={site.newsletter.buttonText} placement="sidebar" hideLabel />
   <p><em>No Junk. Unsubscribe at any time.</em></p>
   <h2>About</h2>
   <p class="sidebar-about">
@@ -25,7 +26,7 @@ const listing = await getListing();
     <br /><br />
     Use this <a href="/calorie-calculator/">calorie and macro calculator</a> to figure that out for you.
     <br /><br />
-    Have a question? You can reach out to me at <a href="mailto:jay@musclehacking.com">jay@musclehacking.com</a>.
+    Have a question? You can reach out to me at <a href={site.contact.href}>{site.contact.email}</a>.
     <br /><br />
     I’m here to help. To guide you as best I can through all the misinformation and “magic pills”.
     <br /><br />

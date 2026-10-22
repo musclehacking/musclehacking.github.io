@@ -1,11 +1,16 @@
 ---
+import { getPublishedPosts } from '../../lib/content/collections';
+import { routeByPath } from '../../config/routes';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSectionNavigation } from '../../lib/content/navigation';
 import PostNavigation from '../../components/article/PostNavigation.astro';
+const route = routeByPath.get('/one-last-step/')!;
+const sectionNavigation = getSectionNavigation(await getPublishedPosts());
 ---
 
-<BaseLayout metadata={{ title: 'One Last Step', description: 'Confirm your email address and I’ll send you my latest articles.', canonicalPath: '/one-last-step/', indexable: false }}>
+<BaseLayout metadata={{ title: route.title, description: route.description, canonicalPath: '/one-last-step/', indexable: false }}>
   <main class="article-page confirmation-page">
-    <h1>One Last Step</h1>
+    <h1>{route.title}</h1>
     <picture class="intrinsic intrinsic--new18 confirmation-image">
       <img class="intrinsic-item" src="/img/hit-me-up-bb-girl.gif" alt="Don’t make me beg" width="327" height="225" />
     </picture>
@@ -32,8 +37,8 @@ import PostNavigation from '../../components/article/PostNavigation.astro';
     </ul>
     {/* Legacy one-last-step/index.html ends with the same two-link navigation block. */}
     <PostNavigation
-      previous={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Nutrition Related', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
-      next={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Society Related', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
+      previous={{ ...sectionNavigation.previous, label: 'Nutrition Related' }}
+      next={{ ...sectionNavigation.next, label: 'Society Related' }}
       wrapTitles
     />
   </main>

@@ -1,3 +1,5 @@
+import { TWITTER_ICON_PATH, FACEBOOK_ICON_PATH } from "../../lib/icons";
+import { calculatorShareHref, absoluteUrl } from "../../config/site";
 import {
   useEffect,
   useMemo,
@@ -290,12 +292,6 @@ function toCalculatorInput(form: CalculatorFormState): CalculatorInput {
     ketoCarbGrams: parseNumericFormValue(form.ketoCarbGrams),
   };
 }
-
-/* Retained legacy `#icon-twit` and `#icon-book` symbol paths from calorie-calculator/index.html. */
-const TWITTER_ICON_PATH =
-  "M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z";
-const FACEBOOK_ICON_PATH =
-  "M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z";
 
 function firstError(errors: ValidationErrors): string | undefined {
   return Object.values(errors).find((message) => message !== undefined);
@@ -1058,10 +1054,10 @@ export default function Calculator({
                 <div className="calculator-share">
                   <p>If You Found This Tool Useful, Please<br />Consider Sharing It</p>
                   <div>
-                    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=Check+out+this+calorie+and+macro+calculator:+https://www.musclehacking.com/calorie-calculator/%20from%20@musclehacking" rel="noopener nofollow" target="_blank" title="Share on Twitter">
+                    <a aria-label="Share on Twitter" href={calculatorShareHref} rel="noopener nofollow" target="_blank" title="Share on Twitter">
                       <svg aria-hidden="true" className="icon twit" viewBox="0 0 951 1024"><path d={TWITTER_ICON_PATH} /></svg>
                     </a>{" "}
-                    <a aria-label="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://www.musclehacking.com/calorie-calculator/" rel="noopener nofollow" target="_blank" title="Share on Facebook">
+                    <a aria-label="Share on Facebook" href={`https://www.facebook.com/sharer/sharer.php?u=${absoluteUrl('/calorie-calculator/')}`} rel="noopener nofollow" target="_blank" title="Share on Facebook">
                       <svg aria-hidden="true" className="icon" id="face" viewBox="0 0 585 1024"><path d={FACEBOOK_ICON_PATH} /></svg>
                     </a>
                   </div>

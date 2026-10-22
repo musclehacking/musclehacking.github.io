@@ -1,4 +1,7 @@
 ---
+import ShareRailItem from './ShareRailItem.astro';
+import Icon from '../Icon.astro';
+import { absoluteUrl, site } from '../../config/site';
 interface Props {
   canonicalPath: string;
   title: string;
@@ -14,22 +17,17 @@ const {
   emailSubject = 'Worth a read',
   emailBody,
 } = Astro.props;
-const url = `https://www.musclehacking.com${canonicalPath}`;
+const url = absoluteUrl(canonicalPath);
 const encodedUrl = encodeURIComponent(url);
 const encodedTitle = encodeURIComponent(title);
 const encodedDocumentTitle = encodeURIComponent(documentTitle);
-const twitterHref = `https://twitter.com/intent/tweet?text=${encodedTitle}%20${encodedUrl}&via=musclehacking`;
+const twitterHref = `https://twitter.com/intent/tweet?text=${encodedTitle}%20${encodedUrl}&via=${site.socialHandle}`;
 const facebookHref = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&title=${encodedDocumentTitle}`;
 const linkedInHref = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedDocumentTitle}`;
 const emailHref = `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody ?? `You might find this interesting: ${url}`)}`;
 
-/* Production anchor.js tippy arrow paths (16x6 SVG, shadow plus fill). */
-const arrowShadow = 'M0 6s1.796-.013 4.67-3.615C5.851.9 6.93.006 8 0c1.07-.006 2.148.887 3.343 2.385C14.233 6.005 16 6 16 6H0z';
-const arrowFill = 'm0 7s2 0 5-4c1-1 2-2 3-2 1 0 2 1 3 2 3 4 5 4 5 4h-16z';
 
 /* Exact retained legacy share-rail icon paths from blog/*.html. */
-const twitterPath = 'M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z';
-const facebookPath = 'M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z';
 const linkedInPath = 'M186.4 142.4c0 19-15.3 34.5-34.2 34.5 -18.9 0-34.2-15.4-34.2-34.5 0-19 15.3-34.5 34.2-34.5C171.1 107.9 186.4 123.4 186.4 142.4zM181.4 201.3h-57.8V388.1h57.8V201.3zM273.8 201.3h-55.4V388.1h55.4c0 0 0-69.3 0-98 0-26.3 12.1-41.9 35.2-41.9 21.3 0 31.5 15 31.5 41.9 0 26.9 0 98 0 98h57.5c0 0 0-68.2 0-118.3 0-50-28.3-74.2-68-74.2 -39.6 0-56.3 30.9-56.3 30.9v-25.2H273.8z';
 const emailPath = 'M383.888 63.256c-.04-.792-.192-1.552-.352-2.336-.16-.792-.304-1.568-.576-2.32-.088-.24-.08-.488-.176-.72-.2-.472-.536-.848-.776-1.296-.384-.728-.768-1.432-1.256-2.088-.464-.624-.992-1.16-1.544-1.704-.544-.544-1.08-1.072-1.704-1.544-.656-.488-1.36-.872-2.088-1.256-.448-.24-.816-.584-1.296-.776-.232-.096-.488-.096-.72-.184-.744-.272-1.504-.416-2.288-.576-.8-.16-1.576-.32-2.384-.36-.248 0-.48-.096-.728-.096H16c-.256 0-.496.104-.752.112-.792.04-1.552.192-2.336.352-.792.16-1.568.304-2.32.576-.24.088-.488.08-.72.176-.472.2-.848.536-1.296.776-.728.384-1.432.768-2.088 1.256-.624.464-1.16.992-1.704 1.544-.544.544-1.072 1.08-1.544 1.704-.488.656-.872 1.36-1.256 2.088-.24.448-.584.816-.776 1.296-.096.232-.096.48-.176.72-.272.752-.416 1.528-.576 2.32-.152.784-.312 1.544-.352 2.336C.096 63.512 0 63.744 0 64v256c0 1.048.112 2.096.312 3.136.096.472.272.912.408 1.368.16.544.288 1.088.504 1.616.224.536.528 1.024.808 1.536.224.408.4.832.664 1.224a16.01 16.01 0 004.432 4.432c.392.264.824.448 1.24.672.504.272.984.576 1.52.8.528.216 1.08.344 1.624.504.456.136.896.312 1.368.408 1.024.192 2.072.304 3.12.304h352c1.048 0 2.096-.112 3.136-.312.472-.096.912-.272 1.368-.408.544-.16 1.096-.288 1.624-.504.528-.224 1.016-.52 1.52-.8.416-.224.84-.408 1.24-.672a16.119 16.119 0 004.432-4.432c.264-.392.44-.816.664-1.224.28-.504.584-.992.808-1.536.216-.528.344-1.072.504-1.616.136-.456.312-.896.408-1.368.184-1.032.296-2.08.296-3.128V64c0-.256-.096-.488-.112-.744zM329.368 80L208.064 201.312c-8.856 8.848-23.264 8.848-32.128 0L54.632 80h274.736zM32 102.632L121.376 192 32 281.376V102.632zM54.624 304L144 214.624l9.312 9.312a55.263 55.263 0 004.152 3.752c20.032 16.336 49.04 16.336 69.072 0a55.263 55.263 0 004.152-3.752l9.312-9.312L329.376 304H54.624zM352 281.376L262.624 192 352 102.632v178.744z';
 const copyLinkPaths = [
@@ -39,57 +37,21 @@ const copyLinkPaths = [
 ---
 
 <aside id="sh-box" aria-label="Share this page" aria-hidden="true" inert data-social-share-rail>
-  <div id="tw-box-b" class="sh-box2">
-    <div id="tw-box">
-      <a href={twitterHref} target="_blank" rel="noopener nofollow" aria-label="Share on Twitter">
-        <div class="box-s">
-          <svg viewBox="0 0 951 1024" class="icon twi" aria-hidden="true"><path d={twitterPath} class="path1"></path></svg>
-        </div>
-      </a>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="tw" data-placement="right" data-state="hidden" data-share-tooltip role="tooltip"><span class="project-tip-content share-rail-tooltip">Share on Twitter</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-    </div>
-  </div>
-  <div id="f-box-b" class="sh-box2">
-    <div id="f-box">
-      <a href={facebookHref} target="_blank" rel="noopener nofollow" aria-label="Share on Facebook">
-        <div class="box-s">
-          <svg id="faceb" viewBox="0 0 585 1024" class="icon" aria-hidden="true"><path d={facebookPath} class="path1"></path></svg>
-        </div>
-      </a>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="fa" data-placement="right" data-state="hidden" data-share-tooltip role="tooltip"><span class="project-tip-content share-rail-tooltip">Share on Facebook</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-    </div>
-  </div>
-  <div id="li-box-b" class="sh-box2">
-    <div id="li-box">
-      <a href={linkedInHref} target="_blank" rel="noopener nofollow" aria-label="Share on Linkedin">
-        <div class="box-s">
-          <svg id="lkn" viewBox="0 0 512 512" class="icon" aria-hidden="true"><path d={linkedInPath} class="path1"></path></svg>
-        </div>
-      </a>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="lkn" data-placement="right" data-state="hidden" data-share-tooltip role="tooltip"><span class="project-tip-content share-rail-tooltip">Share on Linkedin</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-    </div>
-  </div>
-  <div id="e-box-b" class="sh-box2">
-    <div id="e-box">
-      <a href={emailHref} aria-label="Share by email">
-        <div class="box-s">
-          <svg id="eml" class="icon" viewBox="0 0 384 384" aria-hidden="true"><path d={emailPath} fill="#fff"></path></svg>
-        </div>
-      </a>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="em" data-placement="right" data-state="hidden" data-share-tooltip role="tooltip"><span class="project-tip-content share-rail-tooltip">Email this to Someone</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-    </div>
-  </div>
-  <div id="l-box-b" class="sh-box2">
-    <div id="l-box">
-      <a href={url} data-copy-page-link aria-label="Copy page link">
-        <div class="box-s">
-          <svg id="lnk" class="icon" viewBox="0 0 512 512" aria-hidden="true"><path d={copyLinkPaths[0]} fill="#fff"></path><path d={copyLinkPaths[1]} fill="#fff"></path></svg>
-        </div>
-      </a>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="link" data-placement="right" data-state="hidden" data-share-tooltip role="tooltip"><span class="project-tip-content share-rail-tooltip">Click to Copy URL</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-      <span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme="link" data-placement="right" data-state="hidden" data-share-feedback role="status"><span class="project-tip-content share-rail-tooltip" data-copy-page-feedback>Link Copied!</span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={arrowShadow}></path><path class="svg-content" d={arrowFill}></path></svg></span></span></span>
-    </div>
-  </div>
+  <ShareRailItem channel="twitter" href={twitterHref}>
+    <Icon name="twitter" class="icon twi" pathClass="path1" />
+  </ShareRailItem>
+  <ShareRailItem channel="facebook" href={facebookHref}>
+    <Icon name="facebook" id="faceb" class="icon" pathClass="path1" />
+  </ShareRailItem>
+  <ShareRailItem channel="linkedin" href={linkedInHref}>
+    <svg id="lkn" viewBox="0 0 512 512" class="icon" aria-hidden="true"><path d={linkedInPath} class="path1"></path></svg>
+  </ShareRailItem>
+  <ShareRailItem channel="email" href={emailHref}>
+    <svg id="eml" class="icon" viewBox="0 0 384 384" aria-hidden="true"><path d={emailPath} fill="#fff"></path></svg>
+  </ShareRailItem>
+  <ShareRailItem channel="copy" href={url}>
+    <svg id="lnk" class="icon" viewBox="0 0 512 512" aria-hidden="true"><path d={copyLinkPaths[0]} fill="#fff"></path><path d={copyLinkPaths[1]} fill="#fff"></path></svg>
+  </ShareRailItem>
 </aside>
 
 <script>

@@ -1,0 +1,25 @@
+---
+import ProjectTip from '../ProjectTip.astro';
+const channels = {
+  twitter: { id: 'tw', theme: 'tw', label: 'Share on Twitter', tooltip: 'Share on Twitter' },
+  facebook: { id: 'f', theme: 'fa', label: 'Share on Facebook', tooltip: 'Share on Facebook' },
+  linkedin: { id: 'li', theme: 'lkn', label: 'Share on Linkedin', tooltip: 'Share on Linkedin' },
+  email: { id: 'e', theme: 'em', label: 'Share by email', tooltip: 'Email this to Someone' },
+  copy: { id: 'l', theme: 'link', label: 'Copy page link', tooltip: 'Click to Copy URL' },
+} as const;
+interface Props { channel: keyof typeof channels; href: string; }
+const { channel, href } = Astro.props;
+const { id, theme, label, tooltip } = channels[channel];
+const external = channel !== 'email' && channel !== 'copy';
+---
+<div id={`${id}-box-b`} class="sh-box2">
+  <div id={`${id}-box`}>
+    <a {href} target={external ? '_blank' : undefined} rel={external ? 'noopener nofollow' : undefined} data-copy-page-link={channel === 'copy' ? '' : undefined} aria-label={label}>
+      <div class="box-s">
+        <slot />
+      </div>
+    </a>
+    <ProjectTip {theme}>{tooltip}</ProjectTip>
+    {channel === 'copy' && <ProjectTip {theme} feedback>Link Copied!</ProjectTip>}
+  </div>
+</div>

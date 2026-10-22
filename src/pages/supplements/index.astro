@@ -2,7 +2,7 @@
 import SupplementExplorer from '../../components/SupplementExplorer.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Callout from '../../components/Callout.astro';
-import ArticleEnding from '../../components/article/ArticleEnding.astro';
+import SectionEnding from '../../components/article/SectionEnding.astro';
 import { routeByPath } from '../../config/routes';
 import { site } from '../../config/site';
 import { resolvePageMetadata } from '../../lib/metadata';
@@ -11,6 +11,7 @@ const route = routeByPath.get('/supplements/');
 
 if (!route) throw new Error('Missing /supplements/ route registry entry.');
 
+const heading = route.heading!;
 const metadata = {
   title: route.title,
   description: route.description,
@@ -23,27 +24,13 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
 
 <BaseLayout {metadata}>
   <main class="supplements-page" data-heading-links>
-    <h1>Muscle Building Supplement Stack (Based on Research)</h1>
-    <p class="byline">By Jay — Updated March 2024, Posted August 2023</p>
+    <h1>{heading}</h1>
+    <p class="byline">By {site.authorDisplayName} — Updated March 2024, Posted August 2023</p>
     <Callout class="supplement-note">
       <p>This is my summarized supplement research after 10+ years of reading scientific studies and listening to (real) experts in nutrition. Learn more <a href="#supplement-information" data-supplement-information-link>here</a>.</p>
     </Callout>
     <SupplementExplorer />
-    <ArticleEnding
-      canonicalPath="/supplements/"
-      title="Muscle Building Supplement Stack (Based on Research)"
-      {documentTitle}
-      formId="supplements-bottom"
-      campaign="supplements-bottom"
-      placement="longform-bottom"
-      previous={{ href: '/blog/best-protein-powder-for-building-muscle', label: 'Read Something Similar', title: 'Best Protein Powder for Muscle Gain: An Evidence-Based Approach' }}
-      next={{ href: '/blog/reject-modernity-embrace-masculinity', label: 'Read Something Different', title: 'Reject Modernity, Embrace Masculinity: The Meaning Behind The Meme' }}
-      wrapTitles
-      disclaimer="generic"
-      floatingShare
-      shareTitle="Beyond the Hype: Supplements That Work"
-      twitterText="Check+out+this+supplement+guide:+https://www.musclehacking.com/supplements/%20from%20@musclehacking"
-    />
+    <SectionEnding section="supplements" title={heading} {documentTitle} shareTitle={metadata.socialTitle} />
   </main>
 </BaseLayout>
 
@@ -69,356 +56,9 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
     line-height: 35px;
   }
 
-  /* AUD-07/A11Y-01: GitHub light-mode `--color-accent-fg`, replacing `#2F81F7`. */
-  .supplement-note {
-    border-left: 4px solid #0969da;
-    margin: 0 0 25px;
-    padding: 0 16px;
-  }
-
-  .supplement-note p {
-    margin: -3px 0 0;
-    font-size: 0.9em;
-    line-height: 1.58;
-  }
-
   .supplements-page > .supplement-note p {
     margin-top: 0;
     font-size: inherit;
-  }
-
-  .supplements-page .supplement-filter-heading {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-  }
-
-  .supplements-page .supplement-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 0 5px 25px;
-  }
-
-  /*
-   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy `.btn-info` fill
-   * `#4c88af` measures 3.85:1 with white 16px text. The approved AA-safe fill is
-   * `#3d7295` (5.20:1); hover moves to `#356886` (6.04:1) so it stays visibly
-   * darker, and the active `#1f618d` (6.66:1) is unchanged from legacy.
-   */
-  .supplements-page .supplement-filters button {
-    border: 1px solid #3d7295;
-    border-radius: 8px;
-    background: #3d7295;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
-    color: white;
-    padding: 6px 12px;
-    font: 16px/1.5 muscle2, Georgia, Cambria, 'Times New Roman', serif;
-    cursor: pointer;
-  }
-
-  .supplements-page .supplement-filters button.active {
-    border-radius: 16px;
-    border-color: #1f618d;
-    background: #1f618d;
-    color: white;
-  }
-
-  .supplements-page .supplement-filters button:not(.active):not([data-supplement-filter='information']):hover {
-    border-color: #356886;
-    background: #356886;
-  }
-
-  /*
-   * AUD-07/A11Y-02: the legacy `information` filter is a lighter `#6fa4c9` tint at
-   * 2.68:1 with white text. A lighter fill cannot reach 4.5:1 against white, so the
-   * approved variant keeps the lighter appearance and inverts the text: `#14496B`
-   * on `#DCEAF4` measures 7.80:1.
-   */
-  .supplements-page .supplement-filters button[data-supplement-filter='information']:not(.active) {
-    border-color: #9dc0d8;
-    background: #dceaf4;
-    color: #14496b;
-  }
-
-  .supplements-page .supplement-filters button:active {
-    border-color: #1f618d !important;
-    background: #1f618d !important;
-    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
-  }
-
-  .supplements-page .supplement-filters button:focus-visible {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
-  }
-
-  .supplement-toc {
-    position: fixed;
-    top: 84px;
-    left: 12px;
-    width: 150px;
-    font-size: 16px;
-    line-height: 1.8;
-  }
-
-  .supplement-toc ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .supplement-toc a {
-    /* Legacy `#toc .nav>li>a`: 10px padding after a 2px rail, pulled left so text keeps its x. */
-    display: block;
-    margin-left: -12px;
-    padding-left: 10px;
-    border-left: 2px solid transparent;
-    color: #6f6f6f;
-    text-decoration: none;
-  }
-
-  /* Legacy `#toc .nav-link.active, #toc .nav>li>a:hover` (Bootstrap ScrollSpy state). */
-  .supplement-toc a:hover,
-  .supplement-toc a.active {
-    color: #000;
-    border-left-color: #1f618d;
-  }
-
-  .supplement-toc a.active {
-    border-left-width: 3px;
-  }
-
-  .supplements-page .supplement-card {
-    border: 0;
-    padding: 0;
-  }
-
-  .supplements-page .supplement-heading {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 4px;
-    margin: 42px 0 0;
-  }
-
-  /* Legacy `.category-top .heading-wrapper { margin-top: 22px }`; later wrappers use 42px. */
-  .supplements-page .supplement-card.category-top .supplement-heading,
-  .supplements-page .supplement-card:first-of-type .supplement-heading {
-    margin-top: 22px;
-  }
-
-  .supplements-page .supplement-card h2 {
-    margin: 0 0 0 -2.13px;
-    font-size: 40px;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-  }
-
-  /*
-   * AUD-07/A11Y-02 human decision, 4 September 2026. The legacy semi-transparent
-   * evidence fills measure 3.11:1 (high), 1.86:1 (medium) and 3.80:1 (low) with
-   * white 18.9px 600-weight text. The approved variant keeps the traffic-light
-   * hues and darkens each fill to an opaque AA-safe value.
-   */
-  .supplements-page .evidence-badge {
-    border: 0;
-    border-radius: 5px;
-    background: #177245;
-    color: white;
-    padding: 2px 8px;
-    font: 600 18.9px/1.15 muscle2, Georgia, Cambria, 'Times New Roman', serif;
-    text-transform: lowercase;
-    text-decoration: none;
-    vertical-align: middle;
-  }
-
-  .supplements-page .evidence-badge:hover,
-  .supplements-page .evidence-badge:focus-visible,
-  .supplements-page .evidence-badge[aria-expanded='true'] {
-    background: #177245;
-  }
-
-  .supplement-category-note {
-    margin-bottom: 10px;
-  }
-
-  .supplement-category-note p {
-    margin-top: 0;
-  }
-
-  /* AUD-07/A11Y-01: GitHub light-mode `--color-done-fg`, replacing `#A371F7`. */
-  .supplement-category-note--important {
-    border-left-color: #8250df;
-  }
-
-  .supplement-category-note--important strong {
-    color: #8250df;
-  }
-
-  .supplements-page .supplement-detail h3 {
-    font-size: 32px;
-    line-height: 1.22;
-    letter-spacing: -0.012em;
-    margin: 30px 0 0 -1.63px;
-  }
-
-  .supplements-page .supplement-detail h3 + p {
-    margin: 8px 0 0;
-  }
-
-  /* Legacy `.normalize-headings h4, h5`: 28px, 30px top margin, 1.22 line height;
-     `h3 + h4 { margin-top: 20px }`; `h4 + p, h5 + p { margin-top: 6px }`. */
-  .supplements-page .supplement-detail :is(h4, h5) {
-    font-size: 28px;
-    line-height: 1.22;
-    letter-spacing: -0.012em;
-    margin: 30px 0 0 -1.63px;
-  }
-
-  .supplements-page .supplement-detail h3 + :is(h4, h5) {
-    margin-top: 20px;
-  }
-
-  .supplements-page .supplement-detail :is(h4, h5) + p {
-    margin-top: 6px;
-  }
-
-  .supplements-page .supplement-detail :is(h2, h3) + :is(ul, ol) {
-    margin-top: 8px;
-  }
-
-  /* "What is this?" and References share the legacy `.normalize-headings` article rhythm. */
-  .supplements-page [data-supplement-support] h2 {
-    margin: 42px 0 0 -2.13px;
-    font-size: 40px;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
-  }
-
-  .supplements-page [data-supplement-support] h3 {
-    margin: 30px 0 0 -1.63px;
-    font-size: 32px;
-    line-height: 1.22;
-    letter-spacing: -0.012em;
-  }
-
-  .supplements-page [data-supplement-support] :is(h4, h5) {
-    margin: 30px 0 0 -1.63px;
-    font-size: 28px;
-    line-height: 1.22;
-    letter-spacing: -0.012em;
-  }
-
-  .supplements-page [data-supplement-support] p {
-    margin: 29px 0 0;
-    line-height: 35px;
-  }
-
-  .supplements-page [data-supplement-support] :is(h2, h3) + :is(p, ul, ol) {
-    margin-top: 8px;
-  }
-
-  .supplements-page [data-supplement-support] :is(h4, h5) + p {
-    margin-top: 6px;
-  }
-
-  /* The support copy is injected inside a wrapper div, so descendant selectors are used. */
-  .supplements-page [data-supplement-support] :is(ul, ol) {
-    margin: 29px 0 0;
-    padding: 0;
-  }
-
-  .supplements-page [data-supplement-support] li {
-    margin: 0 0 5px 30px;
-  }
-
-  .supplements-page [data-supplement-support] li > :is(ul, ol) {
-    margin: 0;
-  }
-
-  .supplements-page [data-supplement-support] ol.ref-list {
-    margin-top: 8px;
-  }
-
-  .supplements-page .ref {
-    font-size: 17px;
-  }
-
-  /* Legacy `.normalize-headings h3` also sizes the Share and Comment headings here. */
-  .supplements-page :is(#share-t, #comm-t) {
-    font-size: 32px;
-    line-height: 1.22;
-    letter-spacing: -0.012em;
-  }
-
-  .supplements-page [data-supplement-support] .ref-list > .ref {
-    margin-left: 1.4em;
-  }
-
-  /* Legacy addon.css: paragraphs run at 35px with a 29px top margin, list items at the
-     body 1.58 line height with a 5px bottom margin. */
-  .supplements-page .supplement-detail p {
-    margin: 29px 0 0;
-    line-height: 35px;
-    overflow-wrap: anywhere;
-  }
-
-  .supplements-page .supplement-detail li {
-    margin-bottom: 5px;
-    line-height: 1.58;
-    overflow-wrap: anywhere;
-  }
-
-  .supplements-page .supplement-detail a.inl-ref {
-    box-shadow: none;
-    color: #206593;
-    text-decoration: none;
-  }
-
-  .supplements-page .supplement-detail a.inl-ref > sup {
-    font-size: 70%;
-    line-height: 0;
-    position: relative;
-    top: -0.5em;
-    vertical-align: baseline;
-  }
-
-  .supplements-page .supplement-detail > ul {
-    list-style: none;
-    margin: 10px 0 0;
-    padding: 0;
-  }
-
-  /* #b02a1c is 6.57:1, #8a5a00 is 5.93:1, and #177245 is 5.95:1 with white text. */
-  .supplements-page .evidence-badge[data-evidence-level='low'] {
-    background: #b02a1c;
-  }
-
-  .supplements-page .evidence-badge[data-evidence-level='medium'] {
-    background: #8a5a00;
-  }
-
-  .supplements-page .evidence-badge[data-evidence-level='high'] {
-    background: #177245;
-  }
-
-  .supplements-page .supplement-detail > ul > li {
-    margin: 0 0 5px 30px;
-  }
-
-  .supplements-page .supplement-detail > ul > li::before {
-    box-sizing: border-box;
-    content: '•';
-    display: inline-block;
-    font-size: 16.8px;
-    margin-left: -4.875em;
-    padding-right: 15px;
-    padding-top: 4px;
-    position: absolute;
-    text-align: right;
-    width: 4.875em;
   }
 
   @media (max-width: 820px) {
@@ -433,79 +73,12 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
       width: 100%;
     }
 
-    .supplement-toc {
-      display: none;
-    }
   }
 
-  /* Legacy 767px mobile rhythm: `article div.post-body ol, p, ul { margin-top: 21px }`. */
   @media (max-width: 767px) {
-    /* Legacy mobile body text is 18px; the byline and the 0.9em evidence badge inherit it. */
     .supplements-page .byline {
       font-size: 18px;
     }
 
-    .supplements-page .evidence-badge {
-      font-size: 16.2px;
-    }
-
-    .supplements-page .supplement-detail p,
-    .supplements-page .supplement-detail > ul,
-    .supplements-page [data-supplement-support] p,
-    .supplements-page [data-supplement-support] :is(ul, ol) {
-      margin-top: 21px;
-    }
-
-    .supplements-page .supplement-detail h3 + p,
-    .supplements-page .supplement-detail :is(h2, h3) + :is(ul, ol),
-    .supplements-page [data-supplement-support] :is(h2, h3) + :is(p, ul, ol),
-    .supplements-page [data-supplement-support] ol.ref-list {
-      margin-top: 8px;
-    }
-
-    .supplements-page .supplement-detail :is(h4, h5) + p,
-    .supplements-page [data-supplement-support] :is(h4, h5) + p {
-      margin-top: 6px;
-    }
-
-    .supplements-page .supplement-detail li > :is(ul, ol),
-    .supplements-page [data-supplement-support] li > :is(ul, ol) {
-      margin-top: 21px;
-    }
-
-    /* `.normalize-headings h2/h3` keep their desktop size and margins on mobile (id-level
-       specificity beats the generic mobile `h3` rule); only h4/h5 rescale. */
-    .supplements-page .supplement-card h2,
-    .supplements-page [data-supplement-support] h2 {
-      margin: 42px 0 0 -2.13px;
-      font-size: 40px;
-      line-height: 1.15;
-    }
-
-    .supplements-page .supplement-card h2 {
-      margin-top: 0;
-    }
-
-    .supplements-page .supplement-detail h3,
-    .supplements-page [data-supplement-support] h3 {
-      margin: 30px 0 0 -1.63px;
-      font-size: 32px;
-      line-height: 1.22;
-    }
-
-    /* Measured legacy 390px supplement h4/h5: 28px with the desktop 30px top margin. */
-    .supplements-page .supplement-detail :is(h4, h5),
-    .supplements-page [data-supplement-support] :is(h4, h5) {
-      margin: 30px 0 0 -1.63px;
-      font-size: 28px;
-    }
-
-    .supplements-page .supplement-detail h3 + :is(h4, h5) {
-      margin-top: 20px;
-    }
-
-    .supplements-page .ref {
-      font-size: 14px;
-    }
   }
 </style>

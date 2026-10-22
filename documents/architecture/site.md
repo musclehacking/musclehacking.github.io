@@ -13,7 +13,9 @@ The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local 
 | Concern | Owner |
 | --- | --- |
 | Public paths, slash mode, indexability | `src/config/routes.ts` |
-| Canonical origin and approved site facts | `src/config/site.ts` |
+| Canonical origin and approved site facts, contact, profiles and shared action copy | `src/config/site.ts` |
+| Shared pattern owners, current variants and consumers | [Component catalogue](components.md) and [design ownership](../../DESIGN.md) |
+| SVG geometry and static rendering | `src/lib/icons.ts` and `src/components/Icon.astro` |
 | Document metadata composition | `src/lib/metadata.ts` and `src/components/head/PageMetadata.astro` |
 | Article and long-form body and frontmatter | `src/content/blog/` and `src/content/pages/` |
 | Article defaults, cards, listing, and navigation | `src/lib/content/` |
@@ -45,10 +47,10 @@ Collection helpers exclude drafts and future-dated entries before they reach rou
 ## Heading links, share rail, callouts, and back-to-top
 
 - Heading self-links reproduce the production AnchorJS 5 inline contract in `src/styles/global.css` (prepended control, `margin-left: -1.25em`, `padding: 0 .25em`, `font: 1em/inherit anchorjs-icons`, normal weight, antialiased, `-1.125em` hover travel over 0.25 s) and the production font in `public/fonts/anchorjs-icons.ttf`.
-- Tooltips use one tippy.js-equivalent primitive (`.project-tip-root`, `.project-tip-box[data-theme][data-placement][data-state]`, `.project-tip-content`, `.project-tip-arrow`) with the legacy `pretty-tippy.css` themes and `shift-toward-extreme` motion. `src/scripts/project-tip.ts` builds the DOM, the `#b-gradient` arrow fill, and the shared clipboard helper; `src/scripts/heading-links.ts` owns the two heading tooltips; the calculator island renders the same structure for its copy control; `src/components/SocialShareRail.astro` renders the share tooltips and `src/scripts/social-share.ts` drives them.
+- Tooltips use one tippy.js-equivalent primitive (`.project-tip-root`, `.project-tip-box[data-theme][data-placement][data-state]`, `.project-tip-content`, `.project-tip-arrow`) with the legacy `pretty-tippy.css` themes and `shift-toward-extreme` motion. `src/scripts/project-tip.ts` builds the DOM, the `#b-gradient` arrow fill, and the shared clipboard helper; `src/scripts/heading-links.ts` owns the two heading tooltips; the calculator island renders the same structure for its copy control; `src/components/ProjectTip.astro` renders static share tooltips through `src/components/article/ShareRailItem.astro` and `src/scripts/social-share.ts` drives them.
 - Heading self-links follow the legacy AnchorJS scope: `.post-body h2, #how-to-use, .post-body h3:not(#share-t,#comm-t), h4, h5`. Headings inside `[data-content-ending]` (bottom newsletter, Share, Comment, previous/next navigation), the visually hidden supplement filter heading, and any `[data-heading-links="off"]` container (the legacy calculator article, which never loaded AnchorJS) receive no control.
 - Prose links inherit the legacy `addon.css` inset underline in every article, callout, confirmation, join, and 404 container. The site does not enable OpenType ligatures in Chromium: legacy only sets the Firefox-prefixed `-moz-font-feature-settings`, and enabling `liga` changed line wrapping.
 - The calculator page's newsletter prompts follow the legacy scripts: the floating panel appears at or above 1440px once `pageYOffset > 660` (`js/eml-flt-right.js`), and the exit prompt is a full-viewport `rgba(33,33,33,.8)` overlay with the centred 700px `.n-lett` panel that opens 30 seconds after load (`js/e-on-delay.min.js`) and closes on its hide button, an overlay click, or Escape.
 - The share rail uses the exact legacy markup, SVG paths, ids, and `pretty-tippy.css` icon geometry.
-- Callouts share the legacy `addon.css` palette (`#2F81F7` Note, `#A371F7` Important, `#D29922` Warning) and an inline-flex title row.
+- Callouts retain the approved light-mode palette (`#0969DA` Note, `#8250DF` Important, `#D29922` Warning) and an inline-flex title row. `Callout.astro` owns the ordinary markup; supplement category notices keep their dynamic hooks and share icon geometry and style recipes.
 - The back-to-top control renders only on `/calorie-calculator/` and `/supplements/`, matching the legacy 60px fixed circle, icon background, and 1000px reveal. The site has no CSS smooth scrolling, matching legacy.

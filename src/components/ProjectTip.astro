@@ -1,0 +1,9 @@
+---
+import { PROJECT_TIP_ARROW_SHADOW_PATH, PROJECT_TIP_ARROW_FILL_PATH, type ProjectTipTheme } from '../scripts/project-tip';
+interface Props {
+  theme: ProjectTipTheme;
+  feedback?: boolean;
+}
+const { theme, feedback = false } = Astro.props;
+---
+<span class="project-tip-root share-rail-tooltip-root"><span class="project-tip-box" data-theme={theme} data-placement="right" data-state="hidden" data-share-tooltip={feedback ? undefined : ''} data-share-feedback={feedback ? '' : undefined} role={feedback ? 'status' : 'tooltip'}><span class="project-tip-content share-rail-tooltip" data-copy-page-feedback={feedback ? '' : undefined}><slot /></span><span class="project-tip-arrow" aria-hidden="true"><svg width="16" height="6"><path class="svg-arrow" d={PROJECT_TIP_ARROW_SHADOW_PATH}></path><path class="svg-content" d={PROJECT_TIP_ARROW_FILL_PATH}></path></svg></span></span></span>

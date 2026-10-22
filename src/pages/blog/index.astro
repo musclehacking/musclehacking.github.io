@@ -4,10 +4,8 @@ import { routeByPath } from '../../config/routes';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 
 const route = routeByPath.get('/blog/');
-const homeRoute = routeByPath.get('/');
 
 if (!route) throw new Error('Missing /blog/ route registry entry.');
-if (!homeRoute) throw new Error('Missing / route registry entry.');
 ---
 
 <ContentLayout
@@ -16,5 +14,5 @@ if (!homeRoute) throw new Error('Missing / route registry entry.');
   description={route.description}
   canonicalPath={route.path}
 >
-  <HomeListing heading={`Muscle Hacking${': '}${homeRoute.title}`} />
+  <HomeListing />
 </ContentLayout>

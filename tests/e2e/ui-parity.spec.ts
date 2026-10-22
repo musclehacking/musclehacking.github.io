@@ -953,8 +953,19 @@ test('AUD-07 applies the approved AA-safe callout and supplement control palette
         return [];
       }
     })
-    .filter((rule) => 'selectorText' in rule && String((rule as CSSStyleRule).selectorText).includes('supplement-filter'))
-    .map((rule) => rule.cssText));
+    .filter((rule): rule is CSSStyleRule => 'selectorText' in rule && String(rule.selectorText).includes('supplement-filter'))
+    .map((rule) => {
+      // Resolve declared colours in the filter's inherited token context. Raw CSS
+      // text deliberately changes when a shared token replaces a literal value.
+      const probe = document.createElement('span');
+      probe.style.cssText = rule.style.cssText;
+      probe.style.setProperty('display', 'none', 'important');
+      document.querySelector('[data-supplement-filter="sleep"]')!.appendChild(probe);
+      const style = getComputedStyle(probe);
+      const colours = { selector: rule.selectorText, background: style.backgroundColor, border: style.borderTopColor };
+      probe.remove();
+      return colours;
+    }));
 
   // Evidence levels are category-specific, so they only exist after enhancement
   // selects the default goal.
@@ -982,14 +993,15 @@ test('AUD-07 applies the approved AA-safe callout and supplement control palette
     ).toBeGreaterThanOrEqual(4.5);
   }
 
-  const hoverRule = filterRules.find((rule) => rule.includes(':hover'));
+  const hoverRule = filterRules.find((rule) => rule.selector.includes(':hover'));
   expect(hoverRule, 'supplement filter hover rule').toBeDefined();
   // `#356886` is 6.04:1 with white text and stays darker than the new `#3d7295` default.
-  expect(hoverRule).toContain('rgb(53, 104, 134)');
+  expect(hoverRule!.background).toBe('rgb(53, 104, 134)');
+  expect(hoverRule!.border).toBe('rgb(53, 104, 134)');
   // No filter rule may reintroduce a legacy fill that fails AA with white text.
   for (const rule of filterRules) {
-    expect(rule, 'legacy 3.85:1 filter fill').not.toContain('rgb(76, 136, 175)');
-    expect(rule, 'legacy 2.68:1 information fill').not.toContain('rgb(111, 164, 201)');
+    expect([rule.background, rule.border], 'legacy 3.85:1 filter fill').not.toContain('rgb(76, 136, 175)');
+    expect([rule.background, rule.border], 'legacy 2.68:1 information fill').not.toContain('rgb(111, 164, 201)');
   }
 });
 

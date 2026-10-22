@@ -21,6 +21,10 @@ The legacy document contains **19 supplement records**, from `Creatine` through 
 
 `What is this?` and `References` are two headings in one legacy support section. They are not supplement records. `selectSupplementHeadings()` appends both headings after every selected supplement so table-of-contents and order tests match the visible contract.
 
+## Shared presentation owners
+
+`SupplementExplorer.astro` owns the explorer markup and global explorer stylesheet, including its mobile heading and rhythm rules, and `SupplementSupport.astro` owns the repeated information/reference wrapper. Ordinary callouts use `Callout.astro`; the dynamic category notice retains its own hooks and shares geometry through `lib/icons.ts`. `SectionEnding.astro` supplies the supplements ending variant. See the [component catalogue](components.md) for current variants and consumers.
+
 ## Filtering and ordering
 
 `selector.ts` contains the pure selection rules:
@@ -65,7 +69,7 @@ Run the focused parity suite with:
 
 ```sh
 pnpm vitest run tests/unit/supplements.test.ts
-pnpm exec playwright test tests/e2e/supplement-content.spec.ts --project=chromium
+./scripts/run-e2e-local.sh --project=chromium --grep "supplement" --workers=3
 ```
 
 The focused suites fix the exact Muscle Growth, Sleep, and Show All heading sequences and verify that detailed copy, citations, and research targets survive prerendering. A changed membership, evidence rank, source order, or missing citation target must fail until the change is reviewed and the fixture is deliberately updated.

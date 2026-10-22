@@ -2,6 +2,8 @@
 
 Keep project documents factual, concise, and usable without conversation history. Never include secret values or complete subscriber addresses.
 
+- Shared pattern ownership and variants: `documents/architecture/components.md` and `DESIGN.md`
+- Component reuse implementation plan: `documents/todo/component_reuse_plan.md`
 - Architecture decisions: `documents/architecture/`
 - Content and route policy: `documents/content/`
 - Testing: `documents/testing/`

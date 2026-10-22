@@ -1,4 +1,5 @@
 ---
+import { site } from '../config/site';
 import NewsletterForm from './NewsletterForm.astro';
 
 /*
@@ -19,7 +20,7 @@ import NewsletterForm from './NewsletterForm.astro';
   </button>
   <h2 id="calculator-floating-heading">Want more content like this?</h2>
   <p>Enter your email below and I’ll send you some.</p>
-  <NewsletterForm formId="calculator-floating" campaign="calculator-floating" buttonText="Email Me" placement="floating" hideLabel />
+  <NewsletterForm formId="calculator-floating" campaign="calculator-floating" buttonText={site.newsletter.buttonText} placement="floating" hideLabel />
   <p class="newsletter-prompt-note">
     Once you’ve locked in your calorie count, you might find my <a href="/supplements/">muscle building supplement stack</a> and <a href="/books/">fitness books</a> useful.
   </p>
@@ -32,7 +33,7 @@ import NewsletterForm from './NewsletterForm.astro';
     </button>
     <h2 id="calculator-exit-heading">Ready to get serious about your diet?</h2>
     <p>Cut through the BS—get evidence-based advice based on facts, not fads.</p>
-    <NewsletterForm formId="calculator-exit" campaign="calculator-exit" buttonText="Email Me" placement="modal" hideLabel />
+    <NewsletterForm formId="calculator-exit" campaign="calculator-exit" buttonText={site.newsletter.buttonText} placement="modal" hideLabel />
     <p class="newsletter-prompt-note"><em>No courses. No all-banana diets. <span class="under-form-notice-mob">Unsubscribe at any time.</span></em></p>
   </div>
 </dialog>
