@@ -20,8 +20,8 @@ Wrangler deploys the candidate build directly to a review-only Worker in the per
 
 - Worker: `musclehacking-astro-preview`
 - URL: `https://musclehacking-astro-preview.webpop.workers.dev`
-- Active version: `f7dc2353-f422-4648-9709-5546b0ef25e8`, deployed at 100 percent on 22 October 2026. Its tag `0723d86bd86a` and message identify hosted timeout test repair commit `0723d86bd86acc9c181ec4917274f6f7f4178951`. Application inputs and all 140 public build files are identical to the component ownership release. The existing `TURNSTILE_SECRET_KEY` is retained; GetResponse secrets remain unset.
-- Previous active version: `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` (22 October 2026, component ownership commit `778bf99`). Earlier rollback: `796979bd-5ce6-4ac2-b67e-7f1e569e1139` (23 September 2026, commit `5b115b2` plus `TURNSTILE_SECRET_KEY`) and `7b471461-e0f3-4d8d-9bcc-5442c1480bf3` (5 September 2026, sitewide `og:locale`)
+- Active version: `8cb22fb7-b3d9-4a80-957c-fb98699d7108`, deployed at 100 percent on 22 October 2026. Its tag `13743d0be7de` and message identify hosted verification repair commit `13743d0be7de776895fc92edb51d6f0115846004`. Application inputs and all 140 public build files are identical to the component ownership release. The existing `TURNSTILE_SECRET_KEY` is retained; GetResponse secrets remain unset.
+- Previous active version: `f7dc2353-f422-4648-9709-5546b0ef25e8` (22 October 2026, initial timeout test repair commit `0723d86`). Earlier rollback: `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` (22 October 2026, component ownership commit `778bf99`), `796979bd-5ce6-4ac2-b67e-7f1e569e1139` (23 September 2026, commit `5b115b2` plus `TURNSTILE_SECRET_KEY`) and `7b471461-e0f3-4d8d-9bcc-5442c1480bf3` (5 September 2026, sitewide `og:locale`)
 - Superseded versions retained for rollback: `3e129585-482f-40a7-a9fc-232fee971f75` (4 September 2026), `fc27fbf7-b28e-46ba-9342-2f731fc3e641` (4 September 2026) and `88b47e15-e6fb-408a-8379-1b7997f67645` (1 September 2026)
 - Inactive legacy rollback version: `e9e4425e-eb64-493f-a05e-dfbf99a5a388`
 - Legacy version preview: `https://legacy-9bf25d0-musclehacking-astro-preview.webpop.workers.dev`

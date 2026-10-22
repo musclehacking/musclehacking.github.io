@@ -57,9 +57,9 @@ The capture mode reuses the comparison path's viewport, GIF-frame pinning, settl
 
 ### Hosted verification
 
-The isolated review Worker `musclehacking-astro-preview` serves version `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` (component ownership commit `778bf9908c4143442ce17898dd143a0defcbcaea`, existing Turnstile secret retained), deployed at 100 percent on 22 October 2026. All 14 hosted HTTP contract cases and all six agent accessibility cases pass. All 140 eligible served files equal the local release build; 1,325 phone/tablet/desktop captures have zero changed pixels, and 44 settled boundary contexts match the original source. The [component reuse acceptance record](../evidence/component_reuse/acceptance.md) contains the method, raw-output paths and replay commands.
+The isolated review Worker `musclehacking-astro-preview` serves version `8cb22fb7-b3d9-4a80-957c-fb98699d7108` (verification repair commit `13743d0be7de776895fc92edb51d6f0115846004`, existing Turnstile secret retained), deployed at 100 percent on 22 October 2026. All 14 hosted HTTP contract cases and all six agent accessibility cases pass. All 140 eligible served files equal the local release build and accepted component ownership release byte for byte. That identical application retains the 1,325 phone/tablet/desktop captures with zero changed pixels and 44 matching settled boundary contexts. The [component reuse acceptance record](../evidence/component_reuse/acceptance.md) contains the method, raw-output paths and replay commands.
 
-The full three-worker hosted E2E run is **not fully green**: 265 passed, 25 existing project-specific skips and two timeouts. Desktop article-ending traversal reaches its whole-test deadline; mobile calculator result-change polling expires. Both cases and their opposite-device cases pass once in isolation on unchanged staging. The root causes remain unresolved; isolated passes do not replace the failed full run. No timeout, skip or unrelated assertion is changed. The component reuse plan remains pending testing for this gate.
+The complete three-worker hosted E2E run passes: **351 passed, 25 existing project-specific skips, zero failures and zero retries**, in 87.5 seconds. The timeout repair splits the existing route/control coverage and removes nested result polling. A later home-hover test fix waits for the scrolled frame before pointer movement. All original assertions, deadlines and application bytes remain intact; the larger case count comes from independent scenarios. The component reuse plan's hosted gate is complete.
 
 ```bash
 node scripts/hosted-contract.mjs                                   # 14 HTTP contract cases
@@ -76,7 +76,7 @@ Genuinely local-runtime checks stay tagged `@local-runtime` and keep their asser
 - `tests/e2e/newsletter-request-limits.spec.ts`: raw `node:http` chunked POST to the task-owned Wrangler preview at `127.0.0.1:8787`
 - `tests/e2e/routes.spec.ts`: the local Static Assets preview does not implement the external apex `Host` redirect
 
-The hosted portable matrix selects 292 cases. The six newsletter specs that previously failed with a loopback `Origin` now pass against the configured origin. The four `@local-runtime` cases are not selected. Do not convert those checks into `test.skip` on hosted runs.
+The hosted portable matrix selects 376 cases. The six newsletter specs that previously failed with a loopback `Origin` now pass against the configured origin. The four `@local-runtime` cases are not selected. Do not convert those checks into `test.skip` on hosted runs.
 
 A Cloudflare *version preview* URL is not equivalent to the deployed review URL: it blocks cross-site form POSTs at the edge with its own plain-text `403`, so the newsletter contract case only passes against the deployed URL, and it sends `x-robots-tag: noindex`, which drops a Lighthouse SEO score to 69.
 
