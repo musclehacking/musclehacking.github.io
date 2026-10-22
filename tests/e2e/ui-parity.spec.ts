@@ -572,6 +572,11 @@ test('UI-10 restores the complete legacy home grid, overlay alignment, and recen
   for (let index = 0; index < await cards.count(); index += 1) {
     const card = cards.nth(index);
     await card.scrollIntoViewIfNeeded();
+    // Scroll geometry can update before Chromium presents the new hit-test
+    // frame. Let that frame paint before sending pointer coordinates into it.
+    await page.evaluate(() => new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    }));
     await page.mouse.move(0, 0);
     const before = await card.boundingBox();
     await expect(card).toHaveAttribute('href', /\//);
