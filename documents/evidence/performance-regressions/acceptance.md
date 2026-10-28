@@ -10,13 +10,13 @@ The adopted local correction restores `build.inlineStylesheets: 'never'` in `ast
 
 A final comparison of the **compiled correction** with the current build finds a 347.8 ms earlier homepage LCP mean, but only a 31.8 ms earlier median, with overlapping ranges. The earlier isolated controls are stronger evidence of the delivery cost. The compiled correction's simulated mobile homepage mean falls 83.00 to 79.33, and desktop 98.00 to 93.67; a higher score is not the adoption criterion. Actual homepage first paint and blocking-time means also improve. The final calculator sample is variable: LCP mean rises 1746.0 to 1822.1 ms, and blocking time 342.8 to 395.7 ms, while their ranges overlap; its blocking-time median changes only 315.3 to 320.2 ms. Earlier corrected CSS controls move those calculator means in the opposite direction. No repeatable calculator regression or gain is established.
 
-The correction is local. The user's other chat pushed the earlier optimisation, including `f13295e`, and provided the hosted current-build measurements below. That push predates this correction. This investigation performs no push, upload, deployment, DNS change, newsletter submission or production mutation. A live check of the new correction requires a separately authorised publication.
+The correction is committed as `afced65`. The user's other chat pushed the earlier optimisation, including `f13295e`, and provided the hosted current-build measurements below. That push predates this correction. The user subsequently authorises uploading the tested correction as an **inactive version** of the existing review Worker and one live Ego/PageSpeed analysis per page. Version `f2944b9d-20bb-4c22-9b27-cc52c7beb99d` now serves the verified correction. Both Workers' active deployment lists remain identical before and after upload. This task performs no Git push, active-version promotion, DNS change, newsletter submission or production mutation.
 
 ## Frozen sources and setup
 
 - Original application: `b0ef37717a7dcde41d63003c3ccbee1a9664c25f`, retained before the original optimisation in `/tmp/musclehacking-astro-optimisations.uv5mzY/baseline-dist/client`.
 - Current application: `f13295ec678a81a8a7719544ede1059508b07c23`, retained in the prior task's `accepted-frozen` output. The subsequent commits through `34d8098` change documentation, not application assets.
-- Correction: the commit containing this record, based on `34d8098`, with the stylesheet setting and comments changed. The exact measured configuration and patch are retained as `fixed-source-config.mjs` and `fixed-source-config.patch` under the raw directory.
+- Correction: `afced6500255548c5b87f2daa37e6a1f54933c17`, based on `34d8098`, with the stylesheet setting and comments changed. The exact measured configuration and patch are retained as `fixed-source-config.mjs` and `fixed-source-config.patch` under the raw directory. The later evidence-only commit changes no measured application code.
 - Raw directory: `/tmp/musclehacking-performance-investigation.tgi8MA`. All Lighthouse reports, screenshots, fixtures, logs and manifests stay outside Git. Preserve them until the user accepts the result.
 - Node 22.23.4, pnpm 11.24.0, Astro 7.2.9, Lighthouse 13.4.1 and installed Chrome 156.0.8078.48. Fresh, headless Chrome profiles; default storage reset and network/device presets.
 - Three scoring runs per URL and device, and three additional mobile DevTools-throttled runs. Report arithmetic means, retain individual values, medians and ranges. Never recompute a score from averaged metrics or pool the two methods.
@@ -124,25 +124,35 @@ The correction does not restore a guaranteed 88-point score. It retains the smal
 
 ## Live checks through Ego Lite
 
-The user asks for one live analysis per page/build, not a three-run hosted average. Each PageSpeed analysis automatically yields mobile and desktop results. Ego task space 30 is finished with no pages kept. There is no further live analysis of the new local CSS correction.
+The user asks for one live analysis per page/build, not a three-run hosted average. Each PageSpeed analysis automatically yields mobile and desktop results. Ego task space 30 handles the original comparison and is finished with no pages kept. After the user approves the correction's inactive preview upload, task space 33 handles its two additional analyses and is also finished with no pages kept. No analysis is repeated for a higher score.
 
 The **Astro before** is the existing review Worker at `musclehacking-astro-preview.webpop.workers.dev`, version `df904b43`, application revision `13743d0`. Its application/build/dependency diff against the original frozen source is empty; HTML matches except generated island UIDs, and directly loaded assets match hashes (`live-astro-baseline-identity.json`).
 
 The **Astro current** comes from the other chat's pushed `fecebf8d414eb427d26168cc4f94b05cde38b674`, which includes `f13295e`. Its successful Cloudflare build provides inactive version `18ac682d-0224-4639-aad4-013fc344f67f`. The immutable `18ac682d-musclehacking-astro.jake-sacino.workers.dev` HTML and directly loaded CSS/JS match the frozen current build before testing (`live-after-identity.json`). No version is promoted by this task.
 
-| Page / profile | Astro before | Astro current | Hosted CPU benchmark before / current |
-| --- | ---: | ---: | ---: |
-| Home mobile | 88 | 74 | 1069.5 / 558.5 |
-| Home desktop | 100 | 100 | 887.5 / 1084 |
-| Calculator mobile | 97 | 96 | 506 / 415 |
-| Calculator desktop | 99 | 99 | 685.5 / 683 |
+The **Astro correction** is uploaded at 14:35 AWST on 28 October 2026 to account `213ab3604485056376263d22fa242742`, Worker `musclehacking-astro-preview`, with version tag `afced65`. Its immutable URL is `https://f2944b9d-musclehacking-astro-preview.webpop.workers.dev`. All 139 existing `dist/client` files match the frozen tested manifest before upload. Both hosted pages subsequently match the tested HTML byte for byte, along with all nine requested CSS/JS resource checks (three on home, six on calculator). Stylesheets retain immutable caching and responses retain CSP. Cloudflare version metadata confirms the tag and non-promoting upload. The existing review deployment remains `df904b43-5cbd-4978-9b57-3020d20f9784` at 100%; the target production Worker's active deployment list remains empty. The before/after API records and `approved-preview-identity.json` retain that proof.
+
+| Page / profile | Astro before | Astro optimised | Astro corrected | Hosted CPU benchmark before / optimised / corrected |
+| --- | ---: | ---: | ---: | --- |
+| Home mobile | 88 | 74 | 74 | 1069.5 / 558.5 / 634 |
+| Home desktop | 100 | 100 | 100 | 887.5 / 1084 / 596 |
+| Calculator mobile | 97 | 96 | 96 | 506 / 415 / 472 |
+| Calculator desktop | 99 | 99 | 99 | 685.5 / 683 / 469 |
 
 - [Home before](https://pagespeed.web.dev/analysis/https-musclehacking-astro-preview-webpop-workers-dev/ohk9tv2zx3?form_factor=mobile)
 - [Calculator before](https://pagespeed.web.dev/analysis/https-musclehacking-astro-preview-webpop-workers-dev-calorie-calculator/guf8k9s09g?form_factor=mobile)
 - [Home current](https://pagespeed.web.dev/analysis/https-18ac682d-musclehacking-astro-jake-sacino-workers-dev/9vv4k3bnuj?form_factor=mobile)
 - [Calculator current](https://pagespeed.web.dev/analysis/https-18ac682d-musclehacking-astro-jake-sacino-workers-dev-calorie-calculator/utctr2o86c?form_factor=mobile)
+- [Home corrected](https://pagespeed.web.dev/analysis/https-f2944b9d-musclehacking-astro-preview-webpop-workers-dev/n9fz97rrfb?form_factor=mobile)
+- [Calculator corrected](https://pagespeed.web.dev/analysis/https-f2944b9d-musclehacking-astro-preview-webpop-workers-dev-calorie-calculator/tprqa0axq2?form_factor=mobile)
 
-Home mobile FCP/LCP is 1201/3901 ms before and 1351/7576 current. Calculator is 1651/1951 versus 1726/2026. Google uses Lighthouse 13.5.0, with simulated CPU multiplier 1.2 in these reports, not the local 10.7x profile. Its home mobile CPU benchmark is about 48% lower in the current check. These are single hosted samples on different hosts/accounts/machines, so the 14-point home loss cannot be assigned to the code change from this comparison alone. All requested report scores are numeric, with fresh report timestamps, no runtime errors/warnings or failed critical resource. Current immutable-preview SEO is 69 because Cloudflare adds `x-robots-tag: noindex`; this is not the application's indexing policy regressing.
+Home mobile FCP/LCP is 1201/3901 ms before, 1351/7576 optimised, and 1351/7576 corrected. Calculator is 1651/1951, 1726/2026 and 1726/1959 respectively. The correction therefore leaves both hosted scores unchanged. Its calculator LCP estimate is 67 ms earlier, while homepage Speed Index worsens from 3728.4 to 4110.1 ms and layout shift rises from 0 to 0.0304. Blocking time remains 0 on all four corrected reports. The corrected homepage's observed unthrottled LCP is 2307 ms versus 2259 previously; calculator is 2318 versus 2329. These observations do not establish a hosted speed gain, and the worse homepage Speed Index is retained rather than omitted.
+
+Google uses Lighthouse 13.5.0, Chrome 153.0.8010.36 and simulated CPU multiplier 1.2 in these reports, not the local Chrome 156 / Lighthouse 13.4.1 / 10.7x profile. Its home mobile CPU benchmark is about 48% lower in the optimised check than the original, and about 41% lower in the correction check than the original. Between optimised/corrected, the mobile benchmarks rise by about 14%, while desktop benchmarks fall substantially. These are single hosted samples on different origins/accounts/machines, so neither the old home loss nor the correction's small timing changes can be assigned to code alone. The paired local controls remain the basis for retaining the correction; the hosted result confirms delivery and an unchanged score, not a measured hosted improvement.
+
+All four corrected reports have fresh, unique timestamps, the intended requested/final URL, the correct device, numeric categories, no runtime errors/warnings and no failed critical resource. Home reports are fetched at 14:37:53/54 AWST; calculator at 14:40:31/32 AWST. Their network logs show the new external small stylesheet, proving the changed delivery was loaded. Corrected accessibility is 100 home / 99 calculator, best practices 96 mobile / 100 desktop, and SEO 69 because Cloudflare adds `x-robots-tag: noindex` to inactive version previews. This is not the application's indexing policy regressing. Raw packets, individual mobile/desktop LHRs, screenshots and environment/metric comparison are retained as `live-corrected-*` and `approved-hosted-comparison.json` under the raw directory.
+
+The initial upload command explicitly selects the source `wrangler.jsonc` and fails locally on unresolved Astro virtual modules before uploading. The corrected command selects the already-tested `dist/server/wrangler.json`, whose entry is built `entry.mjs`, and succeeds without rebuilding or changing application code. Preserve `approved-preview-upload.log` and `approved-preview-upload-corrected.log`; no unsupported alias or tooling patch is introduced. Future explicit-config uploads must use Astro's generated build configuration, or the normal project command that follows `.wrangler/deploy/config.json` automatically.
 
 The earlier `live-before-home.json` and `live-before-calculator.json` inspect the **legacy production** site: mobile/desktop 74/92 and 54/78 respectively. They are context only, excluded from the Astro before/current comparison.
 
@@ -201,7 +211,7 @@ Verify their exact processes and ports close. After raw evidence is removed on a
 
 The project testing guide now requires three-run arithmetic averages and diagnostic attribution, not a score-only result. Preserve the initial frozen output before editing, compare weighted metrics, inspect the actual LCP resource and network work, check actual throttling, and test one suspected change at a time. A request-count assertion cannot establish a loading improvement. Shared CSS/script delivery rules must follow measured behaviour, while retaining the design and static content.
 
-Excluded edge cases: real-device/field performance, old browser engines, quantitative warm-cache speed comparisons, exact Lantern graph replay, production cutover/cache/redirect behaviour, production newsletter delivery, and a live run of the new correction. Hosted after-checks of the earlier optimisation are complete; the new correction needs publication authority before its hosted check. No new guardrail, score budget, dependency, animation condition or provider is added.
+Excluded edge cases: real-device/field performance, old browser engines, quantitative warm-cache speed comparisons, exact Lantern graph replay, production cutover/cache/redirect behaviour and production newsletter delivery. Hosted after-checks of both the earlier optimisation and the authorised correction are complete. No new guardrail, score budget, dependency, animation condition or provider is added.
 
 ## Frozen manifest identities
 
