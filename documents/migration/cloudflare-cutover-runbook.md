@@ -2,7 +2,17 @@
 
 Status: draft only. No cutover authority has been granted.
 
-## Current checkpoint - 28 October 2026
+## Refreshed preparation checkpoint - 28 October 2026
+
+The stylesheet correction `afced65` is included in pushed commit `3e4c65b419cade380f29b4cf7afd110b36964bfa`. Its push-event Cloudflare build `fcb9f973-e673-40a9-aaa8-d7f36071a4ee` and GitHub check pass. Inactive preview `6ced527c-7cc7-4cbe-9879-fdb954a6c9a2` passes all 80 hosted component/optimisation cases and 24 frozen-output comparisons, plus route/header/cache checks and parent browser inspection. The separate performance chat records the correction's live measurements without claiming a hosted speed gain.
+
+The three approved newsletter secret bindings are prepared on inactive version `159edb5c-51bd-44a8-aafb-866a5a623f3e`; Worker code ETag, runtime, routing and asset configuration match the tested preview exactly. Exact application rollback remains `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc` from legacy `9bf25d0`. A real rehearsal on the separate review Worker successfully switches to its legacy version and restores accepted Astro version `df904b43` without a rebuild. [Preparation acceptance](../evidence/migration-precutover/acceptance.md) owns these checks and raw paths.
+
+Fresh authoritative readback confirms all five affected records and all three Page Rules below are unchanged in every returned field. The zone has 18 DNS records and one certificate pack. No production deployment, custom domain or Worker route exists. SSL mode remains `full`, Always Use HTTPS `off`, and minimum TLS `1.0`. These are observed values, not approved security-setting changes.
+
+Human appearance acceptance of [the refreshed preview](https://6ced527c-musclehacking-astro.jake-sacino.workers.dev/) is pending. The identifiers above describe prepared resources; they are not yet an accepted cutover candidate. Appearance approval alone does not authorise any production operation. Earlier current checkpoints below are historical where superseded here.
+
+## Earlier preparation checkpoint - 28 October 2026
 
 The active isolated review version is `df904b43-5cbd-4978-9b57-3020d20f9784`. It is a secrets-only copy of the tested `8cb22fb7-b3d9-4a80-957c-fb98699d7108` version (application commit `13743d0`), with identical Worker code ETag and assets binding. Under the human's exact-recipient approval, real Turnstile signup, success redirect, email delivery, completed confirmation, day-0 enrolment and duplicate handling now pass against the existing `qwsfu` list. [The newsletter acceptance record](../evidence/newsletter_activation/acceptance.md) owns that completed gate. Redeploying `8cb22fb7-b3d9-4a80-957c-fb98699d7108` restores the same review application without provider credentials.
 
@@ -27,7 +37,7 @@ The complete five affected DNS records are re-read on 28 October after newslette
 
 ## Authority gate
 
-Do not promote a version, bind a custom domain, change DNS, make the repository private, or retire GitHub Pages until this file contains the exact candidate commit, candidate and legacy Worker version IDs, preview evidence, authoritative DNS snapshot, proposed DNS diff, and inverse rollback, and the human explicitly approves this exact packet.
+Do not promote a production version, bind a custom domain, change DNS, make the repository private, or retire GitHub Pages until this file contains the exact candidate commit, candidate and legacy Worker version IDs, preview evidence, authoritative DNS snapshot, proposed DNS diff, and inverse rollback, and the human explicitly approves this exact packet.
 
 ## Authoritative before-state - 23 September 2026
 
@@ -229,9 +239,9 @@ Rule `4e0a9ac3…` is active but has no effect today, because page rules apply o
 
 ### Draft cutover operations (not approved, not executed)
 
-This draft is for review. It needs an approved candidate version and a completed newsletter test before it can become the approval packet.
+This draft is for review. Newsletter acceptance, inactive credentials and the review-only traffic rehearsal now pass. Human appearance acceptance is still required before freezing the prepared version into a final approval packet.
 
-1. Use the existing Worker `musclehacking-astro` in account `da18a65e27f34f43051b853e509ef411`, with `workers_dev` off. After hosted acceptance and non-promoting production secret preparation, record the exact final version and obtain approval before promoting it. Do not rebuild at cutover.
+1. After hosted acceptance and exact packet approval, promote only prepared version `159edb5c-51bd-44a8-aafb-866a5a623f3e` at 100% on existing Worker `musclehacking-astro` in account `da18a65e27f34f43051b853e509ef411`. Keep regular workers.dev off. Do not rebuild at cutover; a later upload does not replace this pinned version without renewed review.
 2. Delete CNAME `49a112e934ad8c7deed7924c764c0c3e` (`www` → `musclehacking.github.io`), then attach the Workers Custom Domain `www.musclehacking.com` to Worker `musclehacking-astro`. Cloudflare creates the proxied record and certificate.
 3. Update existing Page Rule `4e0a9ac33acaf78c4176a85401f358e3` from `https://musclehacking.com/*` to `musclehacking.com/*`, keeping its forwarding action, `https://www.musclehacking.com/$1`, status 301 and priority 3. Cloudflare's [URL matching documentation](https://developers.cloudflare.com/rules/page-rules/) states that omitting the scheme matches both HTTP and HTTPS. This avoids adding a separate apex rule.
 4. Update existing disabled Page Rule `2c99aede9ae5b0139d9b52cc83bd7806` from `http://www.musclehacking.com/` to `http://www.musclehacking.com/*`, retain its `always_use_https` action and priority 2, and set status `active`. Keep the third cache rule disabled. This scopes HTTP-to-HTTPS handling to `www`, without changing zone-wide HTTPS settings or the separate books/dev hosts.
@@ -243,6 +253,39 @@ Inverse, in reverse order:
 2. Restore both Page Rules exactly from their complete before-state above: `4e0a9ac33acaf78c4176a85401f358e3` uses the original HTTPS-only pattern; `2c99aede9ae5b0139d9b52cc83bd7806` uses its original root-only HTTP pattern and is disabled.
 3. Detach the `www.musclehacking.com` custom domain, then recreate `CNAME www.musclehacking.com → musclehacking.github.io`, `proxied: false`, `ttl: 1`, with the saved writable settings, comment and tags. Cloudflare assigns a new record ID/timestamps when recreating a deleted record; record that receipt instead of claiming the original provider-generated metadata can be restored.
 4. Leave the Worker and uploaded versions in place; they serve no production hostname once detached.
+
+If application code fails while the custom-domain routing is healthy, deploy only legacy version `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc` at 100% on the same Worker. This keeps Cloudflare routing and restores the archived application, including its original PHP newsletter path. If DNS or TLS is the failure, use the DNS/domain inverse above while GitHub Pages remains public. Do not rebuild either rollback.
+
+### Exact draft request bodies
+
+These requests remain unexecuted. All API paths use account `da18a65e27f34f43051b853e509ef411` or zone `325308665734cda0d51e001f336becca`; do not substitute another account or match resources by name alone.
+
+- Delete only `/zones/325308665734cda0d51e001f336becca/dns_records/49a112e934ad8c7deed7924c764c0c3e` before creating the Custom Domain. Cloudflare rejects an existing CNAME on that hostname.
+- Create the binding with `PUT /accounts/da18a65e27f34f43051b853e509ef411/workers/domains`:
+
+```json
+{"hostname":"www.musclehacking.com","service":"musclehacking-astro","zone_id":"325308665734cda0d51e001f336becca","environment":"production"}
+```
+
+- Replace Page Rule `/zones/325308665734cda0d51e001f336becca/pagerules/4e0a9ac33acaf78c4176a85401f358e3` with this body:
+
+```json
+{"targets":[{"target":"url","constraint":{"operator":"matches","value":"musclehacking.com/*"}}],"actions":[{"id":"forwarding_url","value":{"url":"https://www.musclehacking.com/$1","status_code":301}}],"priority":3,"status":"active"}
+```
+
+- Replace Page Rule `/zones/325308665734cda0d51e001f336becca/pagerules/2c99aede9ae5b0139d9b52cc83bd7806` with this body:
+
+```json
+{"targets":[{"target":"url","constraint":{"operator":"matches","value":"http://www.musclehacking.com/*"}}],"actions":[{"id":"always_use_https"}],"priority":2,"status":"active"}
+```
+
+- PATCH each of the four exact apex record paths listed in operation 5 with only `{"proxied":true}`. The inverse body is only `{"proxied":false}`. Keep A values, TTL, comments, tags and settings unchanged.
+- Restore Page Rules using `targets`, `actions`, `priority` and `status` from their complete saved before-state. Preserve the third disabled rule.
+- Delete the exact Custom Domain ID returned by its creation, then POST the original CNAME using its saved writable fields: type `CNAME`, name `www.musclehacking.com`, content `musclehacking.github.io`, TTL `1`, proxied `false`, settings `{}`, comment `null`, tags `[]`. Record the newly assigned provider ID.
+
+Cloudflare's [Custom Domains documentation](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) confirms that creation also issues a certificate and deletion does not remove that certificate automatically. Record any created certificate pack and distinguish it from the one pre-existing pack. A rollback retains an unused new certificate rather than deleting an unverified or shared certificate; include that retained resource in the receipt. No separate Advanced Certificate Manager subscription is needed.
+
+After both hosts pass uncached and cached checks, the exact packet can authorise changing only `musclehacking/musclehacking.github.io` to private and rebuilding the same recorded source commit through the existing Cloudflare connection. Keep `master`, GitHub Pages configuration, WPX, `dev`, the legacy source and both rollback versions intact. The migration branch still uploads inactive versions; automatic production promotion is not added by this proposal.
 
 ## Current public observation, not rollback data
 
@@ -300,19 +343,13 @@ On 31 August 2026, the user explicitly approved these three candidate behaviours
 
 These approvals cover only the named behaviours. They do not authorise production cutover. The completed visual harness applies exact selector-region masks only to these approved regions and evaluates every other unapproved pixel against the 2 percent threshold. It records raw and evaluated mismatch values, captures deterministic animated GIF frames, masks only provider-controlled YouTube raster content, and asserts the audited modernity hero asset hash before applying its exact raster mask. Forty-four captures pass the threshold, and the two Show All captures pass through the approved stable-viewport exception.
 
-## Exact packet fields still unavailable
+## Remaining gates before an approval request
 
-The following values must be inserted from authoritative Cloudflare and Git sources before this file can become an approval request:
+- Record the human's appearance decision on the refreshed preview. The prepared release cannot become the accepted cutover candidate before that decision.
+- Present the exact operations, source/version pins, existing newsletter acceptance and current performance limitations together for explicit production approval. Existing visible contact links remain unchanged under the faithful-migration scope; the approved structured data still emits no contact address.
+- Re-query every affected record, Page Rule, Worker deployment and certificate immediately before approved execution; stop on drift and regenerate the packet. Production-host TLS, redirects and private-repository access are after-cutover checks, not proven by the preview.
 
-- Candidate Git commit SHA after the migration changes are committed.
-- Exact Cloudflare account ID and `musclehacking.com` zone ID.
-- Candidate production and legacy production-target Worker version IDs. The isolated Astro and legacy versions are recorded above, but they are not yet the production cutover targets.
-- Complete authoritative before-state for every affected apex and `www` DNS or custom-domain resource, including resource IDs and every returned field.
-- Exact ordered proposed operations and exact inverse rollback operations.
-- Hosted route, header, TLS, cache, performance, and newsletter success evidence.
-- Human decisions for identity, contact, legal pages, analytics, canonicals, crawler policy, and newsletter provider policy.
-
-Until every field is present, this document is evidence and a preparation checklist. It is not an executable cutover packet.
+Until those gates pass, this document is an unapproved draft. No DNS, custom domain, production version or repository visibility operation may run.
 
 ## Approved REQ-13 exception (PERF-01)
 

@@ -1,16 +1,24 @@
 # Human review packet
 
-Status: content and policy decisions recorded 23 September 2026. Newsletter acceptance passes on the review Worker as of 28 October, including email delivery and completed confirmation. Final hosted acceptance and cutover approval remain.
+Status: content and policy decisions recorded 23 September 2026. Newsletter acceptance, refreshed automated hosted acceptance, review-only traffic rollback rehearsal and inactive credential preparation pass as of 28 October. Human appearance acceptance, explicit performance-risk acceptance and exact production cutover approval remain.
+
+## Refreshed appearance review - 28 October 2026
+
+Review the [home page](https://6ced527c-musclehacking-astro.jake-sacino.workers.dev/), [calculator](https://6ced527c-musclehacking-astro.jake-sacino.workers.dev/calorie-calculator/) and [supplements](https://6ced527c-musclehacking-astro.jake-sacino.workers.dev/supplements/). This supersedes the older `18ac682d` review links. The corrected stylesheet delivery retains every page's appearance in the 60 local pixel comparisons, and all 80 refreshed hosted component/optimisation cases pass. Parent browser inspection confirms input/filter behaviour and the unchanged desktop/mobile appearance. Appearance approval alone does not switch production.
+
+Prepared version `159edb5c-51bd-44a8-aafb-866a5a623f3e` adds only the approved newsletter secret bindings to the tested `6ced527c` code/runtime/assets. No production submission is performed. The existing review Worker still owns the completed live newsletter acceptance, and the production site still uses GitHub Pages. [Current preparation evidence](../evidence/migration-precutover/acceptance.md) and [draft cutover operations](cloudflare-cutover-runbook.md) identify all prepared resources and remaining checks.
+
+Performance remains a disclosed limit: the new single hosted samples score home mobile 74/desktop 100 and calculator mobile 96/desktop 99. They do not prove a hosted speed gain, and their CPU conditions differ. The final production proposal must include those results and the retained large-image LCP exception; this appearance question does not approve that production trade-off.
 
 ## Current newsletter checkpoint - 28 October 2026
 
 The WPX discovery confirms the existing list `qwsfu`, a working API key, and GetResponse-managed email confirmation. The human explicitly authorises one named recipient on that existing list. Review version `df904b43-5cbd-4978-9b57-3020d20f9784` carries the provider secrets and unchanged tested application code. Ego Lite proves the real Turnstile form, success destination and safe duplicate outcome. The user supplies the delivered confirmation email; following its link in Ego Lite confirms membership. GetResponse then shows exactly one confirmed contact, API origin and autoresponder day 0. All newsletter discovery, configuration and acceptance blockers are resolved for this review version. [Acceptance evidence](../evidence/newsletter_activation/acceptance.md) owns the current result; older version IDs and missing-credential statements below are historical.
 
-## Current build checkpoint - 28 October 2026
+## Earlier build checkpoint - 28 October 2026
 
 Cloudflare now connects the exact `musclehacking/musclehacking.github.io` repository. The authorised push of `fecebf8` starts build `c2b1b975` automatically and uploads inactive version `18ac682d-0224-4639-aad4-013fc344f67f`, including the locally accepted optimisations. Cloudflare and GitHub both report success. All 24 checked static responses match the frozen local output, allowing only the calculator's generated island UID; route/header/cache checks and calculator/supplement interactions pass. The exact legacy rollback version remains `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc`. Production DNS and traffic remain unchanged. [Build acceptance](../evidence/workers_builds/acceptance.md) records the IDs and remaining gaps. The full test suite stays local because its fixture cleanup requires the local `trash` command.
 
-Review the [home page](https://18ac682d-musclehacking-astro.jake-sacino.workers.dev/), [calculator](https://18ac682d-musclehacking-astro.jake-sacino.workers.dev/calorie-calculator/) and [supplements page](https://18ac682d-musclehacking-astro.jake-sacino.workers.dev/supplements/) for hosted appearance. Automated input/filter checks are already complete. Newsletter submission is not configured on this target preview; its completed live acceptance remains on the separate review Worker. Human acceptance of these hosted pages precedes the final cutover packet.
+This earlier build's `18ac682d` appearance links are superseded by the refreshed review at the top of this packet. Its completed newsletter acceptance remains on the separate review Worker.
 
 ## Content and policy decisions recorded - 23 September 2026
 
@@ -26,8 +34,10 @@ Review the [home page](https://18ac682d-musclehacking-astro.jake-sacino.workers.
 
 ## Decisions still open
 
-1. Hosted side-by-side acceptance of the review Worker URL.
-2. Whether the visible `jay@musclehacking.com` links in the sidebar, the 404 page, and `healthy-low-calorie-foods` stay. POL-01 covers structured data only.
+1. Hosted appearance acceptance of the refreshed `6ced527c` preview.
+2. Acceptance of the disclosed performance limits as part of the final exact cutover proposal.
+
+The existing visible `jay@musclehacking.com` links stay unchanged under the requested faithful-migration scope. POL-01 covers structured data only; no new contact claim or route is added.
 
 ## Accessibility decisions recorded (AUD-07) - 4 September 2026
 

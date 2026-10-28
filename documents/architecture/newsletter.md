@@ -29,7 +29,7 @@ Without JavaScript the form still posts, but it carries no token and receives `4
 | Sitekey | `0x4AAAAAAFAolLk0PGOQbQuA`, in `site.turnstileSiteKey` (`src/config/site.ts`) |
 | Secret | macOS Keychain service `musclehacking-turnstile-secret`; never commit or print it |
 
-One widget covers both hosts so the same built version can be promoted from the review Worker to production without a rebuild. Remove the review hostname from the widget after cutover.
+One widget covers the isolated review host and production. The new target-account version-preview hosts are not additional widget hosts and are not live submission targets. Retire the review hostname only after its separate retirement decision.
 
 ## Runtime configuration
 
@@ -37,9 +37,11 @@ One widget covers both hosts so the same built version can be promoted from the 
 | --- | --- | --- |
 | `TURNSTILE_SECRET_KEY` | Secret | Turnstile siteverify secret |
 | `GETRESPONSE_API_KEY` | Secret | GetResponse API key |
-| `GETRESPONSE_CAMPAIGN_ID` | Secret or variable | GetResponse list (`campaignId`), separate for preview and production |
-| `NEWSLETTER_ALLOWED_ORIGIN` | Variable, preview only | The exact hosted review origin |
+| `GETRESPONSE_CAMPAIGN_ID` | Secret or variable | GetResponse list (`campaignId`); existing `qwsfu` for the approved flow |
+| `NEWSLETTER_ALLOWED_ORIGIN` | Variable | One additional exact hosted review origin; the canonical production origin is always allowed |
 
 The endpoint fails closed. With no `TURNSTILE_SECRET_KEY` it returns `503 newsletter_unavailable` before any network call. With a Turnstile secret but no GetResponse values it verifies the challenge first and then returns `503`, so a hosted preview can prove Turnstile before the provider is connected. Challenge failures return `400 challenge_failed`, and provider failures return `502 provider_unavailable` or `502 provider_timeout`.
 
-The legacy PHP source hardcodes `campaignId=qwsfu`; `GET /v3/campaigns/qwsfu` verified that ID and API double opt-in on 28 October 2026. The production destination is therefore known. Preview must use a separate test list with API double opt-in. The existing API key is recoverable from the WPX configuration through the approved SFTP wrapper; it must never appear in documentation or chat. Discovery did not configure any Cloudflare secret or test a subscription.
+The legacy PHP source hardcodes `campaignId=qwsfu`; `GET /v3/campaigns/qwsfu` verifies that ID and API double opt-in on 28 October 2026. The user explicitly chooses the existing list and one named recipient for acceptance instead of an isolated test list. That run proves signup, delivered confirmation, confirmed membership, day-0 state and safe duplicate handling. It does not authorise arbitrary contacts, provider-setting changes or production form tests. [Live newsletter testing](../testing/live-newsletter.md) owns the Ego Lite browser choice and submission limits.
+
+The existing API key is recoverable through the approved SFTP wrapper and never enters documentation or chat. The review Worker holds the approved secrets. The target-account preparation copies them without promotion to inactive version `159edb5c-51bd-44a8-aafb-866a5a623f3e`; its code/runtime/assets remain identical to tested preview `6ced527c`. [Secret operations](../migration/secrets.md) owns the secure procedure, source checks and exact resource IDs. Production still has no active Worker deployment.

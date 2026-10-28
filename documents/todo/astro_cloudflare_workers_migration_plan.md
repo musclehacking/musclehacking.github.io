@@ -358,7 +358,9 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - The build fails when a route or required metadata field is removed from a test fixture.
 - The approved canonical and indexability matrix has no accidental `/join/` to `/one-last-step/` mapping and no missing blog index canonical.
 
-### Step 4: Rebuild the Shared Shell, Styles, Fonts, and Media 🔄 **IN PROGRESS**
+### Step 4: Rebuild the Shared Shell, Styles, Fonts, and Media 🧪 **PENDING TESTING**
+
+**28 October state:** implementation and automated visual/component checks pass, including all 60 unchanged document/viewport pixel comparisons and the refreshed hosted matrix. Required human appearance acceptance remains pending; see Step 12 and the current review packet.
 
 **Objective:** Reproduce the visible site with reusable Astro components and owned, optimised assets.
 
@@ -392,7 +394,9 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - Every newsletter placement passes its own desktop and mobile geometry fixture, and `Email Me` remains centred, single-line, and unclipped.
 - No route in the parity matrix contains `.site-footer`, footer navigation, footer copyright copy, or footer-reserved spacing.
 
-### Step 5: Migrate All Pages, Blog Content, and Discovery Files 🔄 **IN PROGRESS**
+### Step 5: Migrate All Pages, Blog Content, and Discovery Files 🧪 **PENDING TESTING**
+
+**28 October state:** authored content, approved route/canonical policy and discovery output are implemented and verified. All 24 hosted document/discovery comparisons match the corrected frozen build. Required human appearance acceptance remains pending.
 
 **Objective:** Produce the complete public information architecture from Astro and repair verified discovery defects.
 
@@ -424,7 +428,9 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - Every route-specific content block, image, table of contents, article navigation item, and newsletter placement matches its audited source order and appears exactly once.
 - All twelve article endings pass previous-only, next-only, and two-link fixtures on desktop and mobile, with no run-together labels or stray heading-link glyphs.
 
-### Step 6: Reimplement and Prove the Calorie Calculator 🔄 **IN PROGRESS**
+### Step 6: Reimplement and Prove the Calorie Calculator 🧪 **PENDING TESTING**
+
+**28 October state:** formulas, modes, validation and browser interactions are implemented and pass the recorded local and hosted checks. Direct refreshed-preview input at 90 kg gives 1829 calories, 198 g protein, 58 g fat and 130 g carbs. Required human appearance acceptance remains pending.
 
 **Objective:** Replace the opaque Vue bundle without changing formulas, defaults, rounding, labels, or modes.
 
@@ -455,7 +461,9 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - `/img/leangains-calculator.jpg` renders at the recorded point before the TOC with the audited dimensions and alternative text.
 - The floating prompt and exit modal each pass their own trigger, screenshot, geometry, close, Escape, outside-click, focus, and responsive fixture.
 
-### Step 7: Reimplement Supplement and Shared Browser Interactions 🔄 **IN PROGRESS**
+### Step 7: Reimplement Supplement and Shared Browser Interactions 🧪 **PENDING TESTING**
+
+**28 October state:** the implemented interaction/state/route matrix passes all 80 refreshed hosted cases, including supplement, heading, sharing, prompt and article-ending checks. Required human appearance acceptance remains pending.
 
 **Objective:** Remove legacy browser libraries while preserving all observable interaction contracts.
 
@@ -531,7 +539,9 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 - Without JavaScript the native POST fails safely without a challenge token; the enhanced failure state is announced and focused correctly. The 28 October hosted PHP discovery proves legacy reCAPTCHA also required JavaScript, so the earlier requirement for successful no-JavaScript signup exceeded the compatibility goal. No anti-bot bypass is added.
 - If the provider contract or secrets remain unavailable, the cutover checklist fails closed and production DNS cannot be approved.
 
-### ~~Step 9: Add Metadata, Security, Cache, and Performance Controls~~ ✅ **COMPLETED**
+### Step 9: Add Metadata, Security, Cache, and Performance Controls 🧪 **PENDING TESTING**
+
+**28 October state:** metadata, security and cache checks pass. The corrected source retains the approved source images; new single hosted measurements do not establish a loading-speed gain or a current four-route REQ-13 median. The older PERF-01 LCP exception remains recorded, but does not prove the new score targets. The final proposal must disclose these measurements and obtain acceptance of the remaining performance limitation, or complete a separately justified measurement/change. No score-only rerun is authorised by this checkpoint.
 
 **Objective:** Make final Cloudflare responses secure, cache-correct, and fast without relying on development-server assumptions.
 
@@ -553,7 +563,9 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 - No built route contains Universal Analytics, an unapproved third-party script, or `'unsafe-inline'` in `script-src`.
 - Representative preview pages meet the budgets in REQ-13 and REQ-14, or the cutover packet contains a human-approved exception with measured cause and impact.
 
-### Step 10: Build the Automated Parity and Quality Gates 🔄 **IN PROGRESS**
+### Step 10: Build the Automated Parity and Quality Gates 🧪 **PENDING TESTING**
+
+**28 October state:** the source-specific local gates, all-page unchanged-pixel comparison and full refreshed hosted component matrix are recorded in the current acceptance documents. Required human side-by-side acceptance remains pending; no threshold or visual mask changes to obtain a pass.
 
 **Objective:** Make regressions fail before a Worker version can be considered for cutover.
 
@@ -589,9 +601,9 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 - The suite fails if the callout icon and title wrap onto separate lines; if the heading arrow points away from the anchor; if the anchor glyph is thicker than production; if `Link Copied` uses a different motion or placement; if Facebook, LinkedIn, or copy-link is not optically centred; or if share tooltips use a non-bouncy substitute animation.
 - The visual report separates raw full-page difference, evaluated component difference, masks, viewport, interaction state, live baseline timestamp, and reviewer decision.
 
-### Step 11: Complete Human Content and Policy Review 🔄 **IN PROGRESS**
+### Step 11: Complete Human Content and Policy Review 🧪 **PENDING TESTING**
 
-**Current checkpoint:** identity, structured data, page set, canonicals, the calculator-guide 301, crawler policy, analytics and Cloudflare access are decided and applied. POL-07's Turnstile/GetResponse flow passes live acceptance on 28 October. The visible contact-email question and final hosted visual acceptance remain in `documents/migration/human-review-packet.md`.
+**Current checkpoint:** identity, structured data, page set, canonicals, the calculator-guide 301, crawler policy, analytics and Cloudflare access are decided and applied. POL-07's Turnstile/GetResponse flow passes live acceptance on 28 October. Existing visible contact links stay unchanged under the faithful-migration scope; POL-01's no-address decision continues to apply to structured data only. No new contact fact is added. Final hosted appearance acceptance remains pending in `documents/migration/human-review-packet.md`.
 
 **Objective:** Resolve facts that code and public source inspection cannot authoritatively decide.
 
@@ -619,6 +631,8 @@ The first clean-checkout Cloudflare job exposes test-runner dependencies on prio
 The corrected manual job `119eeb31-61a0-411f-b3a5-f1f8197317ed` passes and uploads initial version `178fb1b7`. The human then authorises pushing the committed branch. Push `fecebf8d414eb427d26168cc4f94b05cde38b674` automatically starts job `c2b1b975-b732-45d9-ba52-37502a8abf72`, which passes and uploads inactive version `18ac682d-0224-4639-aad4-013fc344f67f`. GitHub's Cloudflare check passes too. All 24 checked static responses match the accepted optimisation output: 23 byte-exact, calculator differing only in its generated island UID. Route/header/cache checks and the calculator/supplement browser checks pass. Account readback proves zero active deployments, custom domains and zone routes, with every affected DNS field unchanged. [Build acceptance](../evidence/workers_builds/acceptance.md) owns this proof and the Linux full-test limitation.
 
 Build implementation, push-event verification and the full hosted component-state matrix are complete. The project lifecycle wrapper runs both `ui-parity.spec.ts` and `astro-optimisations.spec.ts` against immutable version `18ac682d`: all 80 desktop/mobile cases pass, with zero failures, skips or retries. Its owned port 8809 and lease close, and the frozen output manifest remains unchanged. Record-only push `766f72c` also passes Cloudflare and GitHub checks. Required human hosted acceptance and traffic rollback rehearsal remain pending. Production secret configuration and private-repository verification remain in later cutover work. Step 12 is pending testing, and the overall plan remains in progress.
+
+**Refreshed checkpoint after Git identity repair:** source `3e4c65b`, including stylesheet correction `afced65`, is pushed under the existing migration-branch authority. Push-event job `fcb9f973` and GitHub checks pass, uploading inactive `6ced527c`. All 80 refreshed hosted UI/optimisation cases pass, and 24 document/discovery responses match the 139-file corrected frozen manifest, with only the calculator island UID normalised. Wrapper-owned port 8811 and lease close; the task browser is closed after parent inspection. A real review-only traffic rehearsal switches to archived legacy output and restores original Astro `df904b43` at 100%. Three approved secret bindings are prepared without promotion on `159edb5c`, preserving the tested code ETag/runtime/assets. All five affected DNS records and three Page Rules remain unchanged. The previous pending traffic-rehearsal and secret-preparation statements are superseded. Remaining: human appearance acceptance, current performance limitation acceptance, exact cutover approval, production-host checks and private-repository rebuild. [Current preparation evidence](../evidence/migration-precutover/acceptance.md) owns the exact results.
 
 Task-owned Dev Browser `mh-workers-builds-20261028-r3g8` is closed and absent from the browser list. Its retained evidence directory is `/Users/sacino/.dev-browser/tmp/mh-workers-builds-20261028-r3g8/`. Ego Lite space 29 is finished with no retained pages. The hosted matrix uses one wrapper-owned frozen preview on port 8809; its port and lease are confirmed closed. Other tasks' servers and browsers are preserved.
 
@@ -649,6 +663,8 @@ Task-owned Dev Browser `mh-workers-builds-20261028-r3g8` is closed and absent fr
 ### Step 13: Prepare the Exact Cutover and Rollback Packet 🔄 **IN PROGRESS**
 
 **Objective:** Give the human one evidence-backed approval decision with no hidden external changes.
+
+**28 October state:** the runbook now contains the freshly verified complete DNS/Page Rule before-state, exact ordered request bodies, inverse DNS/application rollback, prepared immutable version and legacy pins, secret configuration proof, successful review-only traffic rehearsal, current hosted test evidence and honest performance limits. The prepared version is not yet an accepted cutover candidate: human appearance acceptance must precede freezing the final packet and asking for exact production approval. The repository remains public and all production operations remain unexecuted.
 
 #### 13.1 High-Level Approach
 
@@ -1436,3 +1452,11 @@ No visual redesign, copy refresh, route normalisation, new animation system, or 
 - Removed `set_git_account` and its `chpwd` hook from `/Users/sacino/.zshrc`; added a final include in `/Users/sacino/.gitconfig` pointing to `/Users/sacino/.config/git/default-identity.gitconfig`. The default account is fixed as Culpable, including when an already-open shell replays the old hook. The existing Muscle Hacking local configuration retains the exception.
 - Added `documents/evidence/git-identity/acceptance.md`; updated this plan. Before/after reproduction, all 57 top-level effective-author reads, a fresh interactive-shell directory sequence and shell syntax pass. SSH configuration and the existing source HEAD remain unchanged during the fix. No Git history, provider permission or deployment changes are part of the identity fix.
 - Migration continues from the stylesheet correction `afced65`, which supersedes the previous optimisation's small-style inlining. Its local acceptance record covers type/unit/build/output/accessibility checks and all-page pixel parity; its corrected delivery assertion passes. The hosted candidate, rollback rehearsal, inactive production credential preparation and exact cutover packet remain to be refreshed before human acceptance and cutover.
+
+## 13. Implemented Solution - refreshed migration preparation, 28 October 2026
+
+- Added `documents/evidence/migration-precutover/acceptance.md`; updated the Builds guide, human review packet, newsletter architecture, secret operations, cutover runbook and this plan with push `3e4c65b`, successful build `fcb9f973`, immutable tested preview `6ced527c` and inactive credentialed version `159edb5c`. Newsletter architecture now records the approved existing-list exception, additional-origin semantics and secure inactive preparation without a production deployment.
+- Verified all 139 frozen files, 24 hosted document/discovery responses, the redirect/404/header/cache/method contracts, all 80 hosted component/optimisation cases and parent browser input/filter checks. Reused source-specific local acceptance rather than claiming another full local run. Closed the owned browser and verified port 8811 and lease cleanup.
+- Rehearsed the actual review-only legacy traffic switch and restored the original accepted Astro version. Prepared the three approved newsletter bindings through stdin without changing code/assets, promoting a production version or submitting a production form. Refreshed all affected authoritative DNS/Page Rule data and recorded exact draft operations/inverses.
+- Reconciled implemented UI/content/calculator/interaction/policy steps to pending testing for required human appearance acceptance. Reopened performance validation because the fresh single hosted samples do not establish the current four-route target; no overall speed gain is claimed. Final cutover, production-host checks, repository privacy/private rebuild and final operating documentation remain gated.
+- Excluded edge cases remain production custom-domain TLS/redirects, production newsletter mutation, private-repository access, real-device performance and later autoresponder delivery. No DNS, domain, production deployment, repository visibility, branch history or unrelated infrastructure changes.

@@ -1,5 +1,13 @@
 # Cloudflare Builds configuration
 
+## Latest preparation - 28 October 2026
+
+The authorised migration-branch push now includes stylesheet correction `afced65` and identity-fix record `3e4c65b`. Push-event build `fcb9f973-e673-40a9-aaa8-d7f36071a4ee` and GitHub checks pass. Its inactive version `6ced527c-7cc7-4cbe-9879-fdb954a6c9a2` passes the full 80-case hosted component/optimisation matrix and 24 frozen-output comparisons. [Current preview](https://6ced527c-musclehacking-astro.jake-sacino.workers.dev/); [preparation acceptance](../evidence/migration-precutover/acceptance.md).
+
+The approved newsletter secret configuration is copied without promotion to `159edb5c-51bd-44a8-aafb-866a5a623f3e`, with the same code ETag/runtime/assets. This prepared version stays pinned for later human review; a documentation-only build moving the preview alias does not replace it. No production deployment, custom domain, zone route or DNS change occurs. The separate review Worker passes an actual legacy switch-and-restore rehearsal. Human appearance acceptance and the final exact cutover approval remain required.
+
+The performance chat's `ffa2a76` records one hosted corrected homepage/calculator measurement each. Scores remain 74/100 and 96/99 for mobile/desktop; those samples do not establish a speed gain or a new four-route performance median. Historical build records below remain useful for source-specific evidence.
+
 ## Intended project
 
 - Repository: `musclehacking/musclehacking.github.io`
