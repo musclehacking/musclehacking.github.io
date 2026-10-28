@@ -11,6 +11,7 @@ Use the least specialised existing owner. A pattern rendered many times by one l
 | Sidebar frame | `ContentLayout.astro` | Existing optional sidebar | Home and blog listing |
 | Article composition | `ArticleLayout.astro`, `article/ArticleHeader.astro` | Article/longform; optional notice/caption; heading-link policy | Published blog entries, Books, beginner guide |
 | Listing card and recent links | `HomeListing.astro`, `Sidebar.astro`; `lib/content/cards.ts` | Existing aspect ratios, first-image priority and sidebar titles | Home and blog listing |
+| Reviewed compressed image sources | `lib/images.ts::imageSource` | TinyPNG copies for approved images; original source for everything else | Home/blog cards and shared article figures |
 | Public facts | `config/site.ts::site`, `absoluteUrl`, calculator/supplement tweet helpers | Display/protocol contact forms, profile/community destinations and legacy tweet encoding | Header, sidebar, 404, listing, bylines, metadata and sharing |
 | SVG icon geometry | `lib/icons.ts::icons`; `Icon.astro` renders Astro SVGs | Exact Twitter/Facebook/Reddit inline serialisations; callout note/important/warning; header social marks | Header, Callout, SupplementExplorer, ShareLinks, SocialShareRail; calculator and supplement enhancement import only their named paths |
 | Callout | `Callout.astro`; global `.project-callout` recipe | Note/important/warning; page-authored labels/classes and slotted body | Listing intro, article notices, authored content, calculator guide, supplements intro |

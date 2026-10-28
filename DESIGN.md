@@ -2,6 +2,8 @@
 
 The current appearance is intentional. Shared components preserve native markup, exact copy, responsive rules and interaction states; they do not make unlike pages look alike.
 
+`src/lib/images.ts` selects visually reviewed TinyPNG copies for listing cards and shared figures. Keep the original files and existing image dimensions, crops and loading priorities. The first listing image and article heroes load eagerly; later cards and body figures load lazily. Native lazy loading may fetch nearby off-screen images before scrolling. Compression changes pixels, so verify visible quality side by side rather than claiming pixel identity.
+
 ## Foundations
 
 `src/styles/global.css` owns the existing palette, native typography, prose/list rhythm, shared reading frames and responsive layout rules. `src/styles/legacy-content.css` retains the audited intrinsic media ratios. Font files, font declarations and font delivery are unchanged. Astro keeps bundled stylesheets external and immutable. Repeated mobile controls found that small-style inlining delayed the homepage image; see `documents/evidence/performance-regressions/acceptance.md`. Exact shared colour roles use `--brand`, `--accent`, `--body-ink`, `--callout-note`, `--callout-important`, `--callout-warning`, `--newsletter-border` and `--section-rule`; distinct colours retain separate roles. Share-channel tokens keep each circle, tooltip and arrow together; explorer-only tokens remain with the explorer stylesheet.

@@ -24,6 +24,7 @@ The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local 
 | Article and long-form body and frontmatter | `src/content/blog/` and `src/content/pages/` |
 | Article defaults, cards, listing, and navigation | `src/lib/content/` |
 | Authored figures, callouts, video, references, TOC, and affiliate links | `src/components/content/` |
+| Reviewed TinyPNG image copies, preserving the original files | `src/lib/images.ts` and sibling `public/img/*-tinypng.*` files |
 | Generated published blog slug union | `src/config/blog-slugs.generated.ts` |
 | Shared page metadata and shell | `src/layouts/` |
 | Security and cache headers | `public/_headers` |

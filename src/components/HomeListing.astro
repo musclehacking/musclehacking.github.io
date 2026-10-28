@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { site } from '../config/site';
 import { routeByPath } from '../config/routes';
 import { getListing } from '../lib/content';
+import { imageSource } from '../lib/images';
 import Callout from './Callout.astro';
 
 interface Props {
@@ -23,7 +24,7 @@ const listing = await getListing();
       <a class="article-card" href={entry.href}>
         <figure class="feature-media" style={`--feature-ratio: ${entry.ratio}`}>
           {typeof entry.image === 'string' ? (
-            <img src={entry.image} alt={entry.imageAlt} width="700" height={entry.ratio === '5 / 3' ? '420' : '361'} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
+            <img src={imageSource(entry.image)} alt={entry.imageAlt} width="700" height={entry.ratio === '5 / 3' ? '420' : '361'} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} decoding="async" />
           ) : (
             <Image src={entry.image} alt={entry.imageAlt} width={700} height={entry.ratio === '5 / 3' ? 420 : 361} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'auto'} />
           )}
