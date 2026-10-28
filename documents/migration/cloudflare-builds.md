@@ -14,6 +14,18 @@
 
 Migration-branch builds must upload versions without promotion. GitHub App access must be selected-repository access. Do not add a duplicate GitHub Actions deployment.
 
+## Pushed optimisation build - 28 October 2026
+
+The human explicitly approves pushing the committed migration branch. Commit `fecebf8d414eb427d26168cc4f94b05cde38b674`, including optimisation commit `f13295e`, is pushed to `codex/astro-cloudflare-migration`. Uncommitted lifecycle edits remain local and excluded.
+
+The push itself starts job `c2b1b975-b732-45d9-ba52-37502a8abf72`; no manual build or test commit is used. Cloudflare records source `push_event` and the exact pushed SHA. The job and GitHub check `Workers Builds: musclehacking-astro` both pass. The job uploads inactive version `18ac682d-0224-4639-aad4-013fc344f67f` to the existing target Worker. The current branch alias points to it; immutable review URL: `https://18ac682d-musclehacking-astro.jake-sacino.workers.dev`.
+
+All 24 checked hosted static responses match the locally accepted optimisation output: 23 byte-exact, with only the generated Astro island UID different in the calculator. The frozen output's complete SHA-256 manifest is verified first. Route/redirect/custom-404/cache/UTF-8/API-method checks and the calculator/supplement browser checks pass. Target account readback still shows no active deployment, custom domain or zone route, disabled ordinary workers.dev access, and no change to any affected DNS record.
+
+The target preview has no newsletter provider/challenge secrets, so it is for page review rather than a live signup test. Newsletter acceptance remains on the separate configured review Worker. The existing invisible Turnstile widget is also read back: it covers the production domain and original review host, and its secret matches the existing Keychain value. No widget or secret changes are made.
+
+Hosted human acceptance, production secret preparation, private-repository rebuild and the exact production cutover remain pending. [The push acceptance record](../evidence/workers_builds/acceptance.md#authorised-push-acceptance) owns the current source/build/version proof.
+
 ## Non-promoting build setup - 28 October 2026
 
 GitHub authorisation is resolved. The exact repository connection in account `da18a65e27f34f43051b853e509ef411` is `1bbe7325-90cb-4dd4-96ec-78d2755f70cb`, created at `2026-10-28T04:37:58.732Z`. Its returned owner and repository IDs match `musclehacking/musclehacking.github.io` (`11622858` / `135702228`). The earlier disconnected-account reports below are historical.
@@ -32,13 +44,13 @@ Setup checklist:
 - [x] Create an empty Worker without an active deployment. Worker tag: `b3f90363c5d24147a9c12262ed9a8c07`. Upload the legacy baseline first as inactive version `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc`, using exactly the archived static tree from `9bf25d0` and its existing auto-trailing-slash asset policy.
 - [x] Register the account-scoped upload token and migration-branch trigger. Build token `ef063755-7f68-4243-9635-d46f00256a4a` uses user token `1d59d32b41367ba582cddd808ad768db`; trigger `d76064f6-633c-4148-87da-edf2c0ebed92` has the exact command and branch filter above.
 - [x] Build the recorded remote commit. Job `119eeb31-61a0-411f-b3a5-f1f8197317ed` passes and uploads version `178fb1b7-ce58-42f2-bfb6-cebd38dafd37`. The dashboard retains the correct settings after reload. Readback confirms zero active deployments, custom domains and zone routes, disabled ordinary workers.dev access, enabled version previews, and an exact match for all five saved DNS records.
-- [x] Record the resulting IDs and [acceptance evidence](../evidence/workers_builds/acceptance.md). Newer local source still needs an authorised push and another build before it can be the final cutover candidate. Push-event delivery, private-repository access and production traffic switching are not yet proved.
+- [x] Record the initial IDs and [acceptance evidence](../evidence/workers_builds/acceptance.md). The newer source and push-event proof are recorded above. Private-repository access and production traffic switching remain unverified.
 
 Build proof: [Cloudflare job](https://dash.cloudflare.com/da18a65e27f34f43051b853e509ef411/workers/services/view/musclehacking-astro/production/builds/119eeb31-61a0-411f-b3a5-f1f8197317ed). Immutable candidate URL: `https://178fb1b7-musclehacking-astro.jake-sacino.workers.dev`; branch alias: `https://migration-review-musclehacking-astro.jake-sacino.workers.dev`. The alias can move on later migration-branch builds. The legacy alias remains `https://legacy-9bf25d0-musclehacking-astro.jake-sacino.workers.dev`.
 
 Hosted checks compare 23 static responses with the accepted review Worker. Twenty-two match byte for byte; the calculator differs only in Astro's generated island UID, with the full remaining HTML identical. Security headers match, fingerprinted stylesheets are immutable, and both custom-404 cases and the subscribe method rejection pass. Browser checks prove calculator hydration and input updates (80 kg: 1733 calories; 90 kg: 1829 calories), all 19 supplements under Show All, and zero overflow at 390 pixels. No form POST or provider mutation is attempted on this Worker.
 
-The remote migration branch currently ends at `b0ef37717a7dcde41d63003c3ccbee1a9664c25f`. Newer local optimisation and documentation commits have not been pushed. A build of the existing remote commit proves the build connection; it is not acceptance of the newer local source or authority to push it.
+At initial setup the remote migration branch ends at `b0ef37717a7dcde41d63003c3ccbee1a9664c25f`. That manual build proves the connection only; the explicitly authorised push and newer-source acceptance above supersede this initial source checkpoint.
 
 ## Isolated review Worker
 

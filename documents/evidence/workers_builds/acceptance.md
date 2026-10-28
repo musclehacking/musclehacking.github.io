@@ -2,7 +2,7 @@
 
 ## Scope and revisions
 
-The migration needs GitHub-backed Cloudflare builds that create reviewable versions without changing live traffic. The human authorises the exact repository `musclehacking/musclehacking.github.io` and completes its GitHub App connection in another browser. No push, production deployment, DNS change, custom-domain binding, repository privacy change or newsletter mutation is authorised by this acceptance run.
+The migration needs GitHub-backed Cloudflare builds that create reviewable versions without changing live traffic. The human authorises the exact repository `musclehacking/musclehacking.github.io` and completes its GitHub App connection in another browser. Initial setup does not authorise a push; the subsequent explicit push approval is recorded at the end of this file. No production deployment, DNS change, custom-domain binding, repository privacy change or newsletter mutation occurs.
 
 Cloudflare builds existing remote commit `b0ef37717a7dcde41d63003c3ccbee1a9664c25f` on `codex/astro-cloudflare-migration`. Its application content matches the already tested review build; newer local optimisation commit `f13295e` is not pushed or uploaded here. Legacy rollback source is exact Git tree `9bf25d0`.
 
@@ -77,4 +77,24 @@ Open [the recorded build](https://dash.cloudflare.com/da18a65e27f34f43051b853e50
 
 Open the immutable candidate URL for stable replay. Verify the calculator's 80-to-90 kg change and supplements Show All at 390 pixels. Read deployment, Worker subdomain, custom-domain and zone-route state through the API; compare all five authoritative DNS records with the runbook before any approved write.
 
-Remaining: authorised push of newer local commits, a successful build and hosted acceptance of that revision, push-event delivery, final production secret configuration, exact redirect/cutover approval, private-repository rebuild, and production traffic/rollback verification. No unsupported local/cloud equivalence is claimed. Excluded here: the full test suite on Linux, real newsletter submission on the new target Worker, live IndexNow submission and production cutover.
+The initial newer-source/push-event gaps are resolved by the acceptance below. Remaining: human hosted review and the full hosted component/rollback acceptance, final production secret configuration, exact redirect/cutover approval, private-repository rebuild, and production traffic verification. No unsupported local/cloud equivalence is claimed. Excluded here: the full test suite on Linux, real newsletter submission on the new target Worker, new hosted performance measurements, live IndexNow submission and production cutover.
+
+## Authorised push acceptance
+
+The human explicitly chooses to push the committed migration branch while keeping the live site unchanged. The exact command is:
+
+```sh
+git -C /Users/sacino/musclehacking push origin fecebf8d414eb427d26168cc4f94b05cde38b674:refs/heads/codex/astro-cloudflare-migration
+```
+
+Before the push, the live trigger is read back: only the migration branch is included, and its command is the recorded non-promoting upload. Expected: GitHub publishes the approved commit and the push itself starts a successful Cloudflare build. Actual: remote advances from `b0ef377` to `fecebf8`; job `c2b1b975-b732-45d9-ba52-37502a8abf72` records source `push_event` and that exact SHA, runs from `2026-10-28T04:58:19.808Z` to `2026-10-28T04:59:22.938Z`, and succeeds. GitHub check `122640990636`, `Workers Builds: musclehacking-astro`, completes with conclusion `success`.
+
+The job reports 0 errors, 0 warnings and 6 existing hints across 141 checked files, then verifies 20 HTML files / 19 routes and uploads inactive version `18ac682d-0224-4639-aad4-013fc344f67f`. [Build](https://dash.cloudflare.com/da18a65e27f34f43051b853e509ef411/workers/services/view/musclehacking-astro/production/builds/c2b1b975-b732-45d9-ba52-37502a8abf72); [immutable preview](https://18ac682d-musclehacking-astro.jake-sacino.workers.dev/). The moving `migration-review` alias also updates. Raw evidence: `pre-approved-push-state.json`, `push-triggered-builds.json`, `pushed-build-status.json`, `pushed-build-logs.json`, `pushed-commit-checks.json`, `pushed-candidate-version.json`.
+
+The accepted optimisation output under `/tmp/musclehacking-astro-optimisations.uv5mzY/accepted-frozen/` first passes its full SHA-256 manifest. All 24 hosted static checks then match it: 23 byte-exact, with the calculator differing only in its generated Astro island UID. Redirects, custom 404s, immutable CSS, UTF-8 `llms.txt` and GET `/api/subscribe` rejection pass. No POST runs. Raw evidence: `pushed-hosted-output.json` and `pushed-hosted-http-contract.json`.
+
+The real browser confirms default calculator results `1733 / 176 / 57 / 129` and, after changing 80 to 90 kg, `1829 / 198 / 58 / 130`. Supplements Show All exposes 19 supplements plus the two information/reference links, with no 390-pixel overflow. Both inspected screenshots and the result are retained in `/Users/sacino/.dev-browser/tmp/mh-workers-builds-20261028-r3g8/push/`; its browser is closed and absent from the browser list.
+
+Final account readback still finds zero active deployments, custom domains and zone routes, disabled regular workers.dev access, enabled version previews and a complete exact match for every affected DNS field. Both unrelated lifecycle files retain their pre-push hashes. `pushed-final-resource-state.json` owns that result. Read-only widget metadata also confirms existing production/review hostname coverage and that the Keychain secret matches; no widget or credential write occurs (`production-widget-readback.json`).
+
+The source code now has local and focused hosted proof. Human hosted review remains pending before the candidate enters the final cutover packet. The target Worker has no provider/challenge secrets; completed real newsletter acceptance remains on the separate review Worker. The full hosted component-state matrix, rollback rehearsal, fresh hosted performance, private-repository rebuild and production cutover are not claimed by these focused checks.
