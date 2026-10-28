@@ -20,15 +20,16 @@ Wrangler deploys the candidate build directly to a review-only Worker in the per
 
 - Worker: `musclehacking-astro-preview`
 - URL: `https://musclehacking-astro-preview.webpop.workers.dev`
-- Active version: `8cb22fb7-b3d9-4a80-957c-fb98699d7108`, deployed at 100 percent on 22 October 2026. Its tag `13743d0be7de` and message identify hosted verification repair commit `13743d0be7de776895fc92edb51d6f0115846004`. Application inputs and all 140 public build files are identical to the component ownership release. The existing `TURNSTILE_SECRET_KEY` is retained; GetResponse secrets remain unset.
+- Active version: `df904b43-5cbd-4978-9b57-3020d20f9784`, deployed at 100 percent on 28 October 2026. This is a secrets-only copy of `8cb22fb7-b3d9-4a80-957c-fb98699d7108` (tested application commit `13743d0be7de776895fc92edb51d6f0115846004`). The Worker code ETag and assets binding are identical; no local application changes were uploaded. `GETRESPONSE_API_KEY` and `GETRESPONSE_CAMPAIGN_ID` are now secret bindings, alongside the retained Turnstile secret and preview origin. The human approved the existing `qwsfu` list and one recipient for acceptance. The real form succeeds in Ego Lite and redirects to `/one-last-step/`; email confirmation awaits access to the approved mailbox. See [newsletter acceptance](../evidence/newsletter_activation/acceptance.md).
+- Configuration rollback version: `8cb22fb7-b3d9-4a80-957c-fb98699d7108`, deployed 22 October 2026, has the same application without GetResponse credentials. Redeploying it disables provider delivery on the review Worker without rebuilding.
 - Previous active version: `f7dc2353-f422-4648-9709-5546b0ef25e8` (22 October 2026, initial timeout test repair commit `0723d86`). Earlier rollback: `3ff8509f-59b9-4d07-9e37-ea0b7aada8cf` (22 October 2026, component ownership commit `778bf99`), `796979bd-5ce6-4ac2-b67e-7f1e569e1139` (23 September 2026, commit `5b115b2` plus `TURNSTILE_SECRET_KEY`) and `7b471461-e0f3-4d8d-9bcc-5442c1480bf3` (5 September 2026, sitewide `og:locale`)
 - Superseded versions retained for rollback: `3e129585-482f-40a7-a9fc-232fee971f75` (4 September 2026), `fc27fbf7-b28e-46ba-9342-2f731fc3e641` (4 September 2026) and `88b47e15-e6fb-408a-8379-1b7997f67645` (1 September 2026)
 - Inactive legacy rollback version: `e9e4425e-eb64-493f-a05e-dfbf99a5a388`
 - Legacy version preview: `https://legacy-9bf25d0-musclehacking-astro-preview.webpop.workers.dev`
 - Release controller: direct Wrangler deployment, not Workers Builds or a Git integration
-- Bindings: Static Assets, the public preview origin and the existing Turnstile secret; no GetResponse credentials
+- Bindings: Static Assets, the public preview origin, `TURNSTILE_SECRET_KEY`, `GETRESPONSE_API_KEY`, and `GETRESPONSE_CAMPAIGN_ID`. Never print secret values.
 
-This Worker has no custom domains or production routes. It does not change DNS, GitHub settings, GitHub Pages, or the live site. The preview origin is allowed for same-origin newsletter validation. Missing or forged Turnstile tokens are rejected with `400`; GetResponse credentials remain absent, so successful newsletter delivery is unavailable.
+This Worker has no custom domains or production routes. It does not change DNS, GitHub settings, GitHub Pages, or the live site. The preview origin is allowed for same-origin newsletter validation. Missing or forged Turnstile tokens are rejected with `400`. Valid submissions now target the existing GetResponse list; automated browsing must never be used to add other recipients without explicit approval.
 
 The inactive legacy version contains the exact audited tree from commit `9bf25d0`. The rollback audit recorded `200` for its homepage and a representative article. The current review version above is active at 100 percent; this retained legacy version is a separate non-production rollback artefact.
 
@@ -55,6 +56,6 @@ CLOUDFLARE_ACCOUNT_ID=213ab3604485056376263d22fa242742 pnpm exec wrangler versio
   <version-id>@100% --name musclehacking-astro-preview
 ```
 
-## Unresolved production account access
+## Production account access and deployment boundary
 
-The configured global API key listed 57 zones across two accessible accounts, but `musclehacking.com` was absent. Public DNS still reports Cloudflare nameservers `jill.ns.cloudflare.com` and `ken.ns.cloudflare.com`, so the zone is in a different or inaccessible Cloudflare account. No production Worker, custom-domain binding, DNS change, or Builds project was created.
+The old missing-zone report is superseded. Read access to account `da18a65e27f34f43051b853e509ef411` and zone `325308665734cda0d51e001f336becca` is verified on 23 September and 28 October 2026. Production still uses GitHub Pages. The 28 October readback finds no production Worker and no Worker route on the zone. Workers Builds and the GitHub App connection remain unconfigured. No production write is authorised by the review newsletter activation.

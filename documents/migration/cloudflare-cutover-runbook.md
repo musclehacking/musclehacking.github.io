@@ -2,6 +2,12 @@
 
 Status: draft only. No cutover authority has been granted.
 
+## Current checkpoint - 28 October 2026
+
+The active isolated review version is `df904b43-5cbd-4978-9b57-3020d20f9784`. It is a secrets-only copy of the tested `8cb22fb7-b3d9-4a80-957c-fb98699d7108` version (application commit `13743d0`), with identical Worker code ETag and assets binding. GetResponse credentials and the existing `qwsfu` list are configured on this review Worker under the human's exact-recipient test approval. Real signup through Turnstile succeeds in Ego Lite and reaches `/one-last-step/`; mailbox delivery and completed confirmation remain unverified. [The newsletter acceptance record](../evidence/newsletter_activation/acceptance.md) owns that gate. Redeploying `8cb22fb7-b3d9-4a80-957c-fb98699d7108` restores the same review application without provider credentials.
+
+Production access is available. Read-only inspection on 28 October confirms that `www` still points to GitHub Pages, and the production account has no Worker or zone Worker route. No DNS, custom domain, GitHub visibility, or production Worker setting changed. The September before-state below must still be refreshed immediately before an approved write. No production candidate/legacy version pair, Workers Builds proof, final redirect decision, or executable approved packet exists yet. Earlier statements that the production account is inaccessible or that policy decisions remain wholly unresolved are superseded by the 23 September decisions and this checkpoint.
+
 ## Verified source state
 
 - Audited legacy commit: `9bf25d0`
@@ -10,7 +16,7 @@ Status: draft only. No cutover authority has been granted.
 - Candidate Worker source name: `musclehacking-astro`
 - Isolated review Worker: `musclehacking-astro-preview`
 - Isolated review URL: `https://musclehacking-astro-preview.webpop.workers.dev`
-- Isolated review version: `3e129585-482f-40a7-a9fc-232fee971f75` (deployed 4 September 2026; `fc27fbf7-b28e-46ba-9342-2f731fc3e641` and `88b47e15-e6fb-408a-8379-1b7997f67645` retained for rollback)
+- Isolated review version: `df904b43-5cbd-4978-9b57-3020d20f9784` (28 October secrets-only activation); configuration rollback: `8cb22fb7-b3d9-4a80-957c-fb98699d7108` (22 October tested build without GetResponse credentials). Older versions remain retained.
 - Isolated legacy rollback version: `e9e4425e-eb64-493f-a05e-dfbf99a5a388`
 - Isolated legacy version preview: `https://legacy-9bf25d0-musclehacking-astro-preview.webpop.workers.dev`
 - Production canonical: `https://www.musclehacking.com`

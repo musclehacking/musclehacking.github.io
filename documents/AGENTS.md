@@ -6,7 +6,7 @@ Keep project documents factual, concise, and usable without conversation history
 - Component reuse implementation plan: `documents/todo/component_reuse_plan.md`
 - Architecture decisions: `documents/architecture/`
 - Content and route policy: `documents/content/`
-- Testing: `documents/testing/`
+- Testing: `documents/testing/`; live newsletter submission browser choice and acceptance: `documents/testing/live-newsletter.md`
 - Cloudflare deployment, cutover, and rollback: `documents/migration/`
 - Active implementation plan: `documents/todo/astro_cloudflare_workers_migration_plan.md`
 - Completed content-authoring implementation record: `documents/todo/astro_content_authoring_plan.md`
