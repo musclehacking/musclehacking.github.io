@@ -24,6 +24,7 @@ Raw results are Git-ignored at `.artifacts/git_identity/20261028/`:
 - `after.json`: the same stale-hook replay returns Culpable for Bulma and Muscle Hacking for this checkout in both directory orders. All 57 top-level checkouts resolve to their intended GitHub account.
 - A fresh interactive zsh enters Muscle Hacking, Bulma, then Muscle Hacking again. Predicted authors follow repository configuration, and the shared global configuration hash remains unchanged.
 - `zsh -n /Users/sacino/.zshrc` passes. The SSH configuration hash and source HEAD remain unchanged across the fix.
+- A read-only `ssh -T git@github.com-musclehacking` check confirms authentication as `musclehacking`. GitHub's expected shell-access refusal returns exit 1 after the successful authentication message; it is not an authentication failure.
 - `zshrc.patch` and `gitconfig.patch` retain the reviewed machine-configuration diff. A private backup outside the repository retains the original files.
 
 Replay the effective-author check without creating commits:

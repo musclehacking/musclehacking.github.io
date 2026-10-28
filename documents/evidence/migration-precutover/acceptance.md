@@ -6,7 +6,21 @@ The user authorises repairing cross-project Git author isolation, then continuin
 
 Push-event build `fcb9f973-e673-40a9-aaa8-d7f36071a4ee` builds commit `3e4c65b419cade380f29b4cf7afd110b36964bfa`, including stylesheet correction `afced65`. Its pinned install, type check, build and distribution verification pass; GitHub's Workers Builds check succeeds. It uploads inactive version `6ced527c-7cc7-4cbe-9879-fdb954a6c9a2` in account `da18a65e27f34f43051b853e509ef411`, Worker `musclehacking-astro`. No upload command promotes a version.
 
-The subsequent `ffa2a76` commit records the other chat's hosted performance measurements and changes no application files. The source-specific local acceptance remains in `../performance-regressions/acceptance.md`: 183 unit tests, type/build/output and 31 accessibility checks pass; the full browser run passes 371 cases with two delivery assertions intentionally corrected, and both corrected assertions pass their focused run. All 60 document/viewport pixel comparisons retain identical pixels. This preparation does not claim a new full local-suite run.
+The subsequent `ffa2a76` commit records the other chat's hosted performance measurements and changes no application files. The source-specific local acceptance remains in `../performance-regressions/acceptance.md`: 183 unit tests, type/build/output and 31 accessibility checks pass. All 60 document/viewport pixel comparisons retain identical pixels. The final full browser run below supersedes its earlier two corrected delivery-assertion failures without claiming that the lifecycle wrapper exits successfully.
+
+## Final source and local browser acceptance
+
+At revision `8a3e7baad02965aae9d52fbedcbad9a489b3243f`, the build-first lifecycle command runs all 398 browser cases against its own current-code preview:
+
+```bash
+PATH=/Users/sacino/.nvm/versions/node/v22.23.4/bin:$PATH MUSCLEHACKING_PREVIEW_PORT=8812 /Users/sacino/musclehacking/scripts/run-e2e-local.sh --workers=3
+```
+
+Expected: no failed browser case and complete owned-runtime cleanup. Actual: 373 passed, 25 existing skips, zero failed cases in 1.2 minutes. The wrapper exits 1 after the passing report and leaves its lease. Every leased PID is independently absent and port 8812 has no listener. The owned stale lock and runtime directory are moved to Trash only after those checks. This is consistent with the previously recorded cleanup process-check race; the exact failing `ps` read is not traced. No app, test or lifecycle code is changed to hide the result. The browser assertions pass; the wrapper command does not. Repair of the existing lifecycle race remains separate tooling work.
+
+Raw output: `.artifacts/migration-continuation/20261028/final-full-e2e.log`; cleanup proof: `final-full-e2e-cleanup.json`. Replaying the command above checks the same observable routes and interactions with a newly owned preview.
+
+Cloudflare's first build of `8a3e7ba`, `39c4be06`, fails while fetching the repository, before compilation. GitHub's commit API and SSH remote both serve that exact SHA. One manual retry, `0e1044d3-4efa-4a37-a742-b1450665726b`, succeeds, and GitHub's check reports success. It uploads inactive version `df7460fb-699d-46b6-b37c-e459274a8e50`, retaining all three approved secret binding names. This documentation-only build does not replace the pinned appearance review or prepared release. The original failed fetch log and successful retry are retained separately.
 
 ## Hosted acceptance
 

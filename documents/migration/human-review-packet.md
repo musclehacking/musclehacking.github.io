@@ -30,7 +30,7 @@ This earlier build's `18ac682d` appearance links are superseded by the refreshed
 | POL-04 | Keep the `archive.org_bot` and `ia_archiver` exclusions. | None. |
 | POL-05 | No page analytics. Use Cloudflare's built-in zone traffic analytics only. | None: no script, cookie, or CSP change. |
 | POL-06 | Cloudflare access: `jake.sacino@gmail.com` was invited to the zone's account. | Verified read access to zone `325308665734cda0d51e001f336becca` in account `da18a65e27f34f43051b853e509ef411` (Free plan, active). |
-| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay (`https://dev.musclehacking.com/subscription-handler.php`, which forwarded to GetResponse) with the Cloudflare Worker. | `/api/subscribe` verifies an invisible Turnstile token and calls GetResponse directly. On 28 October, real signup, email delivery, completed confirmation, day-0 enrolment and duplicate handling all pass against the explicitly approved existing list. Eventual production credentials still need configuration before cutover. |
+| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay (`https://dev.musclehacking.com/subscription-handler.php`, which forwarded to GetResponse) with the Cloudflare Worker. | `/api/subscribe` verifies an invisible Turnstile token and calls GetResponse directly. On 28 October, real signup, email delivery, completed confirmation, day-0 enrolment and duplicate handling all pass against the explicitly approved existing list. Approved credentials are now prepared on inactive version `159edb5c`; no production submission or promotion occurs. |
 
 ## Decisions still open
 
