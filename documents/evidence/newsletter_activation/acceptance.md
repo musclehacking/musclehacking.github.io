@@ -4,7 +4,9 @@
 
 The review Worker now has the recovered GetResponse credentials and verified existing list `qwsfu` (`musclehacking`, API double opt-in). The human explicitly approves the existing list and one named recipient in this chat, overriding the usual separate-list rule for this run. No other contacts or list settings are changed. The complete recipient address, credentials and confirmation URLs are excluded from this committed record.
 
-**Real signup passes:** the user-selected Ego Lite browser submits the visible `/join/` form with the real Turnstile widget and reaches `/one-last-step/`. Email delivery, completed confirmation, and autoresponder-day readback remain pending because the recipient's Microsoft 365 mailbox requires sign-in. The exact-recipient API query returns zero confirmed contacts before and after the submission; this does not expose or disprove a pending confirmation.
+**Newsletter acceptance passes:** Ego Lite submits the visible `/join/` form with real Turnstile and reaches `/one-last-step/`. The user supplies a screenshot of the delivered GetResponse confirmation email. The task follows that email's confirmation link in Ego Lite and observes GetResponse's confirmed-subscription page. An exact-recipient API readback then returns one confirmed contact on `qwsfu`, origin `api`, autoresponder day `0`. A second real form submission for the same confirmed recipient returns the normal success destination and leaves exactly one contact.
+
+The initial exact-recipient readbacks return zero confirmed contacts while confirmation is pending. The transition to one confirmed contact is observed only after following the email link. The original screenshot includes a bearer confirmation URL, so it is neither copied into Git nor reproduced in this record.
 
 This is a runtime-configuration and documentation change. No application code, build output, production website, DNS, repository visibility, WPX file, or unrelated local change is deployed or edited by this task.
 
@@ -32,7 +34,10 @@ Raw results: `/Users/sacino/musclehacking/.artifacts/newsletter_activation/20261
 | `ego-browser nodejs`, task space 28, page `p1` | Real visible form submission reaches confirmation page | Pass; reaches `/one-last-step/`. The response event stream does not retain an independently measured status; the route source defines its success redirect as 303 | `ego-signup.json`; browser `final/ego-signup-redirect.png`, inspected |
 | Hosted GET / missing token / forged token / bot-trap / malformed email | 405 / 400 / 400 / 400 / 400, with safe errors | Pass; method advertises `Allow: POST`; API errors use `no-store` | `failure-contracts.json` |
 | Disallowed Origin | Rejected before provider call | Pass; Cloudflare edge returns 403 before an application error body | `failure-contracts.json` |
-| `python3 .../secure_ops.py contact` | Confirmed membership after email link is followed | Pending; zero confirmed matches while mailbox sign-in is unavailable | `provider-after.json` |
+| Confirmation email and Ego Lite confirmation navigation | Email reaches approved recipient; link confirms the same list | Pass; user-supplied delivery screenshot, followed by GetResponse's confirmed-subscription page | `confirmation-result.json`; browser `final/getresponse-confirmed.png`, inspected |
+| `python3 .../secure_ops.py contact` | Exactly one confirmed member on the existing list, day 0 | Pass; one matching contact, origin `api`, `dayOfCycle: "0"` | `provider-confirmed.json` |
+| Second real Ego Lite form submission and exact-recipient API readback | Safe success for an existing subscriber without a second contact | Pass; `/one-last-step/`, still exactly one matching contact, day 0 | `duplicate-result.json`, `provider-after-duplicate.json` |
+| `pnpm --dir /Users/sacino/musclehacking exec vitest run tests/unit/newsletter.test.ts tests/unit/newsletter-request-body.test.ts` | Existing isolated provider, challenge and body-boundary cases pass | Pass; 39 tests in two files | `focused-unit-result.json` |
 | Production read-only check | Production still on GitHub Pages | Pass; www CNAME still targets GitHub Pages, production Worker list and zone Worker routes remain empty | `production-readonly.json` |
 
 The unchanged application's October full-suite evidence remains in `documents/evidence/component_reuse/acceptance.md`. This task does not rebuild or run a local suite against the unrelated concurrently edited worktree. Its new verification observes the exact deployed version, live challenge, form submission, failure paths and provider readback instead.
@@ -43,16 +48,16 @@ The first browser failure is a verification-environment mismatch: real Turnstile
 
 A separate Ego tooling error is a stale snapshot ref after enabling CDP, which invalidates refs. No signup occurs on that failed command. A fresh snapshot plus the page's existing CSS locators resolves it.
 
-The headless task browser is closed and absent from `dev-browser browsers`. Ego Lite space 28 is handed to the user at page `p2` for Microsoft 365 sign-in. Do not close or operate that handed-off space until the user returns control. No local server is started.
+The headless task browser is closed and absent from `dev-browser browsers`. Ego Lite space 28 is initially handed to the user for mailbox sign-in. The user instead supplies the delivered email screenshot and instructs the task to proceed. The task resumes that same space, follows the supplied confirmation link without retaining it, completes the duplicate check, then calls `finish({ keep: [] })` successfully. No local server is started.
 
-## Remaining acceptance and replay
+## Completed acceptance and replay
 
-After the user signs in, resume the same Ego space, read only the relevant confirmation email, follow its subscription-confirmation link, then run the exact-recipient contact readback. Record confirmed membership and day-of-cycle without retaining the address or confirmation URL. Avoid another signup while the current request is awaiting confirmation.
+Live delivery, confirmation, confirmed membership, day-0 state and duplicate handling are now verified for the one approved recipient. Do not repeat a live signup as a routine regression: obtain exact-recipient approval for a new live test, and use isolated provider/challenge fixtures for ordinary checks. The existing contact is retained as the user requested; it is not removed as test cleanup.
 
 Keep the candidate's existing differences visible for final cutover review: duplicate code `1008` is treated as success to avoid revealing membership, and the visitor IP is passed to GetResponse. Neither the legacy reCAPTCHA form nor this candidate can succeed without JavaScript; the tested safe missing-token rejection preserves that behaviour.
 
 ## Excluded edge cases
 
-- Duplicate-after-confirmation and autoresponder delivery: await confirmed membership before exercising these with the same approved recipient.
+- Delivery of a later autoresponder message: day-0 enrolment is verified, but no later marketing email or campaign schedule is exercised.
 - Expired/replayed real tokens and live provider failures/timeouts: existing isolated coverage remains; no live provider setting or credential is damaged to induce failures.
 - Production-host submission, DNS/TLS switch, production rollback and repository privacy: remain behind the exact cutover approval gate.

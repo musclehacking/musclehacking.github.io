@@ -1,10 +1,10 @@
 # Human review packet
 
-Status: content and policy decisions recorded 23 September 2026. Newsletter credentials and real form submission work on the review Worker as of 28 October. Email confirmation, final hosted acceptance, and cutover approval remain.
+Status: content and policy decisions recorded 23 September 2026. Newsletter acceptance passes on the review Worker as of 28 October, including email delivery and completed confirmation. Final hosted acceptance and cutover approval remain.
 
 ## Current newsletter checkpoint - 28 October 2026
 
-The WPX discovery confirms the existing list `qwsfu`, a working API key, and GetResponse-managed email confirmation. The human explicitly authorises one named recipient on that existing list. Review version `df904b43-5cbd-4978-9b57-3020d20f9784` now carries the provider secrets and unchanged tested application code. Turnstile rejects the task's headless browser with `600010` before any signup POST; the real form subsequently succeeds in the user-selected Ego Lite browser and redirects to `/one-last-step/`. Email delivery, completed confirmation and autoresponder-day readback await mailbox access. The account/list discovery, credentials and real-form submission blockers are resolved. [Acceptance evidence](../evidence/newsletter_activation/acceptance.md) owns the current result; older version IDs and missing-credential statements below are historical.
+The WPX discovery confirms the existing list `qwsfu`, a working API key, and GetResponse-managed email confirmation. The human explicitly authorises one named recipient on that existing list. Review version `df904b43-5cbd-4978-9b57-3020d20f9784` carries the provider secrets and unchanged tested application code. Ego Lite proves the real Turnstile form, success destination and safe duplicate outcome. The user supplies the delivered confirmation email; following its link in Ego Lite confirms membership. GetResponse then shows exactly one confirmed contact, API origin and autoresponder day 0. All newsletter discovery, configuration and acceptance blockers are resolved for this review version. [Acceptance evidence](../evidence/newsletter_activation/acceptance.md) owns the current result; older version IDs and missing-credential statements below are historical.
 
 ## Content and policy decisions recorded - 23 September 2026
 
@@ -16,7 +16,7 @@ The WPX discovery confirms the existing list `qwsfu`, a working API key, and Get
 | POL-04 | Keep the `archive.org_bot` and `ia_archiver` exclusions. | None. |
 | POL-05 | No page analytics. Use Cloudflare's built-in zone traffic analytics only. | None: no script, cookie, or CSP change. |
 | POL-06 | Cloudflare access: `jake.sacino@gmail.com` was invited to the zone's account. | Verified read access to zone `325308665734cda0d51e001f336becca` in account `da18a65e27f34f43051b853e509ef411` (Free plan, active). |
-| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay (`https://dev.musclehacking.com/subscription-handler.php`, which forwarded to GetResponse) with the Cloudflare Worker. | `/api/subscribe` verifies an invisible Turnstile token and calls GetResponse directly. On 28 October the existing list `qwsfu` and API double opt-in are verified; provider credentials are configured on the review Worker with explicit existing-list test approval. Real-browser delivery/confirmation and eventual production credentials remain pending. |
+| POL-07 | Replace reCAPTCHA with **Turnstile**. Replace the hosted PHP relay (`https://dev.musclehacking.com/subscription-handler.php`, which forwarded to GetResponse) with the Cloudflare Worker. | `/api/subscribe` verifies an invisible Turnstile token and calls GetResponse directly. On 28 October, real signup, email delivery, completed confirmation, day-0 enrolment and duplicate handling all pass against the explicitly approved existing list. Eventual production credentials still need configuration before cutover. |
 
 ## Decisions still open
 

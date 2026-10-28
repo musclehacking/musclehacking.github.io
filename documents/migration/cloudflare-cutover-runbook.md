@@ -4,9 +4,11 @@ Status: draft only. No cutover authority has been granted.
 
 ## Current checkpoint - 28 October 2026
 
-The active isolated review version is `df904b43-5cbd-4978-9b57-3020d20f9784`. It is a secrets-only copy of the tested `8cb22fb7-b3d9-4a80-957c-fb98699d7108` version (application commit `13743d0`), with identical Worker code ETag and assets binding. GetResponse credentials and the existing `qwsfu` list are configured on this review Worker under the human's exact-recipient test approval. Real signup through Turnstile succeeds in Ego Lite and reaches `/one-last-step/`; mailbox delivery and completed confirmation remain unverified. [The newsletter acceptance record](../evidence/newsletter_activation/acceptance.md) owns that gate. Redeploying `8cb22fb7-b3d9-4a80-957c-fb98699d7108` restores the same review application without provider credentials.
+The active isolated review version is `df904b43-5cbd-4978-9b57-3020d20f9784`. It is a secrets-only copy of the tested `8cb22fb7-b3d9-4a80-957c-fb98699d7108` version (application commit `13743d0`), with identical Worker code ETag and assets binding. Under the human's exact-recipient approval, real Turnstile signup, success redirect, email delivery, completed confirmation, day-0 enrolment and duplicate handling now pass against the existing `qwsfu` list. [The newsletter acceptance record](../evidence/newsletter_activation/acceptance.md) owns that completed gate. Redeploying `8cb22fb7-b3d9-4a80-957c-fb98699d7108` restores the same review application without provider credentials.
 
 Production access is available. Read-only inspection on 28 October confirms that `www` still points to GitHub Pages, and the production account has no Worker or zone Worker route. No DNS, custom domain, GitHub visibility, or production Worker setting changed. The September before-state below must still be refreshed immediately before an approved write. No production candidate/legacy version pair, Workers Builds proof, final redirect decision, or executable approved packet exists yet. Earlier statements that the production account is inaccessible or that policy decisions remain wholly unresolved are superseded by the 23 September decisions and this checkpoint.
+
+The complete five affected DNS records are re-read on 28 October after newsletter confirmation and compared with the full JSON snapshot below. Every returned field and record ID matches exactly; no before-state field is reconstructed from public DNS. The current production custom-domain list is also empty. This refresh supports preparation only; re-query again immediately before an approved write and stop on drift.
 
 ## Verified source state
 
@@ -227,8 +229,8 @@ Rule `4e0a9ac3…` is active but has no effect today, because page rules apply o
 
 This draft is for review. It needs an approved candidate version and a completed newsletter test before it can become the approval packet.
 
-1. Create Worker `musclehacking` in account `da18a65e…` from the approved commit, with `workers_dev` off. Record its version ID.
-2. Delete CNAME `49a112e934ad8c7deed7924c764c0c3e` (`www` → `musclehacking.github.io`), then attach the Workers Custom Domain `www.musclehacking.com` to Worker `musclehacking`. Cloudflare creates the proxied record and certificate.
+1. Create Worker `musclehacking-astro` in account `da18a65e27f34f43051b853e509ef411` from the approved commit, with `workers_dev` off. This matches the source Wrangler name. Record its version ID.
+2. Delete CNAME `49a112e934ad8c7deed7924c764c0c3e` (`www` → `musclehacking.github.io`), then attach the Workers Custom Domain `www.musclehacking.com` to Worker `musclehacking-astro`. Cloudflare creates the proxied record and certificate.
 3. Change the four apex A records (`d6309731…`, `713320b1…`, `e856dbc9…`, `c954edff…`) to `proxied: true`. Page rule `4e0a9ac3…` then returns `301` from `https://musclehacking.com/*` to `https://www.musclehacking.com/$1` at the edge. Plain `http://musclehacking.com/*` still reaches GitHub Pages, which redirects to `https://www.musclehacking.com` (a second hop). Decide before approval whether to add a matching `http://` rule instead.
 
 Inverse, in reverse order:

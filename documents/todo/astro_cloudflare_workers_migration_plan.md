@@ -221,7 +221,7 @@ The correction must compare those local sources directly, isolate the specific t
 - [x] All existing route, redirect, status, canonical, and internal-link assertions pass.
 - [x] Standard, LeanGains, keto, metric, imperial, and boundary calculator fixtures pass exactly.
 - [x] Every supplement category produces the recorded visible set and order.
-- [ ] Newsletter success, validation, anti-abuse, provider failure, timeout, and no-JavaScript flows pass.
+- [x] Newsletter success, validation, anti-abuse, provider failure, timeout, and safe no-JavaScript rejection pass. Live acceptance on 28 October proves delivery, completed confirmation, day-0 enrolment and duplicate handling; provider fault cases retain isolated coverage.
 - [x] Unknown HTML routes return the custom body with status `404`.
 
 **Defaults and fallbacks:**
@@ -488,7 +488,7 @@ The human selected parity plus verified fixes, a Cloudflare Worker newsletter en
 - Every floating-rail tooltip uses the production bouncy entrance, with matched direction, overshoot, easing, duration, arrow orientation, final placement, and label.
 - The supplement filter and badge style matrix matches the live computed values within the recorded tolerance at desktop and mobile widths.
 
-### Step 8: Move Newsletter Submission to a Narrow Cloudflare Worker Endpoint 🧪 **PENDING TESTING**
+### ~~Step 8: Move Newsletter Submission to a Narrow Cloudflare Worker Endpoint~~ ✅ **COMPLETED**
 
 **28 October 2026 activation checkpoint:** WPX source discovery confirms GetResponse campaign `qwsfu` (`musclehacking`) and API double opt-in. The API key is recoverable through the approved SFTP wrapper without printing it or retaining a local copy. The human explicitly authorises the existing list and one named recipient in this chat, overriding the isolated-list rule for this acceptance run only. The complete address stays out of committed records. No other subscriber mutation, production website deployment, DNS change, or WPX retirement is authorised.
 
@@ -498,13 +498,14 @@ Activation checklist:
 - [x] Verify the exact review Worker, current version, bindings, and existing-list settings.
 - [x] Attach GetResponse credentials to a copy of the deployed review version without including concurrent local application changes.
 - [x] Submit the approved recipient through real Turnstile in Ego Lite and observe the redirect to `/one-last-step/`.
-- [ ] Verify confirmation delivery, confirmed membership, and day-0 state where observable.
+- [x] Verify confirmation delivery, confirmed membership and day-0 state. The user supplies the delivered email; Ego Lite follows its link, and GetResponse shows one confirmed contact, origin `api`, day `0`.
+- [x] Submit the same confirmed address again through real Turnstile; observe the normal success destination and still exactly one contact.
 - [x] Check missing/forged tokens, malformed email, bot-trap fields, GET and disallowed origin without creating other contacts or changing list settings.
 - [x] Record redacted evidence, remaining gates, and rollback; close the headless task browser.
 - [x] Prepare and review the scoped documentation commit, including the pending acceptance state.
-- [ ] Finish Ego Lite space 28 after the mailbox confirmation check. The space is currently handed to the user for sign-in.
+- [x] Finish Ego Lite space 28 after confirmation and duplicate checks, with no kept pages. No mailbox sign-in is needed because the user provides the delivered confirmation email screenshot.
 
-The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnstile rejects it with `600010` before any form POST. The human explicitly selects Ego Lite for this and future live submission tests; `documents/testing/live-newsletter.md` owns that preference. Ego Lite space 28, page `p1`, successfully submits the real form and reaches `/one-last-step/`; page `p2` is used only to locate the approved recipient's mailbox. Raw evidence remains Git-ignored under `.artifacts/newsletter_activation/20261028-a61f/`. The active review version is `df904b43-5cbd-4978-9b57-3020d20f9784`, with unchanged Worker code and assets. The plan remains in progress; email confirmation acceptance remains pending.
+The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnstile rejects it with `600010` before any form POST. The human explicitly selects Ego Lite for this and future live submission tests; `documents/testing/live-newsletter.md` owns that preference. Ego Lite space 28 proves real signup, completed email confirmation and duplicate handling, then finishes with no kept pages. Exact-recipient readback changes from zero to one confirmed contact after following the email link, with API origin and autoresponder day `0`; duplicate submission leaves the same one contact. All 39 existing focused newsletter tests pass. Raw evidence remains Git-ignored under `.artifacts/newsletter_activation/20261028-a61f/`. The active review version is `df904b43-5cbd-4978-9b57-3020d20f9784`, with unchanged Worker code and assets. Step 8 is complete; the overall migration remains in progress.
 
 **23 September 2026, historical:** the provider is GetResponse, called directly from the Worker, and the challenge is invisible Cloudflare Turnstile (POL-07). The code, widget, unit tests, and hermetic browser tests are in place. The missing-key/list blocker is resolved by the 28 October activation checkpoint above.
 
@@ -524,7 +525,7 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 **Success criteria:**
 
 - GET, HEAD, PUT, PATCH, and DELETE return `405` with `Allow: POST`.
-- Valid preview submissions reach only the approved sandbox or test destination and return `303 Location: /one-last-step/`.
+- Valid preview submissions reach only the approved destination and return `303 Location: /one-last-step/`. The human explicitly approves the existing list and one recipient for the 28 October acceptance run instead of a sandbox.
 - Missing, malformed, oversized, unexpected, cross-origin, honeypot, challenge-failure, repeated, provider-timeout, and provider-error cases return the documented safe response without a provider call where prohibited.
 - The built site and browser output contain no secret, full test email, provider token, or private error detail.
 - Without JavaScript the native POST fails safely without a challenge token; the enhanced failure state is announced and focused correctly. The 28 October hosted PHP discovery proves legacy reCAPTCHA also required JavaScript, so the earlier requirement for successful no-JavaScript signup exceeded the compatibility goal. No anti-bot bypass is added.
@@ -590,7 +591,7 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 
 ### Step 11: Complete Human Content and Policy Review 🔄 **IN PROGRESS**
 
-**23 September 2026:** identity, structured data, page set, canonicals, the calculator-guide 301, crawler policy, analytics, and Cloudflare access are decided and applied (POL-01 to POL-06 in `documents/migration/human-review-packet.md`). The Turnstile and GetResponse newsletter change (POL-07) and the visible contact-email question remain.
+**Current checkpoint:** identity, structured data, page set, canonicals, the calculator-guide 301, crawler policy, analytics and Cloudflare access are decided and applied. POL-07's Turnstile/GetResponse flow passes live acceptance on 28 October. The visible contact-email question and final hosted visual acceptance remain in `documents/migration/human-review-packet.md`.
 
 **Objective:** Resolve facts that code and public source inspection cannot authoritatively decide.
 
@@ -607,7 +608,11 @@ The task's headless browser `mh-newsletter-20261028-a61f` is closed after Turnst
 - Every approved fact has one named source file and one documented owner.
 - The rebuilt output and tests reflect the approved packet with no generated-file edits.
 
-### Step 12: Configure Cloudflare Workers Builds and Prove Hosted Preview Parity 🧪 **PENDING TESTING**
+### Step 12: Configure Cloudflare Workers Builds and Prove Hosted Preview Parity 🔄 **IN PROGRESS**
+
+**28 October checkpoint:** isolated hosted parity and real newsletter acceptance pass on review version `df904b43`. Production Workers Builds is not configured, so this step requires implementation rather than only testing. GitHub source IDs are verified (`musclehacking`, user `11622858`, repository `135702228`). A targeted repository-connection request to production account `da18a65e27f34f43051b853e509ef411` is rejected with Cloudflare code `8000008`: the project is disconnected from its Git account. No connection, trigger, build token or production Worker is created by that request. The current account has zero build tokens. The next operation is the one-time GitHub App authorisation for this exact repository; never add a promoting trigger before cutover approval.
+
+Ego Lite space 29 is open on the exact target account's Connect GitHub flow and handed to the user at page `p2`, GitHub "Confirm access" for installation `155220779`. The current GitHub session is `@Culpable`; the source owner is `@musclehacking`. After the user re-authenticates, verify that selected-repository access actually includes `musclehacking/musclehacking.github.io`; switch account if needed. Do not operate the handed-off space before the user returns control. No Deploy button is clicked and no production application is created.
 
 **Objective:** Reproduce the site on Cloudflare without sending production traffic to it.
 
@@ -1392,7 +1397,8 @@ No visual redesign, copy refresh, route normalisation, new animation system, or 
 
 - Updated `documents/todo/astro_cloudflare_workers_migration_plan.md`, `documents/migration/cloudflare-builds.md`, `documents/migration/cloudflare-cutover-runbook.md`, `documents/migration/human-review-packet.md` and `documents/migration/secrets.md` with recovered list identity, exact-recipient approval, active/rollback review versions, secure configuration procedure and current acceptance gaps.
 - Added `documents/testing/live-newsletter.md` as the single owner of the user's Ego Lite preference for live submission tests; routed it from `documents/AGENTS.md`.
-- Added `documents/evidence/newsletter_activation/acceptance.md` with commands, revisions, runtime/version proof, safe failure results, actual Ego Lite signup success, redacted raw-output paths and mailbox-access blocker.
+- Added `documents/evidence/newsletter_activation/acceptance.md` with commands, revisions, runtime/version proof, safe failure results, successful Ego Lite signup/confirmation/duplicate checks and redacted raw-output paths. The earlier mailbox-access blocker is resolved by the user's delivered email screenshot.
 - Activated GetResponse secret bindings only on a copy of the deployed review build; code ETag, assets binding and five representative hosted page hashes remain identical. No source, cache policy, UI, production hosting or DNS change is made.
 - Verification passes for real Turnstile form submission in Ego Lite, `/one-last-step/` destination, method rejection, missing/forged challenge tokens, malformed email, bot-trap rejection, disallowed Origin, and exact-target Cloudflare/GetResponse readback. The headless challenge rejection is classified as an environment mismatch, not patched around.
-- Email delivery, completed confirmation and day-0 readback remain pending recipient-mailbox sign-in. Duplicate-after-confirmation, real token expiry/replay, and live provider failures/timeouts are excluded from this checkpoint; isolated coverage remains. Production-host submission and infrastructure changes remain behind exact cutover approval.
+- Email delivery, completed confirmation, day-0 enrolment and duplicate-after-confirmation all pass for the exact approved recipient. The existing isolated provider/challenge/body tests also pass (39 cases). Later autoresponder-message delivery, real token expiry/replay and live provider fault injection remain excluded; isolated coverage remains. Production-host submission and infrastructure changes remain behind exact cutover approval.
+- Refreshed the complete affected DNS records through the authoritative API after confirmation: all five records and every returned field exactly match the saved before-state. The production account still has no Worker, domain or zone Worker route. Verified source IDs and attempted only a non-deploying repository connection; Cloudflare rejects it with `8000008` pending GitHub App authorisation. No production source or build token is uploaded. Prepared the exact Connect GitHub flow in Ego Lite space 29 and handed its re-authentication prompt to the user.
