@@ -4,7 +4,7 @@
 
 The CSP denies objects and framing, restricts the base URI and form target, and keeps `script-src` free of `unsafe-inline`. `scripts/finalize-headers.mjs` hashes Astro's emitted inline scripts after every build. `scripts/verify-dist.mjs` confirms that every inline script has an allowed hash.
 
-`style-src 'unsafe-inline'` is required by Astro's small inlined styles and existing style attributes. `build.inlineStylesheets: 'auto'` and the explicit 4096-byte inlining limit keep larger stylesheets cacheable and retain the existing script/hash policy. `/llms.txt` has an explicit UTF-8 plain-text header at the Static Assets boundary.
+`style-src 'unsafe-inline'` is required by Astro's island wrapper style and existing style attributes. `build.inlineStylesheets: 'never'` keeps bundled stylesheets external after repeated mobile controls found a homepage image-paint cost from small-style inlining. The explicit 4096-byte asset inlining limit retains the existing script/hash policy; it does not override the stylesheet setting. `/llms.txt` has an explicit UTF-8 plain-text header at the Static Assets boundary.
 
 Fingerprint-named assets use long immutable caching. HTML, 404, feed, sitemap, robots, and `llms.txt` remain revalidatable. HSTS is intentionally absent until both production hosts and the separate `dev.musclehacking.com` service are reviewed.
 

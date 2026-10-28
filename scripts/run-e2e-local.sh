@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PREVIEW_PORT="${MUSCLEHACKING_PREVIEW_PORT:-8787}"
+FROZEN_CLIENT="${MUSCLEHACKING_FROZEN_CLIENT:-}"
 PREVIEW_URL="http://127.0.0.1:${PREVIEW_PORT}/"
 LOCK_DIR="/tmp/musclehacking-e2e-${PREVIEW_PORT}.lock"
 RUNTIME_DIR=""
@@ -18,7 +19,9 @@ usage() {
     'Usage: ./scripts/run-e2e-local.sh [Playwright arguments]' \
     '' \
     'Builds the site, starts one task-owned Wrangler preview, runs the E2E suite,' \
-    'and gracefully stops the preview on success, failure, or interruption.'
+    'and gracefully stops the preview on success, failure, or interruption.' \
+    'For frozen public-page measurements, MUSCLEHACKING_FROZEN_CLIENT selects an' \
+    'absolute built client directory and skips rebuilding it. Requires an existing Worker build.'
 }
 
 require_command() {
@@ -186,6 +189,19 @@ if [ "${ACTUAL_NODE_VERSION}" != "${EXPECTED_NODE_VERSION}" ]; then
   exit 1
 fi
 
+if [ -n "${FROZEN_CLIENT}" ]; then
+  case "${FROZEN_CLIENT}" in
+    /*) ;;
+    *) printf 'Frozen client directory must be absolute.\n' >&2; exit 1 ;;
+  esac
+  for required_file in index.html _headers _redirects; do
+    if [ ! -f "${FROZEN_CLIENT}/${required_file}" ]; then
+      printf 'Frozen client is missing %s.\n' "${required_file}" >&2
+      exit 1
+    fi
+  done
+fi
+
 if ! mkdir "${LOCK_DIR}" 2>/dev/null; then
   printf 'Another local E2E lifecycle owns %s. Do not start a second preview.\n' \
     "${LOCK_DIR}" >&2
@@ -213,11 +229,18 @@ LOG_FILE="${RUNTIME_DIR}/wrangler.log"
 NODE_BIN_DIR="$(dirname "$(command -v node)")"
 PNPM_BIN="$(command -v pnpm)"
 
-/usr/bin/env PATH="${NODE_BIN_DIR}:${PATH}" \
-  "${PNPM_BIN}" --dir "${REPO_ROOT}" build
+WRANGLER_ARGS=(dev --port "${PREVIEW_PORT}")
+if [ -n "${FROZEN_CLIENT}" ]; then
+  # Override only public static assets. The existing Worker still owns /api/subscribe;
+  # frozen comparisons never submit forms or exercise that request-time handler.
+  WRANGLER_ARGS+=(--assets "${FROZEN_CLIENT}")
+else
+  /usr/bin/env PATH="${NODE_BIN_DIR}:${PATH}" \
+    "${PNPM_BIN}" --dir "${REPO_ROOT}" build
+fi
 
 /usr/bin/env PATH="${NODE_BIN_DIR}:${PATH}" \
-  "${PNPM_BIN}" --dir "${REPO_ROOT}" exec wrangler dev --port "${PREVIEW_PORT}" \
+  "${PNPM_BIN}" --dir "${REPO_ROOT}" exec wrangler "${WRANGLER_ARGS[@]}" \
   > "${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
 SERVER_START="$(ps -p "${SERVER_PID}" -o lstart= | sed 's/^[[:space:]]*//')"
@@ -230,7 +253,10 @@ SERVER_START="$(ps -p "${SERVER_PID}" -o lstart= | sed 's/^[[:space:]]*//')"
   printf 'controller_start=%s\n' "${CONTROLLER_START}"
   printf 'port=%s\n' "${PREVIEW_PORT}"
   printf 'node=%s\n' "${ACTUAL_NODE_VERSION}"
-  printf 'command=pnpm exec wrangler dev --port %s\n' "${PREVIEW_PORT}"
+  printf 'command=pnpm exec wrangler'
+  printf ' %q' "${WRANGLER_ARGS[@]}"
+  printf '\n'
+  printf 'frozen_client=%s\n' "${FROZEN_CLIENT}"
 } > "${LOCK_DIR}/lease"
 chmod 600 "${LOCK_DIR}/lease"
 

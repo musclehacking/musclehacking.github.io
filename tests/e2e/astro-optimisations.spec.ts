@@ -11,12 +11,16 @@ test('a keyboard reader can skip repeated navigation and reach the main content'
   await expect(page.getByRole('main')).toBeFocused();
 });
 
-test('the production document avoids separate requests for small stylesheets', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('head link[rel="stylesheet"]')).toHaveCount(1);
-  expect(await page.locator('head style').count()).toBeGreaterThan(0);
-  await expect(page.locator('h1')).toBeVisible();
-  expect(await page.locator('h1').evaluate((heading) => getComputedStyle(heading).fontFamily)).toContain('muscle2');
+test.describe('static homepage', () => {
+  // Delivery policy follows measured loading, rather than a fixed request count.
+  test.use({ javaScriptEnabled: false });
+  test('the production homepage retains its typography without JavaScript', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.locator('h1')).toBeVisible();
+    expect(await page.locator('h1').evaluate((heading) => getComputedStyle(heading).fontFamily)).toContain('muscle2');
+    expect(await page.evaluate(() => document.fonts.check('20px muscle2'))).toBe(true);
+  });
 });
 
 test('article videos defer their provider requests until near the reading position', async ({ page }) => {

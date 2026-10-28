@@ -28,6 +28,18 @@ The wrapper builds first, starts one task-owned `wrangler dev` on `127.0.0.1:878
 
 Do not pre-start `wrangler dev`, do not run `pnpm test:e2e` directly against a manually started preview, and do not use `astro preview`. `documents/testing/local-runtime-lifecycle.md` owns the full lifecycle and ownership rules, including what to inspect when the wrapper reports incomplete cleanup.
 
+## Explain performance changes
+
+Local before-and-after investigations use **three scoring runs per page and device**, plus three mobile runs with actual DevTools throttling. Report the arithmetic average of each score and metric, all three values, the median and the min-max range. Do not recalculate a score from averaged metrics or combine different throttling profiles.
+
+Freeze the original and candidate client builds with hash manifests outside Git before measuring. Use the lifecycle wrapper's frozen-client mode on separate owned ports. Verify both the on-disk manifests and served HTML/CSS/JavaScript hashes. Pass both builds to one Lighthouse batch with the shared `/tmp/codex-lighthouse-host.lock`, so they share a calibration and rotate run order. Do not build, run other test suites or operate the browser during that local batch.
+
+A score alone is not a diagnosis. Compare its weighted metrics first, then inspect the largest contentful paint element, image/font bytes and priorities, resource completion times, dependency waves, stylesheet requests, JavaScript execution, main-thread work, long tasks and layout shifts. A simulated paint estimate can change when a neighbouring image finishes either side of the observed paint; compare the actual-throttling results before treating that estimate as a visitor regression.
+
+When a regression repeats outside its run-to-run range, compare the candidate with one suspected change removed, in the same batch. Keep the rest identical, including headers and assets. Name what the control changes and confirm it still renders and operates normally. Credit an improvement to that change only when its control supports the claim. Reject a score-only improvement that makes actual loading worse.
+
+For hosted checks, use the browser selected by the Lighthouse skill and the requested run count. Verify the intended deployment and asset hashes before starting. Preserve report URLs, timestamps, raw JSON, failed attempts and environment differences. Never compare the legacy production site with an Astro preview as if only the optimisation code differs. Hosted after-checks require an authorised publication of the measured source.
+
 ## Current migration evidence
 
 Measured on 4 September 2026 on branch `codex/astro-cloudflare-migration` with Node 22.23.2 and pnpm 11.24.0, after the AUD-01 to AUD-07 audit pass:

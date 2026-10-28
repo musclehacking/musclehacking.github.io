@@ -16,16 +16,17 @@ export default defineConfig({
   integrations: [mdx(), react()],
   build: {
     assets: '_astro',
-    // Inline small styles; keep the larger shared/calculator sheets immutable and cacheable.
-    // Inlining everything added 11 KB gzip to calculator HTML and slowed its mobile probe.
-    inlineStylesheets: 'auto',
+    // Repeated mobile controls paint the homepage image sooner with external styles.
+    // Keep this explicit: assetsInlineLimit also controls Astro's automatic CSS inlining.
+    inlineStylesheets: 'never',
   },
   image: {
     responsiveStyles: true,
   },
   vite: {
     build: {
-      // Explicit 4 KiB limit for small styles/assets/scripts. Inline scripts still need CSP hashes.
+      // Small assets/scripts may inline; CSS stays external through inlineStylesheets above.
+      // Inline scripts still need the generated CSP hashes.
       assetsInlineLimit: 4096,
     },
   },

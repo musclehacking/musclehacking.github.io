@@ -6,7 +6,7 @@ Cloudflare Static Assets serves prerendered files from `dist/client` before the 
 
 `POST /api/subscribe` is the only request-time Astro route. No document page uses server rendering.
 
-`astro.config.mjs` reads the canonical origin from `src/config/site.ts`. Styles below 4 KiB are inlined; larger shared and calculator stylesheets retain immutable caching. Full inlining was rejected after it enlarged calculator HTML and slowed its mobile probe. The base layout loads one processed project entry, `src/scripts/site-entry.ts`, whose modules guard their own markup. The calculator retains its immediate React island. Fonts keep their existing local WOFF2 owner, subsets and swap behaviour.
+`astro.config.mjs` reads the canonical origin from `src/config/site.ts`. Bundled stylesheets stay external and immutable. Full inlining enlarged calculator HTML, and repeated controls found that even small-style inlining delayed the homepage image under actual mobile throttling. The three-run comparison and correction are recorded in `documents/evidence/performance-regressions/acceptance.md`. The base layout loads one processed project entry, `src/scripts/site-entry.ts`, whose modules guard their own markup. The calculator retains its immediate React island. Fonts keep their existing local WOFF2 owner, subsets and swap behaviour.
 
 The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local preview therefore serves an apex-host request as a static request. Production cutover remains blocked until an external Cloudflare redirect rule, its exact zone target, and its inverse rollback are documented and explicitly approved.
 

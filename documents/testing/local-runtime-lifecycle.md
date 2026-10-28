@@ -11,7 +11,15 @@ nvm use "$(tr -d '[:space:]' < /Users/sacino/musclehacking/.nvmrc)"
 /Users/sacino/musclehacking/scripts/run-e2e-local.sh
 ```
 
-Pass ordinary Playwright arguments after the script name when a focused run is required, including `--grep @local-runtime`. The wrapper always builds first, serves the Cloudflare Worker on `127.0.0.1:8787`, and runs the full E2E suite, including `@local-runtime` checks that a hosted `MUSCLEHACKING_BASE_URL` run excludes.
+Pass ordinary Playwright arguments after the script name when a focused run is required, including `--grep @local-runtime`. Ordinary runs build first, serve the Cloudflare Worker on `127.0.0.1:8787`, and run the full E2E suite, including `@local-runtime` checks that a hosted `MUSCLEHACKING_BASE_URL` run excludes.
+
+## Compare frozen public builds
+
+For Lighthouse comparisons, `MUSCLEHACKING_FROZEN_CLIENT=/absolute/path/to/client` skips the build and overrides Wrangler's static asset directory. The directory must contain `index.html`, `_headers` and `_redirects`. The current checkout must already have a normal Worker build. The frozen mode preserves the wrapper's ownership and cleanup rules; it never installs dependencies or changes the frozen files.
+
+Give each frozen build its own `MUSCLEHACKING_PREVIEW_PORT` and matching `MUSCLEHACKING_BASE_URL`, then pass a focused Playwright configuration that verifies the served HTML/assets against their recorded hashes and keeps the preview alive until the measurement finishes. Record the frozen directory and manifest, port, lease and release condition. Release every preview through its owning wrapper after the final check. Do not reuse another task's server.
+
+This mode compares public document GETs only. The existing Worker still owns `/api/subscribe`; do not use frozen mode to compare form mutations or different server implementations. Ordinary suite runs omit `MUSCLEHACKING_FROZEN_CLIENT` and retain the normal build-first behaviour.
 
 ## Ownership contract
 
