@@ -240,8 +240,8 @@ The correction must compare those local sources directly, isolate the specific t
 
 **Operations and documentation:**
 
-- [ ] Workers Builds can reproduce the exact commit with pinned dependencies.
-- [ ] Preview branch builds upload a version without promoting it.
+- [x] Workers Builds can reproduce the exact commit with pinned dependencies.
+- [x] Preview branch builds upload a version without promoting it.
 - [ ] The cutover packet contains the exact DNS snapshot, diff, Worker version, evidence, and rollback.
 - [ ] After privacy changes, Cloudflare rebuilds the same commit from the private repository.
 - [ ] Project architecture, content, testing, deployment, secret, cutover, and rollback documentation reflects the reopened UI parity work and its final implementation.
@@ -697,6 +697,8 @@ Task-owned Dev Browser `mh-workers-builds-20261028-r3g8` is closed and absent fr
 ### Step 15: Synchronise Final Documentation and Handoff 🔄 **IN PROGRESS**
 
 **Objective:** Leave a cold reader able to operate, verify, update, and roll back the site without conversation history.
+
+**28 October Git identity checkpoint:** the user authorises removing the shared shell identity race before continuing migration. The old directory hook is reproduced with a disposable global configuration, then removed. A final fixed Culpable include protects other projects even from old open shells, while this checkout retains its repository-local Muscle Hacking identity and separate SSH remote. All 57 top-level checkouts resolve to the intended account; fresh directory changes no longer rewrite global settings. No history is rewritten. [Identity acceptance](../evidence/git-identity/acceptance.md) records the cause, changes and replay.
 
 **Content-authoring checkpoint:** `README.md`, project policy, content editing, site architecture, and testing documentation now describe the collection workflow, generated slug owner, metadata composition, shared content components, validation commands, and parity evidence location.
 
@@ -1428,3 +1430,9 @@ No visual redesign, copy refresh, route normalisation, new animation system, or 
 - Compared 24 hosted static responses with the fully hash-verified frozen optimisation output: 23 exact matches, one calculator UID-only difference. Hosted redirects, custom 404s, cache policy, UTF-8 discovery, API method rejection and calculator/supplement interactions pass. Browser evidence is retained under `mh-workers-builds-20261028-r3g8/push/`; the browser is closed.
 - Updated the Builds guide, cutover runbook, human review packet, build evidence and this plan. The authoritative DNS readback still matches every affected field; the Worker has no active deployment, domain or zone route. Read-only Turnstile metadata confirms the existing production/review host coverage and matching Keychain secret without changing either.
 - The full 80-case hosted component/optimisation matrix subsequently passes through the lifecycle wrapper. Pending human/rollback acceptance and excluded cases remain explicit in Step 12 and the build record. No Linux full-test result, production newsletter mutation, new hosted performance measurement or production traffic-switch proof is claimed.
+
+## 12. Implemented Solution - Git identity isolation, 28 October 2026
+
+- Removed `set_git_account` and its `chpwd` hook from `/Users/sacino/.zshrc`; added a final include in `/Users/sacino/.gitconfig` pointing to `/Users/sacino/.config/git/default-identity.gitconfig`. The default account is fixed as Culpable, including when an already-open shell replays the old hook. The existing Muscle Hacking local configuration retains the exception.
+- Added `documents/evidence/git-identity/acceptance.md`; updated this plan. Before/after reproduction, all 57 top-level effective-author reads, a fresh interactive-shell directory sequence and shell syntax pass. SSH configuration and the existing source HEAD remain unchanged during the fix. No Git history, provider permission or deployment changes are part of the identity fix.
+- Migration continues from the stylesheet correction `afced65`, which supersedes the previous optimisation's small-style inlining. Its local acceptance record covers type/unit/build/output/accessibility checks and all-page pixel parity; its corrected delivery assertion passes. The hosted candidate, rollback rehearsal, inactive production credential preparation and exact cutover packet remain to be refreshed before human acceptance and cutover.
