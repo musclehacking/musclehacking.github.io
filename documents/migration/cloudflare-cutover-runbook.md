@@ -264,7 +264,7 @@ These requests remain unexecuted. All API paths use account `da18a65e27f34f43051
 - Create the binding with `PUT /accounts/da18a65e27f34f43051b853e509ef411/workers/domains`:
 
 ```json
-{"hostname":"www.musclehacking.com","service":"musclehacking-astro","zone_id":"325308665734cda0d51e001f336becca","environment":"production"}
+{"hostname":"www.musclehacking.com","service":"musclehacking-astro","zone_id":"325308665734cda0d51e001f336becca","enabled":true,"previews_enabled":false}
 ```
 
 - Replace Page Rule `/zones/325308665734cda0d51e001f336becca/pagerules/4e0a9ac33acaf78c4176a85401f358e3` with this body:
@@ -285,7 +285,11 @@ These requests remain unexecuted. All API paths use account `da18a65e27f34f43051
 
 Cloudflare's [Custom Domains documentation](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) confirms that creation also issues a certificate and deletion does not remove that certificate automatically. Record any created certificate pack and distinguish it from the one pre-existing pack. A rollback retains an unused new certificate rather than deleting an unverified or shared certificate; include that retained resource in the receipt. No separate Advanced Certificate Manager subscription is needed.
 
+The [current domain API](https://developers.cloudflare.com/api/resources/workers/subresources/domains/methods/update/) accepts `enabled` and `previews_enabled`; `environment` is a deprecated response field, not a documented request field. The body above enables only the exact production hostname and leaves custom-domain preview routing disabled.
+
 After both hosts pass uncached and cached checks, the exact packet can authorise changing only `musclehacking/musclehacking.github.io` to private and rebuilding the same recorded source commit through the existing Cloudflare connection. Keep `master`, GitHub Pages configuration, WPX, `dev`, the legacy source and both rollback versions intact. The migration branch still uploads inactive versions; automatic production promotion is not added by this proposal.
+
+The final privacy approval must also identify its inverse during the cutover window: if the private-repository rebuild fails, restore this same repository to public and verify the existing GitHub Pages origin before attempting a DNS rollback. Do not create intervening private-only commits or expose another repository. After the cutover window, emergency re-publication needs its own approval; the retained Cloudflare legacy version remains the application rollback while routing is healthy.
 
 ## Current public observation, not rollback data
 
