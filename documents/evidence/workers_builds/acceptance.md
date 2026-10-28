@@ -77,7 +77,7 @@ Open [the recorded build](https://dash.cloudflare.com/da18a65e27f34f43051b853e50
 
 Open the immutable candidate URL for stable replay. Verify the calculator's 80-to-90 kg change and supplements Show All at 390 pixels. Read deployment, Worker subdomain, custom-domain and zone-route state through the API; compare all five authoritative DNS records with the runbook before any approved write.
 
-The initial newer-source/push-event gaps are resolved by the acceptance below. Remaining: human hosted review and the full hosted component/rollback acceptance, final production secret configuration, exact redirect/cutover approval, private-repository rebuild, and production traffic verification. No unsupported local/cloud equivalence is claimed. Excluded here: the full test suite on Linux, real newsletter submission on the new target Worker, new hosted performance measurements, live IndexNow submission and production cutover.
+The initial newer-source/push-event/component-matrix gaps are resolved by the acceptance below. Remaining: human hosted review and traffic rollback rehearsal, final production secret configuration, exact redirect/cutover approval, private-repository rebuild, and production traffic verification. No unsupported local/cloud equivalence is claimed. Excluded here: the full test suite on Linux, real newsletter submission on the new target Worker, new hosted performance measurements, live IndexNow submission and production cutover.
 
 ## Authorised push acceptance
 
@@ -97,4 +97,14 @@ The real browser confirms default calculator results `1733 / 176 / 57 / 129` and
 
 Final account readback still finds zero active deployments, custom domains and zone routes, disabled regular workers.dev access, enabled version previews and a complete exact match for every affected DNS field. Both unrelated lifecycle files retain their pre-push hashes. `pushed-final-resource-state.json` owns that result. Read-only widget metadata also confirms existing production/review hostname coverage and that the Keychain secret matches; no widget or credential write occurs (`production-widget-readback.json`).
 
-The source code now has local and focused hosted proof. Human hosted review remains pending before the candidate enters the final cutover packet. The target Worker has no provider/challenge secrets; completed real newsletter acceptance remains on the separate review Worker. The full hosted component-state matrix, rollback rehearsal, fresh hosted performance, private-repository rebuild and production cutover are not claimed by these focused checks.
+The full hosted component/optimisation matrix then runs through the project lifecycle command:
+
+```sh
+MUSCLEHACKING_PREVIEW_PORT=8809 MUSCLEHACKING_BASE_URL=https://18ac682d-musclehacking-astro.jake-sacino.workers.dev MUSCLEHACKING_FROZEN_CLIENT=/tmp/musclehacking-astro-optimisations.uv5mzY/accepted-frozen /Users/sacino/musclehacking/scripts/run-e2e-local.sh --config /Users/sacino/musclehacking/.artifacts/workers_builds/20261028/hosted-ui.config.mts --workers=2
+```
+
+The temporary config imports the standard project config, selects the existing `ui-parity.spec.ts` and `astro-optimisations.spec.ts` files, and targets the immutable hosted version. It changes no assertion, timeout or retry. The wrapper owns an idle frozen preview on port 8809 to preserve the mandatory lifecycle; the test browser requests the hosted version. This uses another task's current additive frozen-client helper support without modifying or committing that task's files. All 80 desktop/mobile cases pass in 52.6 seconds, with zero skips, failures or retries. The helper exits zero, port 8809 and its lease close, and the complete frozen manifest still matches. Other tasks' existing listeners remain untouched. Raw evidence: `hosted-ui.json`, `hosted-ui-results/`, `hosted-ui.config.mts`, `hosted-ui-runtime-owner.json`.
+
+The follow-up documentation push `766f72c` also receives a successful GitHub check and successful Cloudflare build `fae7132d-9f3d-4391-9b78-1531811a7e14`. This does not invalidate the hosted source checks: it changes only migration documents. Raw evidence: `record-build-status.json` and `record-commit-checks.json`.
+
+The source code now has local and full component-matrix hosted proof. Human hosted review remains pending before the candidate enters the final cutover packet. The target Worker has no provider/challenge secrets; completed real newsletter acceptance remains on the separate review Worker. Traffic rollback rehearsal, fresh hosted performance, private-repository rebuild and production cutover are not claimed by these checks.
