@@ -14,6 +14,32 @@
 
 Migration-branch builds must upload versions without promotion. GitHub App access must be selected-repository access. Do not add a duplicate GitHub Actions deployment.
 
+## Non-promoting build setup - 28 October 2026
+
+GitHub authorisation is resolved. The exact repository connection in account `da18a65e27f34f43051b853e509ef411` is `1bbe7325-90cb-4dd4-96ec-78d2755f70cb`, created at `2026-10-28T04:37:58.732Z`. Its returned owner and repository IDs match `musclehacking/musclehacking.github.io` (`11622858` / `135702228`). The earlier disconnected-account reports below are historical.
+
+Preparation targets only this account and Worker `musclehacking-astro`. Create the empty Worker through `POST /accounts/{account_id}/workers/workers`, with its ordinary workers.dev endpoint disabled and version previews enabled. This creates the Worker identity without uploading or promoting application code. The installed Wrangler rejects `versions upload` when the Worker does not exist; the empty Worker API avoids an initial production deployment.
+
+Register a dedicated build token backed by a user API token scoped to this account's Workers Scripts Write permission. Store its secret only in Cloudflare's build-token service; never retain it in source, evidence or logs. Do not grant DNS, zone routes or other-account permissions. Keep the global API key outside the build environment.
+
+Configure only `codex/astro-cloudflare-migration` as the build branch, repository root `/`, Node `22.23.4`, pnpm `11.24.0`, and frozen-lockfile dependency installation. The build command is `pnpm check && pnpm build && pnpm verify:dist`. The upload command is `pnpm exec wrangler versions upload --name musclehacking-astro --preview-alias migration-review --var NEWSLETTER_ALLOWED_ORIGIN:https://migration-review-musclehacking-astro.jake-sacino.workers.dev`. This allows same-origin non-mutation checks on the alias; no provider secret is copied to the target Worker. The installed upload command does not accept workers.dev or preview-URL flags; keep those settings on the empty Worker and verify them after upload. No command may call `deploy` or `versions deploy`.
+
+The full test suite remains a local release prerequisite. The first Cloudflare run (`4934fcbf-7846-46e1-bfce-af36fe850c23`) exposes two runner dependencies: `og-locale.test.ts` needs built output before tests, and `authoring-fixture.test.ts` invokes the local `trash` command for fixture cleanup. That command is unavailable in Cloudflare's Linux image, leaving the fixture behind in that disposable failed job. Do not skip assertions, install replacement cleanup tools, or upload that dirty job's output. Correct the cloud command to its supported type/build/output checks and run a new clean job. Existing local test acceptance is retained; a successful cloud build does not claim that the full tests pass on Linux.
+
+Setup checklist:
+
+- [x] Verify the exact repository connection and target account.
+- [x] Create an empty Worker without an active deployment. Worker tag: `b3f90363c5d24147a9c12262ed9a8c07`. Upload the legacy baseline first as inactive version `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc`, using exactly the archived static tree from `9bf25d0` and its existing auto-trailing-slash asset policy.
+- [x] Register the account-scoped upload token and migration-branch trigger. Build token `ef063755-7f68-4243-9635-d46f00256a4a` uses user token `1d59d32b41367ba582cddd808ad768db`; trigger `d76064f6-633c-4148-87da-edf2c0ebed92` has the exact command and branch filter above.
+- [x] Build the recorded remote commit. Job `119eeb31-61a0-411f-b3a5-f1f8197317ed` passes and uploads version `178fb1b7-ce58-42f2-bfb6-cebd38dafd37`. The dashboard retains the correct settings after reload. Readback confirms zero active deployments, custom domains and zone routes, disabled ordinary workers.dev access, enabled version previews, and an exact match for all five saved DNS records.
+- [x] Record the resulting IDs and [acceptance evidence](../evidence/workers_builds/acceptance.md). Newer local source still needs an authorised push and another build before it can be the final cutover candidate. Push-event delivery, private-repository access and production traffic switching are not yet proved.
+
+Build proof: [Cloudflare job](https://dash.cloudflare.com/da18a65e27f34f43051b853e509ef411/workers/services/view/musclehacking-astro/production/builds/119eeb31-61a0-411f-b3a5-f1f8197317ed). Immutable candidate URL: `https://178fb1b7-musclehacking-astro.jake-sacino.workers.dev`; branch alias: `https://migration-review-musclehacking-astro.jake-sacino.workers.dev`. The alias can move on later migration-branch builds. The legacy alias remains `https://legacy-9bf25d0-musclehacking-astro.jake-sacino.workers.dev`.
+
+Hosted checks compare 23 static responses with the accepted review Worker. Twenty-two match byte for byte; the calculator differs only in Astro's generated island UID, with the full remaining HTML identical. Security headers match, fingerprinted stylesheets are immutable, and both custom-404 cases and the subscribe method rejection pass. Browser checks prove calculator hydration and input updates (80 kg: 1733 calories; 90 kg: 1829 calories), all 19 supplements under Show All, and zero overflow at 390 pixels. No form POST or provider mutation is attempted on this Worker.
+
+The remote migration branch currently ends at `b0ef37717a7dcde41d63003c3ccbee1a9664c25f`. Newer local optimisation and documentation commits have not been pushed. A build of the existing remote commit proves the build connection; it is not acceptance of the newer local source or authority to push it.
+
 ## Isolated review Worker
 
 Wrangler deploys the candidate build directly to a review-only Worker in the personal Cloudflare account `213ab3604485056376263d22fa242742`:
@@ -58,9 +84,9 @@ CLOUDFLARE_ACCOUNT_ID=213ab3604485056376263d22fa242742 pnpm exec wrangler versio
 
 ## Production account access and deployment boundary
 
-The old missing-zone report is superseded. Read access to account `da18a65e27f34f43051b853e509ef411` and zone `325308665734cda0d51e001f336becca` is verified on 23 September and 28 October 2026. Production still uses GitHub Pages. The 28 October readback finds no production Worker and no Worker route on the zone. Workers Builds and the GitHub App connection remain unconfigured. No production write is authorised by the review newsletter activation.
+The old missing-zone report is superseded. Read access to account `da18a65e27f34f43051b853e509ef411` and zone `325308665734cda0d51e001f336becca` is verified on 23 September and 28 October 2026. Production still uses GitHub Pages. The non-promoting setup above now creates the target Worker, repository connection, build token and migration-only trigger. The Worker has no active deployment or production domain/route. No production traffic change is authorised by the review newsletter activation.
 
-## Git connection preparation - 28 October 2026
+## Historical Git connection preparation - 28 October 2026
 
 The human's instruction to continue migration work authorises preparing a repository connection without deploying production traffic. The exact source is GitHub user `musclehacking` (ID `11622858`), repository `musclehacking.github.io` (ID `135702228`), default branch `master`, and migration branch `codex/astro-cloudflare-migration`. The target account is `da18a65e27f34f43051b853e509ef411`. The eventual Worker name must be `musclehacking-astro`, matching `wrangler.jsonc`; the older draft cutover name `musclehacking` must not be used.
 

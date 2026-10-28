@@ -6,6 +6,10 @@ Status: content and policy decisions recorded 23 September 2026. Newsletter acce
 
 The WPX discovery confirms the existing list `qwsfu`, a working API key, and GetResponse-managed email confirmation. The human explicitly authorises one named recipient on that existing list. Review version `df904b43-5cbd-4978-9b57-3020d20f9784` carries the provider secrets and unchanged tested application code. Ego Lite proves the real Turnstile form, success destination and safe duplicate outcome. The user supplies the delivered confirmation email; following its link in Ego Lite confirms membership. GetResponse then shows exactly one confirmed contact, API origin and autoresponder day 0. All newsletter discovery, configuration and acceptance blockers are resolved for this review version. [Acceptance evidence](../evidence/newsletter_activation/acceptance.md) owns the current result; older version IDs and missing-credential statements below are historical.
 
+## Current build checkpoint - 28 October 2026
+
+Cloudflare now connects the exact `musclehacking/musclehacking.github.io` repository. A migration-only trigger passes its pinned-runtime, frozen-lockfile, type/build/output checks and uploads inactive version `178fb1b7-ce58-42f2-bfb6-cebd38dafd37` to the target account's `musclehacking-astro` Worker. The exact legacy rollback tree is stored first as `dc51d5dc-94da-432a-bbbd-ed1b9b3ec0cc`. Static/header checks and calculator/supplement browser interactions pass; production DNS and traffic remain unchanged. [Build acceptance](../evidence/workers_builds/acceptance.md) records the IDs and remaining gaps. The full test suite stays local because its fixture cleanup requires the local `trash` command. Newer local optimisation commits still need an authorised push and hosted acceptance before final cutover review.
+
 ## Content and policy decisions recorded - 23 September 2026
 
 | ID | Decision | Applied change |
