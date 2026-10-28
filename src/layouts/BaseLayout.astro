@@ -21,9 +21,14 @@ const { canonicalPath } = metadata;
     <PageMetadata {metadata} />
   </head>
   <body id="top">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header canonicalPath={canonicalPath} />
     <slot />
     {/* The audited legacy tree only ships the back-to-top control on these two routes. */}
     {['/calorie-calculator/', '/supplements/'].includes(canonicalPath) && <BackToTop />}
   </body>
 </html>
+
+<script>
+  import '../scripts/site-entry';
+</script>

@@ -11,7 +11,7 @@ const { showSidebar = true, ...metadata } = Astro.props;
 ---
 
 <BaseLayout metadata={metadata}>
-  <main class="page-shell">
+  <main id="main-content" tabindex="-1" class="page-shell">
     <div class="content-grid">
       <div class="content-column">
         <slot />

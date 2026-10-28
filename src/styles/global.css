@@ -2859,3 +2859,19 @@ figcaption,
 .content-figure {
   margin: 0;
 }
+/* Keyboard navigation bypasses the repeated header without changing the resting layout. */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 2000;
+  transform: translateY(-200%);
+  background: #fff;
+  color: #14496b;
+  padding: 8px 16px;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid currentColor;
+}

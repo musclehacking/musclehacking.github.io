@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 import { site } from '../../config/site';
-import { resolvePageMetadata } from '../metadata';
+import { resolvePageMetadata, validateCanonicalPath } from '../metadata';
 import { deriveByline } from './byline';
 import { getPublishedPosts } from './collections';
 import { deriveNavigation } from './navigation';
@@ -19,13 +19,21 @@ function dimensions(entry: ArticleEntry): { width: number; height: number } {
 
 export async function resolveArticle(entry: ArticleEntry, collection: 'blog' | 'pages'): Promise<ArticleModel> {
   const isBlog = collection === 'blog';
-  const canonicalPath = entry.data.canonicalOverride
-    ?? (isBlog ? `/blog/${entry.id}` : 'path' in entry.data ? entry.data.path : '');
+  let canonicalPath = isBlog ? `/blog/${entry.id}` : 'path' in entry.data ? entry.data.path : '';
+  if (entry.data.canonicalOverride) {
+    const override = new URL(entry.data.canonicalOverride);
+    if (override.origin !== site.origin || override.username || override.password || override.search || override.hash || /[\\\s]/u.test(entry.data.canonicalOverride)) {
+      throw new Error(`${entry.id}: canonicalOverride must identify a clean same-origin document.`);
+    }
+    canonicalPath = validateCanonicalPath(entry.data.canonicalOverride.slice(override.origin.length), site.origin);
+  }
   const metadata = {
     title: entry.data.seoTitle ?? entry.data.title,
+    headline: entry.data.title,
     description: entry.data.description,
     canonicalPath,
     image: typeof entry.data.image === 'string' ? entry.data.image : entry.data.image.src,
+    imageDetails: { alt: entry.data.imageAlt, ...dimensions(entry) },
     article: isBlog,
     articleDates: { published: entry.data.published, updated: entry.data.updated },
   };

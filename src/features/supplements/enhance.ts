@@ -1,3 +1,4 @@
+import { startContentsTracker } from '../../scripts/contents-tracker';
 import { NOTE_ICON_PATH, IMPORTANT_ICON_PATH } from '../../lib/icons';
 import {
   getSupplementFilter,
@@ -23,6 +24,12 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
   const documentNode = eventRoot.ownerDocument;
   const openedByFocus = new WeakSet<HTMLButtonElement>();
   let touchActivationTrigger: HTMLButtonElement | null = null;
+  let stopContentsTracker: (() => void) | undefined;
+  const restartContentsTracker = () => {
+    stopContentsTracker?.();
+    const list = root.querySelector<HTMLElement>('[data-supplement-toc]');
+    if (list) stopContentsTracker = startContentsTracker(list);
+  };
 
   const applyFilter = (filterId: string): void => {
     closeAllPopovers(root, documentNode);
@@ -32,7 +39,7 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
       updateActiveFilter(root, filterId);
       updateCategoryNote(root, filterId);
       updateCategoryTop(root, "supplement-information");
-      updateActiveTocLink(root, documentNode);
+      restartContentsTracker();
       return;
     }
 
@@ -70,17 +77,7 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
     updateCategoryNote(root, filterId);
     updateCategoryTop(root, selected[0]?.id);
     renderTableOfContents(root, filterId);
-    updateActiveTocLink(root, documentNode);
-  };
-
-  // Legacy Bootstrap 4 scrollspy on <body>: recompute on scroll, at most once per frame.
-  let scrollFrame = 0;
-  const handleScroll = (): void => {
-    if (scrollFrame) return;
-    scrollFrame = documentNode.defaultView?.requestAnimationFrame(() => {
-      scrollFrame = 0;
-      updateActiveTocLink(root, documentNode);
-    }) ?? 0;
+    restartContentsTracker();
   };
 
   const handleClick = (event: Event): void => {
@@ -192,7 +189,6 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
   eventRoot.addEventListener("pointerout", handlePointerOut);
   eventRoot.addEventListener("focusin", handleFocusIn);
   eventRoot.addEventListener("focusout", handleFocusOut);
-  documentNode.defaultView?.addEventListener("scroll", handleScroll, { passive: true });
 
   const initialFilter = hasValidHashTarget(documentNode) ? "show-all" : "muscle-growth";
   applyFilter(initialFilter);
@@ -206,8 +202,7 @@ export function enhanceSupplementExplorer(root: ExplorerRoot = document): () => 
     eventRoot.removeEventListener("pointerout", handlePointerOut);
     eventRoot.removeEventListener("focusin", handleFocusIn);
     eventRoot.removeEventListener("focusout", handleFocusOut);
-    documentNode.defaultView?.removeEventListener("scroll", handleScroll);
-    if (scrollFrame) documentNode.defaultView?.cancelAnimationFrame(scrollFrame);
+    stopContentsTracker?.();
   };
 }
 
@@ -280,40 +275,6 @@ function updateCategoryTop(root: ExplorerRoot, targetId: string | undefined): vo
 
   if (!targetId) return;
   root.querySelector<HTMLElement>(`#${targetId}`)?.classList.add("category-top");
-}
-
-/** Bootstrap 4 ScrollSpy's default offset: a target is current once its top is within 10px of the viewport top. */
-const SCROLLSPY_OFFSET = 10;
-
-/**
- * Mirrors Bootstrap 4 ScrollSpy: the current link is the last visible target whose top is at
- * or above the scroll position plus the offset. Before the first target nothing is current,
- * and at the bottom of the page the last target is current.
- */
-function updateActiveTocLink(root: ExplorerRoot, documentNode: Document): void {
-  const view = documentNode.defaultView;
-  const links = [...root.querySelectorAll<HTMLAnchorElement>("[data-supplement-toc] a[href^='#']")];
-  if (!view || links.length === 0) return;
-
-  const scrollTop = view.scrollY + SCROLLSPY_OFFSET;
-  const maxScroll = documentNode.documentElement.scrollHeight - view.innerHeight;
-  const targets = links
-    .map((link) => ({ link, target: documentNode.getElementById(decodeURIComponent(link.hash.slice(1))) }))
-    .filter((entry): entry is { link: HTMLAnchorElement; target: HTMLElement } =>
-      entry.target !== null && entry.target.getClientRects().length > 0)
-    .map(({ link, target }) => ({ link, top: target.getBoundingClientRect().top + view.scrollY }))
-    .sort((left, right) => left.top - right.top);
-
-  let active: HTMLAnchorElement | undefined;
-  if (targets.length && scrollTop >= maxScroll + SCROLLSPY_OFFSET - 1) {
-    active = targets[targets.length - 1]!.link;
-  } else {
-    for (const { link, top } of targets) {
-      if (scrollTop >= top) active = link;
-    }
-  }
-
-  for (const link of links) link.classList.toggle("active", link === active);
 }
 
 function renderTableOfContents(root: ExplorerRoot, filterId: string): void {

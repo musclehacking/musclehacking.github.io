@@ -5,7 +5,7 @@
 - `pnpm build`: Astro build, mixed-route shaping, and CSP hash finalisation.
 - `pnpm verify:dist`: complete route inventory, metadata, links, images, discovery output, forbidden strings across emitted markup, styles, browser JavaScript, source maps, and manifests, CSP, and compressed JavaScript budgets.
 - `scripts/run-e2e-local.sh`: all 19 served routes, the retired-URL 301, and key interactions in desktop and mobile Chromium through one task-owned local Wrangler preview. This wrapper is the only supported way to run the E2E suite locally.
-- `pnpm test:agent-a11y`: axe serious and critical checks on representative content, interaction, form, and 404 routes.
+- `pnpm test:agent-a11y`: existing axe serious and critical checks plus the canonical 33 agent-accessibility rules on every built document and declared navigation, calculator, filter, popover and dialog states. Remote requests are blocked in the expanded contract tests.
 
 The unit suite also validates collection schemas, metadata composition, authoring lint, bylines, derived navigation, listing order, and disposable draft/future fixtures. `scripts/content-authoring-parity.mjs` compares all twelve articles plus Books and the beginner guide against the audited legacy tree at 1440px and 390px.
 

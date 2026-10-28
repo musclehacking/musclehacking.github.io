@@ -22,6 +22,9 @@ Source ownership:
 - Supplements: `src/features/supplements/`
 - Newsletter: `src/features/newsletter/` and `src/pages/api/subscribe.ts`
 - Headers and cache policy: `public/_headers`
+- Browser behaviour: `src/scripts/site-entry.ts`, loaded once by `BaseLayout.astro`; project components do not own processed scripts.
+- Agent discovery: `src/config/llms.ts`, `src/lib/llms.ts`, and `src/pages/llms.txt.ts`
+- Prepared IndexNow submission and cutover limits: `scripts/indexnow.mjs` and `documents/migration/indexnow.md`
 - Cloudflare deployment: `wrangler.jsonc`
 - Operations and architecture: `documents/`
 

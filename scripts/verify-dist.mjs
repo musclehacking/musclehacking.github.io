@@ -46,9 +46,12 @@ for (const relativePath of generatedHtml) {
   if ($('main').length !== 1) fail(`${label}: expected one main landmark`);
   if ($('h1').length !== 1 || !$('h1').first().text().trim()) fail(`${label}: expected one visible h1`);
   const jsonLd = $('script[type="application/ld+json"]');
-  if (jsonLd.length !== 1) fail(`${label}: expected one JSON-LD block`);
+  const indexable = !$('meta[name="robots"]').attr('content')?.split(/\s*,\s*/).includes('noindex');
+  if (jsonLd.length !== (indexable ? 1 : 0)) fail(`${label}: expected ${indexable ? 'one' : 'no'} JSON-LD block`);
   const jsonLdSource = jsonLd.html() ?? '';
-  try { JSON.parse(jsonLdSource); } catch { fail(`${label}: JSON-LD must parse`); }
+  if (jsonLd.length) {
+    try { JSON.parse(jsonLdSource); } catch { fail(`${label}: JSON-LD must parse`); }
+  }
   if (/mailto|"email"|"address"|[\w.]+@[\w.]+\.\w+/u.test(jsonLdSource)) fail(`${label}: JSON-LD must not contain an email or postal address`);
   const headerPolicy = readFileSync(join(clientRoot, '_headers'), 'utf8');
   $('script:not([src]):not([type="application/ld+json"])').each((_, script) => {

@@ -51,8 +51,11 @@ if (rail) {
     }
   };
 
+  let shown: boolean | undefined;
   const updateVisibility = () => {
     const visible = window.scrollY > 660;
+    if (shown === visible) return;
+    shown = visible;
     rail.dataset.visible = String(visible);
     rail.setAttribute('aria-hidden', String(!visible));
     rail.toggleAttribute('inert', !visible);

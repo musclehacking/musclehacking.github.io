@@ -7,6 +7,7 @@ Use the least specialised existing owner. A pattern rendered many times by one l
 | Pattern | Authoritative owner | Current variants | Consumers |
 | --- | --- | --- | --- |
 | Document, head and fixed header | `BaseLayout.astro`, `head/PageMetadata.astro`, `Header.astro` | Route-dependent mobile navigation; no footer | Every document |
+| Browser behaviour and keyboard entry | `scripts/site-entry.ts`; BaseLayout skip link and focusable main regions | Guarded navigation, forms, heading links, sharing, prompts and supplement enhancement | Every document; modules skip absent markup |
 | Sidebar frame | `ContentLayout.astro` | Existing optional sidebar | Home and blog listing |
 | Article composition | `ArticleLayout.astro`, `article/ArticleHeader.astro` | Article/longform; optional notice/caption; heading-link policy | Published blog entries, Books, beginner guide |
 | Listing card and recent links | `HomeListing.astro`, `Sidebar.astro`; `lib/content/cards.ts` | Existing aspect ratios, first-image priority and sidebar titles | Home and blog listing |
@@ -33,9 +34,11 @@ Use the least specialised existing owner. A pattern rendered many times by one l
 
 Keep DOM creation in the existing browser tooltip factory and JSX in the calculator. Sharing geometry and CSS across renderers does not justify adding a hydrated icon library or moving static markup into React.
 
+The calculator dialog locks the root scroll area only while open and contains its own overscroll. Supplement evidence tooltips use `div[role="tooltip"]`, since an `aside` cannot take that role.
+
 Component extraction must preserve meaningful whitespace, direct children and selector specificity. If a parent has scoped styles, forward its class and remaining Astro attributes onto the original root. Reuse the current global recipe rather than a free-form style-prop interface.
 
-One-off page compositions, authored bodies, generated calculator/supplement content, provider code, legacy pre-Astro files and build/font/deployment settings are outside component consolidation. Existing script loading remains unchanged.
+One-off page compositions, authored bodies, generated calculator/supplement content, provider code and legacy pre-Astro files keep their existing owners. Project scripts load once through the base layout's processed entry. Provider snippets retain their provider-owned loading requirements. `YouTube.astro` keeps the existing embed markup and uses native lazy loading.
 
 `getSectionNavigation` owns the two existing section destinations and resolves their titles from published content. SectionEnding retains Read Something Similar/Different; confirmation supplies Nutrition Related/Society Related. Chronological article navigation stays in `deriveNavigation`.
 

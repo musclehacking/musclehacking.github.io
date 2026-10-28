@@ -8,6 +8,7 @@
     "node": ">=22.12.0 <25"
   },
   "scripts": {
+    "indexnow": "node scripts/indexnow.mjs",
     "sync:blog-slugs": "node scripts/sync-blog-slugs.mjs",
     "predev": "pnpm sync:blog-slugs",
     "dev": "astro dev",

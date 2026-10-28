@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bug_report>
+<bug_1>
+<summary>
+<title>[Audit] No defects found</title>
+<one_line_description>No supported reachable defects were found in the changed metadata, structured data, curated llms discovery, or manual IndexNow preparation.</one_line_description>
+</summary>
+<file_locations><![CDATA[
+- /Users/sacino/musclehacking/src/lib/metadata.ts - resolvePageMetadata and validateCanonicalPath
+- /Users/sacino/musclehacking/src/lib/structured-data.ts - buildStructuredData and serializeStructuredData
+- /Users/sacino/musclehacking/src/lib/content/article.ts - resolveArticle and dimensions
+- /Users/sacino/musclehacking/src/config/site.ts
+- /Users/sacino/musclehacking/src/components/head/PageMetadata.astro
+- /Users/sacino/musclehacking/src/config/llms.ts - createLlmsDocument
+- /Users/sacino/musclehacking/src/lib/llms.ts - validation and rendering
+- /Users/sacino/musclehacking/src/pages/llms.txt.ts
+- /Users/sacino/musclehacking/scripts/indexnow.mjs - built inventory, comparison, publication proof, submission and CLI
+- /Users/sacino/musclehacking/scripts/indexnow.d.mts
+- /Users/sacino/musclehacking/public/indexnow.txt
+- /Users/sacino/musclehacking/public/_headers
+- /Users/sacino/musclehacking/package.json
+- /Users/sacino/musclehacking/scripts/verify-dist.mjs
+- /Users/sacino/musclehacking/tests/unit/{metadata,structured-data,llms,indexnow}.test.ts
+- /Users/sacino/musclehacking/tests/e2e/{metadata,astro-optimisations}.spec.ts
+- /Users/sacino/musclehacking/documents/migration/indexnow.md
+- /Users/sacino/musclehacking/documents/architecture/site.md
+]]></file_locations>
+<issue_description>
+<description>Read the assigned changed files and traced their callers, content schema, publication filtering, route configuration, sitemap and robots generation, layouts, and generated route shaping. The current article headline flows separately from the SEO title, noindex documents suppress JSON-LD, and the linked WebPage and BlogPosting graph preserves the approved Jay identity and source dates. Existing image dimensions match their source assets. Curated llms links use current canonical routes and filtered published articles. IndexNow is an explicit manual command with production-branch and after-cutover gates, local sitemap-derived candidates, same-origin checks, ownership and live-byte verification, crawler-policy checks, bounded retries and safe failures. Retained noindex pages are supported as removal candidates rather than new indexable submissions. No recommendation is required because no reachable defect was established. Coverage is limited to this partition and the current authored data; no hosted publication, external service acceptance, browser run, build, deployment or full test suite was performed by this worker.</description>
+<code_example><![CDATA[
+Read-only focused checks:
+- node /Users/sacino/musclehacking/scripts/indexnow.mjs --plan: 17 eligible URLs, no deployment or submission.
+- Parsed existing dist/client HTML: article schema headlines match rendered H1 text; social image width, height and alternative text are present throughout the current route inventory.
+- Inspected generated llms.txt: canonical task links and the three newest published articles are present without duplicate destinations.
+- Read intrinsic image metadata with the installed sharp package: every current article image matches authored dimensions; the default wordmark is 416 by 30 and the supplement asset is 700 by 420.
+- Read the related unit and E2E cases to check guards and expected failure paths. Test execution remains with the parent worker.
+]]></code_example>
+<expected_vs_actual><![CDATA[
+| Aspect | Expected | Actual |
+|---|---|---|
+| Metadata and graph | Existing assets, semantic article headline, linked page graph, no graph for noindex documents | Source trace and existing generated HTML agree |
+| Agent discovery | Valid curated canonical links and filtered recent articles | Current generated llms document agrees |
+| IndexNow preparation | Offline planning and explicit gated manual submission after live proof | Offline plan succeeds; guarded submission flow and injected tests support the contract |
+| Coverage limits | No production mutations or hosted verification | No external calls, server operations, builds or production actions performed |
+]]></expected_vs_actual>
+</issue_description>
+</bug_1>
+</bug_report>

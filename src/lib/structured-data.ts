@@ -17,10 +17,11 @@ export interface ArticleDates {
 }
 
 export function buildStructuredData(
-  page: Pick<ResolvedPageMetadata, 'canonicalUrl' | 'pageTitle' | 'description' | 'socialImageUrl' | 'article'>,
+  page: Pick<ResolvedPageMetadata, 'canonicalUrl' | 'pageTitle' | 'description' | 'socialImageUrl' | 'article' | 'indexable'>,
   site: SiteStructuredData,
   dates?: ArticleDates,
-): Record<string, unknown> {
+): Record<string, unknown> | undefined {
+  if (!page.indexable) return undefined;
   const siteUrl = new URL('/', site.origin).href;
   const websiteId = `${siteUrl}#website`;
   const authorId = `${siteUrl}#author`;
@@ -41,6 +42,16 @@ export function buildStructuredData(
       url: siteUrl,
       sameAs: Object.values(site.social),
     },
+    {
+      '@type': 'WebPage',
+      '@id': `${page.canonicalUrl}#webpage`,
+      url: page.canonicalUrl,
+      name: page.pageTitle,
+      description: page.description,
+      inLanguage: site.language,
+      isPartOf: { '@id': websiteId },
+      ...(page.article && dates ? { mainEntity: { '@id': `${page.canonicalUrl}#article` } } : {}),
+    },
   ];
 
   // Only dated articles carry a BlogPosting; a posting without datePublished is invalid for rich results.
@@ -48,7 +59,7 @@ export function buildStructuredData(
     graph.push({
       '@type': 'BlogPosting',
       '@id': `${page.canonicalUrl}#article`,
-      mainEntityOfPage: page.canonicalUrl,
+      mainEntityOfPage: { '@id': `${page.canonicalUrl}#webpage` },
       url: page.canonicalUrl,
       headline: page.pageTitle,
       description: page.description,

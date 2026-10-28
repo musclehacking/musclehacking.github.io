@@ -43,10 +43,10 @@ const initialNotice = supplementFilters.find((filter) => filter.id === 'muscle-g
             aria-controls={`evidence-help-${supplement.id}`}
             hidden
           ></button>
-          <aside id={`evidence-help-${supplement.id}`} class="project-popover evidence-help" role="tooltip" hidden>
+          <div id={`evidence-help-${supplement.id}`} class="project-popover evidence-help" role="tooltip" hidden>
             <strong class="evidence-help-title">What is this?</strong>
             <span class="evidence-help-body">This is the efficacy of the supplement based on current research.</span>
-          </aside>
+          </div>
         </div>
       </div>
       <div class="supplement-detail" set:html={supplementContentById.get(supplement.id)?.detailHtml} />
@@ -60,10 +60,6 @@ const initialNotice = supplementFilters.find((filter) => filter.id === 'muscle-g
 
 <SupplementSupport id="all-references" heading="References" html={supplementSupportContent.referencesHtml} />
 
-<script>
-  import { enhanceSupplementExplorer } from '../features/supplements/enhance';
-  enhanceSupplementExplorer();
-</script>
 
 <style is:global>
   .supplements-page {

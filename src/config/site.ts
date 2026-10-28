@@ -22,6 +22,8 @@ export const site = {
   defaultDescription:
     'An evidence-based approach to fitness and nutrition. I’m not here to sell you a dream. I’m here to get you shredded. Let’s get started.',
   defaultImage: '/img/musclehacking.png',
+  /** Existing wordmark asset, measured at its actual intrinsic size. */
+  defaultImageDetails: { alt: 'Muscle Hacking', width: 416, height: 30, type: 'image/png' },
   social: {
     twitter: 'https://twitter.com/musclehacking',
     instagram: 'https://www.instagram.com/musclehacking/',

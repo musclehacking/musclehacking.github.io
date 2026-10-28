@@ -78,6 +78,8 @@ Raw HTML is restricted to the authoring lint allowlist: `a`, `br`, `div`, `em`, 
 
 Use `/img/...` only when the public URL must remain stable. Supply real dimensions and meaningful alternative text. Use an empty alternative only for a truly decorative image. Never edit `dist/`.
 
+Keep the hero eager. `Figure` defers body images by default, and `YouTube` defers embedded videos. Raw images in authored tables also need `loading="lazy" decoding="async"` so they wait until near the reading position.
+
 ## Validate a change
 
 ```bash

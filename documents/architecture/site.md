@@ -6,6 +6,8 @@ Cloudflare Static Assets serves prerendered files from `dist/client` before the 
 
 `POST /api/subscribe` is the only request-time Astro route. No document page uses server rendering.
 
+`astro.config.mjs` reads the canonical origin from `src/config/site.ts`. Styles below 4 KiB are inlined; larger shared and calculator stylesheets retain immutable caching. Full inlining was rejected after it enlarged calculator HTML and slowed its mobile probe. The base layout loads one processed project entry, `src/scripts/site-entry.ts`, whose modules guard their own markup. The calculator retains its immediate React island. Fonts keep their existing local WOFF2 owner, subsets and swap behaviour.
+
 The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local preview therefore serves an apex-host request as a static request. Production cutover remains blocked until an external Cloudflare redirect rule, its exact zone target, and its inverse rollback are documented and explicitly approved.
 
 ## Sources of truth
@@ -17,6 +19,8 @@ The endpoint-only Worker cannot implement the apex-to-`www` redirect. The local 
 | Shared pattern owners, current variants and consumers | [Component catalogue](components.md) and [design ownership](../../DESIGN.md) |
 | SVG geometry and static rendering | `src/lib/icons.ts` and `src/components/Icon.astro` |
 | Document metadata composition | `src/lib/metadata.ts` and `src/components/head/PageMetadata.astro` |
+| Page and article JSON-LD, preserving the approved social-only Jay identity | `src/lib/structured-data.ts` |
+| Curated agent discovery, operating guidance and recent published articles | `src/config/llms.ts`, `src/lib/llms.ts` and `src/pages/llms.txt.ts` |
 | Article and long-form body and frontmatter | `src/content/blog/` and `src/content/pages/` |
 | Article defaults, cards, listing, and navigation | `src/lib/content/` |
 | Authored figures, callouts, video, references, TOC, and affiliate links | `src/components/content/` |
@@ -43,6 +47,8 @@ flowchart LR
 ```
 
 Collection helpers exclude drafts and future-dated entries before they reach routes or discovery output. Blog navigation is chronological by default. Frontmatter stores only exceptions. Document titles are composed once from an uncomposed content title and the separators in `src/config/site.ts`.
+
+Metadata accepts clean root-relative canonical paths and keeps the visible article headline separate from an optional SEO title. Social image alternative text and dimensions come from the existing asset facts or authored content. Indexable documents link one canonical WebPage node to the WebSite and, for dated blog posts, BlogPosting. Non-indexable documents emit no JSON-LD. Every document exposes the root `llms.txt` discovery relation; the site remains file-only with canonical HTML destinations.
 
 ## Heading links, share rail, callouts, and back-to-top
 

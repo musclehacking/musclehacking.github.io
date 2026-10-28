@@ -2,6 +2,8 @@
 
 Every form performs a native `POST` to `/api/subscribe`. The Worker bounds the request and fields, rejects unknown fields, validates source paths and origin, checks a honeypot, and accepts only form content types. On success it returns a relative `303 Location: /one-last-step/`.
 
+The shared site entry loads the challenge controller once. Each form also declares a unique subscription tool name and description for compatible browser agents. These progressive annotations require an explicit reader request, do not enable automatic submission, and do not bypass native validation or Turnstile.
+
 Form placement follows the retained legacy route matrix in `tests/fixtures/legacy/pages.json`. The home page and Join page each render one form, the Blog index and One Last Step page render none, every article plus Books, the fat-loss guide, and Supplements render one end-of-content form, and the calculator renders its end-of-content form plus its floating and exit-intent prompts. `scripts/verify-dist.mjs` checks these counts in built output.
 
 ## Flow

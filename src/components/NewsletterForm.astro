@@ -18,7 +18,7 @@ const sourceUrl = routeByPath.get(renderedPath)?.path
   ?? renderedPath;
 ---
 
-<form class:list={['newsletter-form', `newsletter-form--${placement}`]} data-newsletter-placement={placement} data-turnstile-sitekey={site.turnstileSiteKey} data-turnstile-action={TURNSTILE_ACTION} method="post" action="/api/subscribe">
+<form toolname={`subscribe_newsletter_${formId.replaceAll('-', '_')}`} tooldescription={`Subscribe the email address supplied by the person to the ${site.name} newsletter after their explicit request.`} class:list={['newsletter-form', `newsletter-form--${placement}`]} data-newsletter-placement={placement} data-turnstile-sitekey={site.turnstileSiteKey} data-turnstile-action={TURNSTILE_ACTION} method="post" action="/api/subscribe">
   <input type="hidden" name="campaign" value={campaign} />
   <input type="hidden" name="formId" value={formId} />
   <input type="hidden" name="sourceUrl" value={sourceUrl} />
@@ -33,7 +33,3 @@ const sourceUrl = routeByPath.get(renderedPath)?.path
   {/* The invisible Turnstile widget renders here on submit and adds the cf-turnstile-response field. */}
   <div class="visually-hidden" data-turnstile></div>
 </form>
-
-<script>
-  import '../scripts/newsletter-challenge';
-</script>

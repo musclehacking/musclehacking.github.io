@@ -20,7 +20,7 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
 ---
 
 <BaseLayout {metadata}>
-  <main class="calculator-page">
+  <main id="main-content" tabindex="-1" class="calculator-page">
     <Calculator client:load />
   </main>
   <article class="calculator-guide" data-heading-links>
@@ -36,7 +36,3 @@ const { documentTitle } = resolvePageMetadata(metadata, site);
   </article>
   <CalculatorNewsletterPrompts />
 </BaseLayout>
-
-<script>
-  import '../../scripts/heading-links';
-</script>

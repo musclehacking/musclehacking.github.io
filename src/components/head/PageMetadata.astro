@@ -8,7 +8,8 @@ interface Props {
 }
 
 const resolved = resolvePageMetadata(Astro.props.metadata, site);
-const structuredData = serializeStructuredData(buildStructuredData(resolved, site, Astro.props.metadata.articleDates));
+const graph = buildStructuredData(resolved, site, Astro.props.metadata.articleDates);
+const structuredData = graph ? serializeStructuredData(graph) : undefined;
 ---
 
 <meta charset="utf-8" />
@@ -16,6 +17,7 @@ const structuredData = serializeStructuredData(buildStructuredData(resolved, sit
 <meta name="description" content={resolved.description} />
 {!resolved.indexable && <meta name="robots" content="noindex, follow" />}
 <link rel="canonical" href={resolved.canonicalUrl} />
+<link rel="describedby" href={new URL('/llms.txt', site.origin).href} />
 <link rel="icon" href="/img/favicon.ico" sizes="any" />
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
 <meta property="og:site_name" content={site.name} />
@@ -25,8 +27,14 @@ const structuredData = serializeStructuredData(buildStructuredData(resolved, sit
 <meta property="og:description" content={resolved.description} />
 <meta property="og:url" content={resolved.canonicalUrl} />
 <meta property="og:image" content={resolved.socialImageUrl} />
+<meta property="og:image:alt" content={resolved.socialImage.alt} />
+<meta property="og:image:width" content={String(resolved.socialImage.width)} />
+<meta property="og:image:height" content={String(resolved.socialImage.height)} />
+{resolved.socialImage.type && <meta property="og:image:type" content={resolved.socialImage.type} />}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={resolved.socialTitle} />
 <meta name="twitter:description" content={resolved.description} />
+<meta name="twitter:image" content={resolved.socialImageUrl} />
+<meta name="twitter:image:alt" content={resolved.socialImage.alt} />
 <title>{resolved.documentTitle}</title>
-<script is:inline type="application/ld+json" set:html={structuredData} />
+{structuredData && <script is:inline type="application/ld+json" set:html={structuredData} />}

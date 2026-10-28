@@ -59,7 +59,9 @@ Every inline citation must resolve to an ID in the rendered References section. 
 
 The information-only button uses `data-supplement-filter="information"`. Filter buttons must use `aria-pressed`; the enhancement keeps that state in sync. Render supporting explanations with native `<details>` and `<summary>` where possible. If a button-controlled disclosure is required, use `data-supplement-popover`, `aria-controls`, and a panel that starts with `hidden`; the enhancement maintains `aria-expanded` and closes the open panel on Escape.
 
-The module uses native pointer, focus, click, and keyboard events. A touchscreen tap leaves its controlled evidence popover open; tapping outside dismisses it. It adds no animation timing, `prefers-reduced-motion` branch, or `requestAnimationFrame` wrapper. If JavaScript fails, all supplement sections, links, information, and references remain in the server-rendered document.
+The module uses native pointer, focus, click, and keyboard events. A touchscreen tap leaves its controlled evidence popover open; tapping outside dismisses it. Popover activation remains immediate. If JavaScript fails, all supplement sections, links, information, and references remain in the server-rendered document.
+
+`src/scripts/contents-tracker.ts` owns the active contents link. It retains the legacy 10px ScrollSpy offset, no active link before the first target, and the last target at the document bottom. Each filter replaces the links and restarts the tracker. Ordinary scroll frames read nearby target positions; hidden contents lists do no work except while following an anchor. Resize, fonts, page restoration and body changes trigger reconciliation. The existing `.active` class and `aria-current="location"` describe the same section.
 
 ## Editing and verification
 

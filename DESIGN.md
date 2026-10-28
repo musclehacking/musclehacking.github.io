@@ -4,7 +4,7 @@ The current appearance is intentional. Shared components preserve native markup,
 
 ## Foundations
 
-`src/styles/global.css` owns the existing palette, native typography, prose/list rhythm, shared reading frames and responsive layout rules. `src/styles/legacy-content.css` retains the audited intrinsic media ratios. Font files, font declarations and delivery settings are unchanged. Exact shared colour roles use `--brand`, `--accent`, `--body-ink`, `--callout-note`, `--callout-important`, `--callout-warning`, `--newsletter-border` and `--section-rule`; distinct colours retain separate roles. Share-channel tokens keep each circle, tooltip and arrow together; explorer-only tokens remain with the explorer stylesheet.
+`src/styles/global.css` owns the existing palette, native typography, prose/list rhythm, shared reading frames and responsive layout rules. `src/styles/legacy-content.css` retains the audited intrinsic media ratios. Font files, font declarations and font delivery are unchanged. Astro inlines styles below 4 KiB and retains immutable caching for larger stylesheets. Exact shared colour roles use `--brand`, `--accent`, `--body-ink`, `--callout-note`, `--callout-important`, `--callout-warning`, `--newsletter-border` and `--section-rule`; distinct colours retain separate roles. Share-channel tokens keep each circle, tooltip and arrow together; explorer-only tokens remain with the explorer stylesheet.
 
 `SupplementExplorer.astro` owns explorer-only CSS, including mobile headings and prose rhythm. The route owns its distinct frame, heading, byline and intro paragraph override. `calculator.css` owns calculator controls and result typography.
 
@@ -17,6 +17,10 @@ Article headings, long-form headings, supplement headings and calculator heading
 The [component catalogue](documents/architecture/components.md) names the component, variants and consumers for every shared pattern. Use it before writing a second implementation. Global style recipes and tokens remain authoritative where the pattern is native typography or layout, rather than a compound component.
 
 Pages supply only their metadata, unique content and deliberate composition. Use small typed options for existing differences, and slots for authored inline content. New component boundaries must not add wrappers or break parent selectors, native tags, IDs, ARIA attributes or script hooks.
+
+The shared skip link appears only when keyboard-focused and targets the focusable main region. Project behaviour starts once from `src/scripts/site-entry.ts`; components own markup and style, while guarded modules own behaviour. The supplement contents tracker retains the existing active-link appearance, 10px landing offset and bottom-of-page rule while measuring nearby targets only.
+
+The calculator newsletter dialog explicitly locks background scrolling for its native open lifetime, including in WebKit. It preserves an existing scrollbar gutter without adding one on browsers with overlay scrollbars. Its trigger, focus sequence, transition and close paths retain the existing contract. Supplement evidence tooltips use a neutral `div` wrapper so their tooltip role is valid.
 
 A blue callout is not a supplement filter or a social channel merely because both use blue. Preserve the approved callout palette, distinct active/filter/share colours and real spacing differences. When two consumers use the same semantic value, reference its existing custom property rather than adding another literal.
 
